@@ -26,24 +26,34 @@ export const  ProvenanceDomain = () => {
    }
 
    const DatePickerField = ({ placeholder,...props }) => {
-    const { setFieldValue } = useFormikContext();
-    const [field] = useField(props);
-    return (
-      <Datetime
-        {...field}
-        {...props}
-        placeholder={placeholder}
-        selected={(field.value && new Date(field.value)) || null}
-        onChange={val => {
-          setFieldValue(field.name, val);
-        }}
-      />
-    );
+        const { setFieldValue } = useFormikContext();
+        const [field] = useField(props);
+        return (
+        <Datetime
+            {...field}
+            {...props}
+            placeholder={placeholder}
+            selected={(field.value && new Date(field.value)) || null}
+            onChange={val => {
+            setFieldValue(field.name, val);
+            }}
+        />
+        );
     }
 
+    function fixDateTime(fieldValue) {
+        if (typeof(fieldValue) != "string") {
+            const datetime_string = fieldValue.utc().toISOString();
+            console.log(datetime_string)
+            return datetime_string;
+        }
+        return fieldValue 
+   }
+   
    const dispatch = useDispatch();
    const provenanceDomain = useSelector(state => state.provenance_domain)
 
+  
     return (
         <>
            <Card style={{background: "#D8D8D8"}}> 
@@ -58,9 +68,8 @@ export const  ProvenanceDomain = () => {
                         (myData, {setSubmitting}) => {
                             setSubmitting(true);
                             //console.log(myData['created'])
-                            const datetime_string = myData["created"].utc().toISOString();
-                            console.log(datetime_string)
-                            myData["created"] = datetime_string;
+                            myData["created"] = fixDateTime(myData["created"]);
+                            myData["modified"] = fixDateTime(myData["modified"]);
                             dispatch(updateProvenanceDomain(myData));
                             setSubmitting(false);
                         }
@@ -69,13 +78,34 @@ export const  ProvenanceDomain = () => {
                   {
                     ({values, isSubmitting,errors}) => (
                         <Form>
-                            <MyTextField name="name" type="input" placeholder="Name" label='Name'/>
-                            <MyTextField name="version" type="input" placeholder="Version" label="Version"/>
-                                                 
-                                <DatePickerField name="created" type="input" placeholder="Created" dateFormat="YYYY-MM-DD" utc="true"/>
+                             <Grid container>
+                                    <MyTextField name="name" type="input" placeholder="Name" label='Name'/>
+                                    <MyTextField name="version" type="input" placeholder="Version" label="Version"/>
+                                    <MyTextField name="license" type="input" placeholder="License" label="License"/>
+                                </Grid>
+                                <Grid container>
+                                    <Grid item lg={12}>
+                                        <MyTextField name="derived_from" type="input" placeholder="Derived From"  label="Derived From"/>
+                                    </Grid>
+                                </Grid>
+                                <Grid container spacing={2}>
+                                    <Grid item md={2}>
+                                        <span> Created: </span>
+                                    </Grid>
+                                    <Grid item md={3}>
+                                        
+                                        <DatePickerField name="created" type="input" placeholder="Created"/>
+                                    </Grid>
+                                    <Grid item md={2}> 
+                                        <span> Modified: </span>
+                                    </Grid>
+                                    <Grid item md={3}> 
+                                        <DatePickerField name="modified" type="input" placeholder="Modified"/>              
+                                    </Grid>
+                                </Grid> 
                                 <div>
-                                <button disabled={isSubmitting} type='submit'> Save </button>
-                            </div>
+                                    <button disabled={isSubmitting} type='submit'> Save </button>
+                                </div>
                         </Form>
                     )
                   }  

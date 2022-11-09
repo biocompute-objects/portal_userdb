@@ -3,6 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const rootSlice = createSlice({
     name: "root",
     initialState: {
+        object_id: "",
+        spec_version: "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
+        etag: "",
        provenance_domain: {
             name: '',
             version: '',
