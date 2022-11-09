@@ -5,11 +5,12 @@ const rootSlice = createSlice({
     initialState: {
         object_id: "",
         spec_version: "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
-        etag: "",
+       etag: "",
        provenance_domain: {
             name: '',
             version: '',
-            created: ""
+            created: "",
+            modified: ""
        },
        usability_domain: [""],
        description_domain: {
