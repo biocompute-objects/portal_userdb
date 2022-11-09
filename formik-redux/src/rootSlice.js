@@ -22,7 +22,7 @@ const rootSlice = createSlice({
             //console.log("Slice Payload", action.payload)
         },
         updateUsability: (state, action) => {
-            state["usability_domain"] = action.payload["usability_domain"]
+            state["usability_domain"] = action.payload
             //console.log("Usability Payload", action.payload["usability_domain"])
         },
         updateDescription: (state, action) => {

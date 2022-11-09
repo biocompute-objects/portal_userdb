@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, Typography, CardContent, TextField} from "@material-ui/core";
+import {Card, Typography, CardContent, TextField, Grid} from "@material-ui/core";
 
 import { Formik, Form, Field, FieldArray, ErrorMessage, useField, useFormikContext } from 'formik';
 
@@ -7,39 +7,31 @@ import { useSelector, useDispatch } from 'react-redux'
 import { updateUsability } from './rootSlice'
 
 export const  UsabilityDomain = () => {
-    const MyTextField = ({placeholder,label, ...props}) => {
-        const [field, meta] = useField(props);
-        const errorText = meta.error && meta.touched ? meta.error : "";
-        return (
-           <TextField
-               placeholder={placeholder}
-               label={label}
-               {...field}
-               helperText={errorText}
-               error={!!errorText}
-               variant='filled'
-               margin='dense'
-           />
-        )
-   }
+
    const dispatch = useDispatch();
    const usabilityDomain = useSelector(state => state.usability_domain)
-
+   //console.log("Usabilitly: ", usabilityDomain);
     return (
         <>
-           <Card style={{background: "#F5F5F5"}}> 
-                <CardContent>
-                    <Typography variant='h4'> Usability Domain</Typography>
-                </CardContent>
+         <Card variant="outlined" style={{background: "#E5E4E2"}}>
+                <Grid container spacing={2} justifyContent="center" >
+                        <CardContent>
+                            <Typography variant={"h4"} component={"span"}> Usability Domain</Typography>
+                        </CardContent>
+                    </Grid>
+                </Card>
+           <Card>
+
                 <Formik
                     initialValues={{
-                        usabilityDomain
+                        "usability_domain":usabilityDomain
                     }
                     }
                     onSubmit={
                         (myData, {setSubmitting}) => {
                             setSubmitting(true);
-                            dispatch(updateUsability(myData))
+                            //console.log("myData: ", myData)
+                            dispatch(updateUsability(myData["usability_domain"]))
                             setSubmitting(false);
                         }
                     }
@@ -50,10 +42,12 @@ export const  UsabilityDomain = () => {
                             <FieldArray name='usability_domain'>
 
                             
-                            {
+                            {   
                                 arrayHelpers => (
                              <div>
+                                {console.log("values: ", values.usability_domain)}
                                 {values.usability_domain && values.usability_domain.length > 0 ? (
+ 
                                 values.usability_domain.map((friend, index) => (
                                     <div key={index}>
                                     <Field name={`usability_domain.${index}`} />
