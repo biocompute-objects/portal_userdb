@@ -9,7 +9,7 @@ import { updateUsability } from './rootSlice'
 export const  UsabilityDomain = () => {
 
    const dispatch = useDispatch();
-   const usabilityDomain = useSelector(state => state.usability_domain)
+   const usabilityDomain = useSelector(state => state.bco.data.usability_domain)
    //console.log("Usabilitly: ", usabilityDomain);
     return (
         <>
@@ -45,7 +45,7 @@ export const  UsabilityDomain = () => {
                             {   
                                 arrayHelpers => (
                              <div>
-                                {console.log("values: ", values.usability_domain)}
+                                {/*console.log("values: ", values.usability_domain)*/}
                                 {values.usability_domain && values.usability_domain.length > 0 ? (
  
                                 values.usability_domain.map((friend, index) => (

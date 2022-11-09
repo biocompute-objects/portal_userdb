@@ -24,7 +24,7 @@ export const  DescriptionDomain = () => {
    }
 
     const dispatch = useDispatch();
-    const description_domain = useSelector(state => state.description_domain)
+    const description_domain = useSelector(state => state.bco.data.description_domain)
 
     return (
         <>

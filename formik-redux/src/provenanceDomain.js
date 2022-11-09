@@ -49,9 +49,9 @@ export const  ProvenanceDomain = () => {
         }
         return fieldValue 
    }
-   
+
    const dispatch = useDispatch();
-   const provenanceDomain = useSelector(state => state.provenance_domain)
+   const provenanceDomain = useSelector(state => state.bco.data.provenance_domain)
 
   
     return (
