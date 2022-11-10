@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card, Typography, CardContent, TextField, Grid} from "@material-ui/core";
 
-import { Formik, Form, Field, FieldArray, ErrorMessage, useField, useFormikContext } from 'formik';
+import { Formik, Form, Field, FieldArray, ErrorMessage, useField, useFormikContext, setValues } from 'formik';
 import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 
@@ -42,14 +42,18 @@ export const  ProvenanceDomain = () => {
     }
 
     function fixDateTime(fieldValue) {
+        //console.log("inside")
         if (typeof(fieldValue) != "string") {
+            //console.log(fieldValue)
             const datetime_string = fieldValue.utc().toISOString();
-            console.log(datetime_string)
+            //console.log(datetime_string)
             return datetime_string;
         }
-        return fieldValue 
+        //console.log("Outside: ", typeof(fieldValue))
+        return fieldValue
    }
 
+  
    const dispatch = useDispatch();
    const provenanceDomain = useSelector(state => state.bco.data.provenance_domain)
 
@@ -65,12 +69,24 @@ export const  ProvenanceDomain = () => {
                         provenanceDomain
                     }
                     onSubmit={
-                        (myData, {setSubmitting}) => {
+                        (myData, {setSubmitting, setValues}) => {
                             setSubmitting(true);
-                            //console.log(myData['created'])
-                            myData["created"] = fixDateTime(myData["created"]);
-                            myData["modified"] = fixDateTime(myData["modified"]);
-                            dispatch(updateProvenanceDomain(myData));
+                            console.log(myData)
+                            const created = fixDateTime(myData["created"]);
+                            const modified = fixDateTime(myData["modified"]);
+                            const start_time = fixDateTime(myData["embargo"]["start_time"]);
+                            const end_time = fixDateTime( myData["embargo"]["end_time"]);
+                            const payload = {...myData, 
+                                created: created, 
+                                modified: modified, 
+                                embargo: {
+                                    start_time: start_time,
+                                    end_time: end_time
+                                }
+                             }
+                            // console.log(payload)
+                            //setValues(payload);
+                            dispatch(updateProvenanceDomain(payload));
                             setSubmitting(false);
                         }
                     }
@@ -78,12 +94,12 @@ export const  ProvenanceDomain = () => {
                   {
                     ({values, isSubmitting,errors}) => (
                         <Form>
-                             <Grid container>
+                             <Grid container spacing={2}>
                                     <MyTextField name="name" type="input" placeholder="Name" label='Name'/>
                                     <MyTextField name="version" type="input" placeholder="Version" label="Version"/>
                                     <MyTextField name="license" type="input" placeholder="License" label="License"/>
                                 </Grid>
-                                <Grid container>
+                                <Grid container spacing={2}>
                                     <Grid item lg={12}>
                                         <MyTextField name="derived_from" type="input" placeholder="Derived From"  label="Derived From"/>
                                     </Grid>
@@ -103,6 +119,25 @@ export const  ProvenanceDomain = () => {
                                         <DatePickerField name="modified" type="input" placeholder="Modified"/>              
                                     </Grid>
                                 </Grid> 
+                                <Grid container spacing={4} justifyContent="center">
+                                <Grid item md={12} align='left' >
+                                    <Typography variant="h6">-- Embargo --</Typography>
+                                </Grid> 
+                                </Grid>
+                                <Grid container spacing={2}>                        
+                                    <Grid item md={2}>
+                                        <span> Start time: </span>
+                                    </Grid>
+                                    <Grid item md={3}>
+                                        <DatePickerField name="embargo.start_time" type="input" placeholder="Start Time"/>
+                                    </Grid>
+                                    <Grid item md={2}> 
+                                        <span> End Time: </span>               
+                                    </Grid>
+                                    <Grid item md={3}>
+                                        <DatePickerField name="embargo.end_time" type="input" placeholder="End Time"/>               
+                                    </Grid>
+                                </Grid>
                                 <div>
                                     <button disabled={isSubmitting} type='submit'> Save </button>
                                 </div>
