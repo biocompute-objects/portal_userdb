@@ -31,22 +31,22 @@ const useStyles = makeStyles((theme) => ({
       margin: 'auto'
     },
   }));
-  
+
   const data = [
     {
       name: "Provenance Domain"
     },
-    { 
+    {
       name: "Usability Domain"
     },
-    { 
+    {
       name: "Description Domain"
     },
-    { 
+    {
       name: "Extension Domain (Optional)"
     }
   ];
-  
+
   const ListItem = withStyles({
     root: {
       "&$selected": {
@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
     selected: {}
   })(MuiListItem);
 
-  
+
 export const  BuilderColorCode = () => {
     const state = useSelector(state=>state)
 
@@ -93,10 +93,10 @@ export const  BuilderColorCode = () => {
       };
     }
 
-          
+
     function TabPanel(props) {
       const { children, value, index, ...other } = props;
-    
+
       return (
         <div
           role="tabpanel"

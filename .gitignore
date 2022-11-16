@@ -1,2 +1,3 @@
 node_modules
 prov-domain-formik
+*.DS_Store*
