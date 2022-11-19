@@ -6,14 +6,18 @@ const rootSlice = createSlice({
        object_id: "",
        spec_version: "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
        etag: "",
-        bco: {
+       bco: {
             data: {
                 provenance_domain: {
-                        name: '',
+                        name: 'abc',
                         version: '',
                         license: "",
-                        created: "",
-                        modified: "",
+                        created: new Date().toISOString().split(".")[0],
+                        modified: new Date().toISOString().split(".")[0],
+                        embargo: {
+                            start_time: "",
+                            end_time:""
+                        },
                         contributors: []
                 },
                 usability_domain: [""],
@@ -33,11 +37,11 @@ const rootSlice = createSlice({
             //console.log("Slice Payload", action.payload)
         },
         updateUsability: (state, action) => {
-            state['bco']['data']["usability_domain"] = action.payload
+            state['bco']['data']["usability_domain"] = action.payload;
             //console.log("Usability Payload", action.payload["usability_domain"])
         },
         updateDescription: (state, action) => {
-            state['bco']['data']["description_domain"] = action.payload
+            state['bco']['data']["description_domain"] = action.payload;
             //console.log("Usability Payload", action.payload["usability_domain"])
         }
 
