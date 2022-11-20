@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, Typography, CardContent, TextField, Grid, Button, Paper} from "@material-ui/core";
+import {Card, Typography, CardContent, TextField, Grid, Button, Paper, Select, MenuItem, InputLabel} from "@material-ui/core";
 
 import { Formik, Form, Field, FieldArray, ErrorMessage, useField, useFormikContext, setValues } from 'formik';
 //import Datetime from 'react-datetime';
@@ -43,7 +43,7 @@ export const  ProvenanceDomain = () => {
         />
         )
     }
-
+  
 /*
    const DatePickerField = ({ placeholder,disabled,...props }) => {
         const { setFieldValue } = useFormikContext();
@@ -172,7 +172,63 @@ export const  ProvenanceDomain = () => {
                                             <MyDateTimeField  name="embargo.end_time"  placeholder="End Time" isFullWidth/>               
                                         </Grid>
                                     </Grid>
-                                
+                                    <Grid container spacing={2}>
+                                        <Grid item md={12} align='left' >
+                                            <Typography variant="h6">Review</Typography>
+                                        </Grid> 
+                                    </Grid>
+                                    <Grid container spacing={2}>
+                                        <FieldArray
+                                            name="review"
+                                            render={arrayHelpers => (
+                                                values.review && values.review.length > 0
+                                                ? (<CardContent>
+                                                    {
+                                                        values.review.map((contributor, index) => (
+                                                            <Grid container key={index} spacing={2} alignItems="center">
+                                                                <Grid item xs>
+                                                                 <MyTextField name={`review[${index}].name`} label="Reviewer name" isFullWidth/>
+                                                                </Grid>
+                                                                <Grid item xs>
+                                                                    <MyTextField name={`review[${index}].affiliation`} label="Reviewer affiliation" isFullWidth/>
+                                                                </Grid>
+                                                                <Grid item xs>
+                                                                 <MyTextField name={`review[${index}].email`} label="Reviewer email" isFullWidth />
+                                                                </Grid>
+                                                                <Grid item xs>
+                                                                    <MyTextField name={`review[${index}].orcid`} label="Reviewer orcid" isFullWidth />
+                                                                </Grid>
+
+                                                                <Grid item xs>
+                                                                    <MyTextField name={`review[${index}].reviewer_comment`} label="Reviewer Comment" isFullWidth />
+                                                                </Grid>
+                                                                
+                                                                <Grid item xs> 
+                                                                    <MyTextField name={`review[${index}].status`} label="Reviewer orcid" isFullWidth />
+                                                                </Grid>
+                                                                <Grid item xs>
+                                                                    <Button variant="outlined" color="primary" onClick={()=>{if(values.review.length>1 && index!==0){arrayHelpers.remove(index)}; }}> Remove </Button>
+                                                                </Grid>
+                                                            
+                                                            </Grid>
+                                                        ))
+                                                        
+                                                    }
+                                                    <Grid item xs>
+                                                        <Button variant="outlined" color="primary" onClick={()=> arrayHelpers.push({name:'',status:'unreviewed',  email:'', orcid:'',contribution:'createdby'})}> Add Review </Button>
+                                                    </Grid>
+                                                    
+                                                </CardContent>
+                                                )
+                                                : (<div>oops</div>)
+                                                
+                                            )
+                                            
+                                            }
+                                            
+                                            />
+                                    </Grid>
+
                                     <Grid container spacing={2}> 
                                         <Grid item xs>
                                             <Button disabled={isSubmitting} type='submit' variant="contained" color="primary"> Save </Button>

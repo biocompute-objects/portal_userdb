@@ -18,6 +18,7 @@ const rootSlice = createSlice({
                             start_time: "",
                             end_time:""
                         },
+                        review:[{name:'',status:'unreviewed',  email:'', orcid:'',contribution:'createdby'}], // id:'' + Math.random(),
                         contributors: []
                 },
                 usability_domain: [""],
