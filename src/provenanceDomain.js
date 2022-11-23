@@ -1,83 +1,19 @@
 import React from 'react';
-import {Card, Typography, CardContent, TextField, Grid, Button, Paper, Select, MenuItem, InputLabel} from "@material-ui/core";
+import {Card, CardContent, Typography, Grid, Button, Paper, Select, MenuItem, InputLabel} from "@material-ui/core";
 
 import { Formik, Form, Field, FieldArray, ErrorMessage, useField, useFormikContext, setValues } from 'formik';
 //import Datetime from 'react-datetime';
 //import 'react-datetime/css/react-datetime.css';
+import { Contribution } from './contibutor';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { updateProvenanceDomain, addEmbargo, deleteEmbargo } from './rootSlice'
+import { MyDateTimeField, MyTextField } from './specialFeilds';
+import { addContribution, updateProvenanceDomain, addEmbargo, deleteEmbargo } from './rootSlice'
 
 export const  ProvenanceDomain = () => {
-  const MyTextField = ({placeholder,label, isFullWidth, isRequired, isDisabled,...props}) => {
-    const [field, meta] = useField(props);
-    const errorText = meta.error && meta.touched ? meta.error : "";
-    return (
-       <TextField
-         placeholder={placeholder}
-         label={label}
-         {...field}
-         helperText={errorText}
-         error={!!errorText}
-         variant='filled'
-         margin='dense'
-         fullWidth={isFullWidth}
-         required={isRequired}
-         disabled={isDisabled}
-       />
-    )
-   }
-
-   const MyDateTimeField = ({placeholder,label, isFullWidth, isRequired, isDisabled,...props}) => {
-    const [field, meta] = useField(props);
-    const errorText = meta.error && meta.touched ? meta.error : "";
-    return (
-    <TextField
-      placeholder={placeholder}
-      label={label}
-      {...field}
-      type="datetime-local"
-      fullWidth={isFullWidth}
-      required={isRequired}
-      disabled={isDisabled}
-    />
-    )
-  }
-  
-/*
-   const DatePickerField = ({ placeholder,disabled,...props }) => {
-    const { setFieldValue } = useFormikContext();
-    const [field] = useField(props);
-    return (
-    <Datetime
-      {...field}
-      {...props}
-      placeholder={placeholder}
-      selected={(field.value && new Date(field.value)) || null}
-      onChange={val => {
-      setFieldValue(field.name, val);
-      }}
-    />
-    );
-  }
-
-  function fixDateTime(fieldValue) {
-    console.log(typeof(fieldValue))
-    if (typeof(fieldValue) != "string") {
-      //console.log(fieldValue)
-      const datetime_string = fieldValue.utc().toISOString();
-      //console.log(datetime_string)
-      return datetime_string;
-    }
-    //console.log("Outside: ", typeof(fieldValue))
-    return fieldValue
-   }
-*/
-  
    const dispatch = useDispatch();
    const provenanceDomain = useSelector(state => state.bco.data.provenance_domain)
 
-  
   return (
     <>
        <Card> 
@@ -86,9 +22,7 @@ export const  ProvenanceDomain = () => {
         </Paper>
         <CardContent>
         <Formik
-          initialValues={
-            provenanceDomain
-          }
+          initialValues={provenanceDomain}
           onSubmit={
             (myData, {setSubmitting, setValues}) => {
               setSubmitting(true);
@@ -111,12 +45,21 @@ export const  ProvenanceDomain = () => {
               setSubmitting(false);
             }
           }
+          validate={
+            (values) => {
+                const errors = {};
+                console.log()
+                if (values.contributors.length < 1) {
+                    errors.contributors = "Required";
+                }
+                return errors;
+            }
+        }
         >
           {
           ({values, isSubmitting,errors}) => (
             
             <Form>
-              {/*console.log(values)*/}
               <Grid container spacing={2}>
                 <Grid container spacing={2}>
                   <Grid item xs> 
@@ -151,7 +94,6 @@ export const  ProvenanceDomain = () => {
                     <MyDateTimeField name="modified"  placeholder="Modified" isDisabled isFullWidth/>        
                   </Grid>
                 </Grid> 
-                
                   <Grid container spacing={2}>
                     <Grid item md={12} align='left' >
                       <Typography variant="h6">Embargo</Typography>
@@ -165,16 +107,20 @@ export const  ProvenanceDomain = () => {
                           <Typography> Start time: </Typography>
                         </Grid>
                         <Grid item xs>
-                          <MyDateTimeField name="embargo.start_time" placeholder="Start Time" isFullWidth/>
+                          <MyDateTimeField name="embargo.start_time" placeholder="Start Time" isRequired isFullWidth/>
                         </Grid>
                         <Grid item xs> 
                           <Typography> End Time: </Typography>     
                         </Grid>
                         <Grid item xs>
-                          <MyDateTimeField  name="embargo.end_time"  placeholder="End Time" isFullWidth/>     
+                          <MyDateTimeField  name="embargo.end_time"  placeholder="End Time" isRequired isFullWidth/>     
                         </Grid>
                         <Grid item xs>
-                          <Button variant="outlined" color="primary" onClick={() =>{console.log(values.embargo); dispatch(deleteEmbargo(values))}}> Remove Embargo</Button>
+                          <Button
+                            variant="outlined"
+                            color="primary"
+                            onClick={() =>{dispatch(deleteEmbargo(values))}}
+                          > Remove Embargo</Button>
                         </Grid>
                       </Grid>
                     )
@@ -184,7 +130,29 @@ export const  ProvenanceDomain = () => {
                         onClick={() => {dispatch(addEmbargo())}}
                     > Add Embargo </Button>)
                   }
-
+                  <Grid container spacing={2}>
+                    <Grid item md={12} align='left' >
+                      <Typography variant="h6">Contributors</Typography>
+                    </Grid> 
+                  </Grid>
+                  <Grid container spacing={2}>
+                    <FieldArray
+                      name='Contributors'
+                      render={arrayHelpers => (
+                        values.contributors && values.contributors.length > 0
+                        ? ( <>
+                              <Contribution contributors={values.contributors} />
+                          </>)
+                        : (<Grid item xs>
+                            <Button
+                              variant="outlined"
+                              color="primary"
+                              onClick={()=> {dispatch(addContribution())}}
+                            >Add Contribution</Button>
+                          </Grid>)
+                      )}
+                    />
+                  </Grid>
                   <Grid container spacing={2}>
                     <Grid item md={12} align='left' >
                       <Typography variant="h6">Review</Typography>
@@ -197,7 +165,7 @@ export const  ProvenanceDomain = () => {
                         values.review && values.review.length > 0
                         ? (<CardContent>
                           {
-                            values.review.map((contributor, index) => (
+                            values.review.map((review, index) => (
                               <Grid container key={index} spacing={2} alignItems="center">
                                 <Grid item xs>
                                  <MyTextField name={`review[${index}].name`} label="Reviewer name" isFullWidth/>
@@ -220,7 +188,7 @@ export const  ProvenanceDomain = () => {
                                   <MyTextField name={`review[${index}].status`} label="Reviewer orcid" isFullWidth />
                                 </Grid>
                                 <Grid item xs>
-                                  <Button variant="outlined" color="primary" onClick={()=>{if(values.review.length>1 && index!==0){arrayHelpers.remove(index)}; }}> Remove </Button>
+                                  <Button variant="outlined" color="primary" onClick={()=>{arrayHelpers.remove(index)}}> Remove </Button>
                                 </Grid>
                               
                               </Grid>
@@ -233,7 +201,9 @@ export const  ProvenanceDomain = () => {
                           
                         </CardContent>
                         )
-                        : (<div>oops</div>)
+                        : (<Grid item xs>
+                            <Button variant="outlined" color="primary" onClick={()=> arrayHelpers.push({name:'',status:'unreviewed',  email:'', orcid:'',contribution:'createdby'})}> Add Review </Button>
+                          </Grid>)
                         
                       )
                       

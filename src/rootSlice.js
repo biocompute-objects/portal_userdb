@@ -14,8 +14,6 @@ const rootSlice = createSlice({
                     license: "",
                     created: new Date().toISOString().split(".")[0],
                     modified: new Date().toISOString().split(".")[0],
-                    review:[{name:'',status:'unreviewed',  email:'', orcid:'',contribution:'createdby'}], // id:'' + Math.random(),
-                    contributors: []
                 },
                 usability_domain: [""],
                 description_domain: {
@@ -45,9 +43,16 @@ const rootSlice = createSlice({
             delete state['bco']['data']["provenance_domain"]["embargo"]
         },
         addEmbargo: (state, action) => {
-            state['bco']['data']["provenance_domain"]["embargo"] = {
-                start_time: "",
-                end_time:""
+            state['bco']['data']["provenance_domain"]["embargo"] = {start_time: "",end_time:""}
+        },
+        removeContribution: (state, action)=> {
+            state['bco']['data']['provenance_domain']['contributors'].splice(action.payload.index,1)
+        },
+        addContribution: (state, action)=> {
+            if (!state['bco']['data']['provenance_domain']['contributors']) {
+              state['bco']['data']['provenance_domain']['contributors'] = [{name:'', affiliation: '', email: '', contribution: 'createdBy', orcid: ''}]
+            } else {
+              state['bco']['data']['provenance_domain']['contributors'].push({name:'', affiliation: '', email: '', contribution: 'createdBy', orcid: ''});
             }
         }
     }
@@ -55,4 +60,4 @@ const rootSlice = createSlice({
 
 export const reducer = rootSlice.reducer;
 
-export const { updateProvenanceDomain, updateUsability, updateDescription, deleteEmbargo, addEmbargo } = rootSlice.actions;
+export const { addContribution, removeContribution, updateProvenanceDomain, updateUsability, updateDescription, deleteEmbargo, addEmbargo } = rootSlice.actions;

@@ -153,7 +153,7 @@ export const  BuilderColorCode = () => {
             <button>
                 Submit
             </button>
-            <pre>{JSON.stringify(state,null, 2)}</pre>
+            <pre>{JSON.stringify(state['bco']['data'],null, 2)}</pre>
         </>
     )
 }
