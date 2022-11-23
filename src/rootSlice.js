@@ -14,10 +14,6 @@ const rootSlice = createSlice({
                     license: "",
                     created: new Date().toISOString().split(".")[0],
                     modified: new Date().toISOString().split(".")[0],
-                    embargo: {
-                        start_time: "",
-                        end_time:""
-                    },
                     review:[{name:'',status:'unreviewed',  email:'', orcid:'',contribution:'createdby'}], // id:'' + Math.random(),
                     contributors: []
                 },
@@ -44,11 +40,19 @@ const rootSlice = createSlice({
         updateDescription: (state, action) => {
             state['bco']['data']["description_domain"] = action.payload;
             //console.log("Usability Payload", action.payload["usability_domain"])
+        },
+        deleteEmbargo: (state, action) => {
+            delete state['bco']['data']["provenance_domain"]["embargo"]
+        },
+        addEmbargo: (state, action) => {
+            state['bco']['data']["provenance_domain"]["embargo"] = {
+                start_time: "",
+                end_time:""
+            }
         }
-
     }
 })
 
 export const reducer = rootSlice.reducer;
 
-export const { updateProvenanceDomain, updateUsability, updateDescription } = rootSlice.actions;
+export const { updateProvenanceDomain, updateUsability, updateDescription, deleteEmbargo, addEmbargo } = rootSlice.actions;
