@@ -3,23 +3,23 @@ import { createSlice} from "@reduxjs/toolkit";
 const rootSlice = createSlice({
     name: "root",
     initialState: {
-       object_id: "",
-       spec_version: "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
-       etag: "",
        bco: {
             data: {
+                object_id: "",
+                spec_version: "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
+                etag: "",
                 provenance_domain: {
-                        name: 'abc',
-                        version: '',
-                        license: "",
-                        created: new Date().toISOString().split(".")[0],
-                        modified: new Date().toISOString().split(".")[0],
-                        embargo: {
-                            start_time: "",
-                            end_time:""
-                        },
-                        review:[{name:'',status:'unreviewed',  email:'', orcid:'',contribution:'createdby'}], // id:'' + Math.random(),
-                        contributors: []
+                    name: 'abc',
+                    version: '',
+                    license: "",
+                    created: new Date().toISOString().split(".")[0],
+                    modified: new Date().toISOString().split(".")[0],
+                    embargo: {
+                        start_time: "",
+                        end_time:""
+                    },
+                    review:[{name:'',status:'unreviewed',  email:'', orcid:'',contribution:'createdby'}], // id:'' + Math.random(),
+                    contributors: []
                 },
                 usability_domain: [""],
                 description_domain: {
