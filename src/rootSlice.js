@@ -50,14 +50,21 @@ const rootSlice = createSlice({
         },
         addContribution: (state, action)=> {
             if (!state['bco']['data']['provenance_domain']['contributors']) {
-              state['bco']['data']['provenance_domain']['contributors'] = [{name:'', affiliation: '', email: '', contribution: 'createdBy', orcid: ''}]
+              state['bco']['data']['provenance_domain']['contributors'] = [{name:'', affiliation: '', email: '', contribution: [], orcid: ''}]
             } else {
-              state['bco']['data']['provenance_domain']['contributors'].push({name:'', affiliation: '', email: '', contribution: 'createdBy', orcid: ''});
+              state['bco']['data']['provenance_domain']['contributors'].push({name:'', affiliation: '', email: '', contribution: [], orcid: ''});
             }
+        },
+        listSelect: (state, action) => {
+          if (action.payload.label == 'Contribution' ) {
+            state['bco']['data']['provenance_domain']['contributors'][action.payload.index]['contribution']= action.payload.selected
+            console.log('Contribution', action.payload);
+            // if ()
+          }
         }
     }
 })
 
 export const reducer = rootSlice.reducer;
 
-export const { addContribution, removeContribution, updateProvenanceDomain, updateUsability, updateDescription, deleteEmbargo, addEmbargo } = rootSlice.actions;
+export const { addContribution, removeContribution, updateProvenanceDomain, updateUsability, updateDescription, deleteEmbargo, addEmbargo, listSelect } = rootSlice.actions;
