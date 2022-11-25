@@ -4,8 +4,8 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { useSelector, useDispatch } from 'react-redux'
+import Select from '@mui/material/Select';
+import { useDispatch } from 'react-redux'
 import { listSelect } from './rootSlice';
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -19,29 +19,20 @@ const MenuProps = {
 };
 
 export default function MultipleSelect({listItems, label, list, index}) {
-  const theme = useTheme();
-  const [selectedItems, setSelectedItems] = React.useState([]);
   const dispatch = useDispatch();
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
-    const {target: { value },} = event;
-    setSelectedItems(
-      typeof value === 'string' ? value.split(',') : value,
-    );
-  };
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-name-label">{label}</InputLabel>
+        <InputLabel id="selector-name-label">{label}</InputLabel>
         <Select
-          labelId="demo-multiple-name-label"
-          id="demo-multiple-name"
+          labelId="selector-name-label"
+          id="selector-name"
           multiple
           value={list}
           onChange={(event) => dispatch(listSelect({
             selected: event.target.value,
             label: label,
-            index: index,
-            list: list
+            index: index
           }))}
           input={<OutlinedInput label={label} />}
           MenuProps={MenuProps}

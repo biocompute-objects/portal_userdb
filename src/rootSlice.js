@@ -58,8 +58,6 @@ const rootSlice = createSlice({
         listSelect: (state, action) => {
           if (action.payload.label == 'Contribution' ) {
             state['bco']['data']['provenance_domain']['contributors'][action.payload.index]['contribution']= action.payload.selected
-            console.log('Contribution', action.payload);
-            // if ()
           }
         }
     }
