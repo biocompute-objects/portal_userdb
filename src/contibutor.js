@@ -46,7 +46,7 @@ export const Contribution = ({contributors}) => {
                       />
                     </Grid>
                     <Grid item>
-                      <MyTextField name={`contributors[${index}].orcid`} type="input" placeholder="ORCID" label='ORCID' isRequired />
+                      <MyTextField name={`contributors[${index}].orcid`} type="input" placeholder="ORCID" label='ORCID'/>
                     </Grid>
                     <Button
                       variant="outlined"

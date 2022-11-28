@@ -20,6 +20,26 @@ export const MyTextField = ({placeholder,label, isFullWidth, isRequired, isDisab
     )
 }
 
+export const LargeTextField = ({placeholder,label, isFullWidth, isRequired, isDisabled,...props}) => {
+  const [field, meta] = useField(props);
+  const errorText = meta.error && meta.touched ? meta.error : "";
+  return (
+     <TextField
+       placeholder={placeholder}
+       label={label}
+       {...field}
+       helperText={errorText}
+       error={!!errorText}
+       variant='filled'
+       margin='dense'
+       multiline
+       fullWidth
+       required={isRequired}
+       disabled={isDisabled}
+     />
+  )
+}
+
 export const MyDateTimeField = ({placeholder,label, isFullWidth, isRequired, isDisabled,...props}) => {
     const [field, meta] = useField(props);
     const errorText = meta.error && meta.touched ? meta.error : "";

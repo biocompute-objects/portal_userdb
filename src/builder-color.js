@@ -1,26 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DescriptionDomain } from './descriptionDomain';
 import { ProvenanceDomain } from './provenanceDomain';
 import { UsabilityDomain } from './usabilityDomain';
-
-import { useSelector } from 'react-redux'
-
+import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types';
-import { makeStyles,withStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import DataObjectIcon from '@mui/icons-material/DataObject';
-
 import {
     ListItemText,
     Grid,
     Card,
-    Paper
+    Paper,
+    TextField
 } from "@material-ui/core";
-
 import MuiListItem from "@material-ui/core/ListItem";
-
 import "./sidebar.css";
-
-
+import { fetchBco } from './rootSlice';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -76,12 +71,11 @@ const useStyles = makeStyles((theme) => ({
 
 
 export const  BuilderColorCode = () => {
+  const [bco, setBco] = useState('http://127.0.0.1:8000/BCO_000000/DRAFT')
+  const dispatch = useDispatch();
     const state = useSelector(state=>state)
-
     const classes = useStyles();
-
     const [value, setValue] = React.useState(0);
-
     const handleChange = (newValue) => {
       setValue(newValue);
     };
@@ -92,11 +86,10 @@ export const  BuilderColorCode = () => {
         'aria-controls': `simple-tabpanel-${index}`,
       };
     }
-
+    const token = '0bd55c955fcbfc269f6dc8f61ea107674cafdecb'
 
     function TabPanel(props) {
       const { children, value, index, ...other } = props;
-
       return (
         <div
           role="tabpanel"
@@ -133,6 +126,14 @@ export const  BuilderColorCode = () => {
                         ))}
                     
                     </div>
+                    <div className='object'>
+                      <TextField
+                        value={bco}
+                        onChange={(event) => setBco(event.target.value)}
+                        placeholder="http://127.0.0.1:8000/BCO_000000/DRAFT"
+                      />
+                      <button onClick={() => dispatch(fetchBco([bco, token]))}>retrieve</button>
+                    </div>
                     </Grid>
                     <Grid item xs={12} md>
                                 
@@ -150,9 +151,9 @@ export const  BuilderColorCode = () => {
                 </Paper>
             </div>
             <br/>
-            <button>
+            {/* <button>
                 Submit
-            </button>
+            </button> */}
             <pre>{JSON.stringify(state['bco']['data'],null, 2)}</pre>
         </>
     )

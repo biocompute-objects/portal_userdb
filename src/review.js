@@ -58,7 +58,7 @@ export const Review = ({review}) => {
                       />
                     </Grid>
                     <Grid item>
-                      <MyTextField name={`review[${index}].reviewer.orcid`} type="input" placeholder="ORCID" label='ORCID' isRequired />
+                      <MyTextField name={`review[${index}].reviewer.orcid`} type="input" placeholder="ORCID" label='ORCID'/>
                     </Grid>
                     <Button
                       variant="outlined"

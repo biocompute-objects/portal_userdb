@@ -1,17 +1,16 @@
-import { createSlice} from "@reduxjs/toolkit";
-
+import { createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 const rootSlice = createSlice({
     name: "root",
     initialState: {
        bco: {
             data: {
-                object_id: "",
+                object_id: '',
                 spec_version: "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
-                etag: "",
+                etag: '',
                 provenance_domain: {
-                    name: 'abc',
+                    name: '',
                     version: '',
-                    license: "",
+                    license: '',
                     created: new Date().toISOString().split(".")[0],
                     modified: new Date().toISOString().split(".")[0],
                 },
@@ -28,6 +27,10 @@ const rootSlice = createSlice({
     reducers: { // list of functions action
         updateProvenanceDomain: (state, action) => {
             state['bco']['data']["provenance_domain"] = action.payload;
+        },
+        updateModified: (state, action) => {
+            state['bco']['data']["provenance_domain"]["modified"] = new Date().toISOString().split(".")[0]
+            console.log("modified", state['bco']['data']["provenance_domain"]["modified"])
         },
         updateUsability: (state, action) => {
             state['bco']['data']["usability_domain"] = action.payload;
@@ -83,9 +86,64 @@ const rootSlice = createSlice({
             state['bco']['data']['provenance_domain']['review'][action.payload.index]['reviewer']['contribution']= action.payload.selected
           }
         }
+    },
+    extraReducers(builder) {
+      builder
+        .addCase(fetchBco.pending, (state, action) => {
+            console.log('loading',action)
+            state.bco.status = 'loading'
+        })
+        .addCase(fetchBco.fulfilled, (state, action) => {
+            state.bco.status = 'succeeded'
+            state.bco.status = 'idle'
+            console.log('success', action.payload)
+            state.bco.data = action.payload
+        })
+        .addCase(fetchBco.rejected, (state, action) => {
+            state.bco.status = 'failed'
+            state.bco.error = action.error.message
+        })
     }
 })
 
-export const reducer = rootSlice.reducer;
+export const fetchBco = createAsyncThunk('fetchBco', async (objectInfo) => {
+    console.log(objectInfo[1])
+    const data = await fetch(`${objectInfo[0]}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Token ${objectInfo[1]}`,
+          'Content-type': 'application/json; charset=UTF-8'
+        }
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.status);
+      } else {
+        return response.json();
+      }
+    })
+    .catch((error) => {
+    alert(`${objectInfo[0]} says: Something went wrong. ${error}`);
+      console.log('error', error);
+    })
+    return data
+  })
 
-export const { addObsolete, deleteObsolete, addReview, removeReview, addContribution, removeContribution, updateProvenanceDomain, updateUsability, addUsability, updateDescription, deleteEmbargo, addEmbargo, listSelect } = rootSlice.actions;
+export const reducer = rootSlice.reducer;
+export const bcoStatus = state => state.bco.status
+export const { 
+    addObsolete,
+    deleteObsolete,
+    addReview,
+    removeReview,
+    addContribution,
+    removeContribution,
+    updateProvenanceDomain,
+    updateUsability,
+    addUsability,
+    updateDescription,
+    deleteEmbargo,
+    addEmbargo,
+    listSelect,
+    updateModified
+} = rootSlice.actions;

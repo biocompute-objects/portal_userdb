@@ -1,13 +1,30 @@
 import React from 'react';
-import {Button, Card, Typography, CardContent, TextField, Grid, Paper} from "@material-ui/core";
-
-import { Formik, Form, Field, FieldArray, ErrorMessage, useField, useFormikContext } from 'formik';
-
-import { useSelector, useDispatch } from 'react-redux'
-import { addUsability, updateUsability } from './rootSlice'
+import {
+  Button,
+  Card,
+  Grid,
+  Typography,
+  CardContent,
+  Paper
+} from "@material-ui/core";
+import {
+  Formik,
+  Form,
+  Field,
+  FieldArray
+} from 'formik';
+import {
+    useSelector,
+    useDispatch
+} from 'react-redux'
+import {
+  addUsability,
+  updateUsability,
+  updateModified
+} from './rootSlice'
+import { LargeTextField } from './specialFeilds';
 
 export const  UsabilityDomain = () => {
-
    const dispatch = useDispatch();
    const usabilityDomain = useSelector(state => state.bco.data.usability_domain)
     return (
@@ -21,7 +38,7 @@ export const  UsabilityDomain = () => {
             onSubmit={
               (myData, {setSubmitting}) => {
                 setSubmitting(true);
-                //console.log("myData: ", myData)
+                dispatch(updateModified())
                 dispatch(updateUsability(myData["usability_domain"]))
                 setSubmitting(false);
               }
@@ -36,19 +53,19 @@ export const  UsabilityDomain = () => {
                         {values.usability_domain && values.usability_domain.length > 0 
                         ? (
                           values.usability_domain.map((text, index) => (
-                            <div key={index}>
-                              <Field name={`usability_domain.${index}`} />
+                            <Grid item key={index}>
+                              <LargeTextField name={`usability_domain.${index}`} />
                               <button type="button" onClick={() => arrayHelpers.remove(index)}
                               > - </button>
-                            </div>
-                          ))
-                        ) 
-                        : (<div></div>)}
+                            </Grid>
+                          )))
+                        : (<div></div>)
+                        }
                       </div>
                     )}
                   </FieldArray>
                   <div>
-                    <Button type="button" onClick={(event) => dispatch(addUsability(event.target.value))}>Add </Button>
+                    <Button type="button" onClick={() => dispatch(addUsability())}>Add </Button>
                     <Button disabled={isSubmitting} varient="contained" color="primary" type='submit'> Save </Button>
                   </div>
                 </Form>
