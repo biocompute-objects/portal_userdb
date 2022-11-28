@@ -26,18 +26,20 @@ const rootSlice = createSlice({
 
     },
     reducers: { // list of functions action
-        //updateProvenanceDomain: (state, {payload: {val, key}}) => {
         updateProvenanceDomain: (state, action) => {
             state['bco']['data']["provenance_domain"] = action.payload;
-            //console.log("Slice Payload", action.payload)
         },
         updateUsability: (state, action) => {
             state['bco']['data']["usability_domain"] = action.payload;
-            //console.log("Usability Payload", action.payload["usability_domain"])
         },
         updateDescription: (state, action) => {
             state['bco']['data']["description_domain"] = action.payload;
-            //console.log("Usability Payload", action.payload["usability_domain"])
+        },
+        deleteObsolete: (state, action) => {
+            delete state['bco']['data']["provenance_domain"]["obsolete_after"]
+        },
+        addObsolete: (state, action) => {
+            state['bco']['data']["provenance_domain"]["obsolete_after"] = new Date().toISOString().split(".")[0]
         },
         deleteEmbargo: (state, action) => {
             delete state['bco']['data']["provenance_domain"]["embargo"]
@@ -55,9 +57,27 @@ const rootSlice = createSlice({
               state['bco']['data']['provenance_domain']['contributors'].push({name:'', affiliation: '', email: '', contribution: [], orcid: ''});
             }
         },
+        removeReview: (state, action)=> {
+            console.log(action.payload.index)
+            state['bco']['data']['provenance_domain']['review'].splice(action.payload.index,1)
+        },
+        addReview: (state, action)=> {
+            if (!state['bco']['data']['provenance_domain']['review']) {
+              state['bco']['data']['provenance_domain']['review'] = [{status:'unreviewed',reviewer_comment:'',date:'',reviewer:{name:'',affiliation:'',email:'',contribution:['curatedBy'],orcid: ''}}];
+            } else {
+                state['bco']['data']['provenance_domain']['review'].push({status:'unreviewed',reviewer_comment:'',date:'',reviewer: {name:'',affiliation: '',email:'',contribution:['curatedBy'],orcid:''}});
+            }
+        },
         listSelect: (state, action) => {
-          if (action.payload.label == 'Contribution' ) {
+          if (action.payload.label === 'Contribution' ) {
+            console.log('NOT Review')
             state['bco']['data']['provenance_domain']['contributors'][action.payload.index]['contribution']= action.payload.selected
+          }
+          if (action.payload.label === 'Review') {
+            state['bco']['data']['provenance_domain']['review'][action.payload.index]['status']= action.payload.selected
+          }
+          if (action.payload.label === 'Reviewer Contribution') {
+            state['bco']['data']['provenance_domain']['review'][action.payload.index]['reviewer']['contribution']= action.payload.selected
           }
         }
     }
@@ -65,4 +85,4 @@ const rootSlice = createSlice({
 
 export const reducer = rootSlice.reducer;
 
-export const { addContribution, removeContribution, updateProvenanceDomain, updateUsability, updateDescription, deleteEmbargo, addEmbargo, listSelect } = rootSlice.actions;
+export const { addObsolete, deleteObsolete, addReview, removeReview, addContribution, removeContribution, updateProvenanceDomain, updateUsability, updateDescription, deleteEmbargo, addEmbargo, listSelect } = rootSlice.actions;

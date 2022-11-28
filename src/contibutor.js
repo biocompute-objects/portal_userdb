@@ -1,12 +1,11 @@
-import {Button, Card, CardContent, Grid, Select, } from "@material-ui/core";
-import { useSelector, useDispatch } from 'react-redux'
-import { updateProvenanceDomain } from './rootSlice'
+import {Button, Card, CardContent, Grid } from "@material-ui/core";
+import { useDispatch } from 'react-redux'
 import { MyTextField } from "./specialFeilds";
 import { removeContribution, addContribution } from './rootSlice'
 import MultipleSelect from "./selector"
 
 
-const contributions = [
+export const contributions = [
     'authoredBy',
     'contributedBy',
     'createdAt',
@@ -39,7 +38,6 @@ export const Contribution = ({contributors}) => {
                       <MyTextField name={`contributors[${index}].email`} type="input" placeholder="Email" label='Email' isRequired />
                     </Grid>
                     <Grid item>
-                      {/* <MyTextField name={`contributors[${index}].contribution`} type="input" placeholder="Contribution" label='Contribution' isRequired /> */}
                       <MultipleSelect
                         listItems={contributions}
                         label="Contribution"

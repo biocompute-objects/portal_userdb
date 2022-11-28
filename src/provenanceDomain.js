@@ -5,10 +5,11 @@ import { Formik, Form, Field, FieldArray, ErrorMessage, useField, useFormikConte
 //import Datetime from 'react-datetime';
 //import 'react-datetime/css/react-datetime.css';
 import { Contribution } from './contibutor';
+import { Review } from './review';
 
 import { useSelector, useDispatch } from 'react-redux'
 import { MyDateTimeField, MyTextField } from './specialFeilds';
-import { addContribution, updateProvenanceDomain, addEmbargo, deleteEmbargo } from './rootSlice'
+import { addObsolete, deleteObsolete, addContribution, updateProvenanceDomain, addEmbargo, deleteEmbargo, addReview } from './rootSlice'
 
 export const  ProvenanceDomain = () => {
    const dispatch = useDispatch();
@@ -49,7 +50,7 @@ export const  ProvenanceDomain = () => {
             (values) => {
                 const errors = {};
                 console.log()
-                if (values.contributors.length < 1) {
+                if (!values.contributors) {
                     errors.contributors = "Required";
                 }
                 return errors;
@@ -94,6 +95,38 @@ export const  ProvenanceDomain = () => {
                     <MyDateTimeField name="modified"  placeholder="Modified" isDisabled isFullWidth/>        
                   </Grid>
                 </Grid> 
+                <Grid container spacing={2}>
+                    <Grid item md={12} align='left' >
+                      <Typography variant="h6">Obsolescence</Typography>
+                    </Grid> 
+                  </Grid>
+                  {
+                    (values.obsolete_after)
+                    ? (
+                        <Grid container spacing={2}>
+                          <Grid item >
+                            <Typography> Obsolete After: </Typography>
+                            <MyDateTimeField
+                              placeholder="Obsolete after"
+                              name="obsolete_after"
+                            />
+                            <Button
+                              variant="outlined"
+                              color="primary"
+                              onClick={() =>{dispatch(deleteObsolete(values))}}
+                            > Remove Obsolescence</Button>
+                        </Grid>
+                        </Grid>)
+                    : (
+                      <Grid container spacing={2}>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          onClick={() => {dispatch(addObsolete())}}
+                        > Add Obsolescence </Button>
+                      </Grid>
+                      )
+                  }
                   <Grid container spacing={2}>
                     <Grid item md={12} align='left' >
                       <Typography variant="h6">Embargo</Typography>
@@ -102,7 +135,7 @@ export const  ProvenanceDomain = () => {
                   {
                     (values.embargo)
                     ?( 
-                      <Grid container spacing={2}>      
+                      <Grid container spacing={2}>
                         <Grid item xs>
                           <Typography> Start time: </Typography>
                         </Grid>
@@ -140,9 +173,9 @@ export const  ProvenanceDomain = () => {
                       name='Contributors'
                       render={arrayHelpers => (
                         values.contributors && values.contributors.length > 0
-                        ? ( <>
+                        ? ( <CardContent>
                               <Contribution contributors={values.contributors} />
-                          </>)
+                          </CardContent>)
                         : (<Grid item xs>
                             <Button
                               variant="outlined"
@@ -164,51 +197,16 @@ export const  ProvenanceDomain = () => {
                       render={arrayHelpers => (
                         values.review && values.review.length > 0
                         ? (<CardContent>
-                          {
-                            values.review.map((review, index) => (
-                              <Grid container key={index} spacing={2} alignItems="center">
-                                <Grid item xs>
-                                 <MyTextField name={`review[${index}].name`} label="Reviewer name" isFullWidth/>
-                                </Grid>
-                                <Grid item xs>
-                                  <MyTextField name={`review[${index}].affiliation`} label="Reviewer affiliation" isFullWidth/>
-                                </Grid>
-                                <Grid item xs>
-                                 <MyTextField name={`review[${index}].email`} label="Reviewer email" isFullWidth />
-                                </Grid>
-                                <Grid item xs>
-                                  <MyTextField name={`review[${index}].orcid`} label="Reviewer orcid" isFullWidth />
-                                </Grid>
-
-                                <Grid item xs>
-                                  <MyTextField name={`review[${index}].reviewer_comment`} label="Reviewer Comment" isFullWidth />
-                                </Grid>
-                                
-                                <Grid item xs> 
-                                  <MyTextField name={`review[${index}].status`} label="Reviewer orcid" isFullWidth />
-                                </Grid>
-                                <Grid item xs>
-                                  <Button variant="outlined" color="primary" onClick={()=>{arrayHelpers.remove(index)}}> Remove </Button>
-                                </Grid>
-                              
-                              </Grid>
-                            ))
-                            
-                          }
-                          <Grid item xs>
-                            <Button variant="outlined" color="primary" onClick={()=> arrayHelpers.push({name:'',status:'unreviewed',  email:'', orcid:'',contribution:'createdby'})}> Add Review </Button>
-                          </Grid>
-                          
-                        </CardContent>
+                             <Review review={values.review} />
+                           </CardContent>
                         )
                         : (<Grid item xs>
-                            <Button variant="outlined" color="primary" onClick={()=> arrayHelpers.push({name:'',status:'unreviewed',  email:'', orcid:'',contribution:'createdby'})}> Add Review </Button>
-                          </Grid>)
-                        
+                            <Button variant="outlined" color="primary" onClick={() => {dispatch(addReview())}}>
+                               Add Review
+                            </Button>
+                          </Grid>) 
                       )
-                      
                       }
-                      
                       />
                   </Grid>
 
