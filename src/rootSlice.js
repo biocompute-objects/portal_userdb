@@ -15,9 +15,9 @@ const rootSlice = createSlice({
                     created: new Date().toISOString().split(".")[0],
                     modified: new Date().toISOString().split(".")[0],
                 },
-                usability_domain: [""],
+                usability_domain: [],
                 description_domain: {
-                        pipeline_steps :[]
+                    pipeline_steps :[]
                 }
             },
             status: "idle",
@@ -31,6 +31,9 @@ const rootSlice = createSlice({
         },
         updateUsability: (state, action) => {
             state['bco']['data']["usability_domain"] = action.payload;
+        },
+        addUsability: (state, action) => {
+            state['bco']['data']["usability_domain"].push('')
         },
         updateDescription: (state, action) => {
             state['bco']['data']["description_domain"] = action.payload;
@@ -85,4 +88,4 @@ const rootSlice = createSlice({
 
 export const reducer = rootSlice.reducer;
 
-export const { addObsolete, deleteObsolete, addReview, removeReview, addContribution, removeContribution, updateProvenanceDomain, updateUsability, updateDescription, deleteEmbargo, addEmbargo, listSelect } = rootSlice.actions;
+export const { addObsolete, deleteObsolete, addReview, removeReview, addContribution, removeContribution, updateProvenanceDomain, updateUsability, addUsability, updateDescription, deleteEmbargo, addEmbargo, listSelect } = rootSlice.actions;
