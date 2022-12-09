@@ -18,7 +18,8 @@ const rootSlice = createSlice({
                 description_domain: {
                     pipeline_steps :[]
                 },
-                parametric_domain:[]
+                parametric_domain:[],
+                io_domain: {}
             },
             status: "idle",
             error: null
@@ -89,6 +90,9 @@ const rootSlice = createSlice({
         },
         updateParametricDomain: (state, action) => {
             state['bco']['data']["parametric_domain"] = action.payload;
+        },
+        updateIODomain: (state, action) => {
+            state['bco']['data']["io_domain"] = action.payload;
         }
     },
     extraReducers(builder) {
@@ -150,5 +154,6 @@ export const {
     addEmbargo,
     listSelect,
     updateParametricDomain,
+    updateIODomain,
     updateModified
 } = rootSlice.actions;
