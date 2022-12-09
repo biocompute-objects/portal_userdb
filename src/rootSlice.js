@@ -17,7 +17,8 @@ const rootSlice = createSlice({
                 usability_domain: [],
                 description_domain: {
                     pipeline_steps :[]
-                }
+                },
+                parametric_domain:[]
             },
             status: "idle",
             error: null
@@ -85,6 +86,9 @@ const rootSlice = createSlice({
           if (action.payload.label === 'Reviewer Contribution') {
             state['bco']['data']['provenance_domain']['review'][action.payload.index]['reviewer']['contribution']= action.payload.selected
           }
+        },
+        updateParametricDomain: (state, action) => {
+            state['bco']['data']["parametric_domain"] = action.payload;
         }
     },
     extraReducers(builder) {
@@ -145,5 +149,6 @@ export const {
     deleteEmbargo,
     addEmbargo,
     listSelect,
+    updateParametricDomain,
     updateModified
 } = rootSlice.actions;

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { DescriptionDomain } from './descriptionDomain';
 import { ProvenanceDomain } from './provenanceDomain';
 import { UsabilityDomain } from './usabilityDomain';
+import { ParametricDomain } from './parametricDomain';
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types';
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -39,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
     },
     {
       name: "Extension Domain (Optional)"
+    },
+    {
+      name: "Parametric Domain"
     }
   ];
 
@@ -145,6 +149,9 @@ export const  BuilderColorCode = () => {
                         </TabPanel>
                         <TabPanel value={value} index={2}>
                             <DescriptionDomain/>
+                        </TabPanel>
+                        <TabPanel value={value} index={4}>
+                            <ParametricDomain/>
                         </TabPanel>
                     </Grid>
                 </Grid>
