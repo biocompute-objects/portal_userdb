@@ -3,6 +3,7 @@ import { DescriptionDomain } from './descriptionDomain';
 import { ProvenanceDomain } from './provenanceDomain';
 import { UsabilityDomain } from './usabilityDomain';
 import { ParametricDomain } from './parametricDomain';
+import { IODomain } from './ioDomain';
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types';
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -43,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
     },
     {
       name: "Parametric Domain"
+    },
+    {
+      name: "IO Domain"
     }
   ];
 
@@ -152,6 +156,9 @@ export const  BuilderColorCode = () => {
                         </TabPanel>
                         <TabPanel value={value} index={4}>
                             <ParametricDomain/>
+                        </TabPanel>
+                        <TabPanel value={value} index={5}>
+                            <IODomain/>
                         </TabPanel>
                     </Grid>
                 </Grid>
