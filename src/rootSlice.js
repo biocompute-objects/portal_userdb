@@ -12,7 +12,8 @@ const rootSlice = createSlice({
                     version: '',
                     license: '',
                     created: new Date().toISOString().split(".")[0],
-                    modified: new Date().toISOString().split(".")[0],
+                    modified: new Date().toISOString(),
+                    contributors: []
                 },
                 usability_domain: [],
                 description_domain: {
@@ -42,18 +43,6 @@ const rootSlice = createSlice({
         },
         updateDescription: (state, action) => {
             state['bco']['data']["description_domain"] = action.payload;
-        },
-        deleteObsolete: (state, action) => {
-            delete state['bco']['data']["provenance_domain"]["obsolete_after"]
-        },
-        addObsolete: (state, action) => {
-            state['bco']['data']["provenance_domain"]["obsolete_after"] = new Date().toISOString().split(".")[0]
-        },
-        deleteEmbargo: (state, action) => {
-            delete state['bco']['data']["provenance_domain"]["embargo"]
-        },
-        addEmbargo: (state, action) => {
-            state['bco']['data']["provenance_domain"]["embargo"] = {start_time: "",end_time:""}
         },
         removeContribution: (state, action)=> {
             state['bco']['data']['provenance_domain']['contributors'].splice(action.payload.index,1)
@@ -102,6 +91,7 @@ const rootSlice = createSlice({
             state.bco.status = 'loading'
         })
         .addCase(fetchBco.fulfilled, (state, action) => {
+            console.log(typeof action.payload)
             state.bco.status = 'succeeded'
             state.bco.status = 'idle'
             console.log('success', action.payload)

@@ -1,5 +1,11 @@
 import { useField } from "formik";
-import { TextField } from "@material-ui/core";
+import { Box, MenuItem, TextField } from "@material-ui/core";
+import dayjs, { Dayjs } from 'dayjs';
+import { Chip, FormControl, InputLabel, OutlinedInput, Select } from '@mui/material';
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { useState } from "react";
 
 export const MyTextField = ({placeholder,label, isFullWidth, isRequired, isDisabled,...props}) => {
     const [field, meta] = useField(props);
@@ -55,32 +61,86 @@ export const MyDateTimeField = ({placeholder,label, isFullWidth, isRequired, isD
     />
     )
   }
-/*
-   const DatePickerField = ({ placeholder,disabled,...props }) => {
-    const { setFieldValue } = useFormikContext();
-    const [field] = useField(props);
-    return (
-    <Datetime
-      {...field}
-      {...props}
-      placeholder={placeholder}
-      selected={(field.value && new Date(field.value)) || null}
-      onChange={val => {
-      setFieldValue(field.name, val);
-      }}
-    />
-    );
+
+export const BaisicDateTimePicker = ({placeholder, label, isFullWidth, isRequired, isDisabled, ...props}) => {
+  const [value, setValue] = useState()
+  const [field, meta] = useField(props);
+  const errorText = meta.error && meta.touched ? meta.error : "";
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DateTimePicker
+        renderInput={(props) => <TextField {...props}/>}
+        label={label}
+        required={isRequired}
+        value={value}
+        disabled={isDisabled}
+        onChange={(newValue) => {
+          setValue(newValue);
+        }}
+      />
+    </LocalizationProvider>
+      
+    )
   }
 
-  function fixDateTime(fieldValue) {
-    console.log(typeof(fieldValue))
-    if (typeof(fieldValue) != "string") {
-      //console.log(fieldValue)
-      const datetime_string = fieldValue.utc().toISOString();
-      //console.log(datetime_string)
-      return datetime_string;
-    }
-    //console.log("Outside: ", typeof(fieldValue))
-    return fieldValue
-   }
-*/
+export const contributions = [
+  'authoredBy',
+  'contributedBy',
+  'createdAt',
+  'createdBy',
+  'createdWith',
+  'curatedBy',
+  'derivedFrom',
+  'importedBy',
+  'importedFrom',
+  'providedBy',
+  'retrievedBy',
+  'retrievedFrom',
+  'sourceAccessedBy'
+];
+
+export const MultiSelector = ({list, placeholder,label, isFullWidth, isRequired, isDisabled, ...props}) => {
+    const [lista, setLitsa] = useState(list)
+
+    return (
+      <FormControl sx={{ m: 1, width: 300 }}>
+        <InputLabel id={label}>{label}</InputLabel>
+        <Select
+          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+          labelId={label}
+          id={label}
+          name={props.name}
+          multiple
+          value={lista}
+          onChange={
+            (event, new_contribution) => {
+              console.log('contrib test', new_contribution, event.target.value);
+              setLitsa(event.target.value)
+            }
+          }
+          
+          renderValue={(selected) => (
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+              {selected.map((option, index) => (
+                <Chip
+                  key={option}
+                  variant="outlined"
+                  label={option}
+                  color="primary"
+                />
+              ))}
+            </Box>
+          )}
+        >
+          {contributions.map((item) => (
+            <MenuItem
+              key={item}
+              value={item}
+            >
+              {item}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    )
+  }

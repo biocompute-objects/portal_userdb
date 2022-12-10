@@ -1,20 +1,26 @@
-import React from 'react';
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 import {Card, CardContent, Typography, Grid, Button, Paper, Select, MenuItem, InputLabel} from "@material-ui/core";
 
 import { Formik, Form, Field, FieldArray, ErrorMessage, useField, useFormikContext, setValues } from 'formik';
-//import Datetime from 'react-datetime';
-//import 'react-datetime/css/react-datetime.css';
 import { Contribution } from './contibutor';
-import { Review } from './review';
+import { Reviewer } from './reviewer';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { MyDateTimeField, MyTextField } from './specialFeilds';
-import { addObsolete, deleteObsolete, addContribution, updateProvenanceDomain, addEmbargo, deleteEmbargo, addReview } from './rootSlice'
+import { BaisicDateTimePicker, MyTextField } from './specialFeilds';
+import { addContribution, updateProvenanceDomain, addReview } from './rootSlice'
 
 export const  ProvenanceDomain = () => {
-   const dispatch = useDispatch();
-   const provenanceDomain = useSelector(state => state.bco.data.provenance_domain)
-
+  const dispatch = useDispatch();
+  const provenanceDomain = useSelector(state => state.bco.data.provenance_domain)
+  let has_obsolete = "obsolete_after" in provenanceDomain;
+  let has_embargo = "embargo" in provenanceDomain;
+  let has_contributors = "contributors" in provenanceDomain;
+  let has_review = "review" in provenanceDomain;
+  const [obsolete, setObsolete] = useState('obsolete_after' in provenanceDomain)
+  const [embargo, setEmbargo] = useState('embargo' in provenanceDomain)
+  const [review, setReview] = useState('review' in provenanceDomain)
+  console.log(has_obsolete, has_embargo, has_review)
   return (
     <>
        <Card> 
@@ -23,25 +29,28 @@ export const  ProvenanceDomain = () => {
         </Paper>
         <CardContent>
         <Formik
-          initialValues={provenanceDomain}
+          initialValues={
+            {
+              'name': provenanceDomain['name'],
+              'version': provenanceDomain['version'],
+              'license': provenanceDomain['license'],
+              'created': provenanceDomain['created'],
+              'modified': provenanceDomain['modified'],
+              'obsolete_after': has_obsolete ? provenanceDomain['obsolete_after'] : [],
+              'contributors': provenanceDomain['contributors'],
+              'review': has_review ? provenanceDomain['review'] : [],
+            }
+          }
           onSubmit={
             (myData, {setSubmitting, setValues}) => {
               setSubmitting(true);
-              console.log(myData)
-              //const created = fixDateTime(myData["created"]);
-              //const modified = fixDateTime(myData["modified"]);
-               // const start_time = fixDateTime(myData["embargo"]["start_time"]);
-               // const end_time = fixDateTime( myData["embargo"]["end_time"]);
-               // const payload = {...myData, 
-               //   created: created, 
-               //   modified: modified, 
-               //   embargo: {
-              //    start_time: start_time,
-              //    end_time: end_time
-              //  }
-              // }
-              // console.log(payload)
-              //setValues(payload);
+              console.log('myData', myData)
+              if (obsolete === false) {
+                delete myData['obsolete_after']
+              }
+              if (obsolete === false) {
+                delete myData['embargo']
+              }
               dispatch(updateProvenanceDomain(myData));// payload
               setSubmitting(false);
             }
@@ -58,7 +67,7 @@ export const  ProvenanceDomain = () => {
         }
         >
           {
-          ({values, isSubmitting,errors}) => (
+          ({values, isSubmitting, errors, setFieldValue}) => (
             
             <Form>
               <Grid container spacing={2}>
@@ -66,7 +75,6 @@ export const  ProvenanceDomain = () => {
                   <Grid item xs> 
                     <MyTextField name="name" type="input" placeholder="Name" label='Name' isRequired isFullWidth/>
                   </Grid>
-                   
                   <Grid item xs>
                     <MyTextField name="version" type="input" placeholder="Version" label="Version" isRequired isFullWidth/>
                   </Grid>
@@ -86,83 +94,82 @@ export const  ProvenanceDomain = () => {
                     <Typography> Created: </Typography> 
                   </Grid>
                   <Grid item xs>
-                    <MyDateTimeField  name="created" placeholder="Created" isDisabled isFullWidth/>
+                    <BaisicDateTimePicker name="created" placeholder="Created" isDisabled isFullWidth/>
                   </Grid>
                   <Grid item xs> 
                     <Typography> Modified: </Typography>
                   </Grid>
                   <Grid item xs> 
-                    <MyDateTimeField name="modified"  placeholder="Modified" isDisabled isFullWidth/>        
+                    <BaisicDateTimePicker name="modified"  placeholder="Modified" isDisabled isFullWidth/>        
                   </Grid>
                 </Grid> 
                 <Grid container spacing={2}>
                     <Grid item md={12} align='left' >
-                      <Typography variant="h6">Obsolescence</Typography>
+                      <Typography variant="h6">Obsolete Date</Typography>
                     </Grid> 
                   </Grid>
-                  {
-                    (values.obsolete_after)
-                    ? (
-                        <Grid container spacing={2}>
+                    <Grid container spacing={2}>
+                      {obsolete === true
+                        ? (
                           <Grid item >
                             <Typography> Obsolete After: </Typography>
-                            <MyDateTimeField
+                            <BaisicDateTimePicker
                               placeholder="Obsolete after"
                               name="obsolete_after"
                             />
                             <Button
                               variant="outlined"
-                              color="primary"
-                              onClick={() =>{dispatch(deleteObsolete(values))}}
-                            > Remove Obsolescence</Button>
-                        </Grid>
-                        </Grid>)
-                    : (
-                      <Grid container spacing={2}>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          onClick={() => {dispatch(addObsolete())}}
-                        > Add Obsolescence </Button>
-                      </Grid>
-                      )
-                  }
+                              color="secondary"
+                              onClick={() =>{setObsolete(false)}}
+                            > Remove Obsolete</Button>
+                          </Grid>)
+                        : (
+                          <Button
+                            variant="outlined"
+                            color="primary"
+                            onClick={() =>{
+                              console.log('press', values.obsolete_after.length)
+                              setObsolete(true)
+                            }}
+                          > Add Obsolete</Button>
+                        )
+                      }
+                  </Grid>
                   <Grid container spacing={2}>
                     <Grid item md={12} align='left' >
                       <Typography variant="h6">Embargo</Typography>
                     </Grid> 
                   </Grid>
-                  {
-                    (values.embargo)
-                    ?( 
-                      <Grid container spacing={2}>
-                        <Grid item xs>
-                          <Typography> Start time: </Typography>
-                        </Grid>
-                        <Grid item xs>
-                          <MyDateTimeField name="embargo.start_time" placeholder="Start Time" isRequired isFullWidth/>
-                        </Grid>
-                        <Grid item xs> 
-                          <Typography> End Time: </Typography>     
-                        </Grid>
-                        <Grid item xs>
-                          <MyDateTimeField  name="embargo.end_time"  placeholder="End Time" isRequired isFullWidth/>     
-                        </Grid>
-                        <Grid item xs>
+                    {embargo === true
+                      ? (
+                        <Grid container spacing={2}>
+                          <Grid item xs>
+                            <Typography> Start time: </Typography>
+                          </Grid>
+                          <Grid item xs>
+                            <BaisicDateTimePicker name="embargo.start_time" placeholder="Start Time" isRequired isFullWidth/>
+                          </Grid>
+                          <Grid item xs> 
+                            <Typography> End Time: </Typography>     
+                          </Grid>
+                          <Grid item xs>
+                            <BaisicDateTimePicker  name="embargo.end_time"  placeholder="End Time" isRequired isFullWidth/>     
+                          </Grid>
                           <Button
                             variant="outlined"
-                            color="primary"
-                            onClick={() =>{dispatch(deleteEmbargo(values))}}
+                            color="secondary"
+                            onClick={() =>{setEmbargo(false)}}
                           > Remove Embargo</Button>
                         </Grid>
-                      </Grid>
-                    )
-                    :(<Button 
-                        variant="outlined"
-                        color="primary"
-                        onClick={() => {dispatch(addEmbargo())}}
-                    > Add Embargo </Button>)
-                  }
+                      )
+                      : (
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          onClick={() =>{setEmbargo(true)}}
+                        > Add Embargo</Button>
+                        )
+                    }
                   <Grid container spacing={2}>
                     <Grid item md={12} align='left' >
                       <Typography variant="h6">Contributors</Typography>
@@ -170,19 +177,26 @@ export const  ProvenanceDomain = () => {
                   </Grid>
                   <Grid container spacing={2}>
                     <FieldArray
-                      name='Contributors'
+                      name='contributors'
                       render={arrayHelpers => (
-                        values.contributors && values.contributors.length > 0
-                        ? ( <CardContent>
-                              <Contribution contributors={values.contributors} />
-                          </CardContent>)
-                        : (<Grid item xs>
+                      <Grid item xs>
+                        {/* {values.contributors.map((contributor, index) => (
+                          <CardContent key={index}>
+                            <Contribution contributor={contributor} contributorPath={`contributors[${index}]`}/>
                             <Button
                               variant="outlined"
-                              color="primary"
-                              onClick={()=> {dispatch(addContribution())}}
-                            >Add Contribution</Button>
-                          </Grid>)
+                              color="secondary"
+                              onClick={() => {arrayHelpers.remove(index)}}
+                            >Remove Contributor</Button>
+                          </CardContent>
+                        ))}
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          onClick={()=> {
+                          arrayHelpers.push({name:'',affiliation:'',email:'',contribution:[],orcid:''})}}
+                        >Add Contribution</Button> */}
+                      </Grid>
                       )}
                     />
                   </Grid>
@@ -195,16 +209,23 @@ export const  ProvenanceDomain = () => {
                     <FieldArray
                       name="review"
                       render={arrayHelpers => (
-                        values.review && values.review.length > 0
-                        ? (<CardContent>
-                             <Review review={values.review} />
-                           </CardContent>
-                        )
-                        : (<Grid item xs>
-                            <Button variant="outlined" color="primary" onClick={() => {dispatch(addReview())}}>
-                               Add Review
-                            </Button>
-                          </Grid>) 
+                        <Grid item xs>
+                          {values.review.map((reviewer, index) => (
+                            <CardContent key={index}>
+                              <Reviewer reviewer={reviewer} reviewerPath={`review[${index}].reviewer`}/>
+                              <Button
+                                variant="outlined"
+                                color="secondary"
+                                onClick={()=> {arrayHelpers.remove(index)}}
+                              >Remove Review</Button>
+                            </CardContent>
+                          ))}
+                          <Button
+                            variant="outlined"
+                            color="primary"
+                            onClick={()=> {arrayHelpers.push({status:'unreviewed',reviewer_comment:'',date:'',reviewer: {name:'',affiliation: '',email:'',contribution:['curatedBy'],orcid:''}})}}
+                          >Add Review</Button>
+                        </Grid> 
                       )
                       }
                       />

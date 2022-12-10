@@ -1,67 +1,45 @@
-import {Button, Card, CardContent, Grid } from "@material-ui/core";
-import { useDispatch } from 'react-redux'
-import { MyTextField } from "./specialFeilds";
-import { removeContribution, addContribution } from './rootSlice'
-import MultipleSelect from "./selector"
+import * as React from 'react';
+import { useState, useEffect } from 'react';
+import { Card, CardContent, Grid } from "@material-ui/core";
+import { MyTextField, MultiSelector } from "./specialFeilds";
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+export const Contribution = ({contributor, contributorPath}) => {
+  const [list, setList] = useState(contributor.contribution)
+
+  const handleChange = (event) => {
+    // console.log(event.target.value)
+    setList(
+      typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value,
+    )
+  }
+  useEffect(() => {
+    console.log('use effect', list, contributor.contribution)
+  }, [list])
 
 
-export const contributions = [
-    'authoredBy',
-    'contributedBy',
-    'createdAt',
-    'createdBy',
-    'createdWith',
-    'curatedBy',
-    'derivedFrom',
-    'importedBy',
-    'importedFrom',
-    'providedBy',
-    'retrievedBy',
-    'retrievedFrom',
-    'sourceAccessedBy'
-];
-
-export const Contribution = ({contributors}) => {
-    const dispatch = useDispatch();
-    return (
-        <Card >
-            {contributors.map((contributor, index) => (
-                <CardContent key={index}>
-                  <Grid container spacing={2}>
-                    <Grid item>
-                      <MyTextField name={`contributors[${index}].name`} type="input" placeholder="Name" label='Name' isRequired />
-                    </Grid>
-                    <Grid item>
-                    <MyTextField name={`contributors[${index}].affiliation`} type="input" placeholder="Affiliation" label='Affiliation' isRequired />
-                    </Grid>
-                    <Grid item>
-                      <MyTextField name={`contributors[${index}].email`} type="input" placeholder="Email" label='Email' isRequired />
-                    </Grid>
-                    <Grid item>
-                      <MultipleSelect
-                        listItems={contributions}
-                        label="Contribution"
-                        list={contributors[index].contribution}
-                        index={index}
-                      />
-                    </Grid>
-                    <Grid item>
-                      <MyTextField name={`contributors[${index}].orcid`} type="input" placeholder="ORCID" label='ORCID'/>
-                    </Grid>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      onClick={() => {dispatch(removeContribution({index}))}}
-                    >Remove</Button>
-                  </Grid>
-                </CardContent>
-              ))
-            }
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={()=> {dispatch(addContribution())}}
-            >Add Contribution</Button>
-        </Card>
+  return (
+    <Card >
+      <MyTextField name={`${contributorPath}.name`} type="input" placeholder="Name" label='Name' isRequired />
+      <MyTextField name={`${contributorPath}.affiliation`} type="input" placeholder="Affiliation" label='Affiliation' />
+      <MyTextField name={`${contributorPath}.email`} type="input" placeholder="Email" label='Email' />
+      {/* <MyTextField name={`${contributorPath}.contribution`} type="input" placeholder="test" label='test' isDisabled/> */}
+      <MultiSelector
+        name={`${contributorPath}.contribution`}
+        list={contributor.contribution}
+        label='Contribution'
+        isRequired
+      />
+    </Card>
     )
 }

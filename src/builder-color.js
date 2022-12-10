@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export const  BuilderColorCode = () => {
-  const [bco, setBco] = useState('http://127.0.0.1:8000/BCO_000000/DRAFT')
+  const [bco, setBco] = useState('https://biocomputeobject.org/BCO_000164/DRAFT')
   const dispatch = useDispatch();
     const state = useSelector(state=>state)
     const classes = useStyles();
@@ -94,7 +94,7 @@ export const  BuilderColorCode = () => {
         'aria-controls': `simple-tabpanel-${index}`,
       };
     }
-    const token = '0bd55c955fcbfc269f6dc8f61ea107674cafdecb'
+    const token = '38b71c708c37f85dbd38e8d295c7c548fbe1bdc0'
 
     function TabPanel(props) {
       const { children, value, index, ...other } = props;
@@ -138,7 +138,7 @@ export const  BuilderColorCode = () => {
                       <TextField
                         value={bco}
                         onChange={(event) => setBco(event.target.value)}
-                        placeholder="http://127.0.0.1:8000/BCO_000000/DRAFT"
+                        placeholder="https://biocomputeobject.org/BCO_000164/DRAFT"
                       />
                       <button onClick={() => dispatch(fetchBco([bco, token]))}>retrieve</button>
                     </div>
@@ -168,7 +168,11 @@ export const  BuilderColorCode = () => {
             {/* <button>
                 Submit
             </button> */}
-            <pre>{JSON.stringify(state['bco']['data'],null, 2)}</pre>
+            <pre align='left'>
+              <code>
+                {JSON.stringify(state['bco']['data']['provenance_domain'],undefined, 2)}
+              </code>
+            </pre>
         </>
     )
 }
