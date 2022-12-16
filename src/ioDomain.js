@@ -10,11 +10,8 @@ import { MyTextField } from './specialFeilds'
 import { Uri } from './components'
 
 export const  IODomain = () => {
-
     const dispatch = useDispatch();
     const io_domain = useSelector(state => state.bco.data.io_domain)
-
-    console.log(io_domain);
     let has_input = "input_subdomain" in io_domain;
     let has_output = "output_subdomain" in io_domain;
 
@@ -58,14 +55,13 @@ export const  IODomain = () => {
                                     name="input_subdomain"
                                     render={arrayHelpers => (
                                     <div>
-                                        {console.log(values)}
                                         {values["input_subdomain"].map((aa, index) => (
                                             <CardContent key={index}>
                                                 <Grid container spacing={2} alignItems='center' justifyContent='center'>
                                                     {/** both these conventions do the same */}
                                                
 
-                                                    <Uri uri_element={`input_subdomain[${index}]`}/>
+                                                    <Uri uri_element={`input_subdomain[${index}].uri`}/>
                                                     
                                                     <Grid item xs>
                                                     <Button variant='outlined' color='secondary' type="button" onClick={() => arrayHelpers.remove(index)}>

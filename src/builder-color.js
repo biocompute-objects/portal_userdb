@@ -170,7 +170,7 @@ export const  BuilderColorCode = () => {
             </button> */}
             <pre align='left'>
               <code>
-                {JSON.stringify(state['bco']['data']['provenance_domain'],undefined, 2)}
+                {JSON.stringify(state['bco']['data']['description_domain'],undefined, 2)}
               </code>
             </pre>
         </>

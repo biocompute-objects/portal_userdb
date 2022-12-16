@@ -1,4 +1,4 @@
-import { MyTextField, MyDateTimeField } from './specialFeilds'
+import { MyTextField, BaisicDateTimePicker } from './specialFeilds'
 import { Grid } from "@material-ui/core";
 
 export const Uri = ({uri_element}) => {
@@ -11,7 +11,7 @@ export const Uri = ({uri_element}) => {
         <MyTextField name={`${uri_element}["uri"]`} label="URI"/>
     </Grid>
     <Grid item xs>
-        <MyDateTimeField name={`${uri_element}["access_time"]`} label="Access Time"/>
+        <BaisicDateTimePicker name={`${uri_element}["access_time"]`} label="Access Time"/>
     </Grid>
     <Grid item xs>
         <MyTextField name={`${uri_element}["sha1_checksum"]`} label="SHA1 Checksum"/>
