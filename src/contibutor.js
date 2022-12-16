@@ -23,10 +23,6 @@ export const Contribution = ({contributor, contributorPath}) => {
       typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value,
     )
   }
-  useEffect(() => {
-    console.log('use effect', list, contributor.contribution)
-  }, [list])
-
 
   return (
     <Card >

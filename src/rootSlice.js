@@ -20,7 +20,8 @@ const rootSlice = createSlice({
                     pipeline_steps :[]
                 },
                 parametric_domain:[],
-                io_domain: {}
+                io_domain: {},
+                extension_domain: []
             },
             status: "idle",
             error: null
@@ -32,6 +33,7 @@ const rootSlice = createSlice({
             state['bco']['data']["provenance_domain"] = action.payload;
         },
         updateExtensionDomain: (state, action) => {
+            console.log('action',action.payload)
             state['bco']['data']["extension_domain"] = action.payload;
         },
         updateModified: (state, action) => {

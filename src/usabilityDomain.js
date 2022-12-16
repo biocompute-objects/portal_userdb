@@ -18,7 +18,6 @@ import {
     useDispatch
 } from 'react-redux'
 import {
-  addUsability,
   updateUsability,
   updateModified
 } from './rootSlice'
@@ -50,22 +49,18 @@ export const  UsabilityDomain = () => {
                   <FieldArray name='usability_domain'>
                     {arrayHelpers => (
                       <div>
-                        {values.usability_domain && values.usability_domain.length > 0 
-                        ? (
-                          values.usability_domain.map((text, index) => (
+                          {values.usability_domain.map((text, index) => (
                             <Grid item key={index}>
                               <LargeTextField name={`usability_domain.${index}`} />
                               <button type="button" onClick={() => arrayHelpers.remove(index)}
                               > - </button>
                             </Grid>
-                          )))
-                        : (<div></div>)
-                        }
+                          ))}
+                        <Button type="button" onClick={() => arrayHelpers.push('')}>Add </Button>
                       </div>
                     )}
                   </FieldArray>
                   <div>
-                    <Button type="button" onClick={() => dispatch(addUsability())}>Add </Button>
                     <Button disabled={isSubmitting} varient="contained" color="primary" type='submit'> Save </Button>
                   </div>
                 </Form>

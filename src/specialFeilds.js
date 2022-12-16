@@ -113,7 +113,7 @@ export const contributions = [
   'sourceAccessedBy'
 ];
 
-export const MultiSelector = ({placeholder,label, isFullWidth, isRequired, isDisabled, ...props}) => {
+export const MultiSelector = ({placeholder, label, isFullWidth, isRequired, isDisabled, ...props}) => {
     const [field, meta] = useField(props);
     return (
       <FormControl sx={{ m: 1, width: 300 }}>
@@ -129,7 +129,7 @@ export const MultiSelector = ({placeholder,label, isFullWidth, isRequired, isDis
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((option, index) => (
                 <Chip
-                  key={option}
+                  key={index}
                   variant="outlined"
                   label={option}
                   color="primary"
