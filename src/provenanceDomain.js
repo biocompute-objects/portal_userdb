@@ -7,8 +7,8 @@ import { Contribution } from './contibutor';
 import { Reviewer } from './reviewer';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { BaisicDateTimePicker, MyTextField } from './specialFeilds';
-import { addContribution, updateProvenanceDomain, addReview } from './rootSlice'
+import { BaisicDateTimePicker, MyTextField, MyDateTimeField } from './specialFeilds';
+import { updateProvenanceDomain } from './rootSlice'
 
 export const  ProvenanceDomain = () => {
   const dispatch = useDispatch();
@@ -180,7 +180,7 @@ export const  ProvenanceDomain = () => {
                       name='contributors'
                       render={arrayHelpers => (
                       <Grid item xs>
-                        {/* {values.contributors.map((contributor, index) => (
+                        {values.contributors.map((contributor, index) => (
                           <CardContent key={index}>
                             <Contribution contributor={contributor} contributorPath={`contributors[${index}]`}/>
                             <Button
@@ -195,7 +195,7 @@ export const  ProvenanceDomain = () => {
                           color="primary"
                           onClick={()=> {
                           arrayHelpers.push({name:'',affiliation:'',email:'',contribution:[],orcid:''})}}
-                        >Add Contribution</Button> */}
+                        >Add Contribution</Button>
                       </Grid>
                       )}
                     />
@@ -212,7 +212,7 @@ export const  ProvenanceDomain = () => {
                         <Grid item xs>
                           {values.review.map((reviewer, index) => (
                             <CardContent key={index}>
-                              <Reviewer reviewer={reviewer} reviewerPath={`review[${index}].reviewer`}/>
+                              <Reviewer reviewer={reviewer} reviewerPath={`review[${index}]`}/>
                               <Button
                                 variant="outlined"
                                 color="secondary"

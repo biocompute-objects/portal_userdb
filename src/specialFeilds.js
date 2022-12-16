@@ -5,7 +5,6 @@ import { Chip, FormControl, InputLabel, OutlinedInput, Select } from '@mui/mater
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { useState } from "react";
 
 export const MyTextField = ({placeholder,label, isFullWidth, isRequired, isDisabled,...props}) => {
     const [field, meta] = useField(props);
@@ -63,7 +62,6 @@ export const MyDateTimeField = ({placeholder,label, isFullWidth, isRequired, isD
   }
 
 export const BaisicDateTimePicker = ({placeholder, label, isFullWidth, isRequired, isDisabled, ...props}) => {
-  const [value, setValue] = useState()
   const [field, meta] = useField(props);
   const errorText = meta.error && meta.touched ? meta.error : "";
   return (
@@ -72,16 +70,32 @@ export const BaisicDateTimePicker = ({placeholder, label, isFullWidth, isRequire
         renderInput={(props) => <TextField {...props}/>}
         label={label}
         required={isRequired}
-        value={value}
+        {...field}
         disabled={isDisabled}
-        onChange={(newValue) => {
-          setValue(newValue);
-        }}
+        onChange={() => {}}
       />
     </LocalizationProvider>
       
     )
   }
+
+export const Selector = ({placeholder,label, isFullWidth, isRequired, isDisabled, ...props}) => {
+  const [field, meta] = useField(props);
+  return(
+    <Select
+      labelId="review-status"
+      id="review-status"
+      {...field}
+      input={<OutlinedInput label="Review Status" />}
+    >
+      <MenuItem value={'unreviewed'}>Unreviewed</MenuItem>
+      <MenuItem value={'in-review'}>In review</MenuItem>
+      <MenuItem value={'approved'}>Approved</MenuItem>
+      <MenuItem value={'rejected'}>Rejected</MenuItem>
+      <MenuItem value={'suspended'}>Suspended</MenuItem>
+    </Select>
+  )
+}
 
 export const contributions = [
   'authoredBy',
@@ -99,9 +113,8 @@ export const contributions = [
   'sourceAccessedBy'
 ];
 
-export const MultiSelector = ({list, placeholder,label, isFullWidth, isRequired, isDisabled, ...props}) => {
-    const [lista, setLitsa] = useState(list)
-
+export const MultiSelector = ({placeholder,label, isFullWidth, isRequired, isDisabled, ...props}) => {
+    const [field, meta] = useField(props);
     return (
       <FormControl sx={{ m: 1, width: 300 }}>
         <InputLabel id={label}>{label}</InputLabel>
@@ -111,14 +124,7 @@ export const MultiSelector = ({list, placeholder,label, isFullWidth, isRequired,
           id={label}
           name={props.name}
           multiple
-          value={lista}
-          onChange={
-            (event, new_contribution) => {
-              console.log('contrib test', new_contribution, event.target.value);
-              setLitsa(event.target.value)
-            }
-          }
-          
+          {...field}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((option, index) => (
