@@ -31,6 +31,9 @@ const rootSlice = createSlice({
         updateProvenanceDomain: (state, action) => {
             state['bco']['data']["provenance_domain"] = action.payload;
         },
+        updateExtensionDomain: (state, action) => {
+            state['bco']['data']["extension_domain"] = action.payload;
+        },
         updateModified: (state, action) => {
             state['bco']['data']["provenance_domain"]["modified"] = new Date().toISOString().split(".")[0]
             console.log("modified", state['bco']['data']["provenance_domain"]["modified"])
@@ -103,5 +106,6 @@ export const {
     updateDescription,
     updateParametricDomain,
     updateIODomain,
-    updateModified
+    updateModified,
+    updateExtensionDomain
 } = rootSlice.actions;

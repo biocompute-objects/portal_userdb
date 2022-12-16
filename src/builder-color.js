@@ -4,6 +4,7 @@ import { ProvenanceDomain } from './provenanceDomain';
 import { UsabilityDomain } from './usabilityDomain';
 import { ParametricDomain } from './parametricDomain';
 import { IODomain } from './ioDomain';
+import { ExtensionDomain } from './extensionDomain';
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types';
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -79,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export const  BuilderColorCode = () => {
-  const [bco, setBco] = useState('https://biocomputeobject.org/BCO_000164/DRAFT')
+  const [bco, setBco] = useState('https://biocomputeobject.org/BCO_000317/DRAFT')
   const dispatch = useDispatch();
     const state = useSelector(state=>state)
     const classes = useStyles();
@@ -138,7 +139,7 @@ export const  BuilderColorCode = () => {
                       <TextField
                         value={bco}
                         onChange={(event) => setBco(event.target.value)}
-                        placeholder="https://biocomputeobject.org/BCO_000164/DRAFT"
+                        placeholder="https://biocomputeobject.org/BCO_000317/DRAFT"
                       />
                       <button onClick={() => dispatch(fetchBco([bco, token]))}>retrieve</button>
                     </div>
@@ -160,6 +161,9 @@ export const  BuilderColorCode = () => {
                         <TabPanel value={value} index={5}>
                             <IODomain/>
                         </TabPanel>
+                        <TabPanel value={value} index={3}>
+                            <ExtensionDomain/>
+                        </TabPanel>
                     </Grid>
                 </Grid>
                 </Paper>
@@ -170,7 +174,7 @@ export const  BuilderColorCode = () => {
             </button> */}
             <pre align='left'>
               <code>
-                {JSON.stringify(state['bco']['data']['description_domain'],undefined, 2)}
+                {JSON.stringify(state['bco']['data']['extension_domain'],undefined, 2)}
               </code>
             </pre>
         </>
