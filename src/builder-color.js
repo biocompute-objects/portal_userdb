@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export const  BuilderColorCode = () => {
-  const [bco, setBco] = useState('https://biocomputeobject.org/BCO_000317/DRAFT')
+  const [bco, setBco] = useState('https://biocomputeobject.org/BCO_000064/DRAFT')
   const dispatch = useDispatch();
     const state = useSelector(state=>state)
     const classes = useStyles();
