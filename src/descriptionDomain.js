@@ -59,7 +59,6 @@ export const  DescriptionDomain = () => {
                     }
                     value={values.keywords}
                     onChange={(e, new_keyword)=>{
-                      console.log("All: ", new_keyword)
                       setFieldValue("keywords",new_keyword);
                     }}
                     renderInput={(params) => (
@@ -91,7 +90,6 @@ export const  DescriptionDomain = () => {
                     }
                     value={values.platform}
                     onChange={(e, new_keyword)=>{
-                      console.log("All: ", new_keyword)
                       setFieldValue("platform",new_keyword);
                     }}
                     renderInput={(params) => (
@@ -148,7 +146,7 @@ export const  DescriptionDomain = () => {
                                    <Button
                                     variant='outlined'
                                     color='secondary'
-                                    onClick={()=>{arrayHelpers.remove(preIndex);console.log('index',index)}}
+                                    onClick={()=>{arrayHelpers.remove(preIndex)}}
                                    >Remove prerequisite</Button>
                                    <br/>
                                    <Uri
