@@ -148,12 +148,12 @@ export const  DescriptionDomain = () => {
                                    <Button
                                     variant='outlined'
                                     color='secondary'
-                                    onClick={()=>{arrayHelpers.remove(index);}}
+                                    onClick={()=>{arrayHelpers.remove(preIndex);console.log('index',index)}}
                                    >Remove prerequisite</Button>
                                    <br/>
                                    <Uri
                                      key={prereq.uri.uri}
-                                     uri_element={`pipeline_steps.[${index}].prerequisite.[${preIndex}].uri`} 
+                                     uri_element={`pipeline_steps.[${index}].prerequisite.[${preIndex}].uri`}
                                    />
                                  </CardContent>
                               ))
@@ -185,7 +185,7 @@ export const  DescriptionDomain = () => {
                                   <Button
                                     variant='outlined'
                                     color='secondary'
-                                    onClick={()=>{arrayHelpers.remove(index)}}
+                                    onClick={()=>{arrayHelpers.remove(inpIndex)}}
                                    >Remove input</Button>
                                 </CardContent>)))
                             : (<div></div>)}
