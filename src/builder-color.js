@@ -139,7 +139,7 @@ export const  BuilderColorCode = () => {
                       <TextField
                         value={bco}
                         onChange={(event) => setBco(event.target.value)}
-                        placeholder="https://biocomputeobject.org/BCO_000317/DRAFT"
+                        placeholder="https://biocomputeobject.org/BCO_000064/DRAFT"
                       />
                       <button onClick={() => dispatch(fetchBco([bco, token]))}>retrieve</button>
                     </div>
