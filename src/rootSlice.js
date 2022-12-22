@@ -40,7 +40,6 @@ const rootSlice = createSlice({
             state['bco']['data']['extension_domain'].splice(action.payload.index,1)
         },
         updateExtensionDomain: (state, action) => {
-            console.log('action',action.payload)
             state['bco']['data']["extension_domain"][action.payload.index] = action.payload.formData;
         },
         updateModified: (state, action) => {
