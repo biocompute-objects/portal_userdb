@@ -20,7 +20,7 @@ import {
 import {
   updateUsability,
   updateModified
-} from './rootSlice'
+} from '../../slices/bcoSlice'
 import { LargeTextField } from './specialFeilds';
 
 export const  UsabilityDomain = () => {

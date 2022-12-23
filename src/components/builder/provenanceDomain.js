@@ -8,7 +8,7 @@ import { Reviewer } from './reviewer';
 
 import { useSelector, useDispatch } from 'react-redux'
 import { BaisicDateTimePicker, MyTextField, MyDateTimeField } from './specialFeilds';
-import { updateProvenanceDomain } from './rootSlice'
+import { updateProvenanceDomain } from '../../slices/bcoSlice'
 
 export const  ProvenanceDomain = () => {
   const dispatch = useDispatch();

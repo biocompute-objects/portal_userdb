@@ -12,7 +12,7 @@ import {
 import {Autocomplete } from "@material-ui/lab";
 import { Formik, Form, Field, FieldArray, ErrorMessage, useField, useFormikContext } from 'formik';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateDescription } from './rootSlice'
+import { updateDescription } from '../../slices/bcoSlice'
 import { LargeTextField, MyDateTimeFiel, MyTextField } from './specialFeilds';
 import { Uri } from './components'
 

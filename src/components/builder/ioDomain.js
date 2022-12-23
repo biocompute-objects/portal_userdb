@@ -4,7 +4,7 @@ import {Card, Typography, CardContent, TextField, Grid, Button} from "@material-
 import { Formik, Form, Field, FieldArray, ErrorMessage, useField, useFormikContext } from 'formik';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { updateIODomain } from './rootSlice'
+import { updateIODomain } from '../../slices/bcoSlice'
 
 import { MyTextField, BaisicDateTimePicker } from './specialFeilds'
 import { Uri } from './components'

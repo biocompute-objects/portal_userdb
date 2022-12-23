@@ -18,7 +18,7 @@ import {
 } from "@material-ui/core";
 import MuiListItem from "@material-ui/core/ListItem";
 import "./sidebar.css";
-import { fetchBco } from './rootSlice';
+import { fetchBco } from '../../slices/bcoSlice';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -88,7 +88,7 @@ export const  BuilderColorCode = () => {
     const handleChange = (newValue) => {
       setValue(newValue);
     };
-
+    console.log(state)
     function a11yProps(index) {
       return {
         id: `simple-tab-${index}`,
@@ -174,7 +174,7 @@ export const  BuilderColorCode = () => {
             </button> */}
             <pre align='left'>
               <code>
-                {JSON.stringify(state['bco']['data']['extension_domain'],undefined, 2)}
+                {/* {JSON.stringify(state['bco']['data']['extension_domain'],undefined, 2)} */}
               </code>
             </pre>
         </>

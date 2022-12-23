@@ -1,16 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
-import { BuilderColorCode } from './builder-color';
 
-import { Provider } from 'react-redux';
-import { store } from "./store";
+import './App.css';
+import { BuilderColorCode } from './components/builder';
+import HomePage from './components/home'
+import NavBar from './components/NavBar'
+import { BrowserRouter, Route, Routes, Switch } from 'react-router-dom';
 
 function App() {
   return (
     <div className="App">
-       <Provider store={store}>
-          <BuilderColorCode />
-      </Provider>
+      <BrowserRouter>
+        <NavBar/>
+        <Routes>
+          <Route path='/' exact={true} element={<HomePage />}/>
+          <Route path='/builder' exact={true} element={<BuilderColorCode />}/>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

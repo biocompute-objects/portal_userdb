@@ -5,7 +5,7 @@ import {
 import { Form as JsonForm} from '@rjsf/material-ui'
 import validator from "@rjsf/validator-ajv8";
 import { useDispatch } from 'react-redux'
-import { updateExtensionDomain } from './rootSlice'
+import { updateExtensionDomain } from '../../slices/bcoSlice'
 
 export const Extension = ({extension, schemaUrl, index, allExtensions}) => {
   const dispatch = useDispatch();
