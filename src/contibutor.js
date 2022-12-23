@@ -15,25 +15,12 @@ const MenuProps = {
 };
 
 export const Contribution = ({contributor, contributorPath}) => {
-  const [list, setList] = useState(contributor.contribution)
-
-  const handleChange = (event) => {
-    // console.log(event.target.value)
-    setList(
-      typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value,
-    )
-  }
-  useEffect(() => {
-    console.log('use effect', list, contributor.contribution)
-  }, [list])
-
 
   return (
     <Card >
       <MyTextField name={`${contributorPath}.name`} type="input" placeholder="Name" label='Name' isRequired />
       <MyTextField name={`${contributorPath}.affiliation`} type="input" placeholder="Affiliation" label='Affiliation' />
       <MyTextField name={`${contributorPath}.email`} type="input" placeholder="Email" label='Email' />
-      {/* <MyTextField name={`${contributorPath}.contribution`} type="input" placeholder="test" label='test' isDisabled/> */}
       <MultiSelector
         name={`${contributorPath}.contribution`}
         list={contributor.contribution}

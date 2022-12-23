@@ -20,7 +20,8 @@ const rootSlice = createSlice({
                     pipeline_steps :[]
                 },
                 parametric_domain:[],
-                io_domain: {}
+                io_domain: {},
+                extension_domain: []
             },
             status: "idle",
             error: null
@@ -30,6 +31,16 @@ const rootSlice = createSlice({
     reducers: { // list of functions action
         updateProvenanceDomain: (state, action) => {
             state['bco']['data']["provenance_domain"] = action.payload;
+        },
+        addExtensionDomain: (state, action) => {
+            console.log('action',action.payload)
+            state['bco']['data']["extension_domain"].push(action.payload);
+        },
+        deleteExtensionDomain: (state, action) => {
+            state['bco']['data']['extension_domain'].splice(action.payload.index,1)
+        },
+        updateExtensionDomain: (state, action) => {
+            state['bco']['data']["extension_domain"][action.payload.index] = action.payload.formData;
         },
         updateModified: (state, action) => {
             state['bco']['data']["provenance_domain"]["modified"] = new Date().toISOString().split(".")[0]
@@ -103,5 +114,8 @@ export const {
     updateDescription,
     updateParametricDomain,
     updateIODomain,
-    updateModified
+    updateModified,
+    updateExtensionDomain,
+    addExtensionDomain,
+    deleteExtensionDomain
 } = rootSlice.actions;
