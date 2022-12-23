@@ -8,6 +8,7 @@ import {
   makeStyles,
   Typography
 } from '@material-ui/core';
+import { Link } from 'react-router-dom'
 import logo from '../../images/logo.png';
 
 const useStyles = makeStyles({
@@ -34,7 +35,7 @@ export default function Builder() {
 
   return (
     <Card className={classes.linkCard} elevation={0}>
-      <CardActionArea className={classes.linkCard} >
+      <CardActionArea className={classes.linkCard} component={Link} to='/builder'>
         <CardContent>
           <Typography className={classes.title}>
             BioCompute Builder

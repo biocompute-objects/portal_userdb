@@ -9,6 +9,7 @@ import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import HomeIcon from '@mui/icons-material/Home';
 import Menu from '@material-ui/core/Menu';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -20,6 +21,7 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import Switch from '@material-ui/core/Switch';
 import { useDispatch, useSelector } from 'react-redux';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -137,60 +139,83 @@ const NavBar = () => {
           <div className={classes.sectionDesktop}>
             {auth.user ? (
               <>
-                <IconButton aria-label='go home' color='inherit'>
-                  <HomeIcon />
-                </IconButton>
-                <IconButton aria-label='BioCompute Object builder' color='inherit'>
-                  <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                    <ConstructionIcon />
-                  </Badge>
-                </IconButton>
-                <IconButton aria-label='prefix registry' color='inherit'>
-                  <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                    <AppRegistrationIcon />
-                  </Badge>
-                </IconButton>
-                <IconButton aria-label='show 0 new notifications' color='inherit'>
-                  <Badge overlap="rectangular" badgeContent={1} color='secondary'>
-                    <DataObjectIcon />
-                  </Badge>
-                </IconButton>
-                <IconButton
-                  edge='end'
-                  aria-label='account of current user'
-                  aria-haspopup='true'
-                  color='inherit'
-                >
-                  <div className={classes.imageContainer}>
-                    <img src={auth.user.imageUrl} alt={auth.user.givenName} />
-                  </div>
-                </IconButton>
+                <Tooltip title="Home">
+                  <IconButton component={Link} to='/' aria-label='go home' color='inherit'>
+                    <HomeIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="BCO Builder">
+                  <IconButton component={Link} to='/builder' aria-label='BCO builder' color='inherit'>
+                    <Badge overlap="rectangular" badgeContent={0} color='secondary'>
+                      <ConstructionIcon />
+                    </Badge>
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Prefix registry">
+                  <IconButton aria-label='prefix registry' color='inherit'>
+                    <Badge overlap="rectangular" badgeContent={0} color='secondary'>
+                      <AppRegistrationIcon />
+                    </Badge>
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="BioCompute Object DB">
+                  <IconButton aria-label='show 0 new notifications' color='inherit'>
+                    <Badge overlap="rectangular" badgeContent={0} color='secondary'>
+                      <DataObjectIcon />
+                    </Badge>
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Profile Page">
+                  <IconButton
+                    component={Link} to='/profile'
+                    edge='end'
+                    aria-label='account of current user'
+                    aria-haspopup='true'
+                    color='inherit'
+                  >
+                    <div className={classes.imageContainer}>
+                      {
+                        (auth.user.imageUrl)
+                        ? (<img src={auth.user.imageUrl}/>)
+                        : (<div>{auth.user.username}</div>)
+                      }
+                    </div>
+                  </IconButton>
+                </Tooltip>
               </>
             ) : (
               <>
-                <IconButton aria-label='go home' color='inherit'>
-                  <HomeIcon />
-                </IconButton>
-                <IconButton aria-label='show 0 new mails' color='inherit'>
-                  <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                    <ConstructionIcon />
-                  </Badge>
-                </IconButton>
-                <IconButton aria-label='show 0 new notifications' color='inherit'>
-                  <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                    <AppRegistrationIcon />
-                  </Badge>
-                </IconButton>
-                <IconButton aria-label='show 0 new notifications' color='inherit'>
-                  <Badge overlap="rectangular" badgeContent={1} color='secondary'>
-                    <DataObjectIcon />
-                  </Badge>
-                </IconButton>
-                <Button>
-                <Typography variant='h6' component='h6'>
-                  Log in
-                </Typography>
-              </Button>
+                <Tooltip title="Home">
+                  <IconButton component={Link} to='/' aria-label='go home' color='inherit'>
+                    <HomeIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="BCO Builder">
+                  <IconButton component={Link} to='/builder' aria-label='BCO builder' color='inherit'>
+                    <Badge overlap="rectangular" badgeContent={0} color='secondary'>
+                      <ConstructionIcon />
+                    </Badge>
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Prefix registry">
+                  <IconButton aria-label='prefix registry' color='inherit'>
+                    <Badge overlap="rectangular" badgeContent={0} color='secondary'>
+                      <AppRegistrationIcon />
+                    </Badge>
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="BioCompute Object DB">
+                  <IconButton aria-label='show 0 new notifications' color='inherit'>
+                    <Badge overlap="rectangular" badgeContent={0} color='secondary'>
+                      <DataObjectIcon />
+                    </Badge>
+                  </IconButton>
+                </Tooltip>
+                <IconButton component={Link} to='/login' aria-label='log in' color='inherit'>
+                  <Typography variant='h6' component='h6'>
+                    Log in
+                  </Typography>
+              </IconButton>
               </>
             )}
           </div>

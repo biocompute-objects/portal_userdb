@@ -7,7 +7,6 @@ import AuthService from "../services/auth.service";
 
 const user = JSON.parse(localStorage.getItem("user"));
 
-
 export const register = createAsyncThunk(
   "auth/register",
   async ({ username, email, password }, thunkAPI) => {
@@ -57,10 +56,7 @@ const initialState = user
 
 export const accountSlice = createSlice({
   name: 'account',
-  initialState: {
-    loggedIn: false,
-    user: null
-  },
+  initialState,
   extraReducers: {
     [register.fulfilled]: (state, action) => {
       state.isLoggedIn = false;
@@ -82,5 +78,9 @@ export const accountSlice = createSlice({
     },
   },
 });
+
+export const {
+
+} = accountSlice.actions
 
 export const accountReducer = accountSlice.reducer

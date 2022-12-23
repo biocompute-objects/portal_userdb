@@ -1,143 +1,124 @@
-// src/views/auth/LoginView.js
+import React, { useState, useEffect  } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import { GoogleLogin } from 'react-google-login';
+import * as Yup from "yup";
 
-import React, { useContext, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import * as Yup from 'yup';
-import { Formik } from 'formik';
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  Link,
-  TextField,
-  Typography,
-  makeStyles
-} from '@material-ui/core';
-import Page from 'src/components/Page';
+import { login } from '../../slices/accountSlice';
+import { clearMessage } from '../../slices/messageSlice';
 
-// Fetch context.
-import Alert from '@material-ui/lab/Alert';
-import { FetchContext } from '../../App';
-import UserdbTokenAuth from '../../components/API/UserdbTokenAuth';
+const clientId = '404409424650-a1hh4j6m9r3998v16siia2lum9un21ip.apps.googleusercontent.com'
 
-// Registration error
-// Source: https://material-ui.com/components/alert/#simple-alerts
+const responseGoogle = (response) => {
+  console.log(response);
+}
 
-const useStyles = makeStyles((theme) => ({
-  alertSpec: {
-    width: '100%',
-    '& > * + *': {
-      marginTop: theme.spacing(2),
-    }
-  },
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    height: '100%',
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3)
+const Login = () => {
+  let navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
+
+  const { isLoggedIn } = useSelector((state) => state.account);
+  const { message } = useSelector((state) => state.message);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(clearMessage());
+  }, [dispatch]);
+
+  const initialValues = {
+    username: "",
+    password: "",
+  };
+
+  const validationSchema = Yup.object().shape({
+    username: Yup.string().required("This field is required!"),
+    password: Yup.string().required("This field is required!"),
+  });
+
+  const handleLogin = (formValue) => {
+    const { username, password } = formValue;
+    setLoading(true);
+
+    dispatch(login({ username, password }))
+      .unwrap()
+      .then(() => {
+        navigate("/profile");
+        window.location.reload();
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  if (isLoggedIn) {
+    return <Navigate to="/profile" />;
   }
-}));
-
-const LoginView = () => {
-  const classes = useStyles();
-
-  // Fetch context.
-  const fc = useContext(FetchContext);
-
-  // State
-  const [loginError, setLoginError] = useState(false);
 
   return (
-    <Page className={classes.root} title="Login" >
-      <Box
-        display="flex" flexDirection="column" height="100%" justifyContent="center" >
-        <Container maxWidth="sm">
-          <Formik
-            initialValues={{
-              username: '',
-              password: '',
-              url: fc.sending.userdb_tokenauth,
-            }}
-            validationSchema={Yup.object().shape({
-              username: Yup.string().max(255).required('User Name is required'),
-              password: Yup.string().max(255).required('Password is required')
-            })}
-            onSubmit={(values) => {
-              // Determine whether or not our login was legitimate.
-              console.log('values', values);
-              UserdbTokenAuth(values);
-            }}
-          >
-            {({errors, handleBlur, handleChange, handleSubmit, touched, values}) => (
-              <form onSubmit={handleSubmit}>
-                <Box mb={3}>
-                  <Typography color="textPrimary" variant="h2" >
-                    Sign in
-                  </Typography>
-                  <Typography color="textSecondary" gutterBottom variant="body2">
-                    Sign in using your Portal credentials.
-                  </Typography>
-                  <Typography color="textSecondary" variant="body1" >
-                    <Link component={RouterLink} to="/reset" variant="h6">
-                      Forgot Password? Reset it here.
-                    </Link>
-                  </Typography>
-                </Box>
-                <Grid container spacing={3}>
-                  <Grid item xs={12} md={6} />
-                  <Grid item xs={12} md={6} />
-                </Grid>
-                <TextField
-                  error={Boolean(touched.username && errors.username)}
-                  fullWidth
-                  helperText={touched.username && errors.username}
-                  label="User Name"
-                  margin="normal"
-                  name="username"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  type="text"
-                  value={values.username}
-                  variant="outlined"
-                />
-                <TextField
-                  error={Boolean(touched.password && errors.password)}
-                  fullWidth
-                  helperText={touched.password && errors.password}
-                  label="Password"
-                  margin="normal"
-                  name="password"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  type="password"
-                  value={values.password}
-                  variant="outlined"
-                />
-                <Box my={2}>
-                  <div className={classes.alertSpec}>
-                    {loginError && <Alert severity="error">Incorrect username or password!</Alert>}
-                  </div>
-                </Box>
-                <Box my={2}>
-                  <Button color="primary" fullWidth size="large" type="submit" variant="contained">
-                    Sign in
-                  </Button>
-                </Box>
-                <Typography color="textSecondary" variant="body1" >
-                  Don&apos;t have an account?
-                  {' '}
-                  <Link component={RouterLink} to="/register" variant="h6">
-                    Sign up
-                  </Link>
-                </Typography>
-              </form>
-            )}
-          </Formik>
-        </Container>
-      </Box>
-    </Page>
+    <div display="flex" flexDirection="column" height="100%" justifyContent="center" >
+      <div className="card card-container">
+        <img
+          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+          alt="profile-img"
+          className="profile-img-card"
+        />
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleLogin}
+        >
+          <Form>
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
+              <Field name="username" type="text" className="form-control" />
+              <ErrorMessage
+                name="username"
+                component="div"
+                className="alert alert-danger"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <Field name="password" type="password" className="form-control" />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="alert alert-danger"
+              />
+            </div>
+
+            <div className="form-group">
+              <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
+                {loading && (
+                  <span className="spinner-border spinner-border-sm"></span>
+                )}
+                <span>Login</span>
+              </button>
+            </div>
+          </Form>
+        </Formik>
+      </div>
+      
+      {message && (
+        <div className="form-group">
+          <div className="alert alert-danger" role="alert">
+            {message}
+          </div>
+        </div>
+      )}
+      <GoogleLogin
+        clientId={clientId}
+        buttonText="Login"
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        cookiePolicy={'single_host_origin'}
+      />
+    </div>
   );
 };
 
-export default LoginView;
+export default Login;
