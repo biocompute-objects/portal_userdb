@@ -4,6 +4,8 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { GoogleLogin } from 'react-google-login';
 import * as Yup from "yup";
+import { MyTextField } from "../builder/specialFeilds";
+import { Button, Card, CardContent, Grid } from '@material-ui/core';
 
 import { login } from '../../slices/accountSlice';
 import { clearMessage } from '../../slices/messageSlice';
@@ -45,7 +47,7 @@ const Login = () => {
     dispatch(login({ username, password }))
       .unwrap()
       .then(() => {
-        navigate("/profile");
+        navigate("/");
         window.location.reload();
       })
       .catch(() => {
@@ -54,12 +56,12 @@ const Login = () => {
   };
 
   if (isLoggedIn) {
-    return <Navigate to="/profile" />;
+    return <Navigate to="/" />;
   }
 
   return (
-    <div display="flex" flexDirection="column" height="100%" justifyContent="center" >
-      <div className="card card-container">
+    <Card display="flex" flexdirection="column" height="100%" >
+      <CardContent className="card card-container">
         <img
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
           alt="profile-img"
@@ -71,45 +73,41 @@ const Login = () => {
           onSubmit={handleLogin}
         >
           <Form>
-            <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <Field name="username" type="text" className="form-control" />
+            <Grid item>
+              <MyTextField name="username" type="username" label='User Name' />
               <ErrorMessage
                 name="username"
                 component="div"
                 className="alert alert-danger"
               />
-            </div>
+            </Grid>
 
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <Field name="password" type="password" className="form-control" />
+            <Grid item>
+              <MyTextField name="password" type="password" label='Password' />
               <ErrorMessage
                 name="password"
                 component="div"
                 className="alert alert-danger"
               />
-            </div>
+            </Grid>
 
             <div className="form-group">
-              <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
+              <Button 
+                type="submit"
+                className="btn btn-primary btn-block"
+                disabled={loading}
+                color='primary'
+                variant="contained"
+              >
                 {loading && (
                   <span className="spinner-border spinner-border-sm"></span>
                 )}
                 <span>Login</span>
-              </button>
+              </Button>
             </div>
           </Form>
         </Formik>
-      </div>
-      
-      {message && (
-        <div className="form-group">
-          <div className="alert alert-danger" role="alert">
-            {message}
-          </div>
-        </div>
-      )}
+      </CardContent>
       <GoogleLogin
         clientId={clientId}
         buttonText="Login"
@@ -117,7 +115,14 @@ const Login = () => {
         onFailure={responseGoogle}
         cookiePolicy={'single_host_origin'}
       />
-    </div>
+      {message && (
+        <div className="form-group">
+          <div className="alert alert-danger" role="alert">
+            {message}
+          </div>
+        </div>
+      )}
+    </Card>
   );
 };
 

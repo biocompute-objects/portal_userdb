@@ -8,7 +8,6 @@ import { clearMessage } from "../../slices/messageSlice";
 
 const Register = () => {
   const [successful, setSuccessful] = useState(false);
-
   const { message } = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
@@ -141,7 +140,6 @@ const Register = () => {
           </Form>
         </Formik>
       </div>
-
       {message && (
         <div className="form-group">
           <div

@@ -4,7 +4,7 @@ import MainLayout from './layouts/MainLayout'
 import HomePage from './components/home'
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
-import Profile from "./components/account/Profile";
+import AccountPage from "./components/account";
 
 export default function Router() {
   let element = useRoutes([
@@ -14,7 +14,7 @@ export default function Router() {
         children: [
           { path: '/', element: <HomePage /> },
           { path: '/builder', element: <BuilderColorCode /> },
-          { path: '/profile', element: <Profile /> },
+          { path: '/profile', element: <AccountPage /> },
           { path: '/login', element: <Login /> },
           { path: '/register', element: <Register /> },
 
@@ -37,7 +37,7 @@ export default function Router() {
     },
     {
       path: '/profile',
-      element: <Profile />
+      element: <AccountPage />
     }
   ])
   return element

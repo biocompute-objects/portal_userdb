@@ -6,7 +6,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-export const MyTextField = ({placeholder,label, isFullWidth, isRequired, isDisabled,...props}) => {
+export const MyTextField = ({placeholder,label, isFullWidth, isRequired, type, isDisabled,...props}) => {
     const [field, meta] = useField(props);
     const errorText = meta.error && meta.touched ? meta.error : "";
     return (
@@ -21,6 +21,7 @@ export const MyTextField = ({placeholder,label, isFullWidth, isRequired, isDisab
          fullWidth={isFullWidth}
          required={isRequired}
          disabled={isDisabled}
+         type={type}
        />
     )
 }

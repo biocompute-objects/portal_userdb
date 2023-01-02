@@ -1,49 +1,85 @@
-import React from "react";
+import React, { useState } from "react";
 import { Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "@material-ui/core";
-import { logout } from "../../slices/accountSlice";
-import { GoogleLogout } from 'react-google-login';
+import { Button, Card, CardContent, Grid, Typography } from "@material-ui/core";
+import { Formik, Field, Form, ErrorMessage, validateYupSchema } from "formik";
+import { MyTextField } from "../builder/specialFeilds";
+import { account } from "../../slices/accountSlice";
+import * as Yup from "yup";
+
 const Profile = () => {
-  const currentUser = useSelector((state) => state.account.user);
+  const [successful, setSuccessful] = useState(false);
+  const { message } = useSelector((state) => state.message);
   const dispatch = useDispatch()
+  const currentUser = useSelector((state) => state.account.user);
+
   if (!currentUser) {
     return <Navigate to="/login" />;
   }
 
   return (
-    <div className="container">
-      <header className="jumbotron">
-        <h3>
-        Profile <strong>{currentUser.username}</strong> 
-        </h3>
-      </header>
-      <p>
-        {/* <strong>Token:</strong> {currentUser.accessToken.substring(0, 20)} ...{" "}
-        {currentUser.accessToken.substr(currentUser.accessToken.length - 20)} */}
-      </p>
-      <p>
-        <strong>Id:</strong> {currentUser.id}
-      </p>
-      <p>
-        <strong>Email:</strong> {currentUser.email}
-      </p>
-      <strong>Authorities:</strong>
-      <ul>
-        {currentUser.api &&
-          currentUser.api.map((server, index) => <li key={index}>{JSON.stringify(server)}</li>)}
-      </ul>
-      <Button
-        onClick={() => {dispatch(logout())}}
-      >Log out</Button>
-
-      {/* <GoogleLogout
-        clientId='404409424650-a1hh4j6m9r3998v16siia2lum9un21ip.apps.googleusercontent.com'
-        buttonText="Logout"
-        onLogoutSuccess={logout}
-      >Log Out
-      </GoogleLogout> */}
-    </div>
+    <Card>
+      <CardContent>
+        <Grid
+          container
+          spacing={0}
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Formik
+            initialValues={currentUser}
+            validationSchema={Yup.object().shape({
+              email: Yup.string().email()
+                .email("This is not a valid email.")
+                .required("This field is required!"),
+              profile: Yup.object({
+                orcid: Yup.string().url()
+                  .matches(/(\d{4}-){3}\d{3}(\d|X)/ , 'This is not a valid ORCID')
+              }),
+            })}
+            onSubmit={(myData, {setSubmitting}) => {
+              setSubmitting(true);
+              dispatch(account(myData));
+              console.log(myData)
+              setSubmitting(false);
+            }}
+          >
+            {({values, isSubmitting}) => (
+              <Form>
+                <Grid container spacing={2}>
+                  <Grid item>
+                    <MyTextField name='first_name' label='First Name' isRequired/>
+                  </Grid>
+                  <Grid item>
+                    <MyTextField name='last_name' label='Last Name' isRequired/>
+                  </Grid>
+                  <Grid item>
+                    <MyTextField name='email' label='Email address' isRequired/>
+                  </Grid>
+                  <Grid item>
+                    <MyTextField name='profile.public' label='public account'/>
+                  </Grid>
+                  <Grid item>
+                    <MyTextField name='profile.affiliation' label='Affiliation'/>
+                  </Grid>
+                  <Grid item>
+                    <MyTextField name='profile.orcid' label='ORCID'/>
+                  </Grid>
+                </Grid>
+                  <div style={{padding: 20}}> 
+                    <Button
+                      disabled={isSubmitting}
+                      type='submit'
+                      variant="contained"
+                      color="primary"
+                    >Update profile </Button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </Grid>
+      </CardContent>
+    </Card>
   );
 };
 

@@ -33,10 +33,8 @@ export const  ParametricDomain = () => {
                     }
                 >
                   {
-                    ({values, isSubmitting,errors}) => (
+                    ({values, isSubmitting, errors}) => (
                         <Form>
-                   
-                                
                             <Grid container spacing={2}>
                                  <FieldArray
                                     name="parametric_domain"

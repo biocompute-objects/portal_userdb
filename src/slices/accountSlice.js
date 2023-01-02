@@ -7,6 +7,46 @@ import AuthService from "../services/auth.service";
 
 const user = JSON.parse(localStorage.getItem("user"));
 
+export const changePassword = createAsyncThunk(
+  'auth/change_password',
+  async (data, thunkAPI) => {
+    try {
+      const response = await AuthService.changePassword(data);
+      thunkAPI.dispatch(setMessage(response.message));
+      return response.data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+); 
+
+export const account = createAsyncThunk(
+  "auth/account",
+  async (data, thunkAPI) => {
+    try {
+      const response = await AuthService.account(data);
+      thunkAPI.dispatch(setMessage(response.message));
+      return response.data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
 export const register = createAsyncThunk(
   "auth/register",
   async ({ username, email, password }, thunkAPI) => {
