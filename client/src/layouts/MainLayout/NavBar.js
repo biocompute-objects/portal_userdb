@@ -22,7 +22,8 @@ import Switch from '@material-ui/core/Switch';
 import { useSelector } from 'react-redux';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { Link } from 'react-router-dom';
-
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+import ContactPageIcon from '@mui/icons-material/ContactPage';
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1
@@ -91,7 +92,7 @@ const NavBar = () => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      <MenuItem component={Link} to='/'>
         <IconButton aria-label='go home' color='inherit'>
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
             <HomeIcon />
@@ -99,7 +100,15 @@ const NavBar = () => {
         </IconButton>
         <p>Home</p>
       </MenuItem>
-      <MenuItem>
+      <MenuItem component={Link} to='/resources'>
+        <IconButton aria-label='BioCompute Object builder' color='inherit'>
+          <Badge overlap="rectangular" badgeContent={0} color='secondary'>
+            <MiscellaneousServicesIcon />
+          </Badge>
+        </IconButton>
+        <p>BCO Resources</p>
+      </MenuItem>
+      <MenuItem component={Link} to='/builder'>
         <IconButton aria-label='BioCompute Object builder' color='inherit'>
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
             <ConstructionIcon />
@@ -115,7 +124,27 @@ const NavBar = () => {
         </IconButton>
         <p>Prefix Registry</p>
       </MenuItem>
-      <MenuItem>
+      <a href='https://github.com/biocompute-objects/portal/issues/new/choose'>
+        <MenuItem>
+          <IconButton aria-label='BioCompute Object builder' color='inherit'>
+            <Badge overlap="rectangular" badgeContent={0} color='secondary'>
+              <BugReportIcon />
+            </Badge>
+          </IconButton>
+          <p>Bug Report</p>
+        </MenuItem>
+      </a>
+      <a href='https://docs.biocomputeobject.org/contact'>
+        <MenuItem>
+          <IconButton aria-label='BioCompute Object builder' color='inherit'>
+            <Badge overlap="rectangular" badgeContent={0} color='secondary'>
+              <ContactPageIcon />
+            </Badge>
+          </IconButton>
+          <p>Contact Us</p>
+        </MenuItem>
+      </a>
+      <MenuItem component={Link} to='/profile'>
         <IconButton
           aria-label='account of current user'
           aria-controls='primary-search-account-menu'
@@ -144,6 +173,13 @@ const NavBar = () => {
                     <HomeIcon />
                   </IconButton>
                 </Tooltip>
+                <Tooltip title="BCO Resources">
+                  <IconButton component={Link} to='/resources' aria-label='BCO builder' color='inherit'>
+                    <Badge overlap="rectangular" badgeContent={0} color='secondary'>
+                      <MiscellaneousServicesIcon />
+                    </Badge>
+                  </IconButton>
+                </Tooltip>
                 <Tooltip title="BCO Builder">
                   <IconButton component={Link} to='/builder' aria-label='BCO builder' color='inherit'>
                     <Badge overlap="rectangular" badgeContent={0} color='secondary'>
@@ -164,6 +200,24 @@ const NavBar = () => {
                       <DataObjectIcon />
                     </Badge>
                   </IconButton>
+                </Tooltip>
+                <Tooltip title="Bug Report">
+                  <a href='https://github.com/biocompute-objects/portal/issues/new/choose'>
+                    <IconButton aria-label='BCO builder' color='inherit'>
+                      <Badge overlap="rectangular" badgeContent={0} color='secondary'>
+                        <BugReportIcon />
+                      </Badge>
+                    </IconButton>
+                  </a>
+                </Tooltip>
+                <Tooltip title="Contact us">
+                  <a href='https://docs.biocomputeobject.org/contact' target='_blank'>
+                    <IconButton aria-label='BCO builder' color='inherit'>
+                      <Badge overlap="rectangular" badgeContent={0} color='secondary'>
+                        <ContactPageIcon />
+                      </Badge>
+                    </IconButton>
+                  </a>
                 </Tooltip>
                 <Tooltip title="Profile Page">
                   <IconButton
