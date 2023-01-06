@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { Card, CardContent, TextField, Typography, Grid, Button, Paper, Select, MenuItem, InputLabel} from "@material-ui/core";
-import { updateExtensionDomain, addExtensionDomain, deleteExtensionDomain } from '../../slices/bcoSlice'
+import { addExtension, addExtensionDomain, deleteExtensionDomain } from '../../slices/bcoSlice'
 import { MyTextField } from './specialFeilds';
 import { Extension } from './extension';
 

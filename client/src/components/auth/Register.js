@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
+import { Navigate, useNavigate } from "react-router-dom";
 import { register } from "../../slices/accountSlice";
 import { clearMessage } from "../../slices/messageSlice";
 
@@ -10,6 +10,7 @@ const Register = () => {
   const [successful, setSuccessful] = useState(false);
   const { message } = useSelector((state) => state.message);
   const dispatch = useDispatch();
+  let navigate = useNavigate;
 
   useEffect(() => {
     dispatch(clearMessage());
@@ -55,18 +56,22 @@ const Register = () => {
 
   const handleRegister = (formValue) => {
     const { username, email, password } = formValue;
-
     setSuccessful(false);
-
     dispatch(register({ username, email, password }))
       .unwrap()
       .then(() => {
         setSuccessful(true);
+        navigate("/login");
+        window.location.reload();
       })
       .catch(() => {
         setSuccessful(false);
       });
   };
+
+  if (successful === true) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <div className="col-md-12 signup-form">

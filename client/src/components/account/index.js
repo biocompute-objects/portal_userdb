@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../slices/accountSlice';
 import Profile from './Profile';
-import Password from './Password';
 import { clearMessage } from "../../slices/messageSlice";
 import Servers from './Servers';
 
@@ -14,7 +13,7 @@ export default function AccountPage() {
   useEffect(() => {
     dispatch(clearMessage());
   }, [dispatch]);
-  console.log(message)
+
   return (
     <Paper>
       {message && (
@@ -31,7 +30,6 @@ export default function AccountPage() {
       >
         <Profile />
         <Servers />
-        <Password />
       </Card>
       <Button
         type='submit'

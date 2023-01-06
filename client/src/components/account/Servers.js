@@ -1,11 +1,14 @@
-import { Button, Card, CardContent, Grid, TextField, Typography } from '@material-ui/core'
+import { useState } from 'react';
+import { 
+  Button, Card, CardContent, Grid, TextField, Typography
+} from '@material-ui/core'
 import { FieldArray, Form, Formik } from 'formik';
 import { Navigate } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
-import { account } from "../../slices/accountSlice";
-
+import { useSelector } from "react-redux";
+import AddServer from './AddServer';
 export default function Servers() {
   const currentUser = useSelector((state) => state.account.user);
+  const [open, setOpen] = useState(false);
   if (!currentUser) {
     return <Navigate to="/login" />;
   }
@@ -52,8 +55,8 @@ export default function Servers() {
                           />
                             <button onClick={() =>  navigator.clipboard.writeText(value.token)}>Copy</button>
                           <Typography>
-                            {value.username}&emsp;
-                            <button onClick={() =>  navigator.clipboard.writeText(value.username)}>Copy</button>
+                            {value.bcodb_username}&emsp;
+                            <button onClick={() =>  navigator.clipboard.writeText(value.bcodb_username)}>Copy</button>
                           </Typography>
                           <Typography>
                             {value.public_hostname}&emsp;
@@ -61,10 +64,8 @@ export default function Servers() {
                           </Typography>
                         </Grid>
                         <Grid item>
-                          
-                          
-                        </Grid>
                       </Grid>
+                    </Grid>
                       <Button
                         disabled={isSubmitting}
                         type='submit'
@@ -80,6 +81,8 @@ export default function Servers() {
           </Form>
         )}
       </Formik>
+      <AddServer />
+      <br/>
     </Card>
   )
 }

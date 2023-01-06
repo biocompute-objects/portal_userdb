@@ -1,9 +1,10 @@
+import { LineAxisOutlined } from "@mui/icons-material";
 import axios from "axios";
 
 const API_URL = "http://localhost:8181/users/";
 
 const register = (username, email, password) => {
-  return axios.post(API_URL + "list/", {
+  return axios.post(API_URL + "register/", {
     'username': username,
     'email': email,
     'password': password,
@@ -16,32 +17,28 @@ const register = (username, email, password) => {
   });
 };
 
-const login = (username, password) => {
-  return axios
+const login = async (username, password) => {
+  const response = await axios
     .post(API_URL + "token/", {
       username,
       password,
-    })
-    .then((response) => {
-      if (response.data.token) {
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-        localStorage.setItem("token", JSON.stringify(response.data.token));
-      }
-      return response.data;
     });
+  if (response.data.token) {
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+    localStorage.setItem("token", JSON.stringify(response.data.token));
+  }
+  return response.data;
 };
 
-const googleLogin = (idToken) => {
-  return axios.post(API_URL + 'oauth/', {
+const googleLogin = async (idToken) => {
+  const response = await axios.post(API_URL + 'oauth/', {
     id_token: idToken
-  })
-  .then((response) => {
-    if (response.data.token) {
-      localStorage.setItem("user", JSON.stringify(response.data.user));
-      localStorage.setItem("token", JSON.stringify(response.data.token));
-    }
-    return response.data;
   });
+  if (response.data.token) {
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+    localStorage.setItem("token", JSON.stringify(response.data.token));
+  }
+  return response.data;
 };
 
 const logout = () => {
@@ -49,30 +46,27 @@ const logout = () => {
   localStorage.removeItem("token");
 };
 
-const account = (data) => {
-  return axios
+const account = async (data) => {
+  console.log('account axios', `JWT ${JSON.parse(localStorage.getItem('token'))}`)
+  const response = await axios
     .post(API_URL + "update_user/", {
+      'username': data.username,
       'first_name': data.first_name,
       'last_name': data.last_name,
       'email': data.email,
-      'groups': data.groups,
-      'password': data.password,
-      'username': data.username,
-      'affiliation': data.profile.affiliation,
-      'orcid': data.profile.orcid,
-      'public': data.profile.public,
+      'affiliation': data.affiliation,
+      'orcid': data.orcid,
+      'public': data.public,
     }, {
       headers: {
-        'Authorization': `JWT ${JSON.parse(localStorage.getItem('token'))}`,
+        'Authorization': `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
         'Content-Type': 'application/json'
       }
-    })
-    .then((response) => {
-      if (response.data.token) {
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-      }
-      return response.data;
     });
+  if (response.data.token) {
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+  }
+  return response.data;
 };
 
 const changePassword = (data) => {
@@ -87,6 +81,28 @@ const changePassword = (data) => {
   })
 };
 
+const authenticateBcoDb = async (token, hostname) => {
+  const response = await axios.post(`${hostname}/api/accounts/describe/`, {},{
+    headers: {
+      'Authorization': `Token ${token}`,
+      'Content-Type': 'application/json'
+    }
+  });
+  return response.data;
+};
+
+const addBcoDb = async (data) => {
+  console.log(data);
+  const response = await axios.post(`${API_URL}bcodb/add/`, {
+    data
+  }, {
+    headers: {
+      'Authorization': `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+      'Content-Type': 'application/json'
+    }
+  });
+};
+
 const authService = {
   register,
   login,
@@ -94,6 +110,8 @@ const authService = {
   account,
   changePassword,
   googleLogin,
+  authenticateBcoDb,
+  addBcoDb,
 };
 
 export default authService;

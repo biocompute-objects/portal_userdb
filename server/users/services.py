@@ -1,20 +1,29 @@
 # users/services.py
 
-
-from users.apis import UserSerializer, ProfileSerializer
-from bcodb.apis import BcoDbSerializer, BcoDb
+from django.db import transaction
+from django.contrib.auth.models import User
 from users.models import Profile
 
-def custom_jwt_handler(token, user=None, request=None, public_key=None):
-    """ JWT
+@transaction.atomic
+def profile_update(user: User, profile: Profile, data: dict) -> str:
+    """Profile update
+    Takes a serilizedd object from the request, parses the values and writes
+    to database
     """
-    import pdb; pdb.set_trace()
-    return {
-        'token': token,
-        'user': {
-            'userinfo': UserSerializer(user, context={'request': request}).data,
-            'profile': ProfileSerializer(user).data,
-            'bcodbs': []
-        }
 
-    }
+    if data['public'] == False:
+        profile.public = False
+    if data['public'] == True:
+        profile.public = True
+    profile.affiliation = data['affiliation'],
+    profile.orcid = data['orcid'],
+    profile.email = data['email']
+    profile.full_clean()
+    profile.save()
+
+    user.last_name = data['last_name']
+    user.first_name = data['first_name']
+    user.full_clean()
+    user.save()
+    
+    return 0

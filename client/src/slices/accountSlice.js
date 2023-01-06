@@ -4,7 +4,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setMessage } from "./messageSlice";
 
 import AuthService from "../services/auth.service";
-
 const user = JSON.parse(localStorage.getItem("user"));
 
 export const changePassword = createAsyncThunk(
@@ -25,12 +24,13 @@ export const changePassword = createAsyncThunk(
       return thunkAPI.rejectWithValue();
     }
   }
-); 
+);
 
 export const account = createAsyncThunk(
   "auth/account",
   async (data, thunkAPI) => {
     try {
+      console.log('accountSlice')
       const response = await AuthService.account(data);
       thunkAPI.dispatch(setMessage(response.message));
       return response.data;
@@ -92,7 +92,7 @@ export const login = createAsyncThunk(
   async ({ username, password }, thunkAPI) => {
     try {
       const data = await AuthService.login(username, password);
-      return { user: data };
+      return { data };
     } catch (error) {
       const message =
         (error.response &&
@@ -109,6 +109,28 @@ export const login = createAsyncThunk(
 export const logout = createAsyncThunk("auth/logout", async () => {
   await AuthService.logout();
 });
+
+export const authenticateBcoDb = createAsyncThunk(
+  "addServer",
+  async ({ token, hostname }, thunkAPI) => {
+  console.log(token, hostname);
+    try {
+      const bcodbResponse = await AuthService.authenticateBcoDb(token, hostname);
+      console.log(bcodbResponse);
+      const userDbResponse = await AuthService.addBcoDb(bcodbResponse)
+      return { userDbResponse };
+    } catch (error) {
+      const message =
+      (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
 
 const initialState = user
   ? { isLoggedIn: true, user }
@@ -144,11 +166,17 @@ export const accountSlice = createSlice({
       state.isLoggedIn = false;
       state.user = null;
     },
+    [authenticateBcoDb.pending]: (state, action) => {
+      console.log('loading')
+    },
+    [authenticateBcoDb.fulfilled]: (state, action) => {
+      state.user.bcodbs.push(action.payload.data.data)
+      // console.log('final', state.user.bcodbs.length)
+    },
+    [authenticateBcoDb.rejected]: (state, action) => {
+
+    },
   },
 });
-
-export const {
-
-} = accountSlice.actions
 
 export const accountReducer = accountSlice.reducer

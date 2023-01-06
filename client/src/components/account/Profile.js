@@ -27,7 +27,15 @@ const Profile = () => {
           justifyContent="center"
         >
           <Formik
-            initialValues={currentUser}
+            initialValues={{
+              username: currentUser.userinfo.username,
+              first_name: currentUser.userinfo.first_name,
+              last_name: currentUser.userinfo.last_name,
+              email: currentUser.profile.email,
+              public: currentUser.profile.public,
+              affiliation: currentUser.profile.affiliation,
+              orcid: currentUser.profile.orcid
+            }}
             validationSchema={Yup.object().shape({
               email: Yup.string().email()
                 .email("This is not a valid email.")
@@ -37,10 +45,9 @@ const Profile = () => {
                   .matches(/(\d{4}-){3}\d{3}(\d|X)/ , 'This is not a valid ORCID')
               }),
             })}
-            onSubmit={(myData, {setSubmitting}) => {
+            onSubmit={(values, {setSubmitting}) => {
               setSubmitting(true);
-              dispatch(account(myData));
-              console.log(myData)
+              dispatch(account(values));
               setSubmitting(false);
             }}
           >
@@ -48,22 +55,22 @@ const Profile = () => {
               <Form>
                 <Grid container spacing={2}>
                   <Grid item>
-                    <MyTextField name='userinfo.first_name' label='First Name' isRequired/>
+                    <MyTextField name='first_name' label='First Name' isRequired/>
                   </Grid>
                   <Grid item>
-                    <MyTextField name='userinfo.last_name' label='Last Name' isRequired/>
+                    <MyTextField name='last_name' label='Last Name' isRequired/>
                   </Grid>
                   <Grid item>
-                    <MyTextField name='userinfo.email' label='Email address' isRequired/>
+                    <MyTextField name='email' label='Email address' isRequired/>
                   </Grid>
                   <Grid item>
-                    <MyTextField name='profile.public' label='public account'/>
+                    <MyTextField name='public' label='public account'/>
                   </Grid>
                   <Grid item>
-                    <MyTextField name='profile.affiliation' label='Affiliation'/>
+                    <MyTextField name='affiliation' label='Affiliation'/>
                   </Grid>
                   <Grid item>
-                    <MyTextField name='profile.orcid' label='ORCID'/>
+                    <MyTextField name='orcid' label='ORCID'/>
                   </Grid>
                 </Grid>
                   <div style={{padding: 20}}> 

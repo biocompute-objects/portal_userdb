@@ -38,6 +38,8 @@ VERSION = "22.11"
 INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
+    'rest_framework_jwt',
+    'rest_framework_jwt.blacklist',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -157,7 +159,7 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 JWT_AUTH = {
-    "JWT_RESPONSE_PAYLOAD_HANDLER": "users.services.custom_jwt_handler",
+    "JWT_RESPONSE_PAYLOAD_HANDLER": "authentication.services.custom_jwt_handler",
     "JWT_EXPIRATION_DELTA": timedelta(seconds=604800),
     "JWT_REFRESH_EXPIRATION_DELTA": timedelta(days=14),
     "JWT_ALLOW_REFRESH": True,

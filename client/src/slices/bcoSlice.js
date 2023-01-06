@@ -1,4 +1,7 @@
 import { createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import BcoService from "../services/bco.Service";
+import { setMessage } from "../slices/messageSlice";
+
 const bcoSlice = createSlice({
   name: "biocompute",
   initialState: {
@@ -28,36 +31,36 @@ const bcoSlice = createSlice({
 
   reducers: { // list of functions action
     updateProvenanceDomain: (state, action) => {
-      state['bco']['data']["provenance_domain"] = action.payload;
+      state['data']["provenance_domain"] = action.payload;
     },
     addExtensionDomain: (state, action) => {
         console.log('action',action.payload)
-        state['bco']['data']["extension_domain"].push(action.payload);
+        state['data']["extension_domain"].push(action.payload);
     },
     deleteExtensionDomain: (state, action) => {
-        state['bco']['data']['extension_domain'].splice(action.payload.index,1)
+        state['data']['extension_domain'].splice(action.payload.index,1)
     },
     updateExtensionDomain: (state, action) => {
-        state['bco']['data']["extension_domain"][action.payload.index] = action.payload.formData;
+        state['data']["extension_domain"][action.payload.index] = action.payload.formData;
     },
     updateModified: (state, action) => {
-        state['bco']['data']["provenance_domain"]["modified"] = new Date().toISOString().split(".")[0]
-        console.log("modified", state['bco']['data']["provenance_domain"]["modified"])
+        state['data']["provenance_domain"]["modified"] = new Date().toISOString().split(".")[0]
+        console.log("modified", state['data']["provenance_domain"]["modified"])
     },
     updateUsability: (state, action) => {
-        state['bco']['data']["usability_domain"] = action.payload;
+        state['data']["usability_domain"] = action.payload;
     },
     addUsability: (state, action) => {
-        state['bco']['data']["usability_domain"].push('')
+        state['data']["usability_domain"].push('')
     },
     updateDescription: (state, action) => {
-        state['bco']['data']["description_domain"] = action.payload;
+        state['data']["description_domain"] = action.payload;
     },
     updateParametricDomain: (state, action) => {
-        state['bco']['data']["parametric_domain"] = action.payload;
+        state['data']["parametric_domain"] = action.payload;
     },
     updateIODomain: (state, action) => {
-        state['bco']['data']["io_domain"] = action.payload;
+        state['data']["io_domain"] = action.payload;
     }
   },
   extraReducers(builder) {
@@ -80,7 +83,9 @@ const bcoSlice = createSlice({
   }
 })
 
-export const fetchBco = createAsyncThunk('fetchBco', async (objectInfo) => {
+export const fetchBco = createAsyncThunk(
+  'fetchBco',
+  async (objectInfo) => {
     console.log(objectInfo[1])
     const data = await fetch(`${objectInfo[0]}`, {
         method: 'GET',
@@ -103,6 +108,25 @@ export const fetchBco = createAsyncThunk('fetchBco', async (objectInfo) => {
     return data
 })
 
+export const addExtension = createAsyncThunk(
+  "addExtension",
+  async ({newSchema}, thunkAPI) => {
+    try {
+      const schema = await BcoService.addExtension(newSchema);
+      return schema;
+    } catch (error) {
+      const message = 
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+    thunkAPI.dispatch(setMessage(message));
+    return thunkAPI.rejectWithValue();
+    }
+  }
+)
+
 export const bcoReducer = bcoSlice.reducer;
 export const bcoStatus = state => state.bco.status
 export const {
@@ -115,5 +139,5 @@ export const {
     updateModified,
     updateExtensionDomain,
     addExtensionDomain,
-    deleteExtensionDomain
+    deleteExtensionDomain,
 } = bcoSlice.actions;

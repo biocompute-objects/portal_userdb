@@ -70,9 +70,9 @@ const Login = () => {
       });
   };
 
-  // if (isLoggedIn) {
-  //   return <Navigate to="/" />;
-  // }
+  if (isLoggedIn) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <Card display="flex" flexdirection="column" height="100%" >
@@ -131,7 +131,7 @@ const Login = () => {
       </CardContent>
       <GoogleLogin
         clientId={clientId}
-        buttonText="Sign in or create an account with Google"
+        buttonText="Sign with Google"
         onSuccess={onGoogleLoginSuccess}
         onFailure={onGoogleLoginFailure}
         cookiePolicy={'single_host_origin'}
