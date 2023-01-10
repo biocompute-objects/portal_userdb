@@ -8,13 +8,14 @@ from users.models import Profile
 from users.selectors import user_from_username, profile_from_username
 from users.services import profile_update
 
-    # def get(self, request):
-    # """ TODO
-    # get request in here so that when you visit localhost:8000/user-list
-    # you can see all the users. This could be used for BCO population
-    # """
-    #     serializer = UserSerializerWithToken.objects.all()
-    #     return Reponse(serializer.data)
+# def get(self, request):
+# """ TODO
+# get request in here so that when you visit localhost:8000/user-list
+# you can see all the users. This could be used for BCO population
+# """
+#     serializer = UserSerializerWithToken.objects.all()
+#     return Reponse(serializer.data)
+
 
 class UserCreateApi(APIView):
     """
@@ -22,6 +23,7 @@ class UserCreateApi(APIView):
     confirm and store a user to the site.
     passed through the serializer UserSerializerWithToken
     """
+
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request, format=None):
@@ -35,10 +37,12 @@ class UserCreateApi(APIView):
             return Response(profile_serializer.errors, status=status.HTTP_409_CONFLICT)
         return Response(user_serializer.errors, status=status.HTTP_409_CONFLICT)
 
+
 class UserSerializerWithToken(serializers.ModelSerializer):
     """
     register and login to pass through the JSON token and user data
     """
+
     token = serializers.SerializerMethodField()
     password = serializers.CharField(write_only=True)
 
@@ -46,7 +50,7 @@ class UserSerializerWithToken(serializers.ModelSerializer):
         """
         need to tell it to pass through the token in this model as that is not
         included within the internal workings of the User class, so we
-        create the def get_token method 
+        create the def get_token method
         """
 
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
@@ -68,7 +72,7 @@ class UserSerializerWithToken(serializers.ModelSerializer):
         instance: django.contrib.auth.models.User
             Returns a User object
         """
-        password = validated_data.pop('password', None)
+        password = validated_data.pop("password", None)
         instance = self.Meta.model(**validated_data)
         if password is not None:
             instance.set_password(password)
@@ -77,11 +81,12 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('token', 'username', 'password', 'email')
+        fields = ("token", "username", "password", "email")
+
 
 class UserUpdateApi(APIView):
     class ProfileUpdateSerializer(serializers.Serializer):
-        username= serializers.CharField()
+        username = serializers.CharField()
         first_name = serializers.CharField(allow_blank=True)
         last_name = serializers.CharField(allow_blank=True)
         email = serializers.EmailField()
@@ -96,37 +101,42 @@ class UserUpdateApi(APIView):
         there and allowing our frontend to GET data from this view (it is
         currently limited to GET requests but this can be changed).
         """
-        token = request.headers['Authorization'].removeprefix('Bearer ')
+        token = request.headers["Authorization"].removeprefix("Bearer ")
         profile_payload = self.ProfileUpdateSerializer(data=request.data)
         profile_payload.is_valid(raise_exception=True)
         data = profile_payload.data
-        username = data['username']
+        username = data["username"]
         user = user_from_username(username)
         profile = profile_from_username(username)
         profile_update(user, profile, data)
 
+        return Response(
+            status=status.HTTP_200_OK,
+            data={
+                "token": token,
+                "user": {
+                    "userinfo": UserSerializer(user).data,
+                    "profile": ProfileSerializer(profile).data,
+                },
+            },
+        )
 
-        return Response(status=status.HTTP_200_OK, data={
-            'token': token,
-            'user': {
-                'userinfo': UserSerializer(user).data,
-                'profile': ProfileSerializer(profile).data
-            }
-        })
 
 class ProfileSerializer(serializers.ModelSerializer):
     """ProfileGetDataApi
     getting User data after we are already logged in
     """
+
     username = serializers.CharField()
-    affiliation = serializers.CharField(default='', initial='')
+    affiliation = serializers.CharField(default="", initial="")
     email = serializers.EmailField()
-    orcid = serializers.CharField(default='', initial='')
+    orcid = serializers.CharField(default="", initial="")
     public = serializers.BooleanField(default=False, initial=False)
 
     class Meta:
         model = Profile
-        fields = '__all__'
+        fields = "__all__"
+
 
 class UserSerializer(serializers.ModelSerializer):
     """UserGetDataApi
@@ -135,9 +145,17 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'first_name', 'last_name', 'groups', 'date_joined', 'last_login')
+        fields = (
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "groups",
+            "date_joined",
+            "last_login",
+        )
         ##you only need username here, but this is where you add extra options which maybe of benefit
-     
+
 
 class UserRetrieveApi(APIView):
     """
@@ -145,8 +163,8 @@ class UserRetrieveApi(APIView):
     confirm and store a user to the site.
     passed through the serializer UserSerializerWithToken
     """
+
     def get(self, request):
         nameset = User.objects.all()
         serializer = UserSerializerWithToken(nameset, many=True)
         return Response(serializer.data)
-

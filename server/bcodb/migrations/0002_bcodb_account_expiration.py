@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('bcodb', '0001_initial'),
+        ("bcodb", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='bcodb',
-            name='account_expiration',
+            model_name="bcodb",
+            name="account_expiration",
             field=models.DateTimeField(blank=True, null=True),
         ),
     ]

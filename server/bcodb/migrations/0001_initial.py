@@ -10,27 +10,50 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('users', '0001_initial'),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='BcoDb',
+            name="BcoDb",
             fields=[
-                ('bcodb_username', models.CharField(default='null', max_length=255)),
-                ('hostname', models.CharField(max_length=255)),
-                ('human_readable_hostname', models.CharField(max_length=255)),
-                ('public_hostname', models.CharField(max_length=255)),
-                ('token', models.CharField(max_length=255)),
-                ('user_permissions', models.JSONField(blank=True, null=True)),
-                ('group_permissions', models.JSONField(blank=True, null=True)),
-                ('account_creation', models.DateTimeField(blank=True, null=True)),
-                ('last_update', models.DateTimeField(blank=True, null=True)),
-                ('recent_status', models.CharField(blank=True, max_length=255, null=True)),
-                ('recent_attempt', models.CharField(blank=True, max_length=255, null=True)),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('owner', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='users.profile')),
+                ("bcodb_username", models.CharField(default="null", max_length=255)),
+                ("hostname", models.CharField(max_length=255)),
+                ("human_readable_hostname", models.CharField(max_length=255)),
+                ("public_hostname", models.CharField(max_length=255)),
+                ("token", models.CharField(max_length=255)),
+                ("user_permissions", models.JSONField(blank=True, null=True)),
+                ("group_permissions", models.JSONField(blank=True, null=True)),
+                ("account_creation", models.DateTimeField(blank=True, null=True)),
+                ("last_update", models.DateTimeField(blank=True, null=True)),
+                (
+                    "recent_status",
+                    models.CharField(blank=True, max_length=255, null=True),
+                ),
+                (
+                    "recent_attempt",
+                    models.CharField(blank=True, max_length=255, null=True),
+                ),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "owner",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="users.profile",
+                    ),
+                ),
             ],
         ),
     ]

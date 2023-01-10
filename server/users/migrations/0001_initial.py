@@ -8,19 +8,27 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Profile',
+            name="Profile",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('username', models.CharField(default='', max_length=200, unique=True)),
-                ('affiliation', models.CharField(default='', max_length=255)),
-                ('email', models.CharField(default='', max_length=200)),
-                ('orcid', models.CharField(default=' ', max_length=200)),
-                ('public', models.BooleanField(blank=True, default=False)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                        unique=True,
+                    ),
+                ),
+                ("username", models.CharField(default="", max_length=200, unique=True)),
+                ("affiliation", models.CharField(default="", max_length=255)),
+                ("email", models.CharField(default="", max_length=200)),
+                ("orcid", models.CharField(default=" ", max_length=200)),
+                ("public", models.BooleanField(blank=True, default=False)),
             ],
         ),
     ]

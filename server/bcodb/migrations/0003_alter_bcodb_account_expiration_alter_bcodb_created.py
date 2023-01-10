@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('bcodb', '0002_bcodb_account_expiration'),
+        ("bcodb", "0002_bcodb_account_expiration"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='bcodb',
-            name='account_expiration',
+            model_name="bcodb",
+            name="account_expiration",
             field=models.CharField(blank=True, max_length=255, null=True),
         ),
         migrations.AlterField(
-            model_name='bcodb',
-            name='created',
+            model_name="bcodb",
+            name="created",
             field=models.CharField(blank=True, max_length=255, null=True),
         ),
     ]
