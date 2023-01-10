@@ -5,11 +5,11 @@ import axios from "axios";
 const addExtension = async (newSchema) => {
   console.log(newSchema)
   const response = await axios.get(newSchema);
-  return newSchema
+  return response
 }
 
-const BcoService = {
+const bcoService = {
   addExtension,
 };
 
-export default BcoService;
+export default bcoService;

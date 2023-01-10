@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import BcoService from "../services/bco.service";
+import bcoService from "../services/bco.service";
 import { setMessage } from "../slices/messageSlice";
 
 const bcoSlice = createSlice({
