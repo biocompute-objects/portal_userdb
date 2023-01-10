@@ -1,7 +1,7 @@
 // src/slices/bcodbSlice.js
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import BcoService from "../services/bcodb.service";
+import bcodbService from "../services/bcodb.Service";
 import { setMessage } from "./messageSlice";
 
 const bcodbSlice = createSlice({
@@ -19,7 +19,7 @@ export const seachBcodb = createAsyncThunk(
   'searchBcodb',
   async (data, thunkAPI) => {
     try {
-      const results = await BcoService.searchBcodbAPI(data);
+      const results = await bcodbService.searchBcodbAPI(data);
       return results
     } catch (error) {
       const message =

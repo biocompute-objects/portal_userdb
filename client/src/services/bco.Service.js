@@ -8,8 +8,8 @@ const addExtension = async (newSchema) => {
   return newSchema
 }
 
-const BcoService = {
+const bcoService = {
   addExtension,
 };
 
-export default BcoService;
+export default bcoService;
