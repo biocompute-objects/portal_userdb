@@ -1,6 +1,5 @@
-// services/bco.Service.js
+// services/bco.service.js
 
-import { setMessage } from "../slices/messageSlice";
 import axios from "axios";
 
 const addExtension = async (newSchema) => {

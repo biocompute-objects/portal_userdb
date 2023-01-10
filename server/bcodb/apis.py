@@ -1,16 +1,16 @@
 # bcodb/apis.py
 
-from rest_framework import serializers
 from bcodb.models import BcoDb
-from rest_framework import permissions, status, serializers
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from bcodb.models import BcoDb
 from datetime import datetime
-from users.selectors import profile_from_username
+from users.selectors import profile_from_username, user_from_username
+from authentication.services import custom_jwt_handler
+from bcodb.services import create_bcodb
 
 @api_view(['GET'])
 def getRouts(request):
@@ -20,21 +20,12 @@ def getRouts(request):
     ]
     return Response(routs)
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getBcoDb(request):
-    bcodb = BcoDb.objects.all()
-    serialize = BcoDbSerializer(bcodb, many=True)
-    return Response(serialize.data)
-
-class BcoDbSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BcoDb
-        fields = ('hostname','bcodb_username','human_readable_hostname',
-            'public_hostname','token','owner','user_permissions',
-            'group_permissions','account_creation','account_expiration',
-            'last_update','recent_status','recent_attempt'
-        )
+# @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+# def getBcoDb(request):
+#     bcodb = BcoDb.objects.all()
+#     serialize = BcoDbSerializer(bcodb, many=True)
+#     return Response(serialize.data)
 
 class AddBcodbApi(APIView):
     """Add BcoDb object
@@ -59,9 +50,6 @@ class AddBcodbApi(APIView):
             'recent_status': '200',
             'recent_attempt': now.isoformat()
         }
-        bcodb_serializer = BcoDbSerializer(data=input_fileter)
-        import pdb; pdb.set_trace()
-        bcodb_serializer.is_valid(raise_exception=True)
-        bcodb_serializer.save()
-        
-        return Response(status=status.HTTP_200_OK)
+        create_bcodb(data=input_fileter)
+        user_info = custom_jwt_handler(request._auth, user_from_username(request.user.username))
+        return Response(status=status.HTTP_200_OK, data=user_info)

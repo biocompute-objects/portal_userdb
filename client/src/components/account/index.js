@@ -1,4 +1,6 @@
-import { Button, Card, Paper } from '@material-ui/core';
+// src/components/account/index.js
+
+import { Button, Card, Container } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../slices/accountSlice';
@@ -15,7 +17,7 @@ export default function AccountPage() {
   }, [dispatch]);
 
   return (
-    <Paper>
+    <Container title='Account Page'>
       {message && (
         <div className="form-group">
           <div
@@ -37,6 +39,6 @@ export default function AccountPage() {
         color="secondary"
         onClick={() => {dispatch(logout())}}
       >Log Out</Button>
-    </Paper>
+    </Container>
   )
 }

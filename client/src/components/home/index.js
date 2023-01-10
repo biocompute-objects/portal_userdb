@@ -1,7 +1,7 @@
 // src
 
 import React from "react";
-import { Box, Container, Grid, Paper, Typography, makeStyles } from "@material-ui/core";
+import { Box, Container, Grid, Typography, makeStyles } from "@material-ui/core";
 import About from './About'
 import Tsc from './Tsc';
 import Galaxy from './Galaxy';
@@ -31,7 +31,7 @@ const HomePage = () => {
   const classes = useStyles();
 
   return (
-    <Paper>
+    <Container>
       <Container maxWidth={false}>
         <Grid container justifyContent="center" spacing={3}>
           <Grid item xs={12} sm={8} lg={9} xl={10}>
@@ -78,7 +78,7 @@ const HomePage = () => {
           </Grid>
         </Grid>
       </Container>
-    </Paper>
+    </Container>
   )
 }
 

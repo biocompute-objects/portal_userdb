@@ -5,6 +5,8 @@ import * as Yup from "yup";
 import { Navigate, useNavigate } from "react-router-dom";
 import { register } from "../../slices/accountSlice";
 import { clearMessage } from "../../slices/messageSlice";
+import { Container } from "@material-ui/core";
+
 
 const Register = () => {
   const [successful, setSuccessful] = useState(false);
@@ -74,7 +76,7 @@ const Register = () => {
   }
 
   return (
-    <div className="col-md-12 signup-form">
+    <Container className="col-md-12 signup-form">
       <div className="card card-container">
         <img
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
@@ -155,7 +157,7 @@ const Register = () => {
           </div>
         </div>
       )}
-    </div>
+    </Container>
   );
 };
 

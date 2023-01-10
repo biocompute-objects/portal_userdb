@@ -18,11 +18,11 @@ class BcoDb(models.Model):
     user_permissions = models.JSONField(null=True, blank=True)
     group_permissions = models.JSONField(null=True, blank=True)
     account_creation = models.DateTimeField(null=True, blank=True)
-    account_expiration = models.DateTimeField(null=True, blank=True)
+    account_expiration = models.CharField(max_length=255, null=True, blank=True)
     last_update = models.DateTimeField(null=True, blank=True)
     recent_status = models.CharField(max_length=255, null=True, blank=True)
     recent_attempt = models.CharField(max_length=255, null=True, blank=True)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.CharField(max_length=255, null=True, blank=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 
     def __str__(self):

@@ -25,7 +25,7 @@ export default function AddServer() {
   return (
     <div>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Open form dialog
+        Add BCODB
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Add a BCODB Instance</DialogTitle>
@@ -40,7 +40,7 @@ export default function AddServer() {
             You must have already received a token from this server.
           </DialogContentText>
            <Formik
-            initialValues= {{token: '98ca0fe30a38e4964a07933f3e1c0127c88e8e00', hostname: 'https://www.biocomputeobject.org'}}
+            initialValues= {{token: '3f5504d88a5085d0452b19350fb6f82ae7097dd0', hostname: 'http://localhost:8000'}}
             validationSchema={Yup.object().shape({
               token: Yup.string()
                 .required("This field is required!"),
@@ -56,6 +56,7 @@ export default function AddServer() {
                 .catch(() => {
                   setSubmitting(false)
                 });
+              window.location.reload()
               setSubmitting(false);
               handleClose();
             }}

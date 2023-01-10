@@ -6,6 +6,7 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import AccountPage from "./components/account";
 import Resources from "./components/resources";
+import BcoDbs from './components/bcodbs';
 
 export default function Router() {
   let element = useRoutes([
@@ -19,6 +20,7 @@ export default function Router() {
           { path: '/login', element: <Login /> },
           { path: '/register', element: <Register /> },
           { path: '/resources', element: <Resources /> },
+          { path: '/bcodbs', element: <BcoDbs />},
 
         ]
       },

@@ -14,7 +14,8 @@ import {
     Grid,
     Card,
     Paper,
-    TextField
+    TextField,
+    Container
 } from "@material-ui/core";
 import MuiListItem from "@material-ui/core/ListItem";
 import "./sidebar.css";
@@ -122,7 +123,7 @@ export const  BuilderColorCode = () => {
     };
     
     return (
-        <>
+        <Container>
             <div className={classes.root}>
                 <Paper className={classes.paper}>
                 <Grid container spacing={2}>
@@ -177,6 +178,6 @@ export const  BuilderColorCode = () => {
                 {/* {JSON.stringify(state['bco']['data']['extension_domain'],undefined, 2)} */}
               </code>
             </pre>
-        </>
+        </Container>
     )
 }

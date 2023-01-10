@@ -36,7 +36,7 @@ function DocView() {
   const classes = useStyles();
 
   return (
-    <Paper className={classes.root}>
+    <Paper>
       <Container maxWidth={false}>
         <Grid container justifyContent="space-around" spacing={3}>
 

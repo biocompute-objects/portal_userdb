@@ -72,6 +72,7 @@ export const googleLogin = createAsyncThunk(
   async (idToken, thunkAPI) => {
     try {
       const authentication = await AuthService.googleLogin(idToken);
+      // thunkAPI.dispatch(setMessage(authentication.data.message));
       return authentication
     } catch (error) {
       console.log(error)
@@ -92,6 +93,7 @@ export const login = createAsyncThunk(
   async ({ username, password }, thunkAPI) => {
     try {
       const data = await AuthService.login(username, password);
+      // thunkAPI.dispatch(setMessage(data.data.message));
       return { data };
     } catch (error) {
       const message =
@@ -116,9 +118,10 @@ export const authenticateBcoDb = createAsyncThunk(
   console.log(token, hostname);
     try {
       const bcodbResponse = await AuthService.authenticateBcoDb(token, hostname);
-      console.log(bcodbResponse);
       const userDbResponse = await AuthService.addBcoDb(bcodbResponse)
-      return { userDbResponse };
+      console.log(userDbResponse)
+      thunkAPI.dispatch(setMessage(userDbResponse.data.message));
+      return userDbResponse.data ;
     } catch (error) {
       const message =
       (error.response &&

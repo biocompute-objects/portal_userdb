@@ -2,7 +2,8 @@
 
 import requests
 from users.apis import UserSerializer, ProfileSerializer
-from bcodb.apis import BcoDbSerializer, BcoDb
+from bcodb.models import BcoDb
+from bcodb.services import BcoDbSerializer
 from users.models import Profile
 from rest_framework import status
 from rest_framework.response import Response
@@ -38,7 +39,6 @@ def custom_jwt_handler(token, user=None, request=None, public_key=None):
     )
     bcodbs = BcoDb.objects.filter(owner=profile)
     serialized_dbs = BcoDbSerializer(bcodbs, many=True)
-
     return {
         'token': token,
         'user': {

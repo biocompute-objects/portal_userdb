@@ -1,4 +1,5 @@
-import { LineAxisOutlined } from "@mui/icons-material";
+// src/services/auth.servce.js
+
 import axios from "axios";
 
 const API_URL = "http://localhost:8181/users/";
@@ -101,6 +102,11 @@ const addBcoDb = async (data) => {
       'Content-Type': 'application/json'
     }
   });
+  if (response.data.token) {
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+    localStorage.setItem("token", JSON.stringify(response.data.token));
+  }
+  return response
 };
 
 const authService = {
