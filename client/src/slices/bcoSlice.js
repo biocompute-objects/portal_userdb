@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import bcoService from "../services/bco.Service";
+import BcoService from "../services/bco.service";
 import { setMessage } from "../slices/messageSlice";
 
 const bcoSlice = createSlice({
@@ -112,7 +112,7 @@ export const addExtension = createAsyncThunk(
   "addExtension",
   async ({newSchema}, thunkAPI) => {
     try {
-      const schema = await bcoService.addExtension(newSchema);
+      const schema = await BcoService.addExtension(newSchema);
       return schema;
     } catch (error) {
       const message = 
