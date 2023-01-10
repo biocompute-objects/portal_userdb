@@ -1,33 +1,33 @@
 // src/views/home/HomeView/Tsc.js
 
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardActionArea,
   CardContent,
   makeStyles,
   Typography
-} from '@material-ui/core';
+} from "@material-ui/core";
 // import { Link as RouterLink } from 'react-router-dom';
 
-import logo from '../../images/logo.png';
+import logo from "../../images/logo.png";
 
 const useStyles = makeStyles({
   bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
   },
   linkCard: {
-    minHeight: '300px',
+    minHeight: "300px",
     minWidth: 275,
-    textAlign: 'center'
+    textAlign: "center"
   },
   heightened: {
-    minHeight: '250px'
+    minHeight: "250px"
   },
   title: {
-    fontSize: '37px',
+    fontSize: "37px",
   },
   pos: {
     marginBottom: 12,

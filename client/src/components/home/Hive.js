@@ -1,39 +1,39 @@
 // src/views/home/HomeView/Hive.js
 
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardActionArea,
   CardContent,
   makeStyles,
   Typography
-} from '@material-ui/core';
-import hive from '../../images/hive.png';
-import aws from '../../images/powered-by-aws.png';
+} from "@material-ui/core";
+import hive from "../../images/hive.png";
+import aws from "../../images/powered-by-aws.png";
 
 const useStyles = makeStyles({
   bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
   },
   supportCard: {
-    minHeight: '250px',
+    minHeight: "250px",
     minWidth: 275,
-    textAlign: 'center'
+    textAlign: "center"
   },
   heightened: {
-    minHeight: '250px'
+    minHeight: "250px"
   },
   title: {
-    fontSize: '37px',
+    fontSize: "37px",
   },
   pos: {
     marginBottom: 12,
   },
 });
 
-const hiveLink = 'https://hive.aws.biochemistry.gwu.edu/dna.cgi?cmd=main';
+const hiveLink = "https://hive.aws.biochemistry.gwu.edu/dna.cgi?cmd=main";
 
 export default function Hive() {
   const classes = useStyles();

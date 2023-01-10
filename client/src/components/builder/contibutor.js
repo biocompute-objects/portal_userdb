@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
+import * as React from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, Grid } from "@material-ui/core";
 import { MyTextField, MultiSelector } from "./specialFeilds";
 const ITEM_HEIGHT = 48;
@@ -28,5 +28,5 @@ export const Contribution = ({contributor, contributorPath}) => {
         isRequired
       />
     </Card>
-    )
+  )
 }

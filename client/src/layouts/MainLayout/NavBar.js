@@ -1,29 +1,29 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import HomeIcon from '@mui/icons-material/Home';
-import Menu from '@material-ui/core/Menu';
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import ConstructionIcon from '@mui/icons-material/Construction';
-import DataObjectIcon from '@mui/icons-material/DataObject';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
-import BugReportIcon from '@mui/icons-material/BugReport';
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import Switch from '@material-ui/core/Switch';
-import { useSelector } from 'react-redux';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import { Link } from 'react-router-dom';
-import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
-import ContactPageIcon from '@mui/icons-material/ContactPage';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { Button } from "@material-ui/core";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import Badge from "@material-ui/core/Badge";
+import MenuItem from "@material-ui/core/MenuItem";
+import HomeIcon from "@mui/icons-material/Home";
+import Menu from "@material-ui/core/Menu";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import MailIcon from "@material-ui/icons/Mail";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import ConstructionIcon from "@mui/icons-material/Construction";
+import DataObjectIcon from "@mui/icons-material/DataObject";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import BugReportIcon from "@mui/icons-material/BugReport";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import Switch from "@material-ui/core/Switch";
+import { useSelector } from "react-redux";
+import MoreIcon from "@material-ui/icons/MoreVert";
+import { Link } from "react-router-dom";
+import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
+import ContactPageIcon from "@mui/icons-material/ContactPage";
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1
@@ -33,33 +33,33 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.contrastText
   },
   themeToggle: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       padding: 0
     }
   },
   imageContainer: {
-    maxWidth: '100%',
-    height: 'auto',
-    '& img': {
-      width: '2em'
+    maxWidth: "100%",
+    height: "auto",
+    "& img": {
+      width: "2em"
     }
   },
   title: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block'
+    display: "none",
+    [theme.breakpoints.up("sm")]: {
+      display: "block"
     }
   },
   sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'flex'
+    display: "none",
+    [theme.breakpoints.up("sm")]: {
+      display: "flex"
     }
   },
   sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('sm')]: {
-      display: 'none'
+    display: "flex",
+    [theme.breakpoints.up("sm")]: {
+      display: "none"
     }
   }
 }));
@@ -80,15 +80,15 @@ const NavBar = () => {
     setMobileMoreAnchorEl(null);
   };
 
-  const mobileMenuId = 'menu-mobile';
+  const mobileMenuId = "menu-mobile";
   /*Need to add switch in here */
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={mobileMenuId}
       keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
@@ -219,7 +219,7 @@ const NavBar = () => {
                   </a>
                 </Tooltip>
                 <Tooltip title="Contact us">
-                  <a href='https://docs.biocomputeobject.org/contact' target='_blank'>
+                  <a href='https://docs.biocomputeobject.org/contact' target='_blank' rel="noreferrer">
                     <IconButton aria-label='BCO builder' color='inherit'>
                       <Badge overlap="rectangular" badgeContent={0} color='secondary'>
                         <ContactPageIcon />
@@ -238,8 +238,8 @@ const NavBar = () => {
                     <div className={classes.imageContainer}>
                       {
                         (auth.user.imageUrl)
-                        ? (<img src={auth.user.imageUrl}/>)
-                        : (<div>{auth.user.userinfo.username}</div>)
+                          ? (<img src={auth.user.imageUrl}/>)
+                          : (<div>{auth.user.userinfo.username}</div>)
                       }
                     </div>
                   </IconButton>
@@ -247,7 +247,7 @@ const NavBar = () => {
               </>
             ) : (
               <>
-                                 <Tooltip title="Home">
+                <Tooltip title="Home">
                   <IconButton component={Link} to='/' aria-label='go home' color='inherit'>
                     <HomeIcon />
                   </IconButton>
@@ -290,7 +290,7 @@ const NavBar = () => {
                   </a>
                 </Tooltip>
                 <Tooltip title="Contact us">
-                  <a href='https://docs.biocomputeobject.org/contact' target='_blank'>
+                  <a href='https://docs.biocomputeobject.org/contact' target='_blank' rel="noreferrer">
                     <IconButton aria-label='BCO builder' color='inherit'>
                       <Badge overlap="rectangular" badgeContent={0} color='secondary'>
                         <ContactPageIcon />
@@ -302,7 +302,7 @@ const NavBar = () => {
                   <Typography variant='h6' component='h6'>
                     Log in
                   </Typography>
-              </IconButton>
+                </IconButton>
               </>
             )}
           </div>

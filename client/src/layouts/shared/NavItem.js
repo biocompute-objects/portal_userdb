@@ -1,44 +1,44 @@
-import React from 'react';
-import { NavLink as RouterLink } from 'react-router-dom';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
+import React from "react";
+import { NavLink as RouterLink } from "react-router-dom";
+import clsx from "clsx";
+import PropTypes from "prop-types";
 import {
   Button,
   ListItem,
   makeStyles
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   item: {
-    display: 'flex',
+    display: "flex",
     paddingTop: 0,
     paddingBottom: 0
   },
   button: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontWeight: theme.typography.fontWeightMedium,
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
     letterSpacing: 0,
-    padding: '10px 8px',
-    textTransform: 'none',
-    width: '100%'
+    padding: "10px 8px",
+    textTransform: "none",
+    width: "100%"
   },
   icon: {
     marginRight: theme.spacing(1)
   },
   title: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    fontSize: '20px'
+    marginLeft: "auto",
+    marginRight: "auto",
+    fontSize: "20px"
   },
   active: {
-    backgroundColor: '#1ca527',
-    color: '#ffffff',
-    '& $title': {
+    backgroundColor: "#1ca527",
+    color: "#ffffff",
+    "& $title": {
       fontWeight: theme.typography.fontWeightMedium
     },
-    '& $icon': {
-      color: '#ffffff'
+    "& $icon": {
+      color: "#ffffff"
     }
   }
 }));

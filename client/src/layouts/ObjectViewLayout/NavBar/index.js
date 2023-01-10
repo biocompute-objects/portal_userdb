@@ -1,22 +1,22 @@
 // src/layouts/ObjectViewLayout/NavBar/index.js
 
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 import {
   Drawer,
   Hidden,
   makeStyles
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 // Featured BCOs
-import ObjectOptions from './ObjectOptions';
+import ObjectOptions from "./ObjectOptions";
 
 const useStyles = makeStyles(() => ({
   desktopDrawer: {
     width: 300,
     top: 64,
-    height: 'calc(100% - 64px)'
+    height: "calc(100% - 64px)"
   },
   mobileDrawer: {
     width: 256

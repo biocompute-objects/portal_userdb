@@ -1,6 +1,6 @@
 // src/components/resources/Builder.js
 
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardActionArea,
@@ -8,26 +8,26 @@ import {
   CardContent,
   makeStyles,
   Typography
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 // Routing to pages
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
   },
   bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
   },
   linkCard: {
-    minHeight: '300px',
-    textAlign: 'center'
+    minHeight: "300px",
+    textAlign: "center"
   },
   title: {
-    fontSize: '33px',
+    fontSize: "33px",
   },
   pos: {
     marginBottom: 12,
@@ -36,7 +36,7 @@ const useStyles = makeStyles({
 
 export default function Builder() {
   const classes = useStyles();
-  const logo = require('../../images/logo.png');
+  const logo = require("../../images/logo.png");
 
   return (
     <Card className={`${classes.root} ${classes.linkCard}`} elevation={2}>

@@ -1,18 +1,18 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 import {
   Drawer,
   Hidden,
   makeStyles,
   Typography
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 // Twitter feed
 // Source: https://www.npmjs.com/package/react-twitter-embed
 // Source (next line): https://stackoverflow.com/questions/41292559/could-not-find-a-declaration-file-for-module-module-name-path-to-module-nam
 // @ts-ignore
-import { TwitterTimelineEmbed } from 'react-twitter-embed';
+import { TwitterTimelineEmbed } from "react-twitter-embed";
 
 const useStyles = makeStyles(() => ({
   mobileDrawer: {
@@ -21,19 +21,19 @@ const useStyles = makeStyles(() => ({
   desktopDrawer: {
     width: 256,
     top: 64,
-    height: 'calc(100% - 64px)'
+    height: "calc(100% - 64px)"
   },
   avatar: {
-    cursor: 'pointer',
+    cursor: "pointer",
     width: 64,
     height: 64
   },
   mainHighlight: {
-    marginTop: '20px'
+    marginTop: "20px"
   },
   subHighlight: {
-    marginTop: '20px',
-    paddingLeft: '10px'
+    marginTop: "20px",
+    paddingLeft: "10px"
   }
 }));
 

@@ -1,6 +1,6 @@
 // src/components/bcodbs/index.js
 
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext, useState } from "react";
 import {
   Box,
   Button,
@@ -17,19 +17,19 @@ import {
   SvgIcon,
   TextField,
   Typography,
-} from '@material-ui/core';
-import SearchIcon from '@mui/icons-material/Search';
-import { useDispatch, useSelector } from 'react-redux';
+} from "@material-ui/core";
+import SearchIcon from "@mui/icons-material/Search";
+import { useDispatch, useSelector } from "react-redux";
 import { clearMessage } from "../../slices/messageSlice";
-import { Field, Form, Formik } from 'formik';
-import { MyTextField } from '../builder/specialFeilds';
-import { seachBcodb } from '../../slices/bcodbSlice';
+import { Field, Form, Formik } from "formik";
+import { MyTextField } from "../builder/specialFeilds";
+import { seachBcodb } from "../../slices/bcodbSlice";
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
-    minHeight: '100%',
+    minHeight: "100%",
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
   }
@@ -45,27 +45,27 @@ export default function SearchOptions () {
     <Container>
       <Formik
         initialValues={{
-          index: 'None',
-          action: '',
-          search: ''
+          index: "None",
+          action: "",
+          search: ""
         }}
         onSubmit={(values, {setSubmitting}) => {
-          if (values.index === 'None') {
+          if (values.index === "None") {
             const data = {
-                token: '627626823549f787c3ec763ff687169206626149',
-                public_hostname: 'https://biocomputeobject.org',
-                search: values.search,
-                action: 'bco_id'
+              token: "627626823549f787c3ec763ff687169206626149",
+              public_hostname: "https://biocomputeobject.org",
+              search: values.search,
+              action: "bco_id"
             }
             dispatch(seachBcodb(data))
           } else {
-              const data = {
-                  public_hostname: bcodbs[values.index].public_hostname,
-                  token: bcodbs[values.index].token,
-                  search: values.search,
-                  action: values.action
-                }
-              dispatch(seachBcodb(data))
+            const data = {
+              public_hostname: bcodbs[values.index].public_hostname,
+              token: bcodbs[values.index].token,
+              search: values.search,
+              action: values.action
+            }
+            dispatch(seachBcodb(data))
           }
           setSubmitting(false);
         }}
@@ -82,7 +82,7 @@ export default function SearchOptions () {
                   <Field as='select' name='index'>
                     <option value='None' index='None'>Public</option>
                     {bcodbs.map((database, index) => (
-                        <option value={index} key={index}>{database.public_hostname}</option>
+                      <option value={index} key={index}>{database.public_hostname}</option>
                     ))}
                   </Field>
                 </Box>
@@ -91,9 +91,9 @@ export default function SearchOptions () {
             <Card>
               <CardContent>
                 Search Type:&nbsp;&nbsp;
-                <Field type='radio' name='action' value='mine' disabled={values.index === 'None'}/>
+                <Field type='radio' name='action' value='mine' disabled={values.index === "None"}/>
                 &nbsp;&nbsp;My BCOs&nbsp;&nbsp;
-                <Field type='radio' name='action' value='prefix' disabled={values.index === 'None'}/>
+                <Field type='radio' name='action' value='prefix' disabled={values.index === "None"}/>
                 &nbsp;&nbsp;Prefixs&nbsp;&nbsp;
                 <Field type='radio' name='action' value='bco_id' />
                 &nbsp;&nbsp;BCO IDs&nbsp;&nbsp;
@@ -105,9 +105,9 @@ export default function SearchOptions () {
                   <Typography>
                     3. Enter search term:
                   </Typography>
-                    <MyTextField name='search' label='Search BCO Db' />
+                  <MyTextField name='search' label='Search BCO Db' />
                 </Box>
-                </CardContent>
+              </CardContent>
             </Card>
             <Button 
               disabled={isSubmitting}
@@ -120,4 +120,4 @@ export default function SearchOptions () {
       </Formik>
     </Container>
   );
-};
+}

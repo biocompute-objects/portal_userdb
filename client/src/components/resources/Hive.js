@@ -1,6 +1,6 @@
 // src/components/resources/Hive.js
 
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardActionArea,
@@ -8,56 +8,56 @@ import {
   CardContent,
   makeStyles,
   Typography
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
   },
   bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
   },
   supportCard: {
-    minHeight: '250px',
-    textAlign: 'center'
+    minHeight: "250px",
+    textAlign: "center"
   },
   heightened: {
-    minHeight: '250px'
+    minHeight: "250px"
   },
   title: {
-    fontSize: '37px',
+    fontSize: "37px",
   },
   pos: {
     marginBottom: 12,
   },
 });
 
-const hive = require('../../images/hive.png');
-const aws = require('../../images/powered-by-aws.png');
+const hive = require("../../images/hive.png");
+const aws = require("../../images/powered-by-aws.png");
 
-const hiveLink = 'https://hive.aws.biochemistry.gwu.edu/dna.cgi?cmd=main';
+const hiveLink = "https://hive.aws.biochemistry.gwu.edu/dna.cgi?cmd=main";
 
 export default function Hive() {
   const classes = useStyles();
 
   return (
     <Card className={`${classes.root} ${classes.supportCard}`} elevation={2}>
-        <CardContent>
-          <CardActionArea onClick={() => window.open(hiveLink)}>
-            <Typography className={classes.title}>
-              <img src={hive} height={65} alt="HIVE logo" />
-              <br />
-              <img src={aws} height={35} alt="AWS logo" />
-            </Typography>
-            <Typography>
+      <CardContent>
+        <CardActionArea onClick={() => window.open(hiveLink)}>
+          <Typography className={classes.title}>
+            <img src={hive} height={65} alt="HIVE logo" />
+            <br />
+            <img src={aws} height={35} alt="AWS logo" />
+          </Typography>
+          <Typography>
               The High-throughput Integrated Virtual Environment (HIVE) for
               genome analysis has platform specific tools for generating BioCompute Objects
               from workflows.
-            </Typography>
-          </CardActionArea>
-        </CardContent>
+          </Typography>
+        </CardActionArea>
+      </CardContent>
     </Card>
   );
 }

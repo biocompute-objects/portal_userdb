@@ -1,12 +1,12 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import { Form, Formik, ErrorMessage } from 'formik';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import { Form, Formik, ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { authenticateBcoDb } from '../../slices/accountSlice';
+import { authenticateBcoDb } from "../../slices/accountSlice";
 import {
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid
-} from '@mui/material';
-import { LargeTextField } from '../builder/specialFeilds';
+} from "@mui/material";
+import { LargeTextField } from "../builder/specialFeilds";
 import * as Yup from "yup";
 
 export default function AddServer() {
@@ -39,8 +39,8 @@ export default function AddServer() {
             The returned server information is based on the token you provide.
             You must have already received a token from this server.
           </DialogContentText>
-           <Formik
-            initialValues= {{token: '3f5504d88a5085d0452b19350fb6f82ae7097dd0', hostname: 'http://localhost:8000'}}
+          <Formik
+            initialValues= {{token: "3f5504d88a5085d0452b19350fb6f82ae7097dd0", hostname: "http://localhost:8000"}}
             validationSchema={Yup.object().shape({
               token: Yup.string()
                 .required("This field is required!"),
@@ -50,7 +50,7 @@ export default function AddServer() {
             })}
             onSubmit={(values, {setSubmitting}) => {
               setSubmitting(true);
-              console.log('server add', values);
+              console.log("server add", values);
               dispatch(authenticateBcoDb(values))
                 .unwrap()
                 .catch(() => {
@@ -62,25 +62,25 @@ export default function AddServer() {
             }}
           >
             {({values, isSubmitting}) => (
-             <Form>
-              <Grid container spacing={2}>
-                <Grid item>
-                  <LargeTextField name='token' label='Token' isRequired/>
+              <Form>
+                <Grid container spacing={2}>
+                  <Grid item>
+                    <LargeTextField name='token' label='Token' isRequired/>
+                  </Grid>
+                  <Grid item>
+                    <LargeTextField name='hostname' label='Host Name (URL)' isRequired/>
+                  </Grid>         
                 </Grid>
-                <Grid item>
-                  <LargeTextField name='hostname' label='Host Name (URL)' isRequired/>
-                </Grid>         
-              </Grid>
-              <Button
-                disabled={isSubmitting}
-                type='submit'
-                variant="outlined"
-                color="primary"
-              >Submit </Button>
-             </Form> 
+                <Button
+                  disabled={isSubmitting}
+                  type='submit'
+                  variant="outlined"
+                  color="primary"
+                >Submit </Button>
+              </Form> 
             )}
-           </Formik>
-          </DialogContent>
+          </Formik>
+        </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
         </DialogActions>

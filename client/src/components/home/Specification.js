@@ -1,28 +1,28 @@
 // src/views/home/HomeView/Specification.js
 
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardActionArea,
   CardContent,
   makeStyles,
   Typography
-} from '@material-ui/core';
-import ieee from '../../images/ieee.jpg';
+} from "@material-ui/core";
+import ieee from "../../images/ieee.jpg";
 
 const useStyles = makeStyles({
   bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
   },
   linkCard: {
-    minHeight: '300px',
+    minHeight: "300px",
     minWidth: 275,
-    textAlign: 'center'
+    textAlign: "center"
   },
   title: {
-    fontSize: '33px',
+    fontSize: "33px",
   },
   pos: {
     marginBottom: 12,
@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 
 export default function Specification() {
   const classes = useStyles();
-  const ieeeLink = 'https://standards.ieee.org/standard/2791-2020.html';
+  const ieeeLink = "https://standards.ieee.org/standard/2791-2020.html";
 
   return (
     <Card className={classes.linkCard}>

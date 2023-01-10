@@ -1,35 +1,35 @@
 // /src/layouts/shared/BottomBar.js
 
-import React, { useContext } from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
+import React, { useContext } from "react";
+import clsx from "clsx";
+import PropTypes from "prop-types";
 import {
   AppBar,
   Box,
   Toolbar,
   makeStyles,
   Typography
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 // Links
-import Link from '@material-ui/core/Link';
+import Link from "@material-ui/core/Link";
 
-import { FetchContext } from '../../App';
+import { FetchContext } from "../../App";
 
 const useStyles = makeStyles(() => ({
   root: {},
   appBar: {
     bottom: 0,
-    top: 'auto',
+    top: "auto",
     zIndex: 2600
   },
   bottom: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    minHeight: '32px'
+    marginLeft: "auto",
+    marginRight: "auto",
+    minHeight: "32px"
   },
   bottomLink: {
-    color: 'orange'
+    color: "orange"
   }
 }));
 
@@ -57,7 +57,7 @@ const BottomBar = ({
             target="_blank"
           >
             BioCompute Portal
-            {' '}
+            {" "}
             {fc.versions.portal}
           </Link>
 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
@@ -68,7 +68,7 @@ const BottomBar = ({
             target="_blank"
           >
             BCODB
-            {' '}
+            {" "}
             {fc.versions.bcodb}
           </Link>
 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
@@ -78,10 +78,10 @@ const BottomBar = ({
             target="_blank"
           >
             Portal UserDB
-            {' '}
+            {" "}
             {fc.versions.userdb}
           </Link>
-          {' '}
+          {" "}
 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
           <Link
             className={classes.bottomLink}

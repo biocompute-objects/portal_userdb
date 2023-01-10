@@ -5,18 +5,18 @@ import bcodbService from "../services/bcodb.Service";
 import { setMessage } from "./messageSlice";
 
 const bcodbSlice = createSlice({
-  name: 'bcodbs',
+  name: "bcodbs",
   initialState: [
     {
-        data: [],
-        status: 'idle',
-        error: null
+      data: [],
+      status: "idle",
+      error: null
     }
   ]
 })
 
 export const seachBcodb = createAsyncThunk(
-  'searchBcodb',
+  "searchBcodb",
   async (data, thunkAPI) => {
     try {
       const results = await bcodbService.searchBcodbAPI(data);
@@ -28,8 +28,8 @@ export const seachBcodb = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-    thunkAPI.dispatch(setMessage(message));
-    return thunkAPI.rejectWithValue();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
     }
   }
 )

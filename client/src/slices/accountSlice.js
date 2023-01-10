@@ -7,7 +7,7 @@ import AuthService from "../services/auth.service";
 const user = JSON.parse(localStorage.getItem("user"));
 
 export const changePassword = createAsyncThunk(
-  'auth/change_password',
+  "auth/change_password",
   async (data, thunkAPI) => {
     try {
       const response = await AuthService.changePassword(data);
@@ -30,7 +30,7 @@ export const account = createAsyncThunk(
   "auth/account",
   async (data, thunkAPI) => {
     try {
-      console.log('accountSlice')
+      console.log("accountSlice")
       const response = await AuthService.account(data);
       thunkAPI.dispatch(setMessage(response.message));
       return response.data;
@@ -68,7 +68,7 @@ export const register = createAsyncThunk(
 );
 
 export const googleLogin = createAsyncThunk(
-  'auth/google',
+  "auth/google",
   async (idToken, thunkAPI) => {
     try {
       const authentication = await AuthService.googleLogin(idToken);
@@ -115,7 +115,7 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 export const authenticateBcoDb = createAsyncThunk(
   "addServer",
   async ({ token, hostname }, thunkAPI) => {
-  console.log(token, hostname);
+    console.log(token, hostname);
     try {
       const bcodbResponse = await AuthService.authenticateBcoDb(token, hostname);
       const userDbResponse = await AuthService.addBcoDb(bcodbResponse)
@@ -140,7 +140,7 @@ const initialState = user
   : { isLoggedIn: false, user: null };
 
 export const accountSlice = createSlice({
-  name: 'account',
+  name: "account",
   initialState,
   extraReducers: {
     [register.fulfilled]: (state, action) => {
@@ -170,7 +170,7 @@ export const accountSlice = createSlice({
       state.user = null;
     },
     [authenticateBcoDb.pending]: (state, action) => {
-      console.log('loading')
+      console.log("loading")
     },
     [authenticateBcoDb.fulfilled]: (state, action) => {
       state.user.bcodbs.push(action.payload.data.data)

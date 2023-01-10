@@ -21,9 +21,9 @@ const Register = () => {
   const initialValues = {
     username: "",
     password: "",
-    confirmPassword: '',
-    firstName: '',
-    lastName: '',
+    confirmPassword: "",
+    firstName: "",
+    lastName: "",
     email: "",
   };
 
@@ -52,7 +52,7 @@ const Register = () => {
       )
       .required("This field is required!"),
     confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password')], 'Passwords must match')
+      .oneOf([Yup.ref("password")], "Passwords must match")
       .required("This field is required!"),
   });
 

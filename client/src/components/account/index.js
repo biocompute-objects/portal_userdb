@@ -1,12 +1,12 @@
 // src/components/account/index.js
 
-import { Button, Card, Container } from '@material-ui/core';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../slices/accountSlice';
-import Profile from './Profile';
+import { Button, Card, Container } from "@material-ui/core";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../slices/accountSlice";
+import Profile from "./Profile";
 import { clearMessage } from "../../slices/messageSlice";
-import Servers from './Servers';
+import Servers from "./Servers";
 
 export default function AccountPage() {
   const dispatch = useDispatch()

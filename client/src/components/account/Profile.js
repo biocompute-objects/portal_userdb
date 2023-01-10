@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Navigate } from 'react-router-dom';
+import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Card, CardContent, Grid, Typography } from "@material-ui/core";
 import { Formik, Field, Form, ErrorMessage, validateYupSchema } from "formik";
@@ -42,7 +42,7 @@ const Profile = () => {
                 .required("This field is required!"),
               profile: Yup.object({
                 orcid: Yup.string().url()
-                  .matches(/(\d{4}-){3}\d{3}(\d|X)/ , 'This is not a valid ORCID')
+                  .matches(/(\d{4}-){3}\d{3}(\d|X)/ , "This is not a valid ORCID")
               }),
             })}
             onSubmit={(values, {setSubmitting}) => {
@@ -73,13 +73,13 @@ const Profile = () => {
                     <MyTextField name='orcid' label='ORCID'/>
                   </Grid>
                 </Grid>
-                  <div style={{padding: 20}}> 
-                    <Button
-                      disabled={isSubmitting}
-                      type='submit'
-                      variant="contained"
-                      color="primary"
-                    >Update profile </Button>
+                <div style={{padding: 20}}> 
+                  <Button
+                    disabled={isSubmitting}
+                    type='submit'
+                    variant="contained"
+                    color="primary"
+                  >Update profile </Button>
                 </div>
               </Form>
             )}

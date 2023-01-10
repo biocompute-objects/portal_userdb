@@ -1,14 +1,14 @@
-import * as React from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import * as React from "react";
+import { useSelector, useDispatch } from "react-redux"
 import { Card, CardContent, TextField, Typography, Grid, Button, Paper, Select, MenuItem, InputLabel} from "@material-ui/core";
-import { addExtension, addExtensionDomain, deleteExtensionDomain } from '../../slices/bcoSlice'
-import { MyTextField } from './specialFeilds';
-import { Extension } from './extension';
+import { addExtension, addExtensionDomain, deleteExtensionDomain } from "../../slices/bcoSlice"
+import { MyTextField } from "./specialFeilds";
+import { Extension } from "./extension";
 
 export const  ExtensionDomain = () => {
   const dispatch = useDispatch();
   const extensionDomain = useSelector(state => state.bco.data.extension_domain)
-  const [newSchema, setNewSchema] = React.useState('')
+  const [newSchema, setNewSchema] = React.useState("")
   let has_extension = extensionDomain.length > 0
 
   const addExtension = async () => {
@@ -22,7 +22,7 @@ export const  ExtensionDomain = () => {
         console.log(`ERROR: ${error}`);
         alert(`Fetch schema from '${newSchema}' FAILED: ${error}`);
       });
-    setNewSchema('');
+    setNewSchema("");
   };
 
   const removeRows = (index) => {
@@ -36,23 +36,23 @@ export const  ExtensionDomain = () => {
       </Paper>
       <CardContent>
         <Grid>
-            <Typography>
+          <Typography>
               Top add an extension enter a valid URL for the extension schema
               below and hit the &apos;ADD EXTENSION&apos; button.
-            </Typography>
-            <TextField
-              fullWidth
-              onChange={(e) => setNewSchema(e.target.value)}
-              value={newSchema}
-            />
-            <Button
-              variant="contained"
-              disabled={!newSchema}
-              onClick={() => addExtension()}
-            >
+          </Typography>
+          <TextField
+            fullWidth
+            onChange={(e) => setNewSchema(e.target.value)}
+            value={newSchema}
+          />
+          <Button
+            variant="contained"
+            disabled={!newSchema}
+            onClick={() => addExtension()}
+          >
               Add Extension
-            </Button>
-          </Grid>
+          </Button>
+        </Grid>
       </CardContent>
       { (extensionDomain.length > 0)
         ? ( extensionDomain.map((extension, index) => {

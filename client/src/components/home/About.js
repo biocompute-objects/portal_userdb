@@ -1,36 +1,36 @@
 // src/views/resources/Resources/CGC.js
 
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardActionArea,
   CardContent,
   makeStyles,
   Typography
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import mediaWiki from '../../images/mediawikiwiki.svg';
+import mediaWiki from "../../images/mediawikiwiki.svg";
 
 const useStyles = makeStyles({
   bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)'
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)"
   },
   linkCard: {
-    minHeight: '300px',
-    textAlign: 'center'
+    minHeight: "300px",
+    textAlign: "center"
   },
   supportCard: {
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 12
   },
   title: {
     minWidth: 275,
-    fontSize: '33px'
+    fontSize: "33px"
   },
   subtitle: {
-    fontSize: '25px',
+    fontSize: "25px",
   },
   pos: {
     marginBottom: 12,
@@ -39,8 +39,8 @@ const useStyles = makeStyles({
 
 export default function About() {
   const classes = useStyles();
-  const wikiLink = 'https://wiki.biocomputeobject.org/index.php?title=Main_Page';
-  const docsLink = 'https://docs.biocomputeobject.org/';
+  const wikiLink = "https://wiki.biocomputeobject.org/index.php?title=Main_Page";
+  const docsLink = "https://docs.biocomputeobject.org/";
 
   return (
     <Card className={classes.supportCard} elevation={5}>
@@ -51,7 +51,7 @@ export default function About() {
       <CardActionArea onClick={() => window.open(wikiLink)}>
         <CardContent>
           <Typography className={classes.subtitle}>
-          <img src={mediaWiki} height={25} alt="MediaWiki logo" />
+            <img src={mediaWiki} height={25} alt="MediaWiki logo" />
             BioCompute Wiki
             <br />
           </Typography>

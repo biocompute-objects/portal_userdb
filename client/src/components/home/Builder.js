@@ -1,29 +1,29 @@
 // src/views/home/HomeView/Builder.js
 
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardActionArea,
   CardContent,
   makeStyles,
   Typography
-} from '@material-ui/core';
-import { Link } from 'react-router-dom'
-import logo from '../../images/logo.png';
+} from "@material-ui/core";
+import { Link } from "react-router-dom"
+import logo from "../../images/logo.png";
 
 const useStyles = makeStyles({
   bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
   },
   linkCard: {
-    minHeight: '300px',
+    minHeight: "300px",
     minWidth: 275,
-    textAlign: 'center'
+    textAlign: "center"
   },
   title: {
-    fontSize: '33px',
+    fontSize: "33px",
   },
   pos: {
     marginBottom: 12,

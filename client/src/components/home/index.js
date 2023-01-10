@@ -2,30 +2,30 @@
 
 import React from "react";
 import { Box, Container, Grid, Typography, makeStyles } from "@material-ui/core";
-import About from './About'
-import Tsc from './Tsc';
-import Galaxy from './Galaxy';
-import BioComputeResources from './BioComputeResources';
-import Hive from './Hive';
-import Builder from './Builder';
-import FdaBox from './FdaBox';
-import NewsBar from './NewsBar';
-import Specification from './Specification';
+import About from "./About"
+import Tsc from "./Tsc";
+import Galaxy from "./Galaxy";
+import BioComputeResources from "./BioComputeResources";
+import Hive from "./Hive";
+import Builder from "./Builder";
+import FdaBox from "./FdaBox";
+import NewsBar from "./NewsBar";
+import Specification from "./Specification";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-      backgroundColor: theme.palette.background.dark,
-      minHeight: '100%',
-      paddingBottom: theme.spacing(3),
-      paddingTop: theme.spacing(3)
-    },
-    marginTopped: {
-      marginTop: '50px'
-    },
-    whiteBackground: {
-      backgroundColor: '#ffffff'
-    }
-  }));
+  root: {
+    backgroundColor: theme.palette.background.dark,
+    minHeight: "100%",
+    paddingBottom: theme.spacing(3),
+    paddingTop: theme.spacing(3)
+  },
+  marginTopped: {
+    marginTop: "50px"
+  },
+  whiteBackground: {
+    backgroundColor: "#ffffff"
+  }
+}));
 
 const HomePage = () => {
   const classes = useStyles();

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Button,
   Card,
@@ -12,62 +12,62 @@ import {
   Form,
   Field,
   FieldArray
-} from 'formik';
+} from "formik";
 import {
-    useSelector,
-    useDispatch
-} from 'react-redux'
+  useSelector,
+  useDispatch
+} from "react-redux"
 import {
   updateUsability,
   updateModified
-} from '../../slices/bcoSlice'
-import { LargeTextField } from './specialFeilds';
+} from "../../slices/bcoSlice"
+import { LargeTextField } from "./specialFeilds";
 
 export const  UsabilityDomain = () => {
-   const dispatch = useDispatch();
-   const usabilityDomain = useSelector(state => state.bco.data.usability_domain)
-    return (
-      <Card variant="outlined" style={{background: "#E5E4E2"}}>
-        <Paper>
-          <Typography variant={"h4"} component={"span"}> Usability Domain</Typography>
-        </Paper>
-        <CardContent>
-          <Formik
-            initialValues={{"usability_domain":usabilityDomain}}
-            onSubmit={
-              (myData, {setSubmitting}) => {
-                setSubmitting(true);
-                dispatch(updateModified())
-                dispatch(updateUsability(myData["usability_domain"]))
-                setSubmitting(false);
-              }
+  const dispatch = useDispatch();
+  const usabilityDomain = useSelector(state => state.bco.data.usability_domain)
+  return (
+    <Card variant="outlined" style={{background: "#E5E4E2"}}>
+      <Paper>
+        <Typography variant={"h4"} component={"span"}> Usability Domain</Typography>
+      </Paper>
+      <CardContent>
+        <Formik
+          initialValues={{"usability_domain":usabilityDomain}}
+          onSubmit={
+            (myData, {setSubmitting}) => {
+              setSubmitting(true);
+              dispatch(updateModified())
+              dispatch(updateUsability(myData["usability_domain"]))
+              setSubmitting(false);
             }
-          >
-            {
-              ({values, isSubmitting,errors}) => (
-                <Form>
-                  <FieldArray name='usability_domain'>
-                    {arrayHelpers => (
-                      <div>
-                          {values.usability_domain.map((text, index) => (
-                            <Grid item key={index}>
-                              <LargeTextField name={`usability_domain.${index}`} />
-                              <button type="button" onClick={() => arrayHelpers.remove(index)}
-                              > - </button>
-                            </Grid>
-                          ))}
-                        <Button type="button" onClick={() => arrayHelpers.push('')}>Add </Button>
-                      </div>
-                    )}
-                  </FieldArray>
-                  <div>
-                    <Button disabled={isSubmitting} varient="contained" color="primary" type='submit'> Save </Button>
-                  </div>
-                </Form>
-              )
-            }
-          </Formik>
-        </CardContent>
-      </Card>
-    )
-  }
+          }
+        >
+          {
+            ({values, isSubmitting,errors}) => (
+              <Form>
+                <FieldArray name='usability_domain'>
+                  {arrayHelpers => (
+                    <div>
+                      {values.usability_domain.map((text, index) => (
+                        <Grid item key={index}>
+                          <LargeTextField name={`usability_domain.${index}`} />
+                          <button type="button" onClick={() => arrayHelpers.remove(index)}
+                          > - </button>
+                        </Grid>
+                      ))}
+                      <Button type="button" onClick={() => arrayHelpers.push("")}>Add </Button>
+                    </div>
+                  )}
+                </FieldArray>
+                <div>
+                  <Button disabled={isSubmitting} varient="contained" color="primary" type='submit'> Save </Button>
+                </div>
+              </Form>
+            )
+          }
+        </Formik>
+      </CardContent>
+    </Card>
+  )
+}

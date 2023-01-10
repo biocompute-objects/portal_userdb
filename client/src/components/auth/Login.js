@@ -2,15 +2,15 @@ import React, { useState, useEffect  } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import { GoogleLogin } from 'react-google-login';
+import { GoogleLogin } from "react-google-login";
 import * as Yup from "yup";
 import { MyTextField } from "../builder/specialFeilds";
-import { Button, Card, CardContent, Container, Grid, Typography } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import { login, googleLogin } from '../../slices/accountSlice';
-import { clearMessage } from '../../slices/messageSlice';
+import { Button, Card, CardContent, Container, Grid, Typography } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { login, googleLogin } from "../../slices/accountSlice";
+import { clearMessage } from "../../slices/messageSlice";
 
-const clientId = '404409424650-a1hh4j6m9r3998v16siia2lum9un21ip.apps.googleusercontent.com'
+const clientId = "404409424650-a1hh4j6m9r3998v16siia2lum9un21ip.apps.googleusercontent.com"
 
 const onGoogleLoginFailure = (response) => {
   console.log(response);
@@ -135,7 +135,7 @@ const Login = () => {
           buttonText="Sign with Google"
           onSuccess={onGoogleLoginSuccess}
           onFailure={onGoogleLoginFailure}
-          cookiePolicy={'single_host_origin'}
+          cookiePolicy={"single_host_origin"}
         />
         {message && (
           <div className="form-group">

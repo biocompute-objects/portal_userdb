@@ -1,38 +1,38 @@
-import React, { useContext } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import React, { useContext } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
 
 // Display options
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import EmailIcon from '@material-ui/icons/Email';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import LinkIcon from '@material-ui/icons/Link';
+import FormControl from "@material-ui/core/FormControl";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import EmailIcon from "@material-ui/icons/Email";
+import GetAppIcon from "@material-ui/icons/GetApp";
+import LinkIcon from "@material-ui/icons/Link";
 
 // Context
 // Source: https://www.digitalocean.com/community/tutorials/react-usecontext
-import { DisplayContext } from '../index';
+import { DisplayContext } from "../index";
 
 // Styling
 // Source: https://stackoverflow.com/questions/43975839/material-ui-next-styling-text-inside-listitemtext
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    width: "100%",
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
   emphasized: {
-    fontWeight: 'bold',
-    fontSize: '21px'
+    fontWeight: "bold",
+    fontSize: "21px"
   },
   navHeader: {
-    textAlign: 'center'
+    textAlign: "center"
   }
 }));
 
@@ -98,17 +98,17 @@ export default function ObjectOptions() {
               label="Describe fields on hover"
             /> */}
             {
-              ['meta', 'provenanceDomain', 'descriptionDomain', 'executionDomain', 'ioDomain', 'usabilityDomain', 'parametricDomain', 'errorDomain', 'extensionDomain'].map((domain) => (
+              ["meta", "provenanceDomain", "descriptionDomain", "executionDomain", "ioDomain", "usabilityDomain", "parametricDomain", "errorDomain", "extensionDomain"].map((domain) => (
                 <FormControlLabel
                   control={<Checkbox checked={state[domain]} onChange={handleChange} name={domain} />}
                   label={
-                      domain == 'meta'
-                        ? 'Meta'
-                        : [
-                          domain.substr(0, domain.indexOf('D')).charAt(0).toUpperCase() + domain.substr(0, domain.indexOf('D')).slice(1),
-                          domain.substr(domain.indexOf('D'))
-                        ].join(' ')
-                    }
+                    domain == "meta"
+                      ? "Meta"
+                      : [
+                        domain.substr(0, domain.indexOf("D")).charAt(0).toUpperCase() + domain.substr(0, domain.indexOf("D")).slice(1),
+                        domain.substr(domain.indexOf("D"))
+                      ].join(" ")
+                  }
                 />
               ))
             }

@@ -1,13 +1,13 @@
 // src/components/resources/CGC.js
 
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardActionArea,
   CardContent,
   makeStyles,
   Typography
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 
 const useStyles = makeStyles({
@@ -15,20 +15,20 @@ const useStyles = makeStyles({
     minWidth: 275,
   },
   bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)'
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)"
   },
   linkCard: {
-    minHeight: '300px',
-    textAlign: 'center'
+    minHeight: "300px",
+    textAlign: "center"
   },
   supportCard: {
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 12
   },
   title: {
-    fontSize: '33px',
+    fontSize: "33px",
   },
   pos: {
     marginBottom: 12,
@@ -37,8 +37,8 @@ const useStyles = makeStyles({
 
 export default function CGC() {
   const classes = useStyles();
-  const logo = require('../../images/cgc.png');
-  const cgcLink = 'https://www.cancergenomicscloud.org/';
+  const logo = require("../../images/cgc.png");
+  const cgcLink = "https://www.cancergenomicscloud.org/";
 
   return (
     <Card className={`${classes.root} ${classes.supportCard}`} elevation={5}>

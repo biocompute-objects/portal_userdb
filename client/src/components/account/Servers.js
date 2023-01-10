@@ -1,32 +1,32 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { 
   Button, Card, CardContent, Container, Grid, makeStyles, TextField, Typography
-} from '@material-ui/core'
-import { FieldArray, Form, Formik } from 'formik';
-import { Navigate } from 'react-router-dom';
+} from "@material-ui/core"
+import { FieldArray, Form, Formik } from "formik";
+import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import AddServer from './AddServer';
+import AddServer from "./AddServer";
 
 const useStyles = makeStyles({
   bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
   },
   serverCard: {
     minWidth: 275,
-    minHeight: '250px',
-    maxWidth: '500px',
-    textAlign: 'left',
+    minHeight: "250px",
+    maxWidth: "500px",
+    textAlign: "left",
     marginBottom: 12,
     marginTop: 12,
     marginLeft: 12,
   },
   heightened: {
-    minHeight: '250px'
+    minHeight: "250px"
   },
   title: {
-    fontSize: '37px',
+    fontSize: "37px",
   },
   pos: {
     marginBottom: 12,
@@ -80,7 +80,7 @@ export default function Servers() {
                               value={values.token}
                               disabled
                             />
-                              <button onClick={() =>  navigator.clipboard.writeText(value.token)}>Copy</button>
+                            <button onClick={() =>  navigator.clipboard.writeText(value.token)}>Copy</button>
                             <Typography>
                               {value.bcodb_username}&emsp;
                               <button onClick={() =>  navigator.clipboard.writeText(value.bcodb_username)}>Copy</button>
@@ -91,15 +91,15 @@ export default function Servers() {
                             </Typography>
                           </Grid>
                           <Grid item>
+                          </Grid>
                         </Grid>
-                      </Grid>
                       </CardContent>
                       <Button
-                          disabled={isSubmitting}
-                          type='submit'
-                          variant="contained"
-                          color="secondary"
-                        >Remove Database</Button>
+                        disabled={isSubmitting}
+                        type='submit'
+                        variant="contained"
+                        color="secondary"
+                      >Remove Database</Button>
                     </Card>
                   ))}
                 </Grid>

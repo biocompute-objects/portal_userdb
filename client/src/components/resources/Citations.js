@@ -1,33 +1,33 @@
 // src/components/resources/Citations.js
 
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardContent,
   makeStyles,
   Typography
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
   },
   bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)'
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)"
   },
   linkCard: {
-    minHeight: '300px',
-    textAlign: 'center'
+    minHeight: "300px",
+    textAlign: "center"
   },
   supportCard: {
-    textAlign: 'Left',
+    textAlign: "Left",
     marginBottom: 12,
     marginLeft: 12
   },
   title: {
-    fontSize: '33px',
+    fontSize: "33px",
   },
   pos: {
     marginBottom: 12,
@@ -36,7 +36,7 @@ const useStyles = makeStyles({
 
 export default function Citations() {
   const classes = useStyles();
-  const logo = require('../../images/logo.png');
+  const logo = require("../../images/logo.png");
 
   return (
     <Card className={`${classes.root} ${classes.supportCard}`} elevation={5}>
@@ -58,9 +58,9 @@ export default function Citations() {
                   <span property="datePublished"> 2022 Jan 22</span>
                   ;
                   <span property="isPartOf" typeof="PublicationVolume"><span property="volumeNumber" /></span>
-                  {' '}
+                  {" "}
                   PMID:
-                  {' '}
+                  {" "}
                   <a property="sameAs" href="https://pubmed.ncbi.nlm.nih.gov/35077912/" target="_blank" rel="noreferrer">35077912</a>
                 </span>
                 .
@@ -95,7 +95,7 @@ export default function Citations() {
                   <span property="datePublished">2021 March 31</span>
                   ;
                   <span property="isPartOf" typeof="PublicationVolume"><span property="volumeNumber" /></span>
-                  {' '}
+                  {" "}
                   PMID:
                   <a property="sameAs" href="https://pubmed.ncbi.nlm.nih.gov/33784373/" target="_blank" rel="noreferrer">33784373</a>
                 </span>

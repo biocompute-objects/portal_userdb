@@ -1,29 +1,29 @@
 // src/views/home/HomeView/BioComputeResorces.js
 
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardActionArea,
   CardContent,
   makeStyles,
   Typography
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 const useStyles = makeStyles({
   bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
   },
   centered: {
     minWidth: 275,
-    textAlign: 'center'
+    textAlign: "center"
   },
   heightened: {
-    minHeight: '250px'
+    minHeight: "250px"
   },
   title: {
-    fontSize: '37px',
+    fontSize: "37px",
   },
   pos: {
     marginBottom: 12,

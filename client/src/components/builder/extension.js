@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
-    Card, CardContent,
-  } from '@material-ui/core';
-import { Form as JsonForm} from '@rjsf/material-ui'
+  Card, CardContent,
+} from "@material-ui/core";
+import { Form as JsonForm} from "@rjsf/material-ui"
 import validator from "@rjsf/validator-ajv8";
-import { useDispatch } from 'react-redux'
-import { updateExtensionDomain } from '../../slices/bcoSlice'
+import { useDispatch } from "react-redux"
+import { updateExtensionDomain } from "../../slices/bcoSlice"
 
 export const Extension = ({extension, schemaUrl, index, allExtensions}) => {
   const dispatch = useDispatch();
@@ -14,17 +14,17 @@ export const Extension = ({extension, schemaUrl, index, allExtensions}) => {
 
   useEffect(() => {
     fetch(schemaUrl)
-    .then((response) => response.json())
-    .then((jsonData) => {
-      setSchema(jsonData);
-      setFormData(extension);
-    })
-    .catch((error) => {
-      console.log(`ERROR: ${error}`);
-      alert(`Fetch schema FAILED: ${error}`);
-      setSchema({});
-      setFormData({});
-    });
+      .then((response) => response.json())
+      .then((jsonData) => {
+        setSchema(jsonData);
+        setFormData(extension);
+      })
+      .catch((error) => {
+        console.log(`ERROR: ${error}`);
+        alert(`Fetch schema FAILED: ${error}`);
+        setSchema({});
+        setFormData({});
+      });
     console.log(allExtensions)
   }, [allExtensions])
 
@@ -34,9 +34,9 @@ export const Extension = ({extension, schemaUrl, index, allExtensions}) => {
   }
 
   const uiSchema = {
-    'ui:order': ['extension_schema', '*'],
+    "ui:order": ["extension_schema", "*"],
     extension_schema: {
-      'ui:readonly': true
+      "ui:readonly": true
     }
   };
 
@@ -52,8 +52,8 @@ export const Extension = ({extension, schemaUrl, index, allExtensions}) => {
           validator={validator}
           onChange={e => {
             setFormData(e.formData);
-                console.log(formData)
-            }}
+            console.log(formData)
+          }}
           showErrorList='top'
           onSubmit={onSubmit}
         />

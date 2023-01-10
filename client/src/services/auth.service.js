@@ -6,11 +6,11 @@ const API_URL = "http://localhost:8181/users/";
 
 const register = (username, email, password) => {
   return axios.post(API_URL + "register/", {
-    'username': username,
-    'email': email,
-    'password': password,
+    "username": username,
+    "email": email,
+    "password": password,
     profile: {
-      'username': username,
+      "username": username,
       public: true,
       affiliation: "",
       orcid: ""
@@ -32,7 +32,7 @@ const login = async (username, password) => {
 };
 
 const googleLogin = async (idToken) => {
-  const response = await axios.post(API_URL + 'oauth/', {
+  const response = await axios.post(API_URL + "oauth/", {
     id_token: idToken
   });
   if (response.data.token) {
@@ -48,20 +48,20 @@ const logout = () => {
 };
 
 const account = async (data) => {
-  console.log('account axios', `JWT ${JSON.parse(localStorage.getItem('token'))}`)
+  console.log("account axios", `JWT ${JSON.parse(localStorage.getItem("token"))}`)
   const response = await axios
     .post(API_URL + "update_user/", {
-      'username': data.username,
-      'first_name': data.first_name,
-      'last_name': data.last_name,
-      'email': data.email,
-      'affiliation': data.affiliation,
-      'orcid': data.orcid,
-      'public': data.public,
+      "username": data.username,
+      "first_name": data.first_name,
+      "last_name": data.last_name,
+      "email": data.email,
+      "affiliation": data.affiliation,
+      "orcid": data.orcid,
+      "public": data.public,
     }, {
       headers: {
-        'Authorization': `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
-        'Content-Type': 'application/json'
+        "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        "Content-Type": "application/json"
       }
     });
   if (response.data.token) {
@@ -71,13 +71,13 @@ const account = async (data) => {
 };
 
 const changePassword = (data) => {
-  return axios.put(API_URL + 'change_password/', {
+  return axios.put(API_URL + "change_password/", {
     old_password: data.old_password,
     new_password: data.new_password,
   }, {
     headers: {
-      'Authorization': `JWT ${JSON.parse(localStorage.getItem('token'))}`,
-      'Content-Type': 'application/json'
+      "Authorization": `JWT ${JSON.parse(localStorage.getItem("token"))}`,
+      "Content-Type": "application/json"
     }
   })
 };
@@ -85,8 +85,8 @@ const changePassword = (data) => {
 const authenticateBcoDb = async (token, hostname) => {
   const response = await axios.post(`${hostname}/api/accounts/describe/`, {},{
     headers: {
-      'Authorization': `Token ${token}`,
-      'Content-Type': 'application/json'
+      "Authorization": `Token ${token}`,
+      "Content-Type": "application/json"
     }
   });
   return response.data;
@@ -98,8 +98,8 @@ const addBcoDb = async (data) => {
     data
   }, {
     headers: {
-      'Authorization': `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
-      'Content-Type': 'application/json'
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      "Content-Type": "application/json"
     }
   });
   if (response.data.token) {

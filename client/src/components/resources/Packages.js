@@ -1,36 +1,36 @@
 // src/components/resources/Packages.js
 
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardActionArea,
   CardContent,
   makeStyles,
   Typography
-} from '@material-ui/core';
-import cranLogo from '../../images/cran.png';
-import gitLogo from '../../images/Octocat.png';
+} from "@material-ui/core";
+import cranLogo from "../../images/cran.png";
+import gitLogo from "../../images/Octocat.png";
 
 const useStyles = makeStyles({
   bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)'
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)"
   },
   linkCard: {
-    minHeight: '300px',
-    textAlign: 'center'
+    minHeight: "300px",
+    textAlign: "center"
   },
   supportCard: {
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 12
   },
   title: {
     minWidth: 275,
-    fontSize: '33px'
+    fontSize: "33px"
   },
   subtitle: {
-    fontSize: '25px',
+    fontSize: "25px",
   },
   pos: {
     marginBottom: 12,
@@ -39,8 +39,8 @@ const useStyles = makeStyles({
 
 export default function Packages() {
   const classes = useStyles();
-  const bcotoolLink = 'https://github.com/biocompute-objects/bcotool/tree/1.1.0';
-  const cranBCOLink = 'https://cran.r-project.org/web/packages/biocompute/index.html';
+  const bcotoolLink = "https://github.com/biocompute-objects/bcotool/tree/1.1.0";
+  const cranBCOLink = "https://cran.r-project.org/web/packages/biocompute/index.html";
 
   return (
     <Card className={classes.supportCard} elevation={5}>

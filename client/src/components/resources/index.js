@@ -1,34 +1,34 @@
 // src/components/resources/index.js
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Container,
   Grid,
   makeStyles,
   Paper,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import Tsc from './Tsc.js';
-import CGC from './CGC.js';
-import Packages from './Packages';
-import Builder from './Builder';
-import Galaxy from './Galaxy';
-import Hive from './Hive';
-import Citations from './Citations';
+import Tsc from "./Tsc.js";
+import CGC from "./CGC.js";
+import Packages from "./Packages";
+import Builder from "./Builder";
+import Galaxy from "./Galaxy";
+import Hive from "./Hive";
+import Citations from "./Citations";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
-    minHeight: '100%',
+    minHeight: "100%",
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
   },
   marginTopped: {
-    marginTop: '50px'
+    marginTop: "50px"
   },
   whiteBackground: {
-    backgroundColor: '#ffffff'
+    backgroundColor: "#ffffff"
   }
 }));
 
