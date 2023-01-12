@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import bcoService from "../services/bco.service";
+import BcoService from "../services/bco.service";
 import { setMessage } from "../slices/messageSlice";
 
 const bcoSlice = createSlice({
@@ -43,14 +43,14 @@ const bcoSlice = createSlice({
     updateExtensionDomain: (state, action) => {
       state["data"]["extension_domain"][action.payload.index] = action.payload.formData;
     },
-    updateModified: (state, action) => {
+    updateModified: (state) => {
       state["data"]["provenance_domain"]["modified"] = new Date().toISOString().split(".")[0]
       console.log("modified", state["data"]["provenance_domain"]["modified"])
     },
     updateUsability: (state, action) => {
       state["data"]["usability_domain"] = action.payload;
     },
-    addUsability: (state, action) => {
+    addUsability: (state) => {
       state["data"]["usability_domain"].push("")
     },
     updateDescription: (state, action) => {
@@ -70,15 +70,35 @@ const bcoSlice = createSlice({
         state.status = "loading"
       })
       .addCase(fetchBco.fulfilled, (state, action) => {
-        console.log(typeof action.payload)
         state.status = "succeeded"
         state.status = "idle"
-        console.log("success", action.payload)
         state.data = action.payload
       })
       .addCase(fetchBco.rejected, (state, action) => {
         state.status = "failed"
         state.error = action.error.message
+      })
+      .addCase(getDraftBco.pending, (state, action) => {
+        state.status = "loading"
+      })
+      .addCase(getDraftBco.fulfilled, (state, action) => {
+        state.status = "succeeded"
+        state.status = "idle"
+        state.data = action.payload.data
+      })
+      .addCase(getDraftBco.rejected, (state, action) => {
+        state.status = "failed"
+      })
+      .addCase(getPubBco.pending, (state, action) => {
+        state.status = "loading"
+      })
+      .addCase(getPubBco.fulfilled, (state, action) => {
+        state.status = "succeeded"
+        state.status = "idle"
+        state.data = action.payload.data
+      })
+      .addCase(getPubBco.rejected, (state, action) => {
+        state.status = "failed"
       })
   }
 })
@@ -102,7 +122,6 @@ export const fetchBco = createAsyncThunk(
         }
       })
       .catch((error) => {
-        alert(`${objectInfo[0]} says: Something went wrong. ${error}`);
         console.log("error", error);
       })
     return data
@@ -115,7 +134,46 @@ export const addExtension = createAsyncThunk(
       const schema = await BcoService.addExtension(newSchema);
       return schema;
     } catch (error) {
-      const message = 
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
+
+export const getDraftBco = createAsyncThunk(
+  "getDraft",
+  async ({objectInfo, object_id}, thunkAPI) => {
+    try {
+      const response = await BcoService.getDraftBco(objectInfo, object_id);
+      return response;
+    } catch(error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
+
+export const getPubBco = createAsyncThunk(
+  "getPub",
+  async ({objectInfo, object_id}, thunkAPI) => {
+    console.log("Slice", objectInfo, object_id)
+    try {
+      const response = await BcoService.getPubBco(objectInfo, object_id);
+      return response;
+    } catch(error) {
+      const message =
         (error.response &&
           error.response.data &&
           error.response.data.message) ||

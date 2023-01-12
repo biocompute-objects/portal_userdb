@@ -142,43 +142,43 @@ const initialState = user
 export const accountSlice = createSlice({
   name: "account",
   initialState,
-  extraReducers: {
-    [register.fulfilled]: (state, action) => {
-      state.isLoggedIn = false;
-    },
-    [register.rejected]: (state, action) => {
-      state.isLoggedIn = false;
-    },
-    [login.fulfilled]: (state, action) => {
-      state.isLoggedIn = true;
-      state.user = action.payload.user;
-    },
-    [login.rejected]: (state, action) => {
-      state.isLoggedIn = false;
-      state.user = null;
-    },
-    [googleLogin.fulfilled]: (state, action) => {
-      state.isLoggedIn = true;
-      state.user = action.payload.user;
-    },
-    [googleLogin.rejected]: (state, action) => {
-      state.isLoggedIn = false;
-      state.user = null;
-    },
-    [logout.fulfilled]: (state, action) => {
-      state.isLoggedIn = false;
-      state.user = null;
-    },
-    [authenticateBcoDb.pending]: (state, action) => {
-      console.log("loading")
-    },
-    [authenticateBcoDb.fulfilled]: (state, action) => {
-      state.user.bcodbs.push(action.payload.data.data)
-      // console.log('final', state.user.bcodbs.length)
-    },
-    [authenticateBcoDb.rejected]: (state, action) => {
-
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(register.fulfilled, (state) => {
+        state.isLoggedIn = false;
+      })
+      .addCase(register.rejected, (state) => {
+        state.isLoggedIn = false;
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.isLoggedIn = true;
+        state.user = action.payload.user;
+      })
+      .addCase(login.rejected, (state) => {
+        state.isLoggedIn = false;
+        state.user = null;
+      })
+      .addCase(googleLogin.fulfilled, (state, action) => {
+        state.isLoggedIn = true;
+        state.user = action.payload.user;
+      })
+      .addCase(googleLogin.rejected, (state) => {
+        state.isLoggedIn = false;
+        state.user = null;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.isLoggedIn = false;
+        state.user = null;
+      })
+      .addCase(authenticateBcoDb.pending, () => {
+        console.log("loading")
+      })
+      .addCase(authenticateBcoDb.fulfilled, (state, action) => {
+        state.user.bcodbs.push(action.payload.data.data)
+      })
+      .addCase(authenticateBcoDb.rejected, (state, action) => {
+        console.log(action);
+      })
   },
 });
 

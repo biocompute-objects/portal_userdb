@@ -1,7 +1,7 @@
 import React, { useState, useEffect  } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import { GoogleLogin } from "react-google-login";
 import * as Yup from "yup";
 import { MyTextField } from "../builder/specialFeilds";
@@ -48,7 +48,7 @@ const Login = () => {
       .unwrap()
       .then(() => {
         navigate("/");
-        window.location.reload();
+        global.window.location.reload();
       })
       .catch(() => {
         setLoading(false);
@@ -63,7 +63,7 @@ const Login = () => {
       .then((response) => {
         console.log(response)
         navigate("/");
-        window.location.reload();
+        global.window.location.reload();
       })
       .catch(() => {
         setLoading(false);
@@ -126,7 +126,7 @@ const Login = () => {
                   <span>Login</span>
                 </Button>
               </div>
-              <Typography component={Link} to='/register'>Don't have an account? Sign up here</Typography>
+              <Typography component={Link} to='/register'>Don&apos;t have an account? Sign up here</Typography>
             </Form>
           </Formik>
         </CardContent>

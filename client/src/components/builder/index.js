@@ -5,7 +5,7 @@ import { UsabilityDomain } from "./usabilityDomain";
 import { ParametricDomain } from "./parametricDomain";
 import { IODomain } from "./ioDomain";
 import { ExtensionDomain } from "./extensionDomain";
-import { useSelector, useDispatch } from "react-redux"
+import { useDispatch } from "react-redux"
 import PropTypes from "prop-types";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import DataObjectIcon from "@mui/icons-material/DataObject";
@@ -81,22 +81,20 @@ const ListItem = withStyles({
 
 
 export const  BuilderColorCode = () => {
-  const [bco, setBco] = useState("https://biocomputeobject.org/BCO_000064/DRAFT")
+  const [bco, setBco] = useState("http://127.0.0.1:8000/BCO_000001/DRAFT")
   const dispatch = useDispatch();
-  const state = useSelector(state=>state)
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const handleChange = (newValue) => {
     setValue(newValue);
   };
-  console.log(state)
   function a11yProps(index) {
     return {
       id: `simple-tab-${index}`,
       "aria-controls": `simple-tabpanel-${index}`,
     };
   }
-  const token = "38b71c708c37f85dbd38e8d295c7c548fbe1bdc0"
+  const token = "07801a1a4cdbf1945e22ac8439f1db27fe813f7a"
 
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -140,7 +138,7 @@ export const  BuilderColorCode = () => {
                 <TextField
                   value={bco}
                   onChange={(event) => setBco(event.target.value)}
-                  placeholder="https://biocomputeobject.org/BCO_000064/DRAFT"
+                  placeholder="http://127.0.0.1:8000/BCO_000001/DRAFT"
                 />
                 <button onClick={() => dispatch(fetchBco([bco, token]))}>retrieve</button>
               </div>
@@ -173,7 +171,7 @@ export const  BuilderColorCode = () => {
       {/* <button>
                 Submit
             </button> */}
-      <pre align='left'>
+      <pre >
         <code>
           {/* {JSON.stringify(state['bco']['data']['extension_domain'],undefined, 2)} */}
         </code>

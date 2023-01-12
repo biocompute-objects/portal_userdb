@@ -3,10 +3,13 @@
 import axios from "axios";
 
 const searchBcodbAPI = async (data) => {
-  console.log(data);
   const response = await axios.post(data.public_hostname + "/api/objects/search/", {
-    type: data.action,
-    search: data.search
+    POST_api_objects_search: [
+      {
+        type: data.action,
+        search: data.search
+      }
+    ]
   },{
     headers: {
       "Authorization": `Token ${data.token}`,

@@ -1,4 +1,6 @@
-import { useState } from "react";
+// src/account/Servers.js
+
+import React from "react";
 import { 
   Button, Card, CardContent, Container, Grid, makeStyles, TextField, Typography
 } from "@material-ui/core"
@@ -46,6 +48,7 @@ export default function Servers() {
       <Formik
         initialValues={currentUser.bcodbs}
         onSubmit={(values, {setSubmitting}) => {
+          setSubmitting(false)
           console.log(values);
         }}
       >
@@ -73,21 +76,21 @@ export default function Servers() {
                           <Grid item>
                             <Typography>
                               {value.human_readable_hostname}&emsp;
-                              <button onClick={() =>  navigator.clipboard.writeText(value.human_readable_hostname)}>Copy</button>
+                              <button onClick={() =>  global.navigator.clipboard.writeText(value.human_readable_hostname)}>Copy</button>
                             </Typography>
                             <TextField
                               type='password'
                               value={values.token}
                               disabled
                             />
-                            <button onClick={() =>  navigator.clipboard.writeText(value.token)}>Copy</button>
+                            <button onClick={() =>  global.navigator.clipboard.writeText(value.token)}>Copy</button>
                             <Typography>
                               {value.bcodb_username}&emsp;
-                              <button onClick={() =>  navigator.clipboard.writeText(value.bcodb_username)}>Copy</button>
+                              <button onClick={() =>  global.navigator.clipboard.writeText(value.bcodb_username)}>Copy</button>
                             </Typography>
                             <Typography>
                               {value.public_hostname}&emsp;
-                              <button onClick={() =>  navigator.clipboard.writeText(value.public_hostname)}>Copy</button>
+                              <button onClick={() =>  global.navigator.clipboard.writeText(value.public_hostname)}>Copy</button>
                             </Typography>
                           </Grid>
                           <Grid item>

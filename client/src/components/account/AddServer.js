@@ -1,7 +1,7 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
-import { Form, Formik, ErrorMessage } from "formik";
-import { useDispatch, useSelector } from "react-redux";
+import { Form, Formik } from "formik";
+import { useDispatch } from "react-redux";
 import { authenticateBcoDb } from "../../slices/accountSlice";
 import {
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid
@@ -40,7 +40,7 @@ export default function AddServer() {
             You must have already received a token from this server.
           </DialogContentText>
           <Formik
-            initialValues= {{token: "3f5504d88a5085d0452b19350fb6f82ae7097dd0", hostname: "http://localhost:8000"}}
+            initialValues= {{token: "2f2a599026581c158a07f968c56292c77f4be875", hostname: "http://localhost:8000"}}
             validationSchema={Yup.object().shape({
               token: Yup.string()
                 .required("This field is required!"),
@@ -56,12 +56,12 @@ export default function AddServer() {
                 .catch(() => {
                   setSubmitting(false)
                 });
-              window.location.reload()
               setSubmitting(false);
               handleClose();
+              // window.location.reload()
             }}
           >
-            {({values, isSubmitting}) => (
+            {({isSubmitting}) => (
               <Form>
                 <Grid container spacing={2}>
                   <Grid item>

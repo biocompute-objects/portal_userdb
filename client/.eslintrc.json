@@ -24,6 +24,10 @@
         "browser": false,
         "node": true
     },
+    "globals": {
+        "localStorage": true,
+        "fetch": true
+    },
     "settings": {
         "react": {
         "version": "detect"

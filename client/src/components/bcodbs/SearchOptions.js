@@ -1,46 +1,29 @@
 // src/components/bcodbs/index.js
 
-import React, { useEffect, useContext, useState } from "react";
+import React from "react";
 import {
   Box,
   Button,
   Card,
   CardContent,
   Container,
-  FormControl,
   InputLabel,
-  InputAdornment,
-  makeStyles,
-  MenuItem,
-  Paper,
-  Select,
-  SvgIcon,
-  TextField,
   Typography,
 } from "@material-ui/core";
-import SearchIcon from "@mui/icons-material/Search";
 import { useDispatch, useSelector } from "react-redux";
-import { clearMessage } from "../../slices/messageSlice";
 import { Field, Form, Formik } from "formik";
 import { MyTextField } from "../builder/specialFeilds";
 import { seachBcodb } from "../../slices/bcodbSlice";
 
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    minHeight: "100%",
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3)
-  }
-}));
-
-
-export default function SearchOptions () {
+export default function SearchOptions ({setObjectInfo}) {
   const dispatch = useDispatch();
-  const { message } = useSelector((state) => state.message);
-  const bcodbs = useSelector((state) => state.account.user.bcodbs);
-
+  let isLoggedIn = useSelector((state) => state.account.isLoggedIn);
+  const bcodbs = (isLoggedIn
+    ? useSelector((state) => state.account.user.bcodbs)
+    : []);
+  // const validationSchema = Yup.object().shape({
+  //   action
+  // })
   return (
     <Container>
       <Formik
@@ -49,6 +32,7 @@ export default function SearchOptions () {
           action: "",
           search: ""
         }}
+        // validationSchema={validationSchema}
         onSubmit={(values, {setSubmitting}) => {
           if (values.index === "None") {
             const data = {
@@ -57,6 +41,7 @@ export default function SearchOptions () {
               search: values.search,
               action: "bco_id"
             }
+            setObjectInfo(["627626823549f787c3ec763ff687169206626149", "https://biocomputeobject.org"])
             dispatch(seachBcodb(data))
           } else {
             const data = {
@@ -65,12 +50,13 @@ export default function SearchOptions () {
               search: values.search,
               action: values.action
             }
+            setObjectInfo([bcodbs[values.index].token, bcodbs[values.index].public_hostname])
             dispatch(seachBcodb(data))
           }
           setSubmitting(false);
         }}
       >
-        {({values, isSubmitting, errors}) => (
+        {({values, isSubmitting}) => (
           <Form>
             <Card>
               <CardContent>
@@ -80,10 +66,13 @@ export default function SearchOptions () {
                   </Typography>
                   <InputLabel>BCODB</InputLabel>
                   <Field as='select' name='index'>
-                    <option value='None' index='None'>Public</option>
-                    {bcodbs.map((database, index) => (
-                      <option value={index} key={index}>{database.public_hostname}</option>
+                    <option value='None' key='None'>Public BCODB (not logged in)</option>
+                    (isLoggedIn
+                      ? {bcodbs.map((database, index) => (
+                      <option value={index} key={index}>{database.human_readable_hostname}</option>
                     ))}
+                      : <></>
+                    )
                   </Field>
                 </Box>
               </CardContent>
@@ -110,11 +99,11 @@ export default function SearchOptions () {
               </CardContent>
             </Card>
             <Button 
-              disabled={isSubmitting}
+              disabled={isSubmitting || values.action === ""}
               type='submit'
               variant="contained"
               color="primary"
-            > Search </Button>
+            > Submit Search </Button>
           </Form>
         )}
       </Formik>

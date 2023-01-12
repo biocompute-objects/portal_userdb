@@ -21,32 +21,9 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
-
-function createData(name, calories, fat, carbs, protein) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-  };
-}
-
-const rows = [
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Donut", 452, 25.0, 51, 4.9),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Honeycomb", 408, 3.2, 87, 6.5),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Jelly Bean", 375, 0.0, 94, 0.0),
-  createData("KitKat", 518, 26.0, 65, 7.0),
-  createData("Lollipop", 392, 0.2, 98, 0.0),
-  createData("Marshmallow", 318, 0, 81, 2.0),
-  createData("Nougat", 360, 19.0, 9, 37.0),
-  createData("Oreo", 437, 18.0, 63, 4.0),
-];
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { getDraftBco, getPubBco } from "../../slices/bcoSlice";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -82,34 +59,34 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "name",
+    id: "object_id",
     numeric: false,
     disablePadding: true,
-    label: "Dessert (100g serving)",
+    label: "Object ID",
   },
   {
-    id: "calories",
-    numeric: true,
+    id: "provenance_domain.name",
+    numeric: false,
     disablePadding: false,
-    label: "Calories",
+    label: "BCO Name",
   },
   {
-    id: "fat",
-    numeric: true,
+    id: "prefix",
+    numeric: false,
     disablePadding: false,
-    label: "Fat (g)",
+    label: "Prefix",
   },
   {
-    id: "carbs",
-    numeric: true,
+    id: "state",
+    numeric: false,
     disablePadding: false,
-    label: "Carbs (g)",
+    label: "Publication State",
   },
   {
-    id: "protein",
+    id: "last_update",
     numeric: true,
     disablePadding: false,
-    label: "Protein (g)",
+    label: "Last Update",
   },
 ];
 
@@ -199,7 +176,7 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          BCODB Results
         </Typography>
       )}
 
@@ -212,7 +189,7 @@ function EnhancedTableToolbar(props) {
       ) : (
         <Tooltip title="Filter list">
           <IconButton>
-            <FilterListIcon />
+            <FilterListIcon/>
           </IconButton>
         </Tooltip>
       )}
@@ -224,14 +201,16 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable() {
+export default function EnhancedTable({objectInfo}) {
+  const dispatch = useDispatch()
+  const bcodbs = useSelector((state) => state.bcodb.data)
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  let navigate = useNavigate();
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -240,19 +219,19 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.name);
+      const newSelected = bcodbs.map((n) => n.object_id);
       setSelected(newSelected);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, object_id) => {
+    const selectedIndex = selected.indexOf(object_id);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, object_id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -280,11 +259,34 @@ export default function EnhancedTable() {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = (object_id) => selected.indexOf(object_id) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - bcodbs.length) : 0;
+
+  const clickObject = (event, object_id, state) => {
+    if (state === "PUBLISHED") {
+      dispatch(getPubBco({objectInfo, object_id}))
+        .unwrap()
+        .then(() => {
+          navigate("/builder")
+        })
+        .catch(() => {
+          console.log("Error");
+        });
+    }
+    if (state === "DRAFT") {
+      dispatch(getDraftBco({objectInfo, object_id}))
+        .unwrap()
+        .then(() => {
+          navigate("/builder")
+        })
+        .catch(() => {
+          console.log("Error");
+        });
+    }
+  }
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -302,23 +304,23 @@ export default function EnhancedTable() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={bcodbs.length}
             />
             <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
+              {stableSort(bcodbs, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.object_id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={(event) => handleClick(event, row.object_id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row.object_id}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -330,18 +332,22 @@ export default function EnhancedTable() {
                           }}
                         />
                       </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <Tooltip title={row.owner_user} >
+                        <TableCell
+                          id={labelId}
+                          scope="row"
+                          padding="none"
+                        >
+                          <Link
+                            key={row.object_id}
+                            onClick={(event)=>{clickObject(event, row.object_id, row.state)}}
+                          >{row.object_id}</Link>
+                        </TableCell>
+                      </Tooltip>
+                      <TableCell align="left">{row.contents.provenance_domain.name}</TableCell>
+                      <TableCell align="left">{row.prefix}</TableCell>
+                      <TableCell align="left">{row.state}</TableCell>
+                      <TableCell align="left">{row.last_update}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -360,7 +366,7 @@ export default function EnhancedTable() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={bcodbs.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
