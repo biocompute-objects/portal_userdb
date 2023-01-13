@@ -50,8 +50,9 @@ class AddBcodbApi(APIView):
             "recent_status": "200",
             "recent_attempt": now.isoformat(),
         }
-        create_bcodb(data=input_fileter)
+        bcodb = create_bcodb(data=input_fileter)
         user_info = custom_jwt_handler(
             request._auth, user_from_username(request.user.username)
         )
+        # import pdb; pdb.set_trace()
         return Response(status=status.HTTP_200_OK, data=user_info)

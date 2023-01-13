@@ -33,4 +33,4 @@ def create_bcodb(data: dict) -> BcoDb:
     bcodb_serializer.is_valid(raise_exception=True)
     bcodb_serializer.save()
 
-    return 0
+    return bcodb_serializer.data

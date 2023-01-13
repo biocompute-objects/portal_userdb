@@ -4,9 +4,10 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User
 from rest_framework_jwt.settings import api_settings
 from rest_framework.views import APIView
-from users.models import Profile
+from users.services import ProfileSerializer
 from users.selectors import user_from_username, profile_from_username
 from users.services import profile_update
+from authentication.services import custom_jwt_handler
 
 # def get(self, request):
 # """ TODO
@@ -109,53 +110,9 @@ class UserUpdateApi(APIView):
         user = user_from_username(username)
         profile = profile_from_username(username)
         profile_update(user, profile, data)
+        user_info = custom_jwt_handler(token, user)
 
-        return Response(
-            status=status.HTTP_200_OK,
-            data={
-                "token": token,
-                "user": {
-                    "userinfo": UserSerializer(user).data,
-                    "profile": ProfileSerializer(profile).data,
-                },
-            },
-        )
-
-
-class ProfileSerializer(serializers.ModelSerializer):
-    """ProfileGetDataApi
-    getting User data after we are already logged in
-    """
-
-    username = serializers.CharField()
-    affiliation = serializers.CharField(default="", initial="")
-    email = serializers.EmailField()
-    orcid = serializers.CharField(default="", initial="")
-    public = serializers.BooleanField(default=False, initial=False)
-
-    class Meta:
-        model = Profile
-        fields = "__all__"
-
-
-class UserSerializer(serializers.ModelSerializer):
-    """UserGetDataApi
-    getting User data after we are already logged in
-    """
-
-    class Meta:
-        model = User
-        fields = (
-            "username",
-            "email",
-            "first_name",
-            "last_name",
-            "groups",
-            "date_joined",
-            "last_login",
-        )
-        ##you only need username here, but this is where you add extra options which maybe of benefit
-
+        return Response(status=status.HTTP_200_OK, data=user_info)
 
 class UserRetrieveApi(APIView):
     """

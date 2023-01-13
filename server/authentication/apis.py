@@ -1,13 +1,11 @@
 # authentication/apis.py
 
-import requests
 from django.contrib.auth.models import User
 from rest_framework import permissions, status, serializers
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_jwt.settings import api_settings
 from authentication.services import custom_jwt_handler, googleAuthentication
-from users.apis import UserSerializerWithToken, ProfileSerializer
 
 
 class Oauth(APIView):

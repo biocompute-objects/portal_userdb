@@ -1,7 +1,7 @@
 # authentication/services.py
 
 import requests
-from users.apis import UserSerializer, ProfileSerializer
+from users.services import UserSerializer, ProfileSerializer
 from bcodb.models import BcoDb
 from bcodb.services import BcoDbSerializer
 from users.models import Profile

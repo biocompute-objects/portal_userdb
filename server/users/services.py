@@ -2,8 +2,40 @@
 
 from django.db import transaction
 from django.contrib.auth.models import User
+from rest_framework import serializers
 from users.models import Profile
 
+class ProfileSerializer(serializers.ModelSerializer):
+    """ProfileGetDataApi
+    getting User data after we are already logged in
+    """
+
+    username = serializers.CharField()
+    affiliation = serializers.CharField(default="", initial="")
+    email = serializers.EmailField()
+    orcid = serializers.CharField(default="", initial="")
+    public = serializers.BooleanField(default=False, initial=False)
+
+    class Meta:
+        model = Profile
+        fields = "__all__"
+
+class UserSerializer(serializers.ModelSerializer):
+    """UserGetDataApi
+    getting User data after we are already logged in
+    """
+
+    class Meta:
+        model = User
+        fields = (
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "groups",
+            "date_joined",
+            "last_login",
+        )
 
 @transaction.atomic
 def profile_update(user: User, profile: Profile, data: dict) -> str:
