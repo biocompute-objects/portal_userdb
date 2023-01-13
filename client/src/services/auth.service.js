@@ -19,11 +19,10 @@ const register = (username, email, password) => {
 };
 
 const login = async (username, password) => {
-  const response = await axios
-    .post(API_URL + "token/", {
-      username,
-      password,
-    });
+  const response = await axios.post(API_URL + "token/", {
+    username,
+    password,
+  });
   if (response.data.token) {
     localStorage.setItem("user", JSON.stringify(response.data.user));
     localStorage.setItem("token", JSON.stringify(response.data.token));
@@ -45,6 +44,7 @@ const googleLogin = async (idToken) => {
 const logout = () => {
   localStorage.removeItem("user");
   localStorage.removeItem("token");
+  global.window.location.reload();
 };
 
 const account = async (data) => {
@@ -105,9 +105,23 @@ const addBcoDb = async (data) => {
   if (response.data.token) {
     localStorage.setItem("user", JSON.stringify(response.data.user));
     localStorage.setItem("token", JSON.stringify(response.data.token));
+    global.window.location.reload();
   }
   return response
 };
+
+const removeBcoDb = async (database) => {
+  console.log("Service", database)
+  const response = await axios.post(`${API_URL}bcodb/remove/`, {
+    database
+  },{
+    headers: {
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      "Content-Type": "application/json"
+    }
+  });
+  return response;
+}
 
 const authService = {
   register,
@@ -118,6 +132,7 @@ const authService = {
   googleLogin,
   authenticateBcoDb,
   addBcoDb,
+  removeBcoDb,
 };
 
 export default authService;

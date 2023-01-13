@@ -58,7 +58,6 @@ export default function AddServer() {
                 });
               setSubmitting(false);
               handleClose();
-              // window.location.reload()
             }}
           >
             {({isSubmitting}) => (

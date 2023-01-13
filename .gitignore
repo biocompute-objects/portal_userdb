@@ -1,6 +1,7 @@
 client/node_modules/*
+client/.env
 client/prov-domain-formik/*
 *.DS_Store*
 server/env/*
 server/db.sqlite3
-
+server/.secrets

@@ -1,35 +1,26 @@
 // src/components/account/index.js
 
+import React from "react";
 import { Button, Card, Container } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../slices/accountSlice";
 import Profile from "./Profile";
-import { clearMessage } from "../../slices/messageSlice";
 import Servers from "./Servers";
+import NotificationBox from "../NotificationBox";
 
 export default function AccountPage() {
   const dispatch = useDispatch()
-  const [successful, setSuccessful] = useState(false);
-  const { message } = useSelector((state) => state.message);
-  useEffect(() => {
-    dispatch(clearMessage());
-  }, [dispatch]);
+  const currentUser = useSelector((state) => state.account.user);
+
+  if (!currentUser) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <Container title='Account Page'>
-      {message && (
-        <div className="form-group">
-          <div
-            className={successful ? "alert alert-success" : "alert alert-danger"}
-            role="alert"
-          >
-            {message}
-          </div>
-        </div>
-      )}
-      <Card
-      >
+      <NotificationBox />
+      <Card>
         <Profile />
         <Servers />
       </Card>

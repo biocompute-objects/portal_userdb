@@ -1,16 +1,20 @@
 # authentication/services.py
 
 import requests
+from rest_framework import status
+from rest_framework.response import Response
+from django.conf import settings
 from users.services import UserSerializer, ProfileSerializer
 from bcodb.models import BcoDb
 from bcodb.services import BcoDbSerializer
 from users.models import Profile
-from rest_framework import status
-from rest_framework.response import Response
+
 
 
 def googleAuthentication(request):
     """Google Authentication"""
+
+    import pdb; pdb.set_trace
     client_id = (
         "404409424650-a1hh4j6m9r3998v16siia2lum9un21ip.apps.googleusercontent.com"
     )

@@ -1,16 +1,16 @@
 # bcodb/apis.py
 
-from bcodb.models import BcoDb
+from django.db import transaction
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from datetime import datetime
 from users.selectors import profile_from_username, user_from_username
 from authentication.services import custom_jwt_handler
 from bcodb.services import create_bcodb
+from bcodb.selectors import get_bcodb
 
 
 @api_view(["GET"])
@@ -55,4 +55,22 @@ class AddBcodbApi(APIView):
             request._auth, user_from_username(request.user.username)
         )
         # import pdb; pdb.set_trace()
+        return Response(status=status.HTTP_200_OK, data=user_info)
+
+class RemoveBcodbApi(APIView):
+    """Remove a BCODB from a user account"""
+
+    @transaction.atomic
+    def post(self, request):
+        """"""
+        profile = profile_from_username(request.user.username)
+        database = request.data
+        bcodb = get_bcodb(profile, database)
+        if bcodb == 'DoesNotExist':
+            return Response(status=status.HTTP_404_NOT_FOUND, data={'message': 'That BCO DB was not found'})
+        bcodb.delete()
+        user_info = custom_jwt_handler(
+            request._auth, user_from_username(request.user.username)
+        )
+
         return Response(status=status.HTTP_200_OK, data=user_info)

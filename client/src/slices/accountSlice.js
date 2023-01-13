@@ -2,8 +2,8 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setMessage } from "./messageSlice";
-
 import AuthService from "../services/auth.service";
+
 const user = JSON.parse(localStorage.getItem("user"));
 
 export const changePassword = createAsyncThunk(
@@ -135,6 +135,26 @@ export const authenticateBcoDb = createAsyncThunk(
   }
 );
 
+export const removeBcoDb = createAsyncThunk(
+  "removeBCODB",
+  async ({database}, thunkAPI) => {
+    try {
+      const response = await AuthService.removeBcoDb(database);
+      thunkAPI.dispatch(setMessage(response.data.message));
+      return response.data;
+    } catch (error) {
+      const message =
+      (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
 const initialState = user
   ? { isLoggedIn: true, user }
   : { isLoggedIn: false, user: null };
@@ -178,6 +198,9 @@ export const accountSlice = createSlice({
       })
       .addCase(authenticateBcoDb.rejected, (state, action) => {
         console.log(action);
+      })
+      .addCase(removeBcoDb.fulfilled, (state, action) => {
+        state.user = action.payload.user;
       })
   },
 });

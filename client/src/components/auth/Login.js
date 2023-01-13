@@ -9,6 +9,7 @@ import { Button, Card, CardContent, Container, Grid, Typography } from "@materia
 import { Link } from "react-router-dom";
 import { login, googleLogin } from "../../slices/accountSlice";
 import { clearMessage } from "../../slices/messageSlice";
+import NotificationBox from "../NotificationBox";
 
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
 
@@ -137,13 +138,7 @@ const Login = () => {
           onFailure={onGoogleLoginFailure}
           cookiePolicy={"single_host_origin"}
         />
-        {message && (
-          <div className="form-group">
-            <div className="alert alert-danger" role="alert">
-              {message}
-            </div>
-          </div>
-        )}
+        <NotificationBox />
       </Card>
     </Container>
   );
