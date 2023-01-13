@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { login, googleLogin } from "../../slices/accountSlice";
 import { clearMessage } from "../../slices/messageSlice";
 
-const clientId = "404409424650-a1hh4j6m9r3998v16siia2lum9un21ip.apps.googleusercontent.com"
+const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
 
 const onGoogleLoginFailure = (response) => {
   console.log(response);
