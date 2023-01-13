@@ -23,6 +23,13 @@ const bcoSlice = createSlice({
       },
       parametric_domain:[],
       io_domain: {},
+      execution_domain: {
+        "script":[],
+        "script_driver": "", // "hive", "cwl-runner", "shell"
+        "software_prerequisites": [],
+        "external_data_endpoints":[],
+        "environment_variables": {}
+      },
       extension_domain: []
     },
     status: "idle",
@@ -42,6 +49,9 @@ const bcoSlice = createSlice({
     },
     updateExtensionDomain: (state, action) => {
       state["data"]["extension_domain"][action.payload.index] = action.payload.formData;
+    },
+    updateExecutionDomain: (state, action) => {
+      state["bco"]["data"]["execution_domain"] = action.payload;
     },
     updateModified: (state) => {
       state["data"]["provenance_domain"]["modified"] = new Date().toISOString().split(".")[0]
@@ -198,4 +208,5 @@ export const {
   updateExtensionDomain,
   addExtensionDomain,
   deleteExtensionDomain,
+  updateExecutionDomain,
 } = bcoSlice.actions;
