@@ -5,7 +5,7 @@ import {
   Button, Card, CardContent, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, makeStyles, TextField, Typography
 } from "@material-ui/core"
 import { useSelector, useDispatch } from "react-redux";
-import { removeBcoDb } from "../../slices/accountSlice";
+import { removeBcoDb } from "../../slices/bcodbSlice";
 import AddServer from "./AddServer";
 
 const useStyles = makeStyles({

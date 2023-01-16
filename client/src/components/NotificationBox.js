@@ -20,9 +20,9 @@ export default function NotificationBox() {
   }, [message])
 
   return (
-    <Card >
-      <CardContent>
-        <Dialog open={open} >
+    <Dialog open={open} >
+      <Card >
+        <CardContent>
           <DialogTitle>Alert</DialogTitle>
           <DialogContent>
             <DialogContentText>
@@ -37,8 +37,8 @@ export default function NotificationBox() {
               color="primary"
             >Ok</Button>
           </DialogActions>
-        </Dialog>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </Dialog>
   )
 }

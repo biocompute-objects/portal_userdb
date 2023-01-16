@@ -9,6 +9,7 @@ import Register from "./components/auth/Register";
 import AccountPage from "./components/account";
 import Resources from "./components/resources";
 import BcoDbs from "./components/bcodbs";
+import Prefix from "./components/prefix";
 
 export default function Router() {
   let element = useRoutes([
@@ -23,27 +24,8 @@ export default function Router() {
         { path: "/register", element: <Register /> },
         { path: "/resources", element: <Resources /> },
         { path: "/bcodbs", element: <BcoDbs />},
-
+        { path: "/prefix", element: <Prefix />},
       ]
-    },
-    {
-      path: "/builder",
-      element: <BuilderColorCode />,
-      children: []
-    },
-    {
-      path: "/login",
-      element: <Login />,
-      children: []
-    },
-    {
-      path: "/register",
-      element: <Register />,
-      children: []
-    },
-    {
-      path: "/profile",
-      element: <AccountPage />
     }
   ])
   return element

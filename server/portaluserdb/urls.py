@@ -21,4 +21,5 @@ urlpatterns = [
     path("users/", include("users.urls")),
     path("users/", include("bcodb.urls")),
     path("users/", include("authentication.urls")),
+    path("users/", include("prefix.urls")),
 ]

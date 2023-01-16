@@ -2,10 +2,10 @@
 
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/users/";
+const USERS_URL = process.env.REACT_APP_USERDB_URL;
 
 const register = (username, email, password) => {
-  return axios.post(API_URL + "register/", {
+  return axios.post(USERS_URL + "register/", {
     "username": username,
     "email": email,
     "password": password,
@@ -19,7 +19,7 @@ const register = (username, email, password) => {
 };
 
 const login = async (username, password) => {
-  const response = await axios.post(API_URL + "token/", {
+  const response = await axios.post(USERS_URL + "token/", {
     username,
     password,
   });
@@ -31,7 +31,7 @@ const login = async (username, password) => {
 };
 
 const googleLogin = async (idToken) => {
-  const response = await axios.post(API_URL + "oauth/", {
+  const response = await axios.post(USERS_URL + "oauth/", {
     id_token: idToken
   });
   if (response.data.token) {
@@ -50,7 +50,7 @@ const logout = () => {
 const account = async (data) => {
   console.log("account axios", `JWT ${JSON.parse(localStorage.getItem("token"))}`)
   const response = await axios
-    .post(API_URL + "update_user/", {
+    .post(USERS_URL + "update_user/", {
       "username": data.username,
       "first_name": data.first_name,
       "last_name": data.last_name,
@@ -71,7 +71,7 @@ const account = async (data) => {
 };
 
 const changePassword = (data) => {
-  return axios.put(API_URL + "change_password/", {
+  return axios.put(USERS_URL + "change_password/", {
     old_password: data.old_password,
     new_password: data.new_password,
   }, {
@@ -82,47 +82,6 @@ const changePassword = (data) => {
   })
 };
 
-const authenticateBcoDb = async (token, hostname) => {
-  const response = await axios.post(`${hostname}/api/accounts/describe/`, {},{
-    headers: {
-      "Authorization": `Token ${token}`,
-      "Content-Type": "application/json"
-    }
-  });
-  return response.data;
-};
-
-const addBcoDb = async (data) => {
-  console.log(data);
-  const response = await axios.post(`${API_URL}bcodb/add/`, {
-    data
-  }, {
-    headers: {
-      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-      "Content-Type": "application/json"
-    }
-  });
-  if (response.data.token) {
-    localStorage.setItem("user", JSON.stringify(response.data.user));
-    localStorage.setItem("token", JSON.stringify(response.data.token));
-    global.window.location.reload();
-  }
-  return response
-};
-
-const removeBcoDb = async (database) => {
-  console.log("Service", database)
-  const response = await axios.post(`${API_URL}bcodb/remove/`, {
-    database
-  },{
-    headers: {
-      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-      "Content-Type": "application/json"
-    }
-  });
-  return response;
-}
-
 const authService = {
   register,
   login,
@@ -130,9 +89,7 @@ const authService = {
   account,
   changePassword,
   googleLogin,
-  authenticateBcoDb,
-  addBcoDb,
-  removeBcoDb,
+
 };
 
 export default authService;

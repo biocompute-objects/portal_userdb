@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "bcodb.apps.BcodbConfig",
     "users.apps.UsersConfig",
+    "prefix.apps.PrefixConfig",
 ]
 
 MIDDLEWARE = [

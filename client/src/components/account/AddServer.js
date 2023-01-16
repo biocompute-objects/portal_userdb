@@ -2,7 +2,7 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import { Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
-import { authenticateBcoDb } from "../../slices/accountSlice";
+import { authenticateBcoDb } from "../../slices/bcodbSlice";
 import {
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid
 } from "@mui/material";

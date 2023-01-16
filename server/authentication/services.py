@@ -14,7 +14,6 @@ from users.models import Profile
 def googleAuthentication(request):
     """Google Authentication"""
 
-    import pdb; pdb.set_trace
     client_id = (
         "404409424650-a1hh4j6m9r3998v16siia2lum9un21ip.apps.googleusercontent.com"
     )

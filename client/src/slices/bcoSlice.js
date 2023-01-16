@@ -158,9 +158,9 @@ export const addExtension = createAsyncThunk(
 
 export const getDraftBco = createAsyncThunk(
   "getDraft",
-  async ({objectInfo, object_id}, thunkAPI) => {
+  async ({bcodbInfo, object_id}, thunkAPI) => {
     try {
-      const response = await BcoService.getDraftBco(objectInfo, object_id);
+      const response = await BcoService.getDraftBco(bcodbInfo, object_id);
       return response;
     } catch(error) {
       const message =
@@ -177,10 +177,10 @@ export const getDraftBco = createAsyncThunk(
 
 export const getPubBco = createAsyncThunk(
   "getPub",
-  async ({objectInfo, object_id}, thunkAPI) => {
-    console.log("Slice", objectInfo, object_id)
+  async ({bcodbInfo, object_id}, thunkAPI) => {
+    console.log("Slice", bcodbInfo, object_id)
     try {
-      const response = await BcoService.getPubBco(objectInfo, object_id);
+      const response = await BcoService.getPubBco(bcodbInfo, object_id);
       return response;
     } catch(error) {
       const message =

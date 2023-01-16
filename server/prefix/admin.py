@@ -1,3 +1,7 @@
-from django.contrib import admin
+"""Prefix Admin Pannel
+"""
 
-# Register your models here.
+from django.contrib import admin
+from prefix.models import Prefix
+
+admin.site.register(Prefix)

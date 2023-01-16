@@ -7,7 +7,7 @@ import SearchOptions from "./SearchOptions";
 import SearchResults from "./SearchResults";
 
 export default function BcoDbs () {
-  const [ objectInfo, setObjectInfo ] = useState([])
+  const [ bcodbInfo, setBcodbInfo ] = useState([])
   const { message } = useSelector((state) => state.message);
   return (
     <Container >
@@ -20,10 +20,10 @@ export default function BcoDbs () {
         </div>
       )}
       <SearchOptions
-        setObjectInfo={setObjectInfo}
+        setObjectInfo={setBcodbInfo}
       />
       <SearchResults
-        objectInfo={objectInfo}
+        objectInfo={bcodbInfo}
       />
     </Container>
   );

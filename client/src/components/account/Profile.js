@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Card, CardContent, Grid, Typography } from "@material-ui/core";
-import { Formik, Field, Form, ErrorMessage, validateYupSchema } from "formik";
+import { Button, Card, CardContent, Grid } from "@material-ui/core";
+import { Formik, Form, } from "formik";
 import { MyTextField } from "../builder/specialFeilds";
 import { account } from "../../slices/accountSlice";
 import * as Yup from "yup";
 
 const Profile = () => {
-  const [successful, setSuccessful] = useState(false);
-  const { message } = useSelector((state) => state.message);
   const dispatch = useDispatch()
   const currentUser = useSelector((state) => state.account.user);
 

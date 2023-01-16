@@ -22,8 +22,32 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { getDraftBco, getPubBco } from "../../slices/bcoSlice";
+
+function createData(name, calories, fat, carbs, protein) {
+  return {
+    name,
+    calories,
+    fat,
+    carbs,
+    protein,
+  };
+}
+
+const rows = [
+  createData("Cupcake", 305, 3.7, 67, 4.3),
+  createData("Donut", 452, 25.0, 51, 4.9),
+  createData("Eclair", 262, 16.0, 24, 6.0),
+  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
+  createData("Gingerbread", 356, 16.0, 49, 3.9),
+  createData("Honeycomb", 408, 3.2, 87, 6.5),
+  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
+  createData("Jelly Bean", 375, 0.0, 94, 0.0),
+  createData("KitKat", 518, 26.0, 65, 7.0),
+  createData("Lollipop", 392, 0.2, 98, 0.0),
+  createData("Marshmallow", 318, 0, 81, 2.0),
+  createData("Nougat", 360, 19.0, 9, 37.0),
+  createData("Oreo", 437, 18.0, 63, 4.0),
+];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -59,34 +83,22 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "object_id",
-    numeric: false,
-    disablePadding: true,
-    label: "Object ID",
-  },
-  {
-    id: "provenance_domain.name",
-    numeric: false,
-    disablePadding: false,
-    label: "BCO Name",
-  },
-  {
     id: "prefix",
     numeric: false,
-    disablePadding: false,
+    disablePadding: true,
     label: "Prefix",
   },
   {
-    id: "state",
-    numeric: false,
-    disablePadding: false,
-    label: "Publication State",
-  },
-  {
-    id: "last_update",
+    id: "username",
     numeric: true,
     disablePadding: false,
-    label: "Last Update",
+    label: "Owner User",
+  },
+  {
+    id: "registration_date",
+    numeric: true,
+    disablePadding: false,
+    label: "Registration Date",
   },
 ];
 
@@ -176,7 +188,7 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          BCODB Results
+          Nutrition
         </Typography>
       )}
 
@@ -189,7 +201,7 @@ function EnhancedTableToolbar(props) {
       ) : (
         <Tooltip title="Filter list">
           <IconButton>
-            <FilterListIcon/>
+            <FilterListIcon />
           </IconButton>
         </Tooltip>
       )}
@@ -201,16 +213,16 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({bcodbInfo}) {
+export default function EnhancedTable() {
   const dispatch = useDispatch()
-  const bcodbs = useSelector((state) => state.bcodb.data)
+  const prefixes = useSelector((state) => state.prefix.data)
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  let navigate = useNavigate();
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -219,19 +231,19 @@ export default function EnhancedTable({bcodbInfo}) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = bcodbs.map((n) => n.object_id);
+      const newSelected = prefixes.map((n) => n.prefix);
       setSelected(newSelected);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, object_id) => {
-    const selectedIndex = selected.indexOf(object_id);
+  const handleClick = (event, name) => {
+    const selectedIndex = selected.indexOf(name);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, object_id);
+      newSelected = newSelected.concat(selected, name);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -259,34 +271,11 @@ export default function EnhancedTable({bcodbInfo}) {
     setDense(event.target.checked);
   };
 
-  const isSelected = (object_id) => selected.indexOf(object_id) !== -1;
+  const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - bcodbs.length) : 0;
-
-  const clickObject = (event, object_id, state) => {
-    if (state === "PUBLISHED") {
-      dispatch(getPubBco({bcodbInfo, object_id}))
-        .unwrap()
-        .then(() => {
-          navigate("/builder")
-        })
-        .catch(() => {
-          console.log("Error");
-        });
-    }
-    if (state === "DRAFT") {
-      dispatch(getDraftBco({bcodbInfo, object_id}))
-        .unwrap()
-        .then(() => {
-          navigate("/builder")
-        })
-        .catch(() => {
-          console.log("Error");
-        });
-    }
-  }
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - prefixes.length) : 0;
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -304,23 +293,23 @@ export default function EnhancedTable({bcodbInfo}) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={bcodbs.length}
+              rowCount={prefixes.length}
             />
             <TableBody>
-              {stableSort(bcodbs, getComparator(order, orderBy))
+              {stableSort(prefixes, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.object_id);
+                  const isItemSelected = isSelected(row.prefix);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.object_id)}
+                      onClick={(event) => handleClick(event, row.prefix)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.object_id}
+                      key={row.prefix}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -332,22 +321,16 @@ export default function EnhancedTable({bcodbInfo}) {
                           }}
                         />
                       </TableCell>
-                      <Tooltip title={row.owner_user} >
-                        <TableCell
-                          id={labelId}
-                          scope="row"
-                          padding="none"
-                        >
-                          <Link
-                            key={row.object_id}
-                            onClick={(event)=>{clickObject(event, row.object_id, row.state)}}
-                          >{row.object_id}</Link>
-                        </TableCell>
-                      </Tooltip>
-                      <TableCell align="left">{row.contents.provenance_domain.name}</TableCell>
-                      <TableCell align="left">{row.prefix}</TableCell>
-                      <TableCell align="left">{row.state}</TableCell>
-                      <TableCell align="left">{row.last_update}</TableCell>
+                      <TableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
+                      >
+                        {row.prefix}
+                      </TableCell>
+                      <TableCell align="right">{row.username}</TableCell>
+                      <TableCell align="right">{row.registration_date}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -366,7 +349,7 @@ export default function EnhancedTable({bcodbInfo}) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={bcodbs.length}
+          count={prefixes.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

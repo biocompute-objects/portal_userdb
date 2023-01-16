@@ -15,7 +15,7 @@ import { Field, Form, Formik } from "formik";
 import { MyTextField } from "../builder/specialFeilds";
 import { seachBcodb } from "../../slices/bcodbSlice";
 
-export default function SearchOptions ({setObjectInfo}) {
+export default function SearchOptions ({setBcodbInfo}) {
   const dispatch = useDispatch();
   let isLoggedIn = useSelector((state) => state.account.isLoggedIn);
   const bcodbs = (isLoggedIn
@@ -41,7 +41,7 @@ export default function SearchOptions ({setObjectInfo}) {
               search: values.search,
               action: "bco_id"
             }
-            setObjectInfo(["627626823549f787c3ec763ff687169206626149", "https://biocomputeobject.org"])
+            setBcodbInfo([data.token, data.public_hostname])
             dispatch(seachBcodb(data))
           } else {
             const data = {
@@ -50,7 +50,7 @@ export default function SearchOptions ({setObjectInfo}) {
               search: values.search,
               action: values.action
             }
-            setObjectInfo([bcodbs[values.index].token, bcodbs[values.index].public_hostname])
+            setBcodbInfo([bcodbs[values.index].token, bcodbs[values.index].public_hostname])
             dispatch(seachBcodb(data))
           }
           setSubmitting(false);

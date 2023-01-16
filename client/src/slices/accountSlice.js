@@ -112,49 +112,6 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   await AuthService.logout();
 });
 
-export const authenticateBcoDb = createAsyncThunk(
-  "addServer",
-  async ({ token, hostname }, thunkAPI) => {
-    console.log(token, hostname);
-    try {
-      const bcodbResponse = await AuthService.authenticateBcoDb(token, hostname);
-      const userDbResponse = await AuthService.addBcoDb(bcodbResponse)
-      console.log(userDbResponse)
-      thunkAPI.dispatch(setMessage(userDbResponse.data.message));
-      return userDbResponse.data ;
-    } catch (error) {
-      const message =
-      (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      thunkAPI.dispatch(setMessage(message));
-      return thunkAPI.rejectWithValue();
-    }
-  }
-);
-
-export const removeBcoDb = createAsyncThunk(
-  "removeBCODB",
-  async ({database}, thunkAPI) => {
-    try {
-      const response = await AuthService.removeBcoDb(database);
-      thunkAPI.dispatch(setMessage(response.data.message));
-      return response.data;
-    } catch (error) {
-      const message =
-      (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      thunkAPI.dispatch(setMessage(message));
-      return thunkAPI.rejectWithValue();
-    }
-  }
-);
-
 const initialState = user
   ? { isLoggedIn: true, user }
   : { isLoggedIn: false, user: null };
@@ -189,18 +146,6 @@ export const accountSlice = createSlice({
       .addCase(logout.fulfilled, (state) => {
         state.isLoggedIn = false;
         state.user = null;
-      })
-      .addCase(authenticateBcoDb.pending, () => {
-        console.log("loading")
-      })
-      .addCase(authenticateBcoDb.fulfilled, (state, action) => {
-        state.user.bcodbs.push(action.payload.data.data)
-      })
-      .addCase(authenticateBcoDb.rejected, (state, action) => {
-        console.log(action);
-      })
-      .addCase(removeBcoDb.fulfilled, (state, action) => {
-        state.user = action.payload.user;
       })
   },
 });
