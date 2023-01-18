@@ -10,6 +10,7 @@ import AccountPage from "./components/account";
 import Resources from "./components/resources";
 import BcoDbs from "./components/bcodbs";
 import Prefix from "./components/prefix";
+import BcoViewer from "./components/viewer";
 
 export default function Router() {
   let element = useRoutes([
@@ -19,6 +20,7 @@ export default function Router() {
       children: [
         { path: "/", element: <HomePage /> },
         { path: "/builder", element: <BuilderColorCode /> },
+        { path: "/viewer", element: <BcoViewer />},
         { path: "/profile", element: <AccountPage /> },
         { path: "/login", element: <Login /> },
         { path: "/register", element: <Register /> },

@@ -16,8 +16,6 @@ import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
@@ -208,7 +206,6 @@ export default function EnhancedTable({bcodbInfo}) {
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   let navigate = useNavigate();
   const handleRequestSort = (event, property) => {
@@ -255,10 +252,6 @@ export default function EnhancedTable({bcodbInfo}) {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
   const isSelected = (object_id) => selected.indexOf(object_id) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -267,10 +260,11 @@ export default function EnhancedTable({bcodbInfo}) {
 
   const clickObject = (event, object_id, state) => {
     if (state === "PUBLISHED") {
+      console.log(bcodbInfo, object_id)
       dispatch(getPubBco({bcodbInfo, object_id}))
         .unwrap()
         .then(() => {
-          navigate("/builder")
+          navigate("/viewer")
         })
         .catch(() => {
           console.log("Error");
@@ -296,7 +290,7 @@ export default function EnhancedTable({bcodbInfo}) {
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
+            size={"small"}
           >
             <EnhancedTableHead
               numSelected={selected.length}
@@ -354,7 +348,7 @@ export default function EnhancedTable({bcodbInfo}) {
               {emptyRows > 0 && (
                 <TableRow
                   style={{
-                    height: (dense ? 33 : 53) * emptyRows,
+                    height: 33 * emptyRows,
                   }}
                 >
                   <TableCell colSpan={6} />
@@ -373,10 +367,6 @@ export default function EnhancedTable({bcodbInfo}) {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
     </Box>
   );
 }

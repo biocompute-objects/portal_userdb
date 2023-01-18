@@ -54,7 +54,7 @@ export const seachBcodb = createAsyncThunk(
     try {
       const results = await bcodbService.searchBcodbAPI(data);
       thunkAPI.dispatch(setMessage(`Search returned ${results.data.length} BCOs`));
-      return results
+      return results.data
     } catch (error) {
       const message =
           (error.response &&
@@ -78,8 +78,8 @@ export const bcodbSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(seachBcodb.fulfilled, (state, action) => {
-        console.log(action.payload.data)
-        state.data = action.payload.data;
+        console.log(action.payload)
+        state.data = action.payload;
         state.status = "idle";
       })
       .addCase(seachBcodb.pending, (state) => {

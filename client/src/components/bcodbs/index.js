@@ -20,10 +20,10 @@ export default function BcoDbs () {
         </div>
       )}
       <SearchOptions
-        setObjectInfo={setBcodbInfo}
+        setBcodbInfo={setBcodbInfo}
       />
       <SearchResults
-        objectInfo={bcodbInfo}
+        bcodbInfo={bcodbInfo}
       />
     </Container>
   );

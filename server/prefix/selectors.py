@@ -30,5 +30,4 @@ def user_prefix(user: User) -> dict:
 def search_prefix(name: str) -> dict:
     """"""
     prefix_list = list(chain(Prefix.objects.filter(prefix__icontains=name).values(*return_values)))
-    import pdb; pdb.set_trace()
     return prefix_list

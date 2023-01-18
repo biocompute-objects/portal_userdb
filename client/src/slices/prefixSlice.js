@@ -9,7 +9,7 @@ export const searchPrefix = createAsyncThunk(
     console.log(data)
     try {
       const response = await prefixService.searchPrefix(data);
-      thunkAPI.dispatch(setMessage(response.data.message))
+      thunkAPI.dispatch(setMessage(`Search returned ${response.data.length} prefixes`));
       console.log("response",response.data)
       return response.data
     } catch (error) {

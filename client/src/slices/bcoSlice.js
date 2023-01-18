@@ -94,7 +94,7 @@ const bcoSlice = createSlice({
       .addCase(getDraftBco.fulfilled, (state, action) => {
         state.status = "succeeded"
         state.status = "idle"
-        state.data = action.payload.data
+        state.data = action.payload
       })
       .addCase(getDraftBco.rejected, (state, action) => {
         state.status = "failed"
@@ -105,7 +105,8 @@ const bcoSlice = createSlice({
       .addCase(getPubBco.fulfilled, (state, action) => {
         state.status = "succeeded"
         state.status = "idle"
-        state.data = action.payload.data
+        console.log(action.payload.data)
+        state.data = action.payload
       })
       .addCase(getPubBco.rejected, (state, action) => {
         state.status = "failed"
@@ -161,7 +162,7 @@ export const getDraftBco = createAsyncThunk(
   async ({bcodbInfo, object_id}, thunkAPI) => {
     try {
       const response = await BcoService.getDraftBco(bcodbInfo, object_id);
-      return response;
+      return response.data;
     } catch(error) {
       const message =
         (error.response &&
@@ -181,7 +182,7 @@ export const getPubBco = createAsyncThunk(
     console.log("Slice", bcodbInfo, object_id)
     try {
       const response = await BcoService.getPubBco(bcodbInfo, object_id);
-      return response;
+      return response.data[0];
     } catch(error) {
       const message =
         (error.response &&
