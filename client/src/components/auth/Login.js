@@ -1,4 +1,6 @@
-import React, { useState, useEffect  } from "react";
+// src/components/auth/Login.js
+
+import React, { useState  } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Formik, Form, ErrorMessage } from "formik";
@@ -8,7 +10,6 @@ import { MyTextField } from "../builder/specialFeilds";
 import { Button, Card, CardContent, Container, Grid, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { login, googleLogin } from "../../slices/accountSlice";
-import { clearMessage } from "../../slices/messageSlice";
 import NotificationBox from "../NotificationBox";
 
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
@@ -23,13 +24,8 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   const { isLoggedIn } = useSelector((state) => state.account);
-  const { message } = useSelector((state) => state.message);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(clearMessage());
-  }, [dispatch]);
 
   const initialValues = {
     username: "",

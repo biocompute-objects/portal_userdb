@@ -48,7 +48,6 @@ const logout = () => {
 };
 
 const account = async (data) => {
-  console.log("account axios", `JWT ${JSON.parse(localStorage.getItem("token"))}`)
   const response = await axios
     .post(USERS_URL + "update_user/", {
       "username": data.username,
@@ -82,6 +81,16 @@ const changePassword = (data) => {
   })
 };
 
+const userInfo = async () => {
+  console.log("auth.slice", `Bearer ${JSON.parse(localStorage.getItem("token"))}`)
+  const response = await axios.post(USERS_URL + "user_info/", {}, {
+    headers: {
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      "Content-Type": "application/json"
+    }
+  });
+  return response.data;
+};
 const authService = {
   register,
   login,
@@ -89,6 +98,7 @@ const authService = {
   account,
   changePassword,
   googleLogin,
+  userInfo,
 
 };
 

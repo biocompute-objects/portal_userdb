@@ -2,11 +2,13 @@
 
 import React from "react";
 import {
-  Button, Card, CardContent, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, makeStyles, TextField, Typography
+  Button, Card, CardContent, CardHeader, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, makeStyles, TextField, Typography
 } from "@material-ui/core"
 import { useSelector, useDispatch } from "react-redux";
-import { removeBcoDb } from "../../slices/bcodbSlice";
+import { removeBcoDb, groupsPermissions } from "../../slices/bcodbSlice";
 import AddServer from "./AddServer";
+import { useNavigate } from "react-router-dom";
+import { Toys } from "@mui/icons-material";
 
 const useStyles = makeStyles({
   bullet: {
@@ -40,6 +42,19 @@ export default function Servers() {
   const currentUser = useSelector((state) => state.account.user);
   const bcodbs = currentUser.bcodbs
   const [open, setOpen] = React.useState(false);
+  let navigate = useNavigate();
+
+  const handleGroups = (database, index) => {
+    console.log(database)
+    dispatch(groupsPermissions(database))
+    //   .unwrap()
+    //   .then(()=> {
+    navigate(`/profile/bcodb/${index}`)
+    //   })
+    //   .catch(()=> {
+    //     console.log("ERROR ")
+    //   });
+  };
 
   const dialogeOpen = () => {
     setOpen(true);
@@ -64,6 +79,59 @@ export default function Servers() {
       {
         bcodbs.map((database, index) => (
           <Card key={index} className={classes.serverCard}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={dialogeOpen}
+            >Remove Database</Button>
+            <Button
+              variant="outlined"
+              onClick={() => handleGroups(database, index)}
+            >Groups/Permissions</Button>
+            <CardHeader title={database.human_readable_hostname}/>
+            
+            <CardContent>
+              <Grid
+                container
+                spacing={2}
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Grid item>
+                  <Typography>Token: </Typography>
+                  <Typography>User Name: </Typography>
+                  <Typography>Public Hostname: </Typography>
+                  <Typography>Last Update:</Typography>
+                  <Typography>Recent Status: </Typography>
+                </Grid>
+                <Grid item>
+                  <TextField
+                    type='password'
+                    value={database.token}
+                    disabled
+                  />
+                  <Typography>
+                    {database.bcodb_username}&emsp;
+                  </Typography>
+                  <Typography>
+                    {database.public_hostname}&emsp;
+                  </Typography>
+                  <Typography>
+                    {database.last_update}&emsp;
+                  </Typography>
+                  <Typography>
+                    {database.recent_status}&emsp;
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <button onClick={() =>  global.navigator.clipboard.writeText(database.token)}>Copy</button><br/>
+                  <button onClick={() =>  global.navigator.clipboard.writeText(database.bcodb_username)}>Copy</button><br/>
+                  <button onClick={() =>  global.navigator.clipboard.writeText(database.public_hostname)}>Copy</button><br/>
+                  <div></div><br/>
+                  <div></div><br/>
+                </Grid>
+              </Grid>
+            </CardContent>
             <CardContent>
               <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Are you sure you want to remove this BCODB instance??</DialogTitle>
@@ -91,47 +159,7 @@ export default function Servers() {
                   >Cancel</Button>
                 </DialogActions>
               </Dialog>
-              <Grid
-                container
-                spacing={2}
-                alignItems="center"
-                justifyContent="center"
-              >
-                <Grid item>
-                  <Typography>Database name:</Typography>
-                  <Typography>Token: </Typography>
-                  <Typography>User Name: </Typography>
-                  <Typography>Public Hostname: </Typography>
-                </Grid>
-                <Grid item>
-                  <Typography>
-                    {database.human_readable_hostname}&emsp;
-                    <button onClick={() =>  global.navigator.clipboard.writeText(database.human_readable_hostname)}>Copy</button>
-                  </Typography>
-                  <TextField
-                    type='password'
-                    value={database.token}
-                    disabled
-                  />
-                  <button onClick={() =>  global.navigator.clipboard.writeText(database.token)}>Copy</button>
-                  <Typography>
-                    {database.bcodb_username}&emsp;
-                    <button onClick={() =>  global.navigator.clipboard.writeText(database.bcodb_username)}>Copy</button>
-                  </Typography>
-                  <Typography>
-                    {database.public_hostname}&emsp;
-                    <button onClick={() =>  global.navigator.clipboard.writeText(database.public_hostname)}>Copy</button>
-                  </Typography>
-                </Grid>
-                <Grid item>
-                </Grid>
-              </Grid>
             </CardContent>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={dialogeOpen}
-            >Remove Database</Button>
           </Card>
         ))
       }

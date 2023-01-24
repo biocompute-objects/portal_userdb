@@ -1,15 +1,25 @@
 // src/components/prefix/PrefixSearch.js
 
 import React from "react";
-import { Box, Button, Card, CardContent } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+} from "@material-ui/core";
 import { Field, Form, Formik  } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { searchPrefix } from "../../slices/prefixSlice";
 import { MyTextField } from "../builder/specialFeilds";
 
-export default function PrefixSearch() {
+export default function PrefixSearch({setAddPrefix}) {
   const isLoggedIn = useSelector((state) => state.account.isLoggedIn);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  const registerPrefix = () => {
+    setAddPrefix(true);
+  };
+
   return (
     <Card>
       <CardContent>
@@ -74,10 +84,17 @@ export default function PrefixSearch() {
                 }
               </Form>
             )}
-
           </Formik>
-
         </Box>
+      </CardContent>
+      <CardContent>
+        <Button
+          variant="contained"
+          color="primary"
+          disabled={!isLoggedIn}
+          onClick={registerPrefix}
+        >Register new prefix
+        </Button>
       </CardContent>
     </Card>
   )

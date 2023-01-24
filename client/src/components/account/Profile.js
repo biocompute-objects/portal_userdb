@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Card, CardContent, Grid } from "@material-ui/core";
+import { Button, Card, CardContent, CardHeader, Grid } from "@material-ui/core";
 import { Formik, Form, } from "formik";
 import { MyTextField } from "../builder/specialFeilds";
 import { account } from "../../slices/accountSlice";
@@ -17,6 +17,7 @@ const Profile = () => {
 
   return (
     <Card>
+      <CardHeader title="User Profile"/>
       <CardContent>
         <Grid
           container

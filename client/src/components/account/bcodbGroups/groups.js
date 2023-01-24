@@ -1,25 +1,18 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import { alpha } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
+import React, { useEffect } from "react";
+import { PropTypes } from "prop-types";
+import {
+  Box, Button, Card, CardContent, CardHeader, Checkbox, Container, Dialog,
+  DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer,
+  TableRow, TableHead, TablePagination, TableSortLabel, Toolbar, Typography
+} from "@material-ui/core";
+import { IconButton, Tooltip } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList"; 
 import { visuallyHidden } from "@mui/utils";
 import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import { groupInfo } from "../../../slices/bcodbSlice";
+import { Field, FieldArray, Form, Formik } from "formik";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -51,23 +44,35 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "prefix",
+    id: "name",
     numeric: false,
     disablePadding: true,
-    label: "Prefix",
+    label: "Group Name",
   },
   {
-    id: "username",
-    numeric: true,
+    id: "admin",
+    numeric: false,
     disablePadding: false,
     label: "Owner User",
   },
   {
-    id: "registration_date",
-    numeric: true,
+    id: "description",
+    numeric: false,
     disablePadding: false,
-    label: "Registration Date",
+    label: "Description",
   },
+  {
+    id: "members",
+    numeric: false,
+    disablePadding: false,
+    label: "Group Members"
+  },
+  {
+    id: "permissions",
+    numeric: false,
+    disablePadding: false,
+    label: "Permissions"
+  }
 ];
 
 function EnhancedTableHead(props) {
@@ -156,7 +161,7 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          Prefixes search results
+          Groups
         </Typography>
       )}
 
@@ -181,14 +186,24 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable() {
-  const dispatch = useDispatch()
-  const prefixes = useSelector((state) => state.prefix.data)
+export default function Groups () {
+  const dispatch = useDispatch();
+  const [open, setOpen] = React.useState(false);
+  const params = useParams();
+  const bcodb = useSelector((state) => state.account.user.bcodbs[params.id]);
+  const groups = useSelector((state) => state.bcodb.groups);
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  useEffect(() => {
+    const group = bcodb.group_permissions
+    const { token, public_hostname } = bcodb;
+    console.log(group, token, public_hostname)
+    dispatch(groupInfo({group, token, public_hostname}))
+  }, [])
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -198,7 +213,7 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = prefixes.map((n) => n.prefix);
+      const newSelected = groups.map((n) => n.prefix);
       setSelected(newSelected);
       return;
     }
@@ -238,7 +253,7 @@ export default function EnhancedTable() {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - prefixes.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - groups.length) : 0;
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -256,23 +271,23 @@ export default function EnhancedTable() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={prefixes.length}
+              rowCount={groups.length}
             />
             <TableBody>
-              {stableSort(prefixes, getComparator(order, orderBy))
+              {stableSort(groups, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.prefix);
+                  const isItemSelected = isSelected(row.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.prefix)}
+                      onClick={(event) => handleClick(event, row.name)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.prefix}
+                      key={row.name}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -290,10 +305,20 @@ export default function EnhancedTable() {
                         scope="row"
                         padding="none"
                       >
-                        {row.prefix}
+                        {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.username}</TableCell>
-                      <TableCell align="right">{row.registration_date}</TableCell>
+                      <TableCell align="right">{JSON.stringify(row.admin)}</TableCell>
+                      <TableCell align="right">{row.description}</TableCell>
+                      <TableCell
+                        align="right"
+                      >{row.members.map((member, index)=>(
+                          `${member}, `
+                        ))}</TableCell>
+                      <TableCell
+                        align="right"
+                      >{row.permissions.map((perm) => (
+                          `${perm}, `
+                        ))}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -312,7 +337,7 @@ export default function EnhancedTable() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={prefixes.length}
+          count={groups.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

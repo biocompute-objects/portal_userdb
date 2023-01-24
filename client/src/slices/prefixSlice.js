@@ -6,11 +6,30 @@ import { setMessage } from "./messageSlice";
 export const searchPrefix = createAsyncThunk(
   "searchPrefix",
   async ({data}, thunkAPI) => {
-    console.log(data)
     try {
       const response = await prefixService.searchPrefix(data);
       thunkAPI.dispatch(setMessage(`Search returned ${response.data.length} prefixes`));
       console.log("response",response.data)
+      return response.data
+    } catch (error) {
+      const message =
+        (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
+export const registerPrefix= createAsyncThunk(
+  "registerPrefix",
+  async ({values}, thunkAPI) => {
+    try {
+      const response = await prefixService.registerPrefix(values);
+      thunkAPI.dispatch(setMessage(response.data["message"]));
       return response.data
     } catch (error) {
       const message =

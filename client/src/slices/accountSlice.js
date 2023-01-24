@@ -26,14 +26,32 @@ export const changePassword = createAsyncThunk(
   }
 );
 
+export const userInfo = createAsyncThunk(
+  "auth/userInfo",
+  async (thunkAPI) => {
+    try {
+      const response = await AuthService.userInfo();
+      return response;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();      
+    }
+  }
+);
+
 export const account = createAsyncThunk(
   "auth/account",
   async (data, thunkAPI) => {
     try {
-      console.log("accountSlice")
       const response = await AuthService.account(data);
       thunkAPI.dispatch(setMessage(response.message));
-      return response.data;
+      return response;
     } catch (error) {
       const message =
         (error.response &&
@@ -93,7 +111,6 @@ export const login = createAsyncThunk(
   async ({ username, password }, thunkAPI) => {
     try {
       const data = await AuthService.login(username, password);
-      // thunkAPI.dispatch(setMessage(data.data.message));
       return { data };
     } catch (error) {
       const message =
@@ -108,8 +125,10 @@ export const login = createAsyncThunk(
   }
 );
 
-export const logout = createAsyncThunk("auth/logout", async () => {
-  await AuthService.logout();
+export const logout = createAsyncThunk("auth/logout", async (thunkAPI) => {
+  const logout = await AuthService.logout();
+  thunkAPI.dispatch(setMessage("Log out successfull"));
+  return logout
 });
 
 const initialState = user
@@ -146,6 +165,13 @@ export const accountSlice = createSlice({
       .addCase(logout.fulfilled, (state) => {
         state.isLoggedIn = false;
         state.user = null;
+      })
+      .addCase(account.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+      })
+      .addCase(userInfo.fulfilled, (state, action) => {
+        console.log(action.payload)
+        state.user = action.payload.user;
       })
   },
 });

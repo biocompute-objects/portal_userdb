@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from django.conf import settings
 from users.services import UserSerializer, ProfileSerializer
 from bcodb.models import BcoDb
-from bcodb.services import BcoDbSerializer
+from bcodb.services import BcoDbSerializer, update_bcodbs
 from users.models import Profile
 
 
@@ -37,11 +37,16 @@ def googleAuthentication(request):
 
 
 def custom_jwt_handler(token, user=None, request=None, public_key=None):
-    """JWT"""
+    """Custom JWT Handler
+    Triggered by any user authentication. This will gater all the associated
+    user information and return that along with the validated JWT
+    """
+
     serialized_user = UserSerializer(user).data
     profile, created = Profile.objects.get_or_create(
         username=serialized_user["username"], email=serialized_user["email"]
     )
+    thing = update_bcodbs(profile=profile)
     bcodbs = BcoDb.objects.filter(owner=profile)
     serialized_dbs = BcoDbSerializer(bcodbs, many=True)
     return {

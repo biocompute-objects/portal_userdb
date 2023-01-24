@@ -2,11 +2,10 @@
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import bcodbService from "../services/bcodb.service";
-import BcoService from "../services/bcodb.service";
 import { setMessage } from "./messageSlice";
 
 export const authenticateBcoDb = createAsyncThunk(
-  "addServer",
+  "bcodb/addServer",
   async ({ token, hostname }, thunkAPI) => {
     console.log(token, hostname);
     try {
@@ -29,7 +28,7 @@ export const authenticateBcoDb = createAsyncThunk(
 );
 
 export const removeBcoDb = createAsyncThunk(
-  "removeBCODB",
+  "bcodb/removeBCODB",
   async ({database}, thunkAPI) => {
     try {
       const response = await bcodbService.removeBcoDb(database);
@@ -49,7 +48,7 @@ export const removeBcoDb = createAsyncThunk(
 );
 
 export const seachBcodb = createAsyncThunk(
-  "searchBcodb",
+  "bcodb/searchBcodb",
   async (data, thunkAPI) => {
     try {
       const results = await bcodbService.searchBcodbAPI(data);
@@ -68,12 +67,58 @@ export const seachBcodb = createAsyncThunk(
   }
 )
 
+export const groupInfo = createAsyncThunk(
+  "bcodb/groupInfo",
+  async ({group, token, public_hostname}, thunkAPI) => {
+    try {
+      const response = await bcodbService.groupInfo(group, token, public_hostname);
+      return response.data
+    } catch (error) {
+      const message =
+          (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
+
+export const permInfo = createAsyncThunk(
+  "bcodb/permInfo",
+  async ({perm, token, public_hostname}, thunkAPI) => {
+    try {
+      const response = await bcodbService.permInfo(perm, token, public_hostname);
+      return response
+    } catch (error) {
+      const message =
+          (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
+
 export const bcodbSlice = createSlice({
   name: "bcodbs",
   initialState: {
     data: [],
+    groups: [],
+    permissions: [],
     status: "idle",
     error: null
+  },
+  reducers: {
+    groupsPermissions: (state, action) => {
+      console.log(state.data, action.payload)
+      state.data = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -101,7 +146,14 @@ export const bcodbSlice = createSlice({
       .addCase(removeBcoDb.fulfilled, (state, action) => {
         state.user = action.payload.user;
       })
+      .addCase(groupInfo.fulfilled, (state, action) => {
+        console.log(action.payload)
+        state.groups = action.payload
+      }) 
   }
 })
 
 export const bcodbReducer = bcodbSlice.reducer
+export const {
+  groupsPermissions,
+} = bcodbSlice.actions;

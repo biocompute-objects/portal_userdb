@@ -6,9 +6,7 @@ from rest_framework import serializers
 from users.models import Profile
 
 class ProfileSerializer(serializers.ModelSerializer):
-    """ProfileGetDataApi
-    getting User data after we are already logged in
-    """
+    """Profile object serializer"""
 
     username = serializers.CharField()
     affiliation = serializers.CharField(default="", initial="")
@@ -21,9 +19,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class UserSerializer(serializers.ModelSerializer):
-    """UserGetDataApi
-    getting User data after we are already logged in
-    """
+    """User object serializer"""
 
     class Meta:
         model = User

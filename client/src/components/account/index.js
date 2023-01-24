@@ -1,10 +1,10 @@
 // src/components/account/index.js
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Card, Container } from "@material-ui/core";
 import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../slices/accountSlice";
+import { logout, userInfo } from "../../slices/accountSlice";
 import Profile from "./Profile";
 import Servers from "./Servers";
 import NotificationBox from "../NotificationBox";
@@ -12,6 +12,10 @@ import NotificationBox from "../NotificationBox";
 export default function AccountPage() {
   const dispatch = useDispatch()
   const currentUser = useSelector((state) => state.account.user);
+
+  useEffect(() => {
+    dispatch(userInfo())
+  }, [])
 
   if (!currentUser) {
     return <Navigate to="/login" />;

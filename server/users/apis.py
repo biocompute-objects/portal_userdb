@@ -114,6 +114,15 @@ class UserUpdateApi(APIView):
 
         return Response(status=status.HTTP_200_OK, data=user_info)
 
+class UserInfoApi(APIView):
+    """Get user info"""
+
+    def post(self, request):
+        user_info = custom_jwt_handler(
+            request._auth, user_from_username(request.user.username)
+        )
+        return Response(status=status.HTTP_200_OK, data=user_info)
+
 class UserRetrieveApi(APIView):
     """
     allows you to post data on successful registration to the backend to

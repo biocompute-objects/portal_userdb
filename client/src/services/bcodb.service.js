@@ -1,6 +1,7 @@
 // services/bcodb.service.js
 
 import axios from "axios";
+const USERS_URL = process.env.REACT_APP_USERDB_URL;
 
 const searchBcodbAPI = async (data) => {
   const response = await axios.post(data.public_hostname + "/api/objects/search/", {
@@ -61,11 +62,27 @@ const removeBcoDb = async (database) => {
   return response;
 }
 
+const groupInfo = async (group, token, public_hostname) => {
+  console.log("Service", group, token, public_hostname)
+  const response = await axios.post(`${public_hostname}/api/groups/group_info/`, {
+    POST_api_groups_info: {
+      names: group
+    }
+  }, {
+    headers: {
+      "Authorization": `Token ${token}`,
+      "Content-Type": "application/json"
+    }
+  })
+  return response;
+}
+
 const bcodbService = {
   searchBcodbAPI,
   authenticateBcoDb,
   addBcoDb,
   removeBcoDb,
+  groupInfo,
 };
 
 export default bcodbService;

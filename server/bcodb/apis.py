@@ -29,7 +29,7 @@ def getRouts(request):
 
 class AddBcodbApi(APIView):
     """Add BcoDb object"""
-
+    @transaction.atomic
     def post(self, request):
         """"""
         data = request.data["data"]
@@ -50,11 +50,12 @@ class AddBcodbApi(APIView):
             "recent_status": "200",
             "recent_attempt": now.isoformat(),
         }
-        bcodb = create_bcodb(data=input_fileter)
+
+        create_bcodb(data=input_fileter)
         user_info = custom_jwt_handler(
             request._auth, user_from_username(request.user.username)
         )
-        # import pdb; pdb.set_trace()
+
         return Response(status=status.HTTP_200_OK, data=user_info)
 
 class RemoveBcodbApi(APIView):
@@ -64,8 +65,10 @@ class RemoveBcodbApi(APIView):
     def post(self, request):
         """"""
         profile = profile_from_username(request.user.username)
-        database = request.data
-        bcodb = get_bcodb(profile, database)
+        db = request.data['database']
+        bcodb = get_bcodb(
+            profile, db['bcodb_username'], db['hostname'], db['token']
+        )
         if bcodb == 'DoesNotExist':
             return Response(status=status.HTTP_404_NOT_FOUND, data={'message': 'That BCO DB was not found'})
         bcodb.delete()
