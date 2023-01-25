@@ -164,7 +164,10 @@ CORS_ORIGIN_WHITELIST = (
     "http://127.0.0.1:3000",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
+    "https://test.portal.biochemistry.gwu.edu",
 )
+
+CSRF_TRUSTED_ORIGINS = ['https://*.biochemistry.gwu.edu','https://*.127.0.0.1']
 
 JWT_AUTH = {
     "JWT_RESPONSE_PAYLOAD_HANDLER": "authentication.services.custom_jwt_handler",

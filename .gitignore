@@ -1,7 +1,9 @@
+client/build/
 client/node_modules/*
 client/.env
 client/prov-domain-formik/*
 *.DS_Store*
 server/env/*
 server/db.sqlite3
+*__pycache__/
 server/.secrets
