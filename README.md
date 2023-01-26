@@ -1,4 +1,4 @@
-# BCO portal
+# BCO Portal
 
 The BCO Portal consists of a [`SERVER`](/server/README.md)  and a [`CLIENT`](client/README.md) applications
 
