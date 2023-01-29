@@ -8,7 +8,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { removeBcoDb, groupsPermissions } from "../../slices/bcodbSlice";
 import AddServer from "./AddServer";
 import { useNavigate } from "react-router-dom";
-import { Toys } from "@mui/icons-material";
 
 const useStyles = makeStyles({
   bullet: {
@@ -47,13 +46,7 @@ export default function Servers() {
   const handleGroups = (database, index) => {
     console.log(database)
     dispatch(groupsPermissions(database))
-    //   .unwrap()
-    //   .then(()=> {
     navigate(`/profile/bcodb/${index}`)
-    //   })
-    //   .catch(()=> {
-    //     console.log("ERROR ")
-    //   });
   };
 
   const dialogeOpen = () => {
@@ -87,6 +80,7 @@ export default function Servers() {
             <Button
               variant="outlined"
               onClick={() => handleGroups(database, index)}
+              disabled={database.recent_status !== "200"}
             >Groups/Permissions</Button>
             <CardHeader title={database.human_readable_hostname}/>
             

@@ -46,7 +46,7 @@ def custom_jwt_handler(token, user=None, request=None, public_key=None):
     profile, created = Profile.objects.get_or_create(
         username=serialized_user["username"], email=serialized_user["email"]
     )
-    thing = update_bcodbs(profile=profile)
+    update_bcodbs(profile=profile)
     bcodbs = BcoDb.objects.filter(owner=profile)
     serialized_dbs = BcoDbSerializer(bcodbs, many=True)
     return {
