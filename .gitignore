@@ -7,3 +7,4 @@ server/env/*
 server/db.sqlite3
 *__pycache__/
 server/.secrets
+server/db.sqlite3

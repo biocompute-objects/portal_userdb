@@ -49,6 +49,7 @@ def update_bcodbs(profile: Profile) -> query.QuerySet:
                 recent_status = bco_api_response.status_code,
                 recent_attempt = now.isoformat()
             )
+
         else:
             BcoDb.objects.filter(id=db.id).update(
                 recent_status = bco_api_response.status_code,

@@ -157,23 +157,23 @@ EX: http://localhost:8000/api/admin/
 
 *If it worked you should be able to login using the SuperUser credentials you created above*
 
-## BCO Portal Server deployment  (bco-test/server)
+## BCO Portal Server deployment  (portal_userdb/server)
 
 - For HTTPS access: 
 
-`git clone https://github.com/biocompute-objects/userdb` 
+`git clone https://github.com/biocompute-objects/portal_userdb` 
 
 - For SSH access*(RECCOMENDED)*: 
 
-`git clone git@github.com:plam87/bco-test.git` 
+`git@github.com:biocompute-objects/portal_userdb.git` 
 
 **Then**
 
-`cd bco-test/`
+`cd portal_userdb/`
 
 **Make sure you are on the desired branch:**
 
-`git switch main` *(or whatever branch you need)*
+`git switch <whatever branch you need>` *(or whatever branch you need)*
 
 ### Enter the repository, create a virtual environment, and install the required packages
 
@@ -229,7 +229,7 @@ If it worked you should be able to login using the SuperUser credentials you cre
 
 `[YOU WEB HOST HERE]/users/admin/`
 
-## BCO Portal Client deployment  (bco-test/client)
+## BCO Portal Client deployment  (portal_userdb/client)
 
 `cd /client/`
 
@@ -237,10 +237,23 @@ If it worked you should be able to login using the SuperUser credentials you cre
 
 `npm install`
 
+**Set up the environment file**
+
+`cp .env.example .env`
+
+Then you will have to add values for the following:
+
+	REACT_APP_USERDB_URL=http://localhost:8181/users/
+	REACT_APP_BCOAPI_URL=http://127.0.0.1:8000/api/
+	REACT_APP_GOOGLE_CLIENT_ID=404409424650-a1hh4j6m9r3998v16siia2lum9un21ip.apps.googleusercontent.com
+
 **Start service**
 
 `npm run start`
 
 **Log in with the superuser credentials you created or imported**
-If you copied over the existing dbs 
+
+If you copied over the existing dbs you should be able to log in with any of the crednetials listed in `/portal_userdb/server/admin/users.tsv`
+
+Otherwise you will have to register a new user. 
 
