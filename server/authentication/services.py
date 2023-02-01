@@ -1,17 +1,16 @@
 # authentication/services.py
 
 import requests
+from django.conf import settings
 from rest_framework import status
 from rest_framework.response import Response
-from django.conf import settings
-from users.services import UserSerializer, ProfileSerializer
+from rest_framework_jwt.settings import api_settings
 from bcodb.models import BcoDb
 from bcodb.services import BcoDbSerializer, update_bcodbs
 from users.models import Profile
+from users.services import UserSerializer, ProfileSerializer
 
-
-
-def googleAuthentication(request):
+def google_authentication(request):
     """Google Authentication"""
 
     client_id = (

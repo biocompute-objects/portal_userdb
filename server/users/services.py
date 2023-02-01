@@ -34,6 +34,24 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
 @transaction.atomic
+def user_create(
+    email: str, username: str, passowrd:str=None, **data:dict
+) -> User:
+    """Create a user. Mostly with Google OAuth"""
+
+    data = {'is_staff': False, 'is_superuser': False, **data}
+    user = User(email=email, username=username, **data)
+    profile = Profile(username=user.username, email=user.email)
+    if user.password == '':
+        user.set_unusable_password()
+    user.full_clean()
+    profile.full_clean()
+    user.save()
+    profile.save()
+    import pdb; pdb.set_trace()
+    return user
+
+@transaction.atomic
 def profile_update(user: User, profile: Profile, data: dict) -> str:
     """Profile update
     Takes a serilizedd object from the request, parses the values and writes

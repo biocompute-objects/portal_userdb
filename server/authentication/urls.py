@@ -4,11 +4,12 @@ from rest_framework_jwt.views import (
     refresh_jwt_token,
     verify_jwt_token,
 )
-from authentication.apis import Oauth
+from authentication.apis import GoogleLoginApi, OauthRegister
 
 urlpatterns = [
     path("token/", ObtainJSONWebTokenView.as_view()),
     path("refresh/", refresh_jwt_token),
     path("verify/", verify_jwt_token),
-    path("oauth/", Oauth.as_view()),
+    path("google/register", OauthRegister.as_view()),
+    path("google/", GoogleLoginApi.as_view()),
 ]

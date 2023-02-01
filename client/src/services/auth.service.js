@@ -31,7 +31,7 @@ const login = async (username, password) => {
 };
 
 const googleLogin = async (idToken) => {
-  const response = await axios.post(USERS_URL + "oauth/", {
+  const response = await axios.post(USERS_URL + "google/", {
     id_token: idToken
   });
   if (response.data.token) {
@@ -39,6 +39,13 @@ const googleLogin = async (idToken) => {
     localStorage.setItem("token", JSON.stringify(response.data.token));
   }
   return response.data;
+};
+
+const googleRegister = async (data) => {
+  const response = await axios.post(USERS_URL + "google/register", {
+    data
+  });
+  return response;
 };
 
 const logout = () => {
@@ -98,6 +105,7 @@ const authService = {
   account,
   changePassword,
   googleLogin,
+  googleRegister,
   userInfo,
 
 };
