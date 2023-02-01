@@ -5,10 +5,31 @@ from rest_framework import permissions, status, serializers
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_jwt.settings import api_settings
-from authentication.services import custom_jwt_handler, googleAuthentication
+from authentication.services import custom_jwt_handler, google_authentication
+from users.services import user_create
+
+class OauthRegister(APIView):
+    """Google Oauth Registration"""
+
+    permission_classes = (permissions.AllowAny,)
+
+    class InputSerializer(serializers.Serializer):
+        email = serializers.EmailField()
+        first_name = serializers.CharField(required=False, default="")
+        last_name = serializers.CharField(required=False, default="")
+        username = serializers.CharField()
+
+    def post(self, request):
+        """Post"""
+
+        user_serializer = self.InputSerializer(data=request.data['data'])
+        user_serializer.is_valid(raise_exception=True)
+        user = user_create(**user_serializer.validated_data)
+ 
+        return Response(status=status.HTTP_200_OK, data=request.data)
 
 
-class Oauth(APIView):
+class GoogleLoginApi(APIView):
     """Google Oauth handeling"""
 
     permission_classes = (permissions.AllowAny,)
@@ -27,7 +48,7 @@ class Oauth(APIView):
 
     def post(self, request):
         """Some docs"""
-        google_response = googleAuthentication(request)
+        google_response = google_authentication(request)
         if type(google_response) == Response:
             return google_response
         serializer = self.InputSerializer(data=google_response)

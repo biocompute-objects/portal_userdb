@@ -1,13 +1,12 @@
-from rest_framework import permissions, status, serializers
-
-from rest_framework.response import Response
 from django.contrib.auth.models import User
-from rest_framework_jwt.settings import api_settings
+from rest_framework import permissions, status, serializers
+from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_jwt.settings import api_settings
+from authentication.services import custom_jwt_handler
 from users.services import ProfileSerializer
 from users.selectors import user_from_username, profile_from_username
 from users.services import profile_update
-from authentication.services import custom_jwt_handler
 
 # def get(self, request):
 # """ TODO
@@ -29,14 +28,13 @@ class UserCreateApi(APIView):
 
     def post(self, request, format=None):
         user_serializer = UserSerializerWithToken(data=request.data)
-        if user_serializer.is_valid(raise_exception=True):
-            profile_serializer = ProfileSerializer(data=request.data)
-            if profile_serializer.is_valid():
-                user_serializer.save()
-                profile_serializer.save()
-                return Response(user_serializer.data, status=status.HTTP_201_CREATED)
-            return Response(profile_serializer.errors, status=status.HTTP_409_CONFLICT)
-        return Response(user_serializer.errors, status=status.HTTP_409_CONFLICT)
+        user_serializer.is_valid(raise_exception=True)
+        profile_serializer = ProfileSerializer(data=request.data)
+        if profile_serializer.is_valid():
+            user_serializer.save()
+            profile_serializer.save()
+            return Response(user_serializer.data, status=status.HTTP_201_CREATED)
+        return Response(profile_serializer.errors, status=status.HTTP_409_CONFLICT)
 
 
 class UserSerializerWithToken(serializers.ModelSerializer):

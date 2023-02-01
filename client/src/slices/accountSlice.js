@@ -3,6 +3,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setMessage } from "./messageSlice";
 import AuthService from "../services/auth.service";
+import { ErrorResponse } from "@remix-run/router";
 
 const user = JSON.parse(localStorage.getItem("user"));
 
@@ -77,7 +78,7 @@ export const register = createAsyncThunk(
         (error.response &&
           error.response.data &&
           error.response.data.message) ||
-        error.message ||
+        error.message || JSON.stringify(error.response.data) ||
         error.toString();
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
@@ -86,10 +87,31 @@ export const register = createAsyncThunk(
 );
 
 export const googleLogin = createAsyncThunk(
-  "auth/google",
+  "auth/googleLogin",
   async (idToken, thunkAPI) => {
     try {
       const authentication = await AuthService.googleLogin(idToken);
+      // thunkAPI.dispatch(setMessage(authentication.data.message));
+      return authentication
+    } catch (error) {
+      console.log(error)
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
+
+export const googleRegister = createAsyncThunk(
+  "auth/googleRegister",
+  async (data, thunkAPI) => {
+    try {
+      const authentication = await AuthService.googleRegister(data);
       // thunkAPI.dispatch(setMessage(authentication.data.message));
       return authentication
     } catch (error) {

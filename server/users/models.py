@@ -10,7 +10,7 @@ class Profile(models.Model):
         default=uuid.uuid4, unique=True, primary_key=True, editable=False
     )
     username = models.CharField(unique=True, max_length=200, default="")
-    affiliation = models.CharField(max_length=255, default="")
+    affiliation = models.CharField(blank=True, default="", max_length=255)
     email = models.CharField(max_length=200, default="")
     orcid = models.CharField(max_length=200, default=" ")
     public = models.BooleanField(blank=True, default=False)
