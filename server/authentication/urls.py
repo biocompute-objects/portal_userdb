@@ -4,12 +4,14 @@ from rest_framework_jwt.views import (
     refresh_jwt_token,
     verify_jwt_token,
 )
-from authentication.apis import GoogleLoginApi, OauthRegister
+from authentication.apis import GoogleLoginApi, GoogleRegister
+from users.apis import UserCreateApi
 
 urlpatterns = [
-    path("token/", ObtainJSONWebTokenView.as_view()),
-    path("refresh/", refresh_jwt_token),
-    path("verify/", verify_jwt_token),
-    path("google/register", OauthRegister.as_view()),
-    path("google/", GoogleLoginApi.as_view()),
+    path("auth/register/", UserCreateApi.as_view()),
+    path("auth/login/", ObtainJSONWebTokenView.as_view()),
+    path("auth/verify/", verify_jwt_token),
+    path("auth/refresh/", refresh_jwt_token),
+    path("google/login/", GoogleLoginApi.as_view()),
+    path("google/register/", GoogleRegister.as_view()),
 ]

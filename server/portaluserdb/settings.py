@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_rest_passwordreset",
     "bcodb.apps.BcodbConfig",
     "users.apps.UsersConfig",
     "prefix.apps.PrefixConfig",

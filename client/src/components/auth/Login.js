@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import { MyTextField } from "../builder/specialFeilds";
 import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { login, googleLogin } from "../../slices/accountSlice";
+import { forgotPassword, login, googleLogin } from "../../slices/accountSlice";
 import NotificationBox from "../NotificationBox";
 
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
@@ -19,21 +19,16 @@ const onGoogleLoginFailure = (response) => {
 }
 
 const Login = () => {
-  const [open, setOpen] = React.useState(false);
-  const [resetEmail, setResetEmail] = React.useState();
   let navigate = useNavigate();
-
-  const [loading, setLoading] = useState(false);
-
-  const { isLoggedIn } = useSelector((state) => state.account);
-
   const dispatch = useDispatch();
-
+  const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = useState(false);
+  const [resetEmail, setResetEmail] = React.useState("");
+  const { isLoggedIn } = useSelector((state) => state.account);
   const initialValues = {
     username: "",
     password: "",
   };
-
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("This field is required!"),
     password: Yup.string()
@@ -47,7 +42,7 @@ const Login = () => {
       )
       .required("This field is required!"),
   });
-
+  
   const onGoogleLoginSuccess = (response) => {
     setLoading(true);
     const idToken = response.tokenId;
@@ -81,6 +76,15 @@ const Login = () => {
 
   const handleSubmit = () => {
     setOpen(false);
+    dispatch(forgotPassword(resetEmail))
+      .unwrap()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    setLoading(false);
   }
 
   const handleClose = () => {
@@ -161,7 +165,7 @@ const Login = () => {
           </DialogContent>
           <DialogActions>
             <Button
-              id="cancle-resetPassword"
+              id="submit-resetPassword"
               onClick={handleSubmit}
               variant="outlined"
               color="primary"

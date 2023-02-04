@@ -48,7 +48,6 @@ def user_create(
     profile.full_clean()
     user.save()
     profile.save()
-    import pdb; pdb.set_trace()
     return user
 
 @transaction.atomic

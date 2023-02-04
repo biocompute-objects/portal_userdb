@@ -3,9 +3,29 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setMessage } from "./messageSlice";
 import AuthService from "../services/auth.service";
-import { ErrorResponse } from "@remix-run/router";
 
 const user = JSON.parse(localStorage.getItem("user"));
+
+export const forgotPassword = createAsyncThunk(
+  "auth/forgot_password",
+  async (email, thunkAPI) => {
+    try {
+      console.log("Slice", email)
+      const response = await AuthService.forgotPassword(email);
+      thunkAPI.dispatch(setMessage(response.message));
+      return response.data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+          error.response.data.email[0] || error.message || 
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
 
 export const changePassword = createAsyncThunk(
   "auth/change_password",
@@ -112,10 +132,9 @@ export const googleRegister = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const authentication = await AuthService.googleRegister(data);
-      // thunkAPI.dispatch(setMessage(authentication.data.message));
+      thunkAPI.dispatch(setMessage(authentication.data.message));
       return authentication
     } catch (error) {
-      console.log(error)
       const message =
         (error.response &&
           error.response.data &&
@@ -139,7 +158,7 @@ export const login = createAsyncThunk(
         (error.response &&
           error.response.data &&
           error.response.data.message) ||
-        error.message ||
+          error.response.data.non_field_errors[0] || error.message ||
         error.toString();
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
