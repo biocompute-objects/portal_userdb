@@ -8,8 +8,10 @@ import { logout, userInfo } from "../../slices/accountSlice";
 import Profile from "./Profile";
 import Servers from "./Servers";
 import NotificationBox from "../NotificationBox";
+import PasswordReset from "./passwordReset";
 
 export default function AccountPage() {
+  const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch()
   const currentUser = useSelector((state) => state.account.user);
 
@@ -24,16 +26,24 @@ export default function AccountPage() {
   return (
     <Container title='Account Page'>
       <NotificationBox />
+      <PasswordReset 
+        open={open}
+        setOpen={setOpen}
+      />
       <Card>
+        <Button
+          variant="outlined"
+          onClick={()=> setOpen(true)}
+        >Change Password</Button>
+        <Button
+          type='submit'
+          variant="contained"
+          color="secondary"
+          onClick={() => {dispatch(logout())}}
+        >Log Out</Button>
         <Profile />
         <Servers />
       </Card>
-      <Button
-        type='submit'
-        variant="contained"
-        color="secondary"
-        onClick={() => {dispatch(logout())}}
-      >Log Out</Button>
     </Container>
   )
 }

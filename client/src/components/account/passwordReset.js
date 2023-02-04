@@ -1,11 +1,15 @@
-import { Button, Card, Dialog, DialogActions, DialogContent, DialogTitle } from "@material-ui/core";
+import React from "react";
+import { 
+  Button, Card, Dialog, DialogActions, DialogContent, DialogTitle
+} from "@material-ui/core";
+import { useDispatch } from "react-redux";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import React from "react";
+import { changePassword } from "../../slices/accountSlice";
 import { MyTextField } from "../builder/specialFeilds";
 
 export default function PasswordReset ({open, setOpen}) {
-
+  const dispatch = useDispatch();
   const handleClose = () => {
     setOpen(false);
   }
@@ -48,6 +52,14 @@ export default function PasswordReset ({open, setOpen}) {
           onSubmit = {(values, {setSubmitting, resetForm}) => {
             setSubmitting(true)
             console.log(values)
+            dispatch(changePassword(values))
+              .unwrap()
+              .then((response) => {
+                console.log(response)
+              })
+              .catch((error) => {
+                console.log(error)
+              })
             setOpen(false)
             resetForm()
             setSubmitting(false)

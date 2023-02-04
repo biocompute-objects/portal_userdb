@@ -1,5 +1,10 @@
 from django.contrib.auth.models import User
+from django.core.mail import send_mail  
+from django.dispatch import receiver
+from django.urls import reverse
+from django_rest_passwordreset.signals import reset_password_token_created
 from rest_framework import permissions, status, serializers
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_jwt.settings import api_settings
@@ -7,6 +12,7 @@ from authentication.services import custom_jwt_handler
 from users.services import ProfileSerializer
 from users.selectors import user_from_username, profile_from_username
 from users.services import profile_update
+
 
 # def get(self, request):
 # """ TODO
@@ -16,6 +22,43 @@ from users.services import profile_update
 #     serializer = UserSerializerWithToken.objects.all()
 #     return Reponse(serializer.data)
 
+class ChangePasswordApi(APIView):
+    """An endpoint for changing password."""
+    model = User
+    permission_classes = (IsAuthenticated,)
+
+    class InputSerializer(serializers.Serializer):
+        """Serializer for password change endpoint."""
+        model = User
+        old_password = serializers.CharField(required=True)
+        new_password = serializers.CharField(required=True)
+
+    def get_object(self, queryset=None):
+        import pdb; pdb.set_trace()
+        obj = self.request.user
+        return obj
+
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.InputSerializer(data=request.data)
+
+        if serializer.is_valid():
+            # Check old password
+            if not self.object.check_password(serializer.data.get("old_password")):
+                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+            # set_password also hashes the password that the user will get
+            self.object.set_password(serializer.data.get("new_password"))
+            self.object.save()
+            response = {
+                'status': 'success',
+                'code': status.HTTP_200_OK,
+                'message': 'Password updated successfully',
+                'data': []
+            }
+
+            return Response(response)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserCreateApi(APIView):
     """
@@ -35,7 +78,6 @@ class UserCreateApi(APIView):
             profile_serializer.save()
             return Response(user_serializer.data, status=status.HTTP_201_CREATED)
         return Response(profile_serializer.errors, status=status.HTTP_409_CONFLICT)
-
 
 class UserSerializerWithToken(serializers.ModelSerializer):
     """
@@ -132,3 +174,19 @@ class UserRetrieveApi(APIView):
         nameset = User.objects.all()
         serializer = UserSerializerWithToken(nameset, many=True)
         return Response(serializer.data)
+
+@receiver(reset_password_token_created)
+def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+
+    email_plaintext_message = "{}?token={}".format(reverse('password_reset:reset-password-request'), reset_password_token.key)
+
+    send_mail(
+        # title:
+        "Password Reset for {title}".format(title="Some website title"),
+        # message:
+        email_plaintext_message,
+        # from:
+        "noreply@somehost.local",
+        # to:
+        [reset_password_token.user.email]
+    )

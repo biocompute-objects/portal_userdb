@@ -5,7 +5,7 @@ import axios from "axios";
 const USERS_URL = process.env.REACT_APP_USERDB_URL;
 
 const register = (username, email, password) => {
-  return axios.post(USERS_URL + "register/", {
+  return axios.post(USERS_URL + "auth/register/", {
     "username": username,
     "email": email,
     "password": password,
@@ -19,7 +19,7 @@ const register = (username, email, password) => {
 };
 
 const login = async (username, password) => {
-  const response = await axios.post(USERS_URL + "token/", {
+  const response = await axios.post(USERS_URL + "auth/login/", {
     username,
     password,
   });
@@ -31,7 +31,7 @@ const login = async (username, password) => {
 };
 
 const googleLogin = async (idToken) => {
-  const response = await axios.post(USERS_URL + "google/", {
+  const response = await axios.post(USERS_URL + "google/login/", {
     id_token: idToken
   });
   if (response.data.token) {
@@ -42,7 +42,7 @@ const googleLogin = async (idToken) => {
 };
 
 const googleRegister = async (data) => {
-  const response = await axios.post(USERS_URL + "google/register", {
+  const response = await axios.post(USERS_URL + "google/register/", {
     data
   });
   return response;
@@ -77,19 +77,29 @@ const account = async (data) => {
 };
 
 const changePassword = (data) => {
-  return axios.put(USERS_URL + "change_password/", {
+  return axios.post(USERS_URL + "change_password/", {
     old_password: data.old_password,
     new_password: data.new_password,
   }, {
     headers: {
-      "Authorization": `JWT ${JSON.parse(localStorage.getItem("token"))}`,
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json"
     }
   })
 };
 
+const forgotPassword = async (email) => {
+  const response = await axios.post(`${USERS_URL}forgot_password/`, {
+    email
+  }, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  return response
+};
+
 const userInfo = async () => {
-  console.log("auth.slice", `Bearer ${JSON.parse(localStorage.getItem("token"))}`)
   const response = await axios.post(USERS_URL + "user_info/", {}, {
     headers: {
       "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
@@ -104,6 +114,7 @@ const authService = {
   logout,
   account,
   changePassword,
+  forgotPassword,
   googleLogin,
   googleRegister,
   userInfo,

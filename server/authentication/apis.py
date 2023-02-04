@@ -7,8 +7,9 @@ from rest_framework.views import APIView
 from rest_framework_jwt.settings import api_settings
 from authentication.services import custom_jwt_handler, google_authentication
 from users.services import user_create
+from users.selectors import user_from_username
 
-class OauthRegister(APIView):
+class GoogleRegister(APIView):
     """Google Oauth Registration"""
 
     permission_classes = (permissions.AllowAny,)
@@ -21,12 +22,23 @@ class OauthRegister(APIView):
 
     def post(self, request):
         """Post"""
-
-        user_serializer = self.InputSerializer(data=request.data['data'])
-        user_serializer.is_valid(raise_exception=True)
-        user = user_create(**user_serializer.validated_data)
- 
-        return Response(status=status.HTTP_200_OK, data=request.data)
+        try:
+            user_from_username(request.data['data']['username'])
+            return Response(
+                status=status.HTTP_409_CONFLICT,
+                data={"message": "A user with that username already exists."}
+            )
+        
+        except User.DoesNotExist:
+            user_serializer = self.InputSerializer(data=request.data['data'])
+            user_serializer.is_valid(raise_exception=True)
+            user = user_create(**user_serializer.validated_data)
+            username = user.username
+    
+            return Response(
+                status=status.HTTP_200_OK,
+                data={"message":f"The user {username} was successfully created"}
+            )
 
 
 class GoogleLoginApi(APIView):

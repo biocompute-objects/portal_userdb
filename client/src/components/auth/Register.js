@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import { useDispatch } from "react-redux";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { Navigate, useNavigate } from "react-router-dom";
 import { register, googleRegister } from "../../slices/accountSlice";
