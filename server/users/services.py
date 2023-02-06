@@ -69,6 +69,7 @@ def profile_update(user: User, profile: Profile, data: dict) -> str:
 
     user.last_name = data["last_name"]
     user.first_name = data["first_name"]
+    user.email = data["email"]
     user.full_clean()
     user.save()
 

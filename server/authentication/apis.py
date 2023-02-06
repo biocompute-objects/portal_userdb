@@ -52,14 +52,8 @@ class GoogleLoginApi(APIView):
         last_name = serializers.CharField(required=False, default="")
         aud = serializers.CharField()
 
-    class ProfileInputSerializer(serializers.Serializer):
-        username = serializers.CharField()
-        email = serializers.EmailField()
-        first_name = serializers.CharField(required=False, default="")
-        last_name = serializers.CharField(required=False, default="")
-
     def post(self, request):
-        """Some docs"""
+        """Post"""
         google_response = google_authentication(request)
         if type(google_response) == Response:
             return google_response

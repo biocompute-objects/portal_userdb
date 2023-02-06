@@ -124,7 +124,6 @@ class UserSerializerWithToken(serializers.ModelSerializer):
         model = User
         fields = ("token", "username", "password", "email")
 
-
 class UserUpdateApi(APIView):
     class ProfileUpdateSerializer(serializers.Serializer):
         username = serializers.CharField()
