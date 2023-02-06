@@ -19,7 +19,7 @@ class SearchPrefixAPI(APIView):
     permission_classes = []
 
     def get(self, request):
-        """Post"""
+        """Get"""
         if self.request.GET['type'] == 'all':
             prefix_list = all_prefix()
 
