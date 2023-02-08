@@ -5,6 +5,7 @@ import { UsabilityDomain } from "./usabilityDomain";
 import { ParametricDomain } from "./parametricDomain";
 import { IODomain } from "./ioDomain";
 import { ExecutionDomain } from "./executionDomain";
+import { Preview } from "./preview";
 import { ExtensionDomain } from "./extensionDomain";
 import { useDispatch } from "react-redux"
 import PropTypes from "prop-types";
@@ -53,6 +54,9 @@ const data = [
   },
   {
     name: "Execution Domain"
+  },
+  {
+    name: "Preview"
   }
 ];
 
@@ -169,6 +173,9 @@ export const  BuilderColorCode = () => {
               </TabPanel>
               <TabPanel value={value} index={6}>
                 <ExecutionDomain/>
+              </TabPanel>
+              <TabPanel value={value} index={7}>
+                <Preview/>
               </TabPanel>
             </Grid>
           </Grid>
