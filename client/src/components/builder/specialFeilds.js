@@ -1,5 +1,5 @@
 import React from "react";
-import { useField } from "formik";
+import { useField, useFormikContext} from "formik";
 import { Box, MenuItem, TextField } from "@material-ui/core";
 import dayjs, { Dayjs } from "dayjs";
 import { Chip, FormControl, InputLabel, OutlinedInput, Select } from "@mui/material";
@@ -65,6 +65,7 @@ export const MyDateTimeField = ({placeholder,label, isFullWidth, isRequired, isD
 
 export const BaisicDateTimePicker = ({placeholder, label, isFullWidth, isRequired, isDisabled, ...props}) => {
   const [field, meta] = useField(props);
+  const { setFieldValue } = useFormikContext();
   const errorText = meta.error && meta.touched ? meta.error : "";
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -73,8 +74,11 @@ export const BaisicDateTimePicker = ({placeholder, label, isFullWidth, isRequire
         label={label}
         required={isRequired}
         {...field}
-        disabled={isDisabled}
-        onChange={() => {}}
+        disabled={isDisabled} selected={(field.value && new Date(field.value)) || null}
+        onChange={val => {
+          console.log(val)
+          setFieldValue(field.name, val.toISOString());
+        }}
       />
     </LocalizationProvider>
       
