@@ -56,7 +56,7 @@ const data = [
     name: "Execution Domain"
   },
   {
-    name: "Preview"
+    name: "Review & Publish"
   }
 ];
 
