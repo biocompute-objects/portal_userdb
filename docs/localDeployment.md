@@ -106,6 +106,7 @@ folder=../api/request_definitions/
 [VALIDATIONS]
 folder=../api/validation_definitions/
 ````
+
 #### Set up DB
 
 `cd bco_api/bco_api`
@@ -196,6 +197,26 @@ EX: http://localhost:8000/api/admin/
 152:  CORS_ORIGIN_ALL_ALL = True
 ````
 
+#### Generate the secrets file
+----
+
+- Copy the `.secrets.example` to `.secrets`
+
+- On linux (or MAC) generate a 32-bytes long PSK key using the openssl command for the `DJANO_KEY`:
+
+`openssl rand -base64 32`
+
+- Update the `.secrets` file with the required keys: 
+
+```
+[GOOGLE_KEYS]
+DJANGO_GOOGLE_OAUTH2_CLIENT_ID=<your-client-id-here>
+DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET=<your-client-secret-here>
+
+[DJANGO_KEY]
+SECRET_KEY=<your-Django-secret-key--here>
+```
+
 #### Set up DB
 ---
 ##### Option #1: Use existing DB
@@ -243,7 +264,7 @@ If it worked you should be able to login using the SuperUser credentials you cre
 
 Then you will have to add values for the following:
 
-	REACT_APP_USERDB_URL=http://localhost:8181/users/
+	REACT_APP_USERDB_URL=http://localhost:8080/users/
 	REACT_APP_BCOAPI_URL=http://127.0.0.1:8000/api/
 	REACT_APP_GOOGLE_CLIENT_ID=404409424650-a1hh4j6m9r3998v16siia2lum9un21ip.apps.googleusercontent.com
 
