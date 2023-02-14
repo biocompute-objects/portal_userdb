@@ -37,7 +37,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function About() {
+export default function Documentation() {
   const classes = useStyles();
   const wikiLink = "https://wiki.biocomputeobject.org/index.php?title=Main_Page";
   const docsLink = "https://docs.biocomputeobject.org/";
@@ -48,7 +48,7 @@ export default function About() {
         BCO Documentation
         <br />
       </Typography>
-      <CardActionArea onClick={() => window.open(wikiLink)}>
+      <CardActionArea onClick={() => global.window.open(wikiLink)}>
         <CardContent>
           <Typography className={classes.subtitle}>
             <img src={mediaWiki} height={25} alt="MediaWiki logo" />
@@ -60,7 +60,7 @@ export default function About() {
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActionArea onClick={() => window.open(docsLink)}>
+      <CardActionArea onClick={() => global.window.open(docsLink)}>
         <CardContent>
           <Typography className={classes.subtitle}>
             BCO Docs Site
