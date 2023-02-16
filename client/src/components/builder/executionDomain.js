@@ -202,34 +202,42 @@ export const ExecutionDomain = () => {
                         <Typography variant='h6'>Environment Variables</Typography>
                       </CardContent>
                     </Grid>
-                    <Grid container spacing={2}>
-                      <div>
+                    <Grid container spacing={2} justifyContent='center'>
+                      <CardContent>
                         {Object.entries(envars).map((item, index) => (
-                          <div key={index}>
-                            <div>{item[0]}: {item[1]}</div>
-                            <Button
-                              onClick={() => {
-                                console.log(item[0])
-                                removeEnvar(item)
-                              }}
-                            >remove</Button>
-                          </div>
+                          <Grid container key={index} >
+                            <Grid item>
+                              {item[0]} : {item[1]}
+                            </Grid>
+                            <Grid item>
+                              <Button
+                                variant="outlined"
+                                color='primary'
+                                size='small'
+                                onClick={() => removeEnvar(item)}
+                              >remove</Button>
+                            </Grid>
+                          </Grid>
                         ))}
-                      </div>
-                      <div>
-                        <TextField
-                          value={key}
-                          onChange={(e) => setKey(e.target.value)}
-                        />:
-                        <TextField
-                          value={value}
-                          onChange={(e) => setValue(e.target.value)}
-                        />
-                        <Button
-                          disabled={key === "" || value === ""}
-                          onClick={addEnvar}
-                        >add</Button>
-                      </div>
+                        <Grid container>
+                          <Grid item>
+                            <TextField
+                              value={key}
+                              onChange={(e) => setKey(e.target.value)}
+                            />:
+                            <TextField
+                              value={value}
+                              onChange={(e) => setValue(e.target.value)}
+                            />
+                          </Grid>
+                          <Grid item>
+                            <Button
+                              disabled={key === "" || value === ""}
+                              onClick={addEnvar}
+                            >add</Button>
+                          </Grid>
+                        </Grid>
+                      </CardContent>
                     </Grid>
                   </Grid>
                   <div style={{padding: 20}}> 
