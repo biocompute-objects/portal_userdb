@@ -51,7 +51,8 @@ const bcoSlice = createSlice({
       state["data"]["extension_domain"][action.payload.index] = action.payload.formData;
     },
     updateExecutionDomain: (state, action) => {
-      state["data"]["execution_domain"] = action.payload;
+      state["data"]["execution_domain"] = action.payload.formData;
+      state["data"]["execution_domain"]["environment_variables"] = action.payload.envars
     },
     updateModified: (state) => {
       state["data"]["provenance_domain"]["modified"] = new Date().toISOString().split(".")[0]

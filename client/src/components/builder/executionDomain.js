@@ -1,5 +1,5 @@
-import React from "react";
-import {Card, Typography, CardContent, Grid, Button} from "@material-ui/core";
+import React, { useState } from "react";
+import {Card, Typography, CardContent, Grid, Button, TextField} from "@material-ui/core";
 
 import { Formik, Form, FieldArray } from "formik";
 
@@ -12,6 +12,27 @@ import { Uri } from "./components"
 export const ExecutionDomain = () => {
   const dispatch = useDispatch();
   const execution_domain = useSelector(state => state.bco.data.execution_domain);
+  const environment_variables = useSelector(state => state.bco.data.execution_domain.environment_variables);
+  const [envars, setEnvars] = useState(environment_variables)
+  const [key, setKey] = useState("")
+  const [value, setValue] = useState("")
+
+  const removeEnvar = (item) => {
+    if (Object.entries(envars).length === 1) {
+      setEnvars({})
+    } else {
+      const { [item[0]]: value, ...withoutKey} = environment_variables
+      setEnvars(withoutKey)
+    }
+    setKey("");
+    setValue("");
+  }
+
+  const addEnvar = () => {
+    setEnvars({...envars, [key]:value});
+    setKey("");
+    setValue("");
+  }
 
   return (
     <>
@@ -25,9 +46,9 @@ export const ExecutionDomain = () => {
               execution_domain
             }
             onSubmit={
-              (myData, {setSubmitting}) => {
+              (formData, {setSubmitting}) => {
                 setSubmitting(true);
-                dispatch(updateExecutionDomain(myData));
+                dispatch(updateExecutionDomain({formData, envars}));
                 setSubmitting(false);
               }
             }
@@ -175,6 +196,40 @@ export const ExecutionDomain = () => {
                           />
                         </Grid> 
                       </CardContent>                 
+                    </Grid>
+                    <Grid container spacing={2} justifyContent='center'>
+                      <CardContent>
+                        <Typography variant='h6'>Environment Variables</Typography>
+                      </CardContent>
+                    </Grid>
+                    <Grid container spacing={2}>
+                      <div>
+                        {Object.entries(envars).map((item, index) => (
+                          <div key={index}>
+                            <div>{item[0]}: {item[1]}</div>
+                            <Button
+                              onClick={() => {
+                                console.log(item[0])
+                                removeEnvar(item)
+                              }}
+                            >remove</Button>
+                          </div>
+                        ))}
+                      </div>
+                      <div>
+                        <TextField
+                          value={key}
+                          onChange={(e) => setKey(e.target.value)}
+                        />:
+                        <TextField
+                          value={value}
+                          onChange={(e) => setValue(e.target.value)}
+                        />
+                        <Button
+                          disabled={key === "" || value === ""}
+                          onClick={addEnvar}
+                        >add</Button>
+                      </div>
                     </Grid>
                   </Grid>
                   <div style={{padding: 20}}> 
