@@ -5,6 +5,7 @@ import { Container, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import SearchOptions from "./SearchOptions";
 import SearchResults from "./SearchResults";
+import NotifcationBox from "../NotificationBox";
 
 export default function BcoDbs () {
   const [ bcodbInfo, setBcodbInfo ] = useState([])
@@ -12,13 +13,7 @@ export default function BcoDbs () {
   return (
     <Container >
       <Typography variant='h4'>BioCompute Database Search</Typography>
-      {message && (
-        <div className="form-group">
-          <div className="alert alert-danger" role="alert">
-            {message}
-          </div>
-        </div>
-      )}
+      <NotifcationBox />
       <SearchOptions
         setBcodbInfo={setBcodbInfo}
       />

@@ -13,7 +13,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { Field, Form, Formik } from "formik";
 import { MyTextField } from "../builder/specialFeilds";
-import { seachBcodb } from "../../slices/bcodbSlice";
+import { seachBcodb } from "../../slices/searchSlice";
 
 export default function SearchOptions ({setBcodbInfo}) {
   const dispatch = useDispatch();
