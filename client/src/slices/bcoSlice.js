@@ -35,7 +35,6 @@ const bcoSlice = createSlice({
     status: "idle",
     error: null
   },
-
   reducers: { // list of functions action
     updateProvenanceDomain: (state, action) => {
       state["data"]["provenance_domain"] = action.payload;
@@ -112,6 +111,10 @@ const bcoSlice = createSlice({
       .addCase(getPubBco.rejected, (state, action) => {
         state.status = "failed"
       })
+      .addCase(createDraftBco.fulfilled, (state, action) => {
+        console.log(action.payload[0].object_id)
+        state.data.object_id = action.payload[0].object_id
+      })
   }
 })
 
@@ -138,6 +141,27 @@ export const fetchBco = createAsyncThunk(
       })
     return data
   })
+
+export const createDraftBco = createAsyncThunk(
+  "createDraft",
+  async ({bcoURL, bcoObject}, thunkAPI) => {
+    try {
+      console.log("bcoURL: ", bcoURL);
+      const response = await BcoService.createDraftBco(bcoURL, bcoObject);
+      return response.data;
+  
+    } catch(error) {
+      const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
 
 export const addExtension = createAsyncThunk(
   "addExtension",
