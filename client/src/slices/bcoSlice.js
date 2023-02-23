@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import BcoService from "../services/bco.service";
 import { setMessage } from "../slices/messageSlice";
 
+import axios from "axios";
+
 const bcoSlice = createSlice({
   name: "biocompute",
   initialState: {
@@ -116,6 +118,9 @@ const bcoSlice = createSlice({
       .addCase(getPubBco.rejected, (state, action) => {
         state.status = "failed"
       })
+      .addCase(createDraftBco.fulfilled, (state, action) => {
+        state.data.object_id = action.payload
+      })
   }
 })
 
@@ -166,6 +171,7 @@ export const getDraftBco = createAsyncThunk(
   "getDraft",
   async ({bcodbInfo, object_id}, thunkAPI) => {
     try {
+      console.log("===== bcodbInfo: ",bcodbInfo);
       const response = await BcoService.getDraftBco(bcodbInfo, object_id);
       return response.data;
     } catch(error) {
@@ -181,6 +187,26 @@ export const getDraftBco = createAsyncThunk(
   }
 )
 
+export const createDraftBco = createAsyncThunk(
+  "createDraft",
+  async ({bcoURL, bcoObject}, thunkAPI) => {
+    try {
+      console.log("bcoURL: ", bcoURL);
+      const response = await BcoService.createDraftBco(bcoURL, bcoObject);
+      return response.data;
+
+    } catch(error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
 
 
 export const getPubBco = createAsyncThunk(
