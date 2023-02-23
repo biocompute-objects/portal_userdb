@@ -70,15 +70,19 @@ export const BaisicDateTimePicker = ({placeholder, label, isFullWidth, isRequire
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateTimePicker
-        renderInput={(props) => <TextField {...props}/>}
+        renderInput={(props) => {
+          return <TextField {...props} onKeyDown={(e) => e.preventDefault()} />}
+        }
         label={label}
         required={isRequired}
         {...field}
         disabled={isDisabled} selected={(field.value && new Date(field.value)) || null}
-        onChange={val => {
-          console.log(val)
-          setFieldValue(field.name, val.toISOString());
-        }}
+        onChange={(val) => {
+            if (val.isValid()) {
+              setFieldValue(field.name, val.toISOString());
+            }
+          }
+        }
       />
     </LocalizationProvider>
       
