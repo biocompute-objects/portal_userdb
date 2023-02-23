@@ -71,7 +71,12 @@ const bcoSlice = createSlice({
     },
     updateIODomain: (state, action) => {
       state["data"]["io_domain"] = action.payload;
-    }
+    },
+    updateObjectId: (state, action) => {
+      console.log("Before ... ", action.payload);
+      state["data"]["object_id"] = action.payload;
+      console.log("After ... ", state.data);
+    },
   },
   extraReducers(builder) {
     builder
@@ -176,6 +181,8 @@ export const getDraftBco = createAsyncThunk(
   }
 )
 
+
+
 export const getPubBco = createAsyncThunk(
   "getPub",
   async ({bcodbInfo, object_id}, thunkAPI) => {
@@ -210,4 +217,5 @@ export const {
   addExtensionDomain,
   deleteExtensionDomain,
   updateExecutionDomain,
+  updateObjectId
 } = bcoSlice.actions;
