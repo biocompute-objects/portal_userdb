@@ -5,7 +5,7 @@ import {
   Button, Card, CardContent, CardHeader, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, makeStyles, TextField, Typography
 } from "@material-ui/core"
 import { useSelector, useDispatch } from "react-redux";
-import { removeBcoDb, groupsPermissions } from "../../slices/bcodbSlice";
+import { removeBcoDb, groupsPermissions, groupInfo } from "../../slices/accountSlice";
 import AddServer from "./AddServer";
 import { useNavigate } from "react-router-dom";
 
@@ -44,9 +44,15 @@ export default function Servers() {
   let navigate = useNavigate();
 
   const handleGroups = (database, index) => {
-    console.log(database)
-    dispatch(groupsPermissions(database))
-    navigate(`/profile/bcodb/${index}`)
+    const { token, public_hostname, group_permissions } = database 
+    dispatch(groupInfo({group_permissions, token, public_hostname, index}))      .unwrap()
+      .then(() => {
+        navigate(`/profile/bcodb/${index}`)
+      })
+      .catch((error) => {
+        console.log(error)        
+      });
+
   };
 
   const dialogeOpen = () => {

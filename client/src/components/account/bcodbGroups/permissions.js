@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Card, CardContent, CardHeader, Typography } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
-import { permInfo } from "../../../slices/bcodbSlice";
+import { permInfo } from "../../../slices/accountSlice";
 import { useParams } from "react-router-dom";
 import { Field, FieldArray, Form, Formik } from "formik";
 

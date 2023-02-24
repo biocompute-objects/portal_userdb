@@ -48,7 +48,7 @@ export const  ProvenanceDomain = () => {
                 if (obsolete === false) {
                   delete myData["obsolete_after"]
                 }
-                if (obsolete === false) {
+                if (embargo === false) {
                   delete myData["embargo"]
                 }
                 dispatch(updateProvenanceDomain(myData));// payload

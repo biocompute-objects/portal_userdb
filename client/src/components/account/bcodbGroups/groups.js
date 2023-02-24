@@ -10,9 +10,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList"; 
 import { visuallyHidden } from "@mui/utils";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
-import { groupInfo } from "../../../slices/bcodbSlice";
+import { useParams, useNavigate } from "react-router-dom";
 import { Field, FieldArray, Form, Formik } from "formik";
+
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -187,23 +187,17 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function Groups () {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const params = useParams();
   const bcodb = useSelector((state) => state.account.user.bcodbs[params.id]);
-  const groups = useSelector((state) => state.bcodb.groups);
+  const groups = useSelector((state) => state.account.user.bcodbs[params.id].groups);
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  useEffect(() => {
-    const group = bcodb.group_permissions
-    const { token, public_hostname } = bcodb;
-    console.log(group, token, public_hostname)
-    dispatch(groupInfo({group, token, public_hostname}))
-  }, [])
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
