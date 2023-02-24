@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Box, Container, Grid, Typography, makeStyles } from "@material-ui/core";
-import About from "./About"
+import Documentation from "./Documentation";
 import Tsc from "./Tsc";
 import Galaxy from "./Galaxy";
 import BioComputeResources from "./BioComputeResources";
@@ -38,7 +38,7 @@ const HomePage = () => {
             <Container maxWidth={false}>
               <Grid container justifyContent="center" spacing={3}>
                 <Grid item xs={12} sm={12} lg={4} xl={4}>
-                  <About />
+                  <Documentation />
                 </Grid>
                 <Grid item xs={12} sm={6} lg={4} xl={4}>
                   <Specification />

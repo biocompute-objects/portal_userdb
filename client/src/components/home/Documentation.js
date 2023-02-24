@@ -37,7 +37,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function About() {
+export default function Documentation() {
   const classes = useStyles();
   const wikiLink = "https://wiki.biocomputeobject.org/index.php?title=Main_Page";
   const docsLink = "https://docs.biocomputeobject.org/";

@@ -14,6 +14,7 @@ import BcoDbs from "./components/bcodbs";
 import Prefix from "./components/prefix";
 import BcoViewer from "./components/viewer";
 import GroupsPage from "./components/account/bcodbGroups";
+import About from "./components/about";
 
 export default function Router() {
   const isLoggedIn = useSelector((state) => state.account.isLoggedIn)
@@ -33,6 +34,7 @@ export default function Router() {
         { path: "/resources", element: <Resources /> },
         { path: "/bcodbs", element: <BcoDbs />},
         { path: "/prefix", element: <Prefix />},
+        { path: "/about", element: <About />},
       ]
     },
     {
