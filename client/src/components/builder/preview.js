@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Card, CardContent, Grid, Paper, Typography } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import ReactJson from "react-json-view"
-import { createDraftBco } from "../../slices/bcoSlice";
+import { createDraftBco, updateDraftBco } from "../../slices/bcoSlice";
 
 export const Preview = () => {
   const bco = useSelector(state => state.bco.data);
@@ -14,6 +14,13 @@ export const Preview = () => {
     const bcoURL = BCODB_URL
     const bcoObject = bco
     dispatch(createDraftBco({bcoURL, bcoObject}))
+  }
+
+  const updateDraft = () => {
+    console.log("Preview", BCODB_URL, bco)
+    const bcoURL = BCODB_URL
+    const bcoObject = bco
+    dispatch(updateDraftBco({bcoURL, bcoObject}))
   }
 
   return (
@@ -45,7 +52,12 @@ export const Preview = () => {
             </Grid>)
           }
           <Grid item xs>
-            <Button type='submit' variant="contained" color="secondary" onClick={() =>  publish()  }> Publish </Button>
+            <Button
+              type='submit'
+              variant="contained"
+              color="secondary"
+              onClick={() =>  publish()  }
+            > Publish </Button>
           </Grid>
         </Grid>
       </CardContent>

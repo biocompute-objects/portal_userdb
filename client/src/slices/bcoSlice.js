@@ -112,8 +112,13 @@ const bcoSlice = createSlice({
         state.status = "failed"
       })
       .addCase(createDraftBco.fulfilled, (state, action) => {
-        console.log(action.payload[0].object_id)
         state.data.object_id = action.payload[0].object_id
+      })
+      .addCase(createDraftBco.rejected, (state, action) => {
+        state.status = "rejected"
+      })
+      .addCase(validateBco.fulfilled, (state, action) => {
+        console.log(action)
       })
   }
 })
@@ -148,8 +153,76 @@ export const createDraftBco = createAsyncThunk(
     try {
       console.log("bcoURL: ", bcoURL);
       const response = await BcoService.createDraftBco(bcoURL, bcoObject);
+      thunkAPI.dispatch(setMessage(response.data[0].message))
       return response.data;
-  
+    } catch(error) {
+      const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
+
+export const updateDraftBco = createAsyncThunk(
+  "updateDraft",
+  async ({bcoURL, bcoObject}, thunkAPI) => {
+    try {
+      console.log("bcoURL: ", bcoURL);
+      const response = await BcoService.updateDraftBco(bcoURL, bcoObject);
+      thunkAPI.dispatch(setMessage(response.data[0].message))
+      return response.data;
+    } catch(error) {
+      const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
+
+export const publishDraftBco = createAsyncThunk(
+  "publishDraft",
+  async ({bcoURL, bcoObject}, thunkAPI) => {
+    try {
+      console.log("bcoURL: ", bcoURL);
+      const response = await BcoService.publishDraftBco(bcoURL, bcoObject);
+      thunkAPI.dispatch(setMessage(response.data[0].message))
+      return response.data;
+    } catch(error) {
+      const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
+
+export const validateBco = createAsyncThunk(
+  "validate",
+  async ({bcoURL, bcoObject}, thunkAPI) => {
+    try {
+      console.log("bcoURL: ", bcoURL);
+      const response = await BcoService.validateBco(bcoURL, bcoObject);
+      if (response.status === 207) {
+        thunkAPI.dispatch(setMessage(JSON.stringify(response.data)))
+      }
+      if (response.status === 200) {
+        return response.data;
+      }
+      
     } catch(error) {
       const message =
           (error.response &&
