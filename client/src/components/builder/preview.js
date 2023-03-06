@@ -1,12 +1,21 @@
 import React, { useState } from "react";
-import { Button, Card, CardContent, Grid, Paper, Typography } from "@material-ui/core";
+import { Button, Card, CardContent, CardHeader, Grid, Paper, TextField, Typography } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import ReactJson from "react-json-view"
-import { createDraftBco, updateDraftBco, publishDraftBco, validateBco } from "../../slices/bcoSlice";
+import { 
+  createDraftBco,
+  updateDraftBco,
+  publishDraftBco,
+  validateBco,
+  setPrefix,
+} from "../../slices/bcoSlice";
 
 export const Preview = () => {
+  const [prefixHolder, setPrefixHolder] = useState("");
   const bco = useSelector(state => state.bco.data);
-  const valid = useSelector(state => state.bco.status);
+  const prefix = useSelector(state => state.bco.prefix);
+  const bcoErrors = useSelector(state => state.bco.error);
+  const bcoStatus = useSelector(state => state.bco.status);
   const dispatch = useDispatch();
   const BCODB_URL = process.env.REACT_APP_BCOAPI_URL;
 
@@ -28,7 +37,7 @@ export const Preview = () => {
     console.log("Publish", BCODB_URL, bco)
     const bcoURL = BCODB_URL
     const bcoObject = bco
-    dispatch(publishDraftBco({bcoURL, bcoObject}))
+    dispatch(publishDraftBco({prefix, bcoURL, bcoObject}))
   }
 
   const validate = () => {
@@ -47,8 +56,34 @@ export const Preview = () => {
       <CardContent  align='left'>
         { <ReactJson src={bco}/> }
       </CardContent>
+      {
+        bcoStatus === "invalid"
+          ? (
+            <Card>
+              <CardHeader title="BCO Errors"/>
+              <CardContent  align='left'>
+                <ReactJson src={bcoErrors}/>
+              </CardContent>
+            </Card>
+          )
+          : (<></>)
+      }
       <CardContent>
         <Grid container spacing={2}> 
+          {
+            (prefix !== null)
+              ? (<></>)
+              : (<Grid container spacing={2}>
+                <TextField
+                  value={prefixHolder}
+                  onChange={(event) => setPrefixHolder(event.target.value)}
+                />
+                <Button
+                  disabled={prefixHolder.length < 3 || prefixHolder.length > 5}
+                  onClick={() => dispatch(setPrefix(prefixHolder))}
+                >Set Prefix</Button>
+              </Grid>)
+          }
           { ( bco["object_id"].length > 1)
             ? (<Grid item xs>
               <Button 
@@ -62,6 +97,7 @@ export const Preview = () => {
               <Button
                 type='submit'
                 variant="contained"
+                disabled={prefix === null}
                 color="primary"
                 onClick={() =>  createDraft()  }
               > Save as Draft </Button>
@@ -79,7 +115,7 @@ export const Preview = () => {
           <Grid item xs>
             <Button
               type='submit'
-              disabled={valid !== true}
+              disabled={bcoStatus !== "valid"}
               variant="contained"
               color="secondary"
               onClick={() =>  publish()  }

@@ -184,14 +184,6 @@ export const  BuilderColorCode = () => {
         </Paper>
       </div>
       <br/>
-      {/* <button>
-                Submit
-            </button> */}
-      <pre >
-        <code>
-          {/* {JSON.stringify(state['bco']['data']['extension_domain'],undefined, 2)} */}
-        </code>
-      </pre>
     </Container>
   )
 }

@@ -66,13 +66,13 @@ const updateDraftBco = async (bcoURL, bcoObject) => {
   return response;
 }
 
-const publishDraftBco = async (bcoURL, bcoObject) => {
+const publishDraftBco = async (prefix, bcoURL, bcoObject) => {
+  console.log(bcoObject["object_id"], prefix)
   const response = await axios.post(`${bcoURL}objects/drafts/publish/`, {
-    "POST_api_objects_drafts_modify": [
+    "POST_api_objects_drafts_publish": [
       {
-        "object_id": bcoObject["object_id"],
-        "contents": 
-          bcoObject
+        "prefix": prefix,
+        "draft_id": bcoObject["object_id"]
       }
     ]
   }, {
