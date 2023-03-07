@@ -4,7 +4,8 @@ import React from "react";
 import { Box, Container, Grid, Typography, makeStyles } from "@material-ui/core";
 import Documentation from "./Documentation"
 import Tsc from "./Tsc";
-import Galaxy from "./Galaxy";
+// import Galaxy from "./Galaxy";
+import BcoDb from "./BcoDb"
 import BioComputeResources from "./BioComputeResources";
 import Hive from "./Hive";
 import Builder from "./Builder";
@@ -35,6 +36,25 @@ const HomePage = () => {
       <Container maxWidth={false}>
         <Grid container justifyContent="center" spacing={3}>
           <Grid item xs={12} sm={8} lg={9} xl={10}>
+            <Container className={classes.marginTopped} maxWidth={false}>
+              <Box className={classes.whiteBackground}>
+                <Grid classes={classes.colored} container justifyContent="space-around" spacing={3}>
+                  <Grid item lg={12} sm={12} xl={12} xs={12}>
+                    <BioComputeResources />
+                  </Grid>
+                  <Grid item lg={4} sm={6} xl={4} xs={12}>
+                    <BcoDb />
+                  </Grid>
+                  <Grid item lg={4} sm={6} xl={4} xs={12}>
+                    <Hive />
+                    {/* <Galaxy /> */}
+                  </Grid>
+                  <Grid item lg={4} sm={6} xl={4} xs={12}>
+                    <Builder />
+                  </Grid>
+                </Grid>
+              </Box>
+            </Container>
             <Container maxWidth={false}>
               <Grid container justifyContent="center" spacing={3}>
                 <Grid item xs={12} sm={12} lg={4} xl={4}>
@@ -47,24 +67,6 @@ const HomePage = () => {
                   <Tsc />
                 </Grid>
               </Grid>
-            </Container>
-            <Container className={classes.marginTopped} maxWidth={false}>
-              <Box className={classes.whiteBackground}>
-                <Grid classes={classes.colored} container justifyContent="space-around" spacing={3}>
-                  <Grid item lg={12} sm={12} xl={12} xs={12}>
-                    <BioComputeResources />
-                  </Grid>
-                  <Grid item lg={4} sm={6} xl={4} xs={12}>
-                    <Hive />
-                  </Grid>
-                  <Grid item lg={4} sm={6} xl={4} xs={12}>
-                    <Builder />
-                  </Grid>
-                  <Grid item lg={4} sm={6} xl={4} xs={12}>
-                    <Galaxy />
-                  </Grid>
-                </Grid>
-              </Box>
             </Container>
           </Grid>
           <Grid item xs={false} sm={4} lg={3} xl={2}>
