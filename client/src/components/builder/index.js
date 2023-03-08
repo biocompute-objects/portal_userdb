@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux"
 import PropTypes from "prop-types";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import DataObjectIcon from "@mui/icons-material/DataObject";
+import NotificationBox from "../NotificationBox";
 import {
   ListItemText,
   Grid,
@@ -179,17 +180,10 @@ export const  BuilderColorCode = () => {
               </TabPanel>
             </Grid>
           </Grid>
+          <NotificationBox />
         </Paper>
       </div>
       <br/>
-      {/* <button>
-                Submit
-            </button> */}
-      <pre >
-        <code>
-          {/* {JSON.stringify(state['bco']['data']['extension_domain'],undefined, 2)} */}
-        </code>
-      </pre>
     </Container>
   )
 }
