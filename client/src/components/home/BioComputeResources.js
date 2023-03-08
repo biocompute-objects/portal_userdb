@@ -8,6 +8,7 @@ import {
   makeStyles,
   Typography
 } from "@material-ui/core";
+import { Link } from "react-router-dom"
 
 const useStyles = makeStyles({
   bullet: {
@@ -35,8 +36,8 @@ export default function BioComputeResources() {
 
   return (
     <Card className={classes.centered} elevation={2}>
-      <CardActionArea >
-        <CardContent className={classes.linkCard}>
+      <CardActionArea component={Link} to='/resources'>
+        <CardContent className={classes.linkCard} >
           <Typography className={classes.title}>
             Cloud-based tools for BioCompute
           </Typography>
