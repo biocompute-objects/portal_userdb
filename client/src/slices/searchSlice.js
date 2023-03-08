@@ -22,7 +22,7 @@ export const searchSlice = createSlice({
       .addCase(seachBcodb.fulfilled, (state, action) => {
         console.log(action.payload)
         state.results = action.payload;
-        state.status = "idle";
+        state.status = "fulfilled";
       })
       .addCase(seachBcodb.pending, (state) => {
         state.status = "loading";

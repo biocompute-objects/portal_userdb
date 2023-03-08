@@ -1,13 +1,15 @@
 // src/components/bcodbs/index.js
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
   Card,
   CardContent,
+  CardHeader,
   Container,
   InputLabel,
+  TextField,
   Typography,
 } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +18,7 @@ import { MyTextField } from "../builder/specialFeilds";
 import { seachBcodb } from "../../slices/searchSlice";
 
 export default function SearchOptions ({setBcodbInfo}) {
+  const [quickSearch, setQuickSearch] = useState('')
   const dispatch = useDispatch();
   let isLoggedIn = useSelector((state) => state.account.isLoggedIn);
   const bcodbs = (isLoggedIn
@@ -26,6 +29,18 @@ export default function SearchOptions ({setBcodbInfo}) {
   // })
   return (
     <Container>
+      <Card>
+        <CardHeader title="Quick Search"/>
+        <CardContent>
+          <TextField
+            value={quickSearch}
+            onChange={() => setQuickSearch()}
+            placeholder="Search using BCO_ID"
+          />
+          <Button
+          >Submit</Button>
+        </CardContent>
+      </Card>
       <Formik
         initialValues={{
           index: "None",
@@ -59,12 +74,13 @@ export default function SearchOptions ({setBcodbInfo}) {
         {({values, isSubmitting}) => (
           <Form>
             <Card>
+              <CardHeader title="Advanced Search"/>
               <CardContent>
                 <Box>
                   <Typography>
                     1. Select from available BCODBs to display results
                   </Typography>
-                  <InputLabel>BCODB</InputLabel>
+
                   <Field as='select' name='index'>
                     <option value='None' key='None'>Public BCODB (not logged in)</option>
                     (isLoggedIn
