@@ -147,6 +147,26 @@ export const googleRegister = createAsyncThunk(
   }
 )
 
+export const orcidLogIn = createAsyncThunk(
+  "auth/orcidLogin",
+  async (data, thunkAPI) => {
+    try {
+      const authentication = await AuthService.orcidLogIn(data);
+      thunkAPI.dispatch(setMessage(authentication.data.message));
+      return authentication
+    } catch (error) {
+      const message =
+      (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
+      error.message ||
+      error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
+
 export const login = createAsyncThunk(
   "auth/login",
   async ({ username, password }, thunkAPI) => {

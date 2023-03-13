@@ -48,6 +48,20 @@ const googleRegister = async (data) => {
   return response;
 };
 
+const orcidLogIn = async (data) => {
+  const response = await axios.get("https://orcid.org/oauth/authorize", {
+    client_id: "APP-HK00CLY49353RXNU",
+    response_type: "code",
+    scope: "/authenticate",
+    redirect_uri: "https://developers.google.com/oauthplayground/"
+  }, {
+    headers: {
+      "Accept": "application/json",
+    }
+  })
+  return response
+}
+
 const logout = () => {
   localStorage.removeItem("user");
   localStorage.removeItem("token");
@@ -126,7 +140,6 @@ const searchBcodbAPI = async (data) => {
   return response;
 }
 
-
 const authenticateBcoDb = async (token, hostname) => {
   const response = await axios.post(`${hostname}/api/accounts/describe/`, {},{
     headers: {
@@ -193,7 +206,7 @@ const authService = {
   googleLogin,
   googleRegister,
   userInfo,
-
+  orcidLogIn,
   searchBcodbAPI,
   authenticateBcoDb,
   addBcoDb,
