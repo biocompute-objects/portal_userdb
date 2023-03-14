@@ -9,6 +9,7 @@ from bcodb.models import BcoDb
 from bcodb.services import BcoDbSerializer, update_bcodbs
 from users.models import Profile
 from users.services import UserSerializer, ProfileSerializer
+from users.selectors import profile_from_username
 
 def google_authentication(request):
     """Google Authentication"""
@@ -52,7 +53,7 @@ def custom_jwt_handler(token, user=None, request=None, public_key=None):
         "token": token,
         "user": {
             "userinfo": serialized_user,
-            "profile": ProfileSerializer(user).data,
+            "profile": ProfileSerializer(profile_from_username(user.username)).data,
             "bcodbs": serialized_dbs.data,
         },
     }

@@ -141,6 +141,7 @@ class UserUpdateApi(APIView):
         there and allowing our frontend to GET data from this view (it is
         currently limited to GET requests but this can be changed).
         """
+        
         token = request.headers["Authorization"].removeprefix("Bearer ")
         profile_payload = self.ProfileUpdateSerializer(data=request.data)
         profile_payload.is_valid(raise_exception=True)
