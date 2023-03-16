@@ -15,11 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from bcodb.apis import AddBcodbApi
 
 urlpatterns = [
     path("users/admin/", admin.site.urls),
     path("users/", include("users.urls")),
     path("users/", include("bcodb.urls")),
+    #Legacy path for new account
+    path("users/add_api/", AddBcodbApi.as_view()),
     path("users/", include("authentication.urls")),
     path("users/", include("prefix.urls")),
 ]

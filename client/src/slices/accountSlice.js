@@ -90,9 +90,11 @@ export const register = createAsyncThunk(
   "auth/register",
   async ({ username, email, password }, thunkAPI) => {
     try {
-      const response = await AuthService.register(username, email, password);
-      thunkAPI.dispatch(setMessage(response.data.message));
-      return response.data;
+      const userResponse = await AuthService.register(username, email, password);
+      const token = userResponse.data["token"]
+      const apiResponse = await AuthService.registerBcoDb(email, token)
+      thunkAPI.dispatch(setMessage(apiResponse.data.message));
+      return apiResponse.data;
     } catch (error) {
       const message =
         (error.response &&
@@ -111,7 +113,6 @@ export const googleLogin = createAsyncThunk(
   async (idToken, thunkAPI) => {
     try {
       const authentication = await AuthService.googleLogin(idToken);
-      // thunkAPI.dispatch(setMessage(authentication.data.message));
       return authentication
     } catch (error) {
       console.log(error)
@@ -132,7 +133,10 @@ export const googleRegister = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const authentication = await AuthService.googleRegister(data);
-      thunkAPI.dispatch(setMessage(authentication.data.message));
+      const token = authentication.data["token"]
+      const email = authentication.data["user"]["userinfo"]["email"]
+      const apiResponse = await AuthService.registerBcoDb(email, token)
+      thunkAPI.dispatch(setMessage(apiResponse.data.message));
       return authentication
     } catch (error) {
       const message =
@@ -258,7 +262,7 @@ export const permInfo = createAsyncThunk(
   "bcodb/permInfo",
   async ({perm, token, public_hostname}, thunkAPI) => {
     try {
-      const response = await authService.permInfo(perm, token, public_hostname);
+      const response = await AuthService.permInfo(perm, token, public_hostname);
       return response
     } catch (error) {
       const message =

@@ -3,6 +3,7 @@
 import axios from "axios";
 
 const USERS_URL = process.env.REACT_APP_USERDB_URL;
+const BCODB_URL = process.env.REACT_APP_BCOAPI_URL;
 
 const register = (username, email, password) => {
   return axios.post(USERS_URL + "auth/register/", {
@@ -150,6 +151,16 @@ const authenticateBcoDb = async (token, hostname) => {
   return response.data;
 };
 
+const registerBcoDb = async (email, token) => {
+  console.log(email, token, BCODB_URL);
+  const response = await axios.post(`${BCODB_URL}auth/register/`, {
+    "hostname": `${USERS_URL}`,
+    "email": email,
+    "token": token
+  });
+  return response
+};
+
 const addBcoDb = async (data) => {
   console.log(data);
   const response = await axios.post(`${USERS_URL}bcodb/add/`, {
@@ -209,6 +220,7 @@ const authService = {
   orcidLogIn,
   searchBcodbAPI,
   authenticateBcoDb,
+  registerBcoDb,
   addBcoDb,
   removeBcoDb,
   groupInfo,

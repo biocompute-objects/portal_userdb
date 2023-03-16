@@ -32,7 +32,10 @@ class AddBcodbApi(APIView):
     @transaction.atomic
     def post(self, request):
         """"""
-        data = request.data["data"]
+        try:
+            data = request.data["data"]
+        except KeyError:
+            data = request.data
         now = datetime.utcnow()
         profile = profile_from_username(request.user.username)
         input_fileter = {

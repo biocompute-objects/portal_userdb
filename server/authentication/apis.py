@@ -76,10 +76,14 @@ class GoogleRegister(APIView):
         
         except User.DoesNotExist:
             user = user_create(**user_serializer.validated_data)
-            username = user.username
+            jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+            jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
+            payload = jwt_payload_handler(user)
+            token = jwt_encode_handler(payload)
+
             return Response(
-                status=status.HTTP_200_OK,
-                data={"message":f"The user  was successfully created"}
+                status=status.HTTP_200_OK, data=custom_jwt_handler(token, user)
             )
 
 
