@@ -9,7 +9,7 @@ import { updateExecutionDomain } from "../../slices/bcoSlice"
 import { MyTextField } from "./specialFeilds"
 import { Uri } from "./components"
 
-export const ExecutionDomain = () => {
+export const ExecutionDomain = ({onSave}) => {
   const dispatch = useDispatch();
   const execution_domain = useSelector(state => state.bco.data.execution_domain);
   const environment_variables = useSelector(state => state.bco.data.execution_domain.environment_variables);
@@ -50,6 +50,7 @@ export const ExecutionDomain = () => {
                 setSubmitting(true);
                 dispatch(updateExecutionDomain({formData, envars}));
                 setSubmitting(false);
+                onSave()
               }
             }
           >

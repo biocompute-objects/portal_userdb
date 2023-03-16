@@ -8,7 +8,7 @@ import { updateParametricDomain } from "../../slices/bcoSlice"
 
 import { MyTextField } from "./specialFeilds"
 
-export const  ParametricDomain = () => {
+export const  ParametricDomain = ({onSave}) => {
     
   const dispatch = useDispatch();
   const parametric_domain = useSelector(state => state.bco.data.parametric_domain)
@@ -29,6 +29,7 @@ export const  ParametricDomain = () => {
                 setSubmitting(true);
                 dispatch(updateParametricDomain(myData["parametric_domain"]));
                 setSubmitting(false);
+                onSave()
               }
             }
           >

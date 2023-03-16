@@ -5,7 +5,7 @@ import { addExtension, addExtensionDomain, deleteExtensionDomain } from "../../s
 import { MyTextField } from "./specialFeilds";
 import { Extension } from "./extension";
 
-export const  ExtensionDomain = () => {
+export const  ExtensionDomain = ({onSave}) => {
   const dispatch = useDispatch();
   const extensionDomain = useSelector(state => state.bco.data.extension_domain)
   const [newSchema, setNewSchema] = React.useState("")
@@ -75,8 +75,16 @@ export const  ExtensionDomain = () => {
               </Button>
             </CardContent>)
         }))
-        : (<CardContent>no</CardContent>)
+        : (<CardContent></CardContent>)
       }
+      <CardContent>
+        <Button
+          onClick={() => onSave()}
+          variant="contained"
+          color="primary"
+          disableElevation
+        >Save</Button>
+      </CardContent>
     </Card>
   )
 }

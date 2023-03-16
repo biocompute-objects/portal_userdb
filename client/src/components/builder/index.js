@@ -97,6 +97,12 @@ export const  BuilderColorCode = () => {
   const handleChange = (newValue) => {
     setValue(newValue);
   };
+
+  const onSave = () => {
+    console.log(value)
+    setValue(value+1)
+  }
+
   function a11yProps(index) {
     return {
       id: `simple-tab-${index}`,
@@ -137,7 +143,13 @@ export const  BuilderColorCode = () => {
             <Grid item>
               <div className='sidebar'>
                 {data.map((item, index) => (
-                  <ListItem selected={value === index} value={index} button key={index} onClick={() => {handleChange(index)}} {...a11yProps(index)}>          
+                  <ListItem 
+                    selected={value === index}
+                    value={index}
+                    button key={index}
+                    onClick={() => {handleChange(index)}} 
+                    {...a11yProps(index)}
+                  >          
                     <DataObjectIcon />{" "}<ListItemText primary={item.name} />
                   </ListItem>
                 ))}
@@ -155,25 +167,25 @@ export const  BuilderColorCode = () => {
             <Grid item xs={12} md>
                                 
               <TabPanel value={value} index={0}>
-                <ProvenanceDomain/>
+                <ProvenanceDomain onSave={onSave} />
               </TabPanel>
               <TabPanel value={value} index={1}>
-                <UsabilityDomain/>
+                <UsabilityDomain onSave={onSave} />
               </TabPanel>
               <TabPanel value={value} index={2}>
-                <DescriptionDomain/>
+                <DescriptionDomain onSave={onSave} />
               </TabPanel>
               <TabPanel value={value} index={4}>
-                <ParametricDomain/>
+                <ParametricDomain onSave={onSave} />
               </TabPanel>
               <TabPanel value={value} index={5}>
-                <IODomain/>
+                <IODomain onSave={onSave} />
               </TabPanel>
               <TabPanel value={value} index={3}>
-                <ExtensionDomain/>
+                <ExtensionDomain onSave={onSave} />
               </TabPanel>
               <TabPanel value={value} index={6}>
-                <ExecutionDomain/>
+                <ExecutionDomain onSave={onSave} />
               </TabPanel>
               <TabPanel value={value} index={7}>
                 <Preview/>

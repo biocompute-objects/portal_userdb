@@ -1,25 +1,22 @@
 import * as React from "react";
 import { useState } from "react";
-import {Card, CardContent, Typography, Grid, Button, Paper, Select, MenuItem, InputLabel} from "@material-ui/core";
-
-import { Formik, Form, Field, FieldArray, ErrorMessage, useField, useFormikContext, setValues } from "formik";
+import {Card, CardContent, Typography, Grid, Button, Paper } from "@material-ui/core";
+import { Formik, Form, FieldArray } from "formik";
 import { Contribution } from "./contibutor";
 import { Reviewer } from "./reviewer";
 
 import { useSelector, useDispatch } from "react-redux"
-import { BaisicDateTimePicker, MyTextField, MyDateTimeField } from "./specialFeilds";
+import { BaisicDateTimePicker, MyTextField } from "./specialFeilds";
 import { updateProvenanceDomain } from "../../slices/bcoSlice"
 
-export const  ProvenanceDomain = () => {
+export const  ProvenanceDomain = ({onSave} ) => {
   const dispatch = useDispatch();
   const provenanceDomain = useSelector(state => state.bco.data.provenance_domain)
   let has_obsolete = "obsolete_after" in provenanceDomain;
   let has_embargo = "embargo" in provenanceDomain;
-  let has_contributors = "contributors" in provenanceDomain;
   let has_review = "review" in provenanceDomain;
   const [obsolete, setObsolete] = useState("obsolete_after" in provenanceDomain)
   const [embargo, setEmbargo] = useState("embargo" in provenanceDomain)
-  const [review, setReview] = useState("review" in provenanceDomain)
   console.log(has_obsolete, has_embargo, has_review)
   return (
     <>
@@ -42,23 +39,24 @@ export const  ProvenanceDomain = () => {
               }
             }
             onSubmit={
-              (myData, {setSubmitting, setValues}) => {
+              (values, {setSubmitting, setValues}) => {
                 setSubmitting(true);
-                console.log("myData", myData)
+                console.log("myData", values)
                 if (obsolete === false) {
-                  delete myData["obsolete_after"]
+                  delete values["obsolete_after"]
                 }
                 if (embargo === false) {
-                  delete myData["embargo"]
+                  delete values["embargo"]
                 }
-                dispatch(updateProvenanceDomain(myData));// payload
+                dispatch(updateProvenanceDomain(values));
                 setSubmitting(false);
+                console.log(values.contributors.length)
+                onSave()
               }
             }
             validate={
               (values) => {
                 const errors = {};
-                console.log()
                 if (!values.contributors) {
                   errors.contributors = "Required";
                 }
@@ -239,8 +237,7 @@ export const  ProvenanceDomain = () => {
                   </Grid>
                 </Form>
               )
-            }  
-
+            }
           </Formik>
         </CardContent>
       </Card>
