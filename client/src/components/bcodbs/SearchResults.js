@@ -201,13 +201,14 @@ EnhancedTableToolbar.propTypes = {
 
 export default function EnhancedTable({bcodbInfo}) {
   const dispatch = useDispatch()
-  const bcodbs = useSelector((state) => state.bcodb.data)
+  const results = useSelector((state) => state.search.results)
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   let navigate = useNavigate();
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -216,7 +217,7 @@ export default function EnhancedTable({bcodbInfo}) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = bcodbs.map((n) => n.object_id);
+      const newSelected = results.map((n) => n.object_id);
       setSelected(newSelected);
       return;
     }
@@ -256,7 +257,7 @@ export default function EnhancedTable({bcodbInfo}) {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - bcodbs.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - results.length) : 0;
 
   const clickObject = (event, object_id, state) => {
     if (state === "PUBLISHED") {
@@ -271,6 +272,7 @@ export default function EnhancedTable({bcodbInfo}) {
         });
     }
     if (state === "DRAFT") {
+      console.log(bcodbInfo, object_id)
       dispatch(getDraftBco({bcodbInfo, object_id}))
         .unwrap()
         .then(() => {
@@ -298,10 +300,10 @@ export default function EnhancedTable({bcodbInfo}) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={bcodbs.length}
+              rowCount={results.length}
             />
             <TableBody>
-              {stableSort(bcodbs, getComparator(order, orderBy))
+              {stableSort(results, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.object_id);
@@ -360,7 +362,7 @@ export default function EnhancedTable({bcodbInfo}) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={bcodbs.length}
+          count={results.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

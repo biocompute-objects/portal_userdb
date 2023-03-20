@@ -23,7 +23,9 @@ const useStyles = makeStyles({
   },
   supportCard: {
     textAlign: "center",
-    marginBottom: 12
+    marginBottom: 12,
+    minHeight: "460px",
+    minWidth: 275
   },
   title: {
     minWidth: 275,
@@ -43,12 +45,25 @@ export default function Documentation() {
   const docsLink = "https://docs.biocomputeobject.org/";
 
   return (
-    <Card className={classes.supportCard} elevation={5}>
+    <Card className={classes.supportCard} elevation={1}>
       <Typography className={classes.title}>
-        BCO Documentation
-        <br />
+        BioCompute Objects Documentation
       </Typography>
-      <CardActionArea onClick={() => window.open(wikiLink)}>
+      <br />
+      <br />
+      <CardActionArea onClick={() => global.window.open(docsLink)}>
+        <CardContent>
+          <Typography className={classes.subtitle}>
+            BCO Docs Site
+            <br />
+          </Typography>
+          <Typography className={classes.bullet}>
+            User Guide, Best Practices, tutorial
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <br />
+      <CardActionArea onClick={() => global.window.open(wikiLink)}>
         <CardContent>
           <Typography className={classes.subtitle}>
             <img src={mediaWiki} height={25} alt="MediaWiki logo" />
@@ -57,17 +72,6 @@ export default function Documentation() {
           </Typography>
           <Typography className={classes.bullet}>
           The MediaWiki for the BioCompute Objects project
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActionArea onClick={() => window.open(docsLink)}>
-        <CardContent>
-          <Typography className={classes.subtitle}>
-            BCO Docs Site
-            <br />
-          </Typography>
-          <Typography className={classes.bullet}>
-            User Guide, Best Practices, tutorial
           </Typography>
         </CardContent>
       </CardActionArea>

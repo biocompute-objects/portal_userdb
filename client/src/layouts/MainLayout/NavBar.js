@@ -129,7 +129,7 @@ const NavBar = () => {
         </IconButton>
         <p>BCO DB</p>
       </MenuItem>
-      <a href='https://github.com/biocompute-objects/portal/issues/new/choose'>
+      <a href='https://github.com/biocompute-objects/portal_userdb/issues/new/choose' target='_blank' rel="noreferrer" >
         <MenuItem>
           <IconButton aria-label='BioCompute Object builder' color='inherit'>
             <Badge overlap="rectangular" badgeContent={0} color='secondary'>
@@ -214,7 +214,7 @@ const NavBar = () => {
         </IconButton>
         <p>BCO DB</p>
       </MenuItem>
-      <a href='https://github.com/biocompute-objects/portal/issues/new/choose'>
+      <a href='https://github.com/biocompute-objects/portal_userdb/issues/new/choose' target='_blank' rel="noreferrer" >
         <MenuItem>
           <IconButton aria-label='BioCompute Object builder' color='inherit'>
             <Badge overlap="rectangular" badgeContent={0} color='secondary'>
@@ -292,7 +292,7 @@ const NavBar = () => {
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Bug Report">
-                  <a href='https://github.com/biocompute-objects/portal/issues/new/choose'>
+                  <a href='https://github.com/biocompute-objects/portal_userdb/issues/new/choose' target='_blank' rel="noreferrer" >
                     <IconButton aria-label='BCO builder' color='inherit'>
                       <Badge overlap="rectangular" badgeContent={0} color='secondary'>
                         <BugReportIcon />
@@ -363,7 +363,7 @@ const NavBar = () => {
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Bug Report">
-                  <a href='https://github.com/biocompute-objects/portal/issues/new/choose'>
+                  <a href='https://github.com/biocompute-objects/portal_userdb/issues/new/choose' target='_blank' rel="noreferrer">
                     <IconButton aria-label='BCO builder' color='inherit'>
                       <Badge overlap="rectangular" badgeContent={0} color='secondary'>
                         <BugReportIcon />

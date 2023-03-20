@@ -6,8 +6,6 @@ from bcodb.apis import getRouts, AddBcodbApi, RemoveBcodbApi  # getBcoDb
 
 urlpatterns = [
     path("", getRouts),
-    # path('bcodb/', getBcoDb),
     path("bcodb/add/", AddBcodbApi.as_view()),
     path("bcodb/remove/", RemoveBcodbApi.as_view()),
-    # path('bcodb/', remove_bcodb),
 ]

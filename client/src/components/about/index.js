@@ -15,7 +15,8 @@ import interoperabilitypic from "../../images/interoperability.png";
 import domainspic from "../../images/domains.png";
 import Bconexus from "./BCOnexus";
 import SB from "./SB";
-import MeetOurTeam from "./MeetOurTeam";
+// import MeetOurTeam from "./MeetOurTeam";
+// import OurTeam from "./OurTeam";
 // import cycle from "../../src/images/cycle.png";
 // import domains from "../../images/domains.png";
 // import timeline from "../../images/timeline.png";
@@ -141,11 +142,14 @@ const About = () => {
                 </Grid>
             </section>
             <br></br>
-            <section>
+            {/* <section>
                 <Grid item xs={10} sm={12} lg={12} xl={12}>
                     <MeetOurTeam />
                 </Grid>
-            </section>
+            </section> */}
+            {/* <section>
+                <OurTeam />
+            </section> */}
         </React.Fragment>
         );
 };

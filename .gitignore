@@ -4,6 +4,7 @@ client/.env
 client/prov-domain-formik/*
 *.DS_Store*
 server/env/*
+server/.python-version
 server/db.sqlite3
 *__pycache__/
 server/.secrets

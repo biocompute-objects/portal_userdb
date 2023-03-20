@@ -5,11 +5,13 @@ import { UsabilityDomain } from "./usabilityDomain";
 import { ParametricDomain } from "./parametricDomain";
 import { IODomain } from "./ioDomain";
 import { ExecutionDomain } from "./executionDomain";
+import { Preview } from "./preview";
 import { ExtensionDomain } from "./extensionDomain";
 import { useDispatch } from "react-redux"
 import PropTypes from "prop-types";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import DataObjectIcon from "@mui/icons-material/DataObject";
+import NotificationBox from "../NotificationBox";
 import {
   ListItemText,
   Grid,
@@ -53,6 +55,9 @@ const data = [
   },
   {
     name: "Execution Domain"
+  },
+  {
+    name: "Review & Publish"
   }
 ];
 
@@ -170,19 +175,15 @@ export const  BuilderColorCode = () => {
               <TabPanel value={value} index={6}>
                 <ExecutionDomain/>
               </TabPanel>
+              <TabPanel value={value} index={7}>
+                <Preview/>
+              </TabPanel>
             </Grid>
           </Grid>
+          <NotificationBox />
         </Paper>
       </div>
       <br/>
-      {/* <button>
-                Submit
-            </button> */}
-      <pre >
-        <code>
-          {/* {JSON.stringify(state['bco']['data']['extension_domain'],undefined, 2)} */}
-        </code>
-      </pre>
     </Container>
   )
 }

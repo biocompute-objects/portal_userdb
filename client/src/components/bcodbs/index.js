@@ -2,29 +2,27 @@
 
 import React, { useState } from "react";
 import { Container, Typography } from "@material-ui/core";
-import { useSelector } from "react-redux";
 import SearchOptions from "./SearchOptions";
 import SearchResults from "./SearchResults";
+import NotifcationBox from "../NotificationBox";
+import { useSelector } from "react-redux";
 
 export default function BcoDbs () {
   const [ bcodbInfo, setBcodbInfo ] = useState([])
-  const { message } = useSelector((state) => state.message);
+  const searchStatus = useSelector(state => state.search.status)
+
   return (
     <Container >
       <Typography variant='h4'>BioCompute Database Search</Typography>
-      {message && (
-        <div className="form-group">
-          <div className="alert alert-danger" role="alert">
-            {message}
-          </div>
-        </div>
-      )}
+      <NotifcationBox />
       <SearchOptions
         setBcodbInfo={setBcodbInfo}
       />
-      <SearchResults
-        bcodbInfo={bcodbInfo}
-      />
+      {
+        (searchStatus === "idle")
+          ? (<div></div>)
+          : (<SearchResults bcodbInfo={bcodbInfo}/>)
+      }
     </Container>
   );
 }

@@ -48,6 +48,20 @@ const googleRegister = async (data) => {
   return response;
 };
 
+const orcidLogIn = async (data) => {
+  const response = await axios.get("https://orcid.org/oauth/authorize", {
+    client_id: "APP-HK00CLY49353RXNU",
+    response_type: "code",
+    scope: "/authenticate",
+    redirect_uri: "https://developers.google.com/oauthplayground/"
+  }, {
+    headers: {
+      "Accept": "application/json",
+    }
+  })
+  return response
+}
+
 const logout = () => {
   localStorage.removeItem("user");
   localStorage.removeItem("token");
@@ -108,6 +122,80 @@ const userInfo = async () => {
   });
   return response.data;
 };
+
+const searchBcodbAPI = async (data) => {
+  const response = await axios.post(data.public_hostname + "/api/objects/search/", {
+    POST_api_objects_search: [
+      {
+        type: data.action,
+        search: data.search
+      }
+    ]
+  },{
+    headers: {
+      "Authorization": `Token ${data.token}`,
+      "Content-Type": "application/json"
+    }
+  });
+  return response;
+}
+
+const authenticateBcoDb = async (token, hostname) => {
+  const response = await axios.post(`${hostname}/api/accounts/describe/`, {},{
+    headers: {
+      "Authorization": `Token ${token}`,
+      "Content-Type": "application/json"
+    }
+  });
+  return response.data;
+};
+
+const addBcoDb = async (data) => {
+  console.log(data);
+  const response = await axios.post(`${USERS_URL}bcodb/add/`, {
+    data
+  }, {
+    headers: {
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      "Content-Type": "application/json"
+    }
+  });
+  if (response.data.token) {
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+    localStorage.setItem("token", JSON.stringify(response.data.token));
+    global.window.location.reload();
+  }
+  return response
+};
+
+const removeBcoDb = async (database) => {
+  console.log("Service", database)
+  const response = await axios.post(`${USERS_URL}bcodb/remove/`, {
+    database
+  },{
+    headers: {
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      "Content-Type": "application/json"
+    }
+  });
+  return response;
+}
+
+const groupInfo = async (group_permissions, token, public_hostname) => {
+  console.log("Service", group_permissions, token, public_hostname)
+  const response = await axios.post(`${public_hostname}/api/groups/group_info/`, {
+    POST_api_groups_info: {
+      names: group_permissions
+    }
+  }, {
+    headers: {
+      "Authorization": `Token ${token}`,
+      "Content-Type": "application/json"
+    }
+  })
+  return response;
+}
+
 const authService = {
   register,
   login,
@@ -118,7 +206,12 @@ const authService = {
   googleLogin,
   googleRegister,
   userInfo,
-
+  orcidLogIn,
+  searchBcodbAPI,
+  authenticateBcoDb,
+  addBcoDb,
+  removeBcoDb,
+  groupInfo,
 };
 
 export default authService;

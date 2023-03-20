@@ -7,38 +7,41 @@ from rest_framework.views import APIView
 from rest_framework_jwt.settings import api_settings
 from authentication.services import custom_jwt_handler, google_authentication
 from users.services import user_create
-from users.selectors import user_from_username
+from users.selectors import user_from_username, user_from_email
+
+class GoogleInputSerializer(serializers.Serializer):
+        email = serializers.EmailField()
+        first_name = serializers.CharField(required=False, default="")
+        last_name = serializers.CharField(required=False, default="")
+        username = serializers.CharField()
 
 class GoogleRegister(APIView):
     """Google Oauth Registration"""
 
     permission_classes = (permissions.AllowAny,)
 
-    class InputSerializer(serializers.Serializer):
-        email = serializers.EmailField()
-        first_name = serializers.CharField(required=False, default="")
-        last_name = serializers.CharField(required=False, default="")
-        username = serializers.CharField()
-
     def post(self, request):
         """Post"""
+        user_data = request.data['data']
+        user_data['username'] = user_data['username'].replace(" ","")
+        user_serializer = GoogleInputSerializer(data=user_data)
+        user_serializer.is_valid(raise_exception=True)
+        
         try:
-            user_from_username(request.data['data']['username'])
+            user_from_email(user_data['email'])
             return Response(
                 status=status.HTTP_409_CONFLICT,
-                data={"message": "A user with that username already exists."}
+                data={"message": "A user with that email address already exists."}
             )
         
         except User.DoesNotExist:
-            user_serializer = self.InputSerializer(data=request.data['data'])
-            user_serializer.is_valid(raise_exception=True)
             user = user_create(**user_serializer.validated_data)
             username = user.username
     
-            return Response(
-                status=status.HTTP_200_OK,
-                data={"message":f"The user {username} was successfully created"}
-            )
+        return Response(
+            status=status.HTTP_200_OK,
+            data={"message":f"The user  was successfully created"}
+        )
 
 
 class GoogleLoginApi(APIView):

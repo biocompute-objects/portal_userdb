@@ -9,10 +9,10 @@ import * as Yup from "yup";
 import { MyTextField } from "../builder/specialFeilds";
 import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { forgotPassword, login, googleLogin } from "../../slices/accountSlice";
+import { forgotPassword, login, googleLogin, orcidLogIn } from "../../slices/accountSlice";
 import NotificationBox from "../NotificationBox";
-
-const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
+const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
+const orcidClientId = process.env.REACT_APP_ORCID_CLIENT_ID
 
 const onGoogleLoginFailure = (response) => {
   console.log(response);
@@ -91,6 +91,20 @@ const Login = () => {
     setOpen(false);
   }
 
+
+  const handleOrcid = () => {
+    console.log(orcidClientId)
+    const data = orcidClientId
+    dispatch(orcidLogIn(data))
+      .unwrap()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
   if (isLoggedIn) {
     return <Navigate to="/" />;
   }
@@ -106,12 +120,18 @@ const Login = () => {
           </Grid>
           <br/>
           <GoogleLogin
-            clientId={clientId}
+            clientId={googleClientId}
             buttonText="Sign with Google"
             onSuccess={onGoogleLoginSuccess}
             onFailure={onGoogleLoginFailure}
             cookiePolicy={"single_host_origin"}
-          />
+          /><br/>
+          {/* <Button            
+            onClick={() => {
+              handleOrcid()
+            }}
+          >Sign in with ORCID</Button> */}
+            
           <Typography variant="h5">Or</Typography>
           <Formik
             initialValues={initialValues}
