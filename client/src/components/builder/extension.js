@@ -21,7 +21,7 @@ export const Extension = ({extension, schemaUrl, index, allExtensions}) => {
       })
       .catch((error) => {
         console.log(`ERROR: ${error}`);
-        alert(`Fetch schema FAILED: ${error}`);
+        global.window.alert(`Fetch schema FAILED: ${error}`);
         setSchema({});
         setFormData({});
       });

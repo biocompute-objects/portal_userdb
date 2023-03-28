@@ -1,8 +1,7 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux"
-import { Card, CardContent, TextField, Typography, Grid, Button, Paper, Select, MenuItem, InputLabel} from "@material-ui/core";
-import { addExtension, addExtensionDomain, deleteExtensionDomain } from "../../slices/bcoSlice"
-import { MyTextField } from "./specialFeilds";
+import { Card, CardContent, TextField, Typography, Grid, Button, Paper } from "@material-ui/core";
+import { addExtensionDomain, deleteExtensionDomain } from "../../slices/bcoSlice"
 import { Extension } from "./extension";
 
 export const  ExtensionDomain = ({onSave}) => {
@@ -20,7 +19,7 @@ export const  ExtensionDomain = ({onSave}) => {
       })
       .catch((error) => {
         console.log(`ERROR: ${error}`);
-        alert(`Fetch schema from '${newSchema}' FAILED: ${error}`);
+        global.window.alert(`Fetch schema from '${newSchema}' FAILED: ${error}`);
       });
     setNewSchema("");
   };

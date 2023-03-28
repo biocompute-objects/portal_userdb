@@ -50,13 +50,13 @@ class GoogleInputSerializer(serializers.Serializer):
 class GoogleRegister(APIView):
     """
     API view for registering a user with Google OAuth authentication.
+    Handle POST requests for user registration with Google OAuth
+    authentication.
     """
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request):
         """
-        Handle POST requests for user registration with Google OAuth
-        authentication.
         Remove whitespace from username input
         Validate input data using the GoogleInputSerializer
         Check if user with the same email already exists

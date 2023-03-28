@@ -1,6 +1,8 @@
 # authentication/services.py
 
+import uuid
 import requests
+from datetime import datetime
 from django.conf import settings
 from rest_framework import status
 from rest_framework.response import Response
@@ -10,6 +12,7 @@ from bcodb.services import BcoDbSerializer, update_bcodbs
 from users.models import Profile
 from users.services import UserSerializer, ProfileSerializer
 from users.selectors import profile_from_username
+from rest_framework_jwt.utils import unix_epoch
 
 def google_authentication(request):
     """Google Authentication"""
@@ -35,6 +38,49 @@ def google_authentication(request):
 
     return response.json()
 
+def custom_jwt_create_payload(user):
+    """Create custom JWT claims token.
+
+    To be more standards-compliant please refer to the official JWT standards
+    specification: https://tools.ietf.org/html/rfc7519#section-4.1
+
+    Needed additional feilds in the JWT payload so this overrides the default.
+    """
+
+    issued_at_time = datetime.utcnow()
+    expiration_time = issued_at_time + api_settings.JWT_EXPIRATION_DELTA
+    payload = {
+        'username': user.get_username(),
+        'email': user.email,
+        'iss': settings.ORIGIN,
+        'iat': unix_epoch(issued_at_time),
+        'exp': expiration_time
+    }
+
+    if api_settings.JWT_TOKEN_ID != 'off':
+        payload['jti'] = uuid.uuid4()
+
+    if api_settings.JWT_PAYLOAD_INCLUDE_USER_ID:
+        payload['user_id'] = user.pk
+
+    # It's common practice to have user object attached to profile objects.
+    # If you have some other implementation feel free to create your own
+    # `jwt_create_payload` method with custom payload.
+    if hasattr(user, 'profile'):
+        payload['user_profile_id'] = user.profile.pk if user.profile else None,
+
+    # Include original issued at time for a brand new token
+    # to allow token refresh
+    if api_settings.JWT_ALLOW_REFRESH:
+        payload['orig_iat'] = unix_epoch(issued_at_time)
+
+    if api_settings.JWT_AUDIENCE is not None:
+        payload['aud'] = api_settings.JWT_AUDIENCE
+
+    if api_settings.JWT_ISSUER is not None:
+        payload['iss'] = api_settings.JWT_ISSUER
+
+    return payload
 
 def custom_jwt_handler(token, user=None, request=None, public_key=None):
     """Custom JWT Handler

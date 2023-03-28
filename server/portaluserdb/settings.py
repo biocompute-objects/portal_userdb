@@ -160,6 +160,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ORIGIN_ALL_ALL = True
 
+# set to the origin so that JWT can make call-backs to verify
+ORIGIN = "http://localhost:8080"
+
 CORS_ORIGIN_WHITELIST = (
     "http://localhost:3000",
     "http://127.0.0.1:3000",
@@ -175,4 +178,5 @@ JWT_AUTH = {
     "JWT_EXPIRATION_DELTA": timedelta(seconds=604800),
     "JWT_REFRESH_EXPIRATION_DELTA": timedelta(days=14),
     "JWT_ALLOW_REFRESH": True,
+    "JWT_PAYLOAD_HANDLER": 'authentication.services.custom_jwt_create_payload',
 }
