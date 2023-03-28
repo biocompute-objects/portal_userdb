@@ -38,7 +38,7 @@ export default function Tsc() {
   const classes = useStyles();
 
   return (
-    <Card className={classes.linkCard}>
+    <Card className={classes.linkCard} elevation={1}>
       <CardActionArea href='https://docs.google.com/document/d/1io5OBfsdEif_nWX-TmA22fz7gayHR1MsEwv2vI_QGBY' target="_blank">
         <CardContent className={classes.linkCard}>
           <Typography className={classes.title}>

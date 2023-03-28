@@ -19,7 +19,8 @@ const useStyles = makeStyles({
   linkCard: {
     minHeight: "300px",
     minWidth: 275,
-    textAlign: "center"
+    textAlign: "center",
+    marginBottom: 12
   },
   title: {
     fontSize: "33px",
@@ -34,7 +35,7 @@ export default function Specification() {
   const ieeeLink = "https://standards.ieee.org/standard/2791-2020.html";
 
   return (
-    <Card className={classes.linkCard}>
+    <Card className={classes.linkCard} elevation={1}>
       <CardActionArea onClick={() => window.open(ieeeLink)}>
         <CardContent className={classes.linkCard}>
           <Typography className={classes.title}>

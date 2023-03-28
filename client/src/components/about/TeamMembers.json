@@ -1,0 +1,503 @@
+{
+	"GWU": {
+		"heading": "GWU Members",
+		"people": [
+			{
+				"name": "Raja Mazumder",
+				"position": "Co-founder ",
+				"department": "",
+				"institution": "",
+				"location": "",
+				"image": "../../images/Teams/Mazumder.png",
+				"imageText": "Raja Mazumder image",
+				"url": "https://www.gwumc.edu/smhs/facultydirectory/profile.cfm?empName=Raja%20Mazumder&FacID=2067473740"
+			},
+			{
+				"name": "Jonathon Keeney",
+				"position": "Project Lead",
+				"department": "",
+				"institution": "",
+				"location": "",
+				"image": "../../images/Teams/Keeney.png",
+				"imageText": "Jonathon Keeney image",
+				"url": "https://apps.smhs.gwu.edu/smhs/facultydirectory/profile.cfm?empName=Jonathon%20Keeney&FacID=2056964816"
+			},
+			{
+				"name": "Charles Hadley King",
+				"position": "Technical Lead",
+				"department": "",
+				"institution": "",
+				"location": "",
+				"image": "../../images/Teams/King.png",
+				"imageText": "Hadley King image",
+				"url": "https://www.linkedin.com/in/charles-hadley-king-942693a8?original_referer=https%3A%2F%2Fwww.google.com%2F"
+			},
+			{
+				"name": "Tianyi Wang",
+				"position": "Outreach Lead",
+				"department": "",
+				"institution": "",
+				"location": "",
+				"image": "../../images/Teams/Wang.png",
+				"imageText": "Tianyi Wang image",
+				"url": "https://www.linkedin.com/in/tianyi-wang-3432429a"
+			}
+		]
+	},
+	"external_member": {
+		"heading": "External Collaborators",
+		"people": [
+			{
+				"name": "Dennis Dean",
+				"position": "",
+				"department": "",
+				"institution": "Velsera",
+				"location": "Boston, MA",
+				"image": "../../images/Teams/Dean.png",
+				"imageText": "Dennis Dean image",
+				"url": "https://www.linkedin.com/in/dennis-a-dean-ii-ph-d-4b97b1b"
+			},
+			{
+				"name": "Vahan Simonyan",
+				"position": "",
+				"department": "",
+				"institution": "Embleema",
+				"location": "Washington, DC",
+				"image": "../../images/Teams/Simonyan.png",
+				"imageText": "Vahan Simonyan image",
+				"url": "https://www.linkedin.com/in/vahan-simonyan-a6a65723"
+			},
+			{
+				"name": "Anton Golikov",
+				"position": "",
+				"department": "",
+				"institution": "Food and Drug Administration",
+				"location": "Silver Spring, MD",
+				"image": "../../images/Teams/Golikov.jpg",
+				"imageText": "Anton Golikov image",
+				"url": "https://www.linkedin.com/in/anton-golikov-919471104"
+			},
+			{
+				"name": "Konstantinos Krampis",
+				"position": "",
+				"department": "",
+				"institution": "Hunter College",
+				"location": "New York, NY",
+				"image": "../../images/Teams/Krampis.jpg",
+				"imageText": "Ntino Krampis image",
+				"url": "https://www.hunter.cuny.edu/belfer/faculty/dr.-konstantinos-krampis"
+			},
+			{
+				"name": "Michael Crusoe",
+				"position": "",
+				"department": "",
+				"institution": "Common Workflow Language",
+				"location": "Berlin, Germany",
+				"image": "../../images/Teams/Crusoe.jpg",
+				"imageText": "Michael Crusoe image",
+				"url": "https://de.linkedin.com/in/biocrusoe"
+			},
+			{
+				"name": "Konstantinos Karagiannis",
+				"position": "",
+				"department": "",
+				"institution": "Food and Drug Administration",
+				"location": "Silver Spring, MD",
+				"image": "../../images/Teams/Karagiannis.jpg",
+				"imageText": "Konstantinos Karagiannis image",
+				"url": "https://www.linkedin.com/in/k-karagiannis?trk=public_profile_samename-profile"
+			},
+			{
+				"name": "Nicola Soranzo",
+				"position": "",
+				"department": "",
+				"institution": "Earlham Institute",
+				"location": "United Kingdom",
+				"image": "../../images/Teams/Soranzo.jpg",
+				"imageText": "Nicola Soranzo image",
+				"url": "https://www.earlham.ac.uk/profile/nicola-soranzo"
+			},
+			{
+				"name": "Sam Westreich",
+				"position": "",
+				"department": "",
+				"institution": "DNAnexus",
+				"location": "Mountain View, CA",
+				"image": "../../images/Teams/Westreich.jpg",
+				"imageText": "Sam Westreich image",
+				"url": "https://www.linkedin.com/in/sam-westreich"
+			},
+			{
+				"name": "Omar Serang",
+				"position": "",
+				"department": "",
+				"institution": "DNAnexus",
+				"location": "Mountain View, CA",
+				"image": "../../images/Teams/Serang.jpg",
+				"imageText": "Omar Serang image",
+				"url": "https://www.linkedin.com/in/omarserang"
+			}
+		]
+	},
+	"former": {
+		"heading": "Former Members",
+		"ebiIntegration": {
+			"subheading": "Former GWU Members",
+			"people": [
+				{
+					"name": "Janisha Patel",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "../../images/Teams/Patel.jpg",
+					"imageText": "Janisha Patel image",
+					"url": "https://www.ebi.ac.uk/about/people/maria-jesus-martin"
+				},
+				{
+					"name": "Amanda Bell",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "../../images/Teams/Patel.jpg",
+					"imageText": "Amanda Bell image",
+					"url": "https://www.linkedin.com/in/amanda-bell-13a723124"
+				},
+				{
+					"name": "Robel Kahsay",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "../../images/Teams/Kahsay.jpg",
+					"imageText": "Robel Kahsay image",
+					"url": "https://www.gwumc.edu/smhs/facultydirectory/profile.cfm?empName=Robel%20Kahsay&FacID=2051216059"
+				},
+				{
+					"name": "Rahi Navelkar",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "../../images/Teams/Navelkar.jpg",
+					"imageText": "Rahi Navelkar image",
+					"url": "https://www.linkedin.com/in/rahi-navelkar-b24b08131/"
+				}
+			]
+		},
+		"dataIntegration": {
+			"subheading": "Other Members",
+			"people": [
+				{
+					"name": "Ogan Abaan",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Payal Banerjee",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},				{
+					"name": "Surajit Bhattacharya",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},				{
+					"name": "Lee Black",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},				{
+					"name": "Ben Busby",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},				
+				{
+					"name": "Kristy Cloyd-Warwick",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},				
+				{
+					"name": "Ryan Connor",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Paul Duncan",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Josep Gelpi",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Carole Goble",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Jeremy Goecks",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Jonathan Jacobs",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Jonathan LoTempio",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Xeandong Meng",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "David Michaels",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Hiroki Morizono",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Asa Oudes",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Jason Travis",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Paul Walsh",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Jianchao Yao",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "John Penn",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Megan Pottersbusch",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Jonathan Pryke",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Dan Taylor",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Stian Soiland Reyes",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Jeremy Goecks",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Carole Goble",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Gil Alterovitz",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Jonas Almeida",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				},
+				{
+					"name": "Dan Taylor",
+					"position": "",
+					"department": "",
+					"institution": "",
+					"location": "",
+					"image": "",
+					"imageText": "",
+					"url": ""
+				}
+			]
+		},
+
+
+	"example": {
+		"name": "",
+		"position": "",
+		"department": "",
+		"institution": "",
+		"location": "",
+		"image": "/team/",
+		"imageText": " image",
+		"url": ""
+	}
+}

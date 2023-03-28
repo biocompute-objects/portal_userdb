@@ -34,7 +34,7 @@ export default function Builder() {
   const classes = useStyles();
 
   return (
-    <Card className={classes.linkCard} elevation={0}>
+    <Card className={classes.linkCard} elevation={1}>
       <CardActionArea className={classes.linkCard} component={Link} to='/builder'>
         <CardContent>
           <Typography className={classes.title}>
