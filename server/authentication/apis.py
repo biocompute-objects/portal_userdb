@@ -1,6 +1,11 @@
-# authentication/apis.py
+#!/usr/bin/env python3 authentication/apis.py
+
+"""Authentication APIs
+"""
 
 from django.contrib.auth.models import User
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions, status, serializers
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -8,7 +13,6 @@ from rest_framework_jwt.settings import api_settings
 from authentication.services import custom_jwt_handler, google_authentication
 from users.services import user_create
 from users.selectors import user_from_username, user_from_email
-
 
 class GoogleUsername(serializers.CharField):
     """
@@ -18,7 +22,6 @@ class GoogleUsername(serializers.CharField):
     def convert(self, value):
         username = value.replace(" ", "")
         return super().convert(username)
-
 
 class GoogleInputSerializer(serializers.Serializer):
     """
@@ -47,13 +50,21 @@ class GoogleInputSerializer(serializers.Serializer):
 
         return super().to_internal_value(data)
 
-class GoogleRegister(APIView):
+class GoogleRegisterApi(APIView):
     """
     API view for registering a user with Google OAuth authentication.
     Handle POST requests for user registration with Google OAuth
     authentication.
     """
     permission_classes = (permissions.AllowAny,)
+
+    @swagger_auto_schema(
+        responses={
+            200: "Account creation is successful.",
+            409: "Account has already been authenticated or requested.",
+        },
+        tags=["Account Management"],
+    )
 
     def post(self, request):
         """
@@ -86,12 +97,19 @@ class GoogleRegister(APIView):
                 status=status.HTTP_200_OK, data=custom_jwt_handler(token, user)
             )
 
-
 class GoogleLoginApi(APIView):
     """
     API view for logging in with Google OAuth authentication.
     """
     permission_classes = (permissions.AllowAny,)
+
+    @swagger_auto_schema(
+        responses={
+            200: "Login is successful.",
+            401: "Unathorized.",
+        },
+        tags=["Account Management"],
+    )
 
     def post(self, request):
         """Post"""
