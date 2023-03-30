@@ -19,6 +19,7 @@ secrets.read(BASE_DIR + '/.secrets')
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+
 try:
     SECRET_KEY = secrets['DJANGO_KEY']['SECRET_KEY']
 except:

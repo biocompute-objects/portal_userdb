@@ -9,7 +9,6 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.response import Response
 from datetime import datetime
 from users.selectors import profile_from_username, user_from_username
 from authentication.services import custom_jwt_handler
@@ -29,7 +28,6 @@ def getRouts(request):
 #     bcodb = BcoDb.objects.all()
 #     serialize = BcoDbSerializer(bcodb, many=True)
 #     return Response(serialize.data)
-
 
 class AddBcodbApi(APIView):
     """Add BcoDb object"""
