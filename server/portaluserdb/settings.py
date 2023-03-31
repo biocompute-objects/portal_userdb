@@ -30,12 +30,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
 VERSION = "23.04"
 
-# Application definition
+PUBLIC_HOSTNAME = "http://localhost:3000"
 
+# Application definition
 INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
@@ -53,6 +52,8 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "prefix.apps.PrefixConfig",
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
