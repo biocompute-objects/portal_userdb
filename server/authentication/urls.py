@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from rest_framework_jwt.views import (
     ObtainJSONWebTokenView,
     refresh_jwt_token,
@@ -14,4 +14,5 @@ urlpatterns = [
     path("auth/register/", UserCreateApi.as_view()),
     path("google/login/", GoogleLoginApi.as_view()),
     path("google/register/", GoogleRegisterApi.as_view()),
+    path("password_reset/", include('django_rest_passwordreset.urls', namespace='password_reset')),
 ]

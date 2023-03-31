@@ -3,8 +3,12 @@
 """Authentication APIs
 """
 
+from django.conf import settings
 from django.contrib.auth.models import User
-from drf_yasg import openapi
+from django.core.mail import send_mail
+from django.dispatch import receiver
+from django.urls import reverse
+from django_rest_passwordreset.signals import reset_password_token_created
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions, status, serializers
 from rest_framework.response import Response
@@ -12,7 +16,57 @@ from rest_framework.views import APIView
 from rest_framework_jwt.settings import api_settings
 from authentication.services import custom_jwt_handler, google_authentication
 from users.services import user_create
-from users.selectors import user_from_username, user_from_email
+from users.selectors import user_from_email
+
+@receiver(reset_password_token_created)
+def password_reset_token_created(
+    sender, instance, reset_password_token, *args, **kwargs
+):
+    """
+    Create the token for a password reset.
+    """
+    email_plaintext_message = "{}?token={}".format(
+        reverse("password_reset:reset-password-request"), reset_password_token.key
+    )
+    token = reset_password_token.key
+    activation_link = ""
+    template = ""
+
+    activation_link = (
+        settings.PUBLIC_HOSTNAME
+        + "/password_reset/confirm/?"
+        + f"{token}"
+    )
+
+
+    template = '<html><body><p>Please click this link within the next 10 minutes to reset your BioCompute Portal password: <a href="{}" target="_blank">{}</a>.</p></body></html>'.format(
+        activation_link, activation_link
+    )
+
+    try:
+        send_mail(
+            subject="Password reset for BioCompute Portal",
+            message=email_plaintext_message,
+            html_message=template,
+            from_email="mail_sender@portal.aws.biochemistry.gwu.edu",
+            recipient_list=[reset_password_token.user.email],
+            fail_silently=False,
+        )
+
+    except Exception as error:
+        print("activation_link", reset_password_token)
+        # print('ERROR: ', error)
+        # TODO: Should handle when the send_mail function fails?
+        # return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={
+        # "message": "Not able to send authentication email: {}".format(error)})
+        return Response(
+            status=status.HTTP_201_CREATED,
+            data={
+                "message": "Reset token has been requested but email was not sent."
+                f" Check with your database administrator for your token. {error}"
+            },
+        )
+
 
 class GoogleUsername(serializers.CharField):
     """
