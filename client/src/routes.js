@@ -15,6 +15,7 @@ import Prefix from "./components/prefix";
 import BcoViewer from "./components/viewer";
 import GroupsPage from "./components/account/bcodbGroups";
 import About from "./components/about";
+import PasswordReset from "./components/auth/PasswordReset";
 
 export default function Router() {
   const isLoggedIn = useSelector((state) => state.account.isLoggedIn)
@@ -35,6 +36,7 @@ export default function Router() {
         { path: "/bcodbs", element: <BcoDbs />},
         { path: "/prefix", element: <Prefix />},
         { path: "/about", element: <About />},
+        { path: "/password_reset/confirm", element: <PasswordReset />},
       ]
     },
     {
