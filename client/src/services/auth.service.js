@@ -104,8 +104,21 @@ const changePassword = (data) => {
 };
 
 const forgotPassword = async (email) => {
-  const response = await axios.post(`${USERS_URL}forgot_password/`, {
+  const response = await axios.post(`${USERS_URL}password_reset/`, {
     email
+  }, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  return response
+};
+
+const resetPassword = async ({newPassword, token}) => {
+  console.log(newPassword, token)
+  const response = await axios.post(`${USERS_URL}password_reset/confirm/`, {
+    "password": newPassword,
+    "token": token
   }, {
     headers: {
       "Content-Type": "application/json"
@@ -214,6 +227,7 @@ const authService = {
   account,
   changePassword,
   forgotPassword,
+  resetPassword,
   googleLogin,
   googleRegister,
   userInfo,

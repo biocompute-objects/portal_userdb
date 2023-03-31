@@ -8,11 +8,37 @@ const user = JSON.parse(localStorage.getItem("user"));
 
 export const forgotPassword = createAsyncThunk(
   "auth/forgot_password",
-  async (email, thunkAPI) => {
+  async (resetEmail, thunkAPI) => {
     try {
-      console.log("Slice", email)
-      const response = await AuthService.forgotPassword(email);
-      thunkAPI.dispatch(setMessage(response.message));
+      console.log("Slice", resetEmail)
+      const response = await AuthService.forgotPassword(resetEmail);
+      
+      if (response.status !== 200) {
+        thunkAPI.dispatch(setMessage("Password reset not email sent"));  
+      }
+      thunkAPI.dispatch(setMessage("Password reset email sent"));
+      return response.data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+          error.response.data.email[0] || error.message || 
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  "auth/forgot_password",
+  async ({newPassword, token}, thunkAPI) => {
+    try {
+      const response = await AuthService.resetPassword({newPassword, token});
+      if (response.status !== 200) {
+        thunkAPI.dispatch(setMessage("not good"));
+      }
       return response.data;
     } catch (error) {
       const message =
