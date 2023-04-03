@@ -55,6 +55,9 @@ INSTALLED_APPS = [
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+# allows password reset for a user that does not have a usable password (Default: True)
+DJANGO_REST_MULTITOKENAUTH_REQUIRE_USABLE_PASSWORD = False
+
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",

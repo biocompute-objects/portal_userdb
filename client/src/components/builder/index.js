@@ -155,14 +155,6 @@ export const  BuilderColorCode = () => {
                 ))}
                     
               </div>
-              <div className='object'>
-                <TextField
-                  value={bco}
-                  onChange={(event) => setBco(event.target.value)}
-                  placeholder="http://127.0.0.1:8000/BCO_000001/DRAFT"
-                />
-                <button onClick={() => dispatch(fetchBco([bco, token]))}>retrieve</button>
-              </div>
             </Grid>
             <Grid item xs={12} md>
                                 
