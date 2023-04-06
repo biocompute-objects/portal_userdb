@@ -6,13 +6,16 @@ import { Link } from "react-router-dom";
 import { MyTextField } from "../builder/specialFeilds";
 import * as Yup from "yup";
 import {resetPassword} from "../../slices/accountSlice";
-
+import { useNavigate } from "react-router-dom";
+import NotificationBox from "../NotificationBox";
 
 export default function PasswordReset() {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
+  
   return (
     <Container>
+      <NotificationBox />
       <Card>
         <CardHeader title="Password Reset"/>
         <Box display="flex" flexdirection="column" height="100%" justifyContent="center" >
@@ -38,9 +41,9 @@ export default function PasswordReset() {
               })}
               onSubmit={(values, {setSubmitting}) => {
                 setSubmitting(true);
-                console.log(values.newPassword, values.token)
                 dispatch(resetPassword(values))
                 setSubmitting(false);
+                navigate("/login");
               }}
             >
               {({isSubmitting}) => (

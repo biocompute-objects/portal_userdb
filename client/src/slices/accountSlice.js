@@ -36,17 +36,12 @@ export const resetPassword = createAsyncThunk(
   async ({newPassword, token}, thunkAPI) => {
     try {
       const response = await AuthService.resetPassword({newPassword, token});
-      if (response.status !== 200) {
-        thunkAPI.dispatch(setMessage("not good"));
+      if (response.status === 200) {
+        thunkAPI.dispatch(setMessage("Your password has been reset"));
       }
       return response.data;
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-          error.response.data.email[0] || error.message || 
-        error.toString();
+      const message = JSON.stringify(error.response.data)
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }

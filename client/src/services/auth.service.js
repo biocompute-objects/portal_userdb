@@ -110,7 +110,6 @@ const forgotPassword = async (email) => {
 };
 
 const resetPassword = async ({newPassword, token}) => {
-  console.log(newPassword, token)
   const response = await axios.post(`${USERS_URL}password_reset/confirm/`, {
     "password": newPassword,
     "token": token

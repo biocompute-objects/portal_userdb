@@ -95,7 +95,7 @@ class OrcidLoginApi(APIView):
         if "access_token" not in orcid_auth:
             return Response(status=status.HTTP_401_UNAUTHORIZED, data={"message": orcid_auth['error_description']})
         user = user_from_orcid(orcid_auth['orcid'])
-        if user:
+        if user is not 0:
             jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
             jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 

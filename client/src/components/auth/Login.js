@@ -39,19 +39,13 @@ const Login = () => {
       console.log("response", code);
       dispatch(orcidLogIn(code))
         .unwrap()
-        // .then(() => {
-        //   navigate("/");
-        //   global.window.location.reload();
-        // })
         .catch((error) => {
           console.log(error)
+          navigate("/login");
         })
     }
   }, [])
 
-  // else {
-  //   console.log("code")
-  // }
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("This field is required!"),
     password: Yup.string()

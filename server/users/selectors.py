@@ -25,6 +25,8 @@ def user_from_orcid(orcid: str):
     """User from Orcid
     returns a user object from an ORCID
     """
-    
-    profile = Profile.objects.get(orcid__icontains=orcid)
-    return user_from_username(username=profile.username)
+    try:
+        profile = Profile.objects.get(orcid__icontains=orcid)
+        return user_from_username(username=profile.username)
+    except:
+        return 0
