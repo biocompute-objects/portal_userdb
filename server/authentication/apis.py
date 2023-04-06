@@ -14,9 +14,9 @@ from rest_framework import permissions, status, serializers
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_jwt.settings import api_settings
-from authentication.services import custom_jwt_handler, google_authentication
+from authentication.services import custom_jwt_handler, google_authentication, orcid_auth_code
 from users.services import user_create
-from users.selectors import user_from_email
+from users.selectors import user_from_email, user_from_orcid
 
 @receiver(reset_password_token_created)
 def password_reset_token_created(
@@ -67,6 +67,49 @@ def password_reset_token_created(
             },
         )
 
+
+class OrcidInputSerializer(serializers.Serializer):
+    """ORCID Serializer
+    Serializer class for ORCID authentication input data, including ...
+    """
+    
+class OrcidLoginApi(APIView):
+    """
+    API view for logging in with ORCID OAuth authentication.
+    """
+    permission_classes = (permissions.AllowAny,)
+
+    @swagger_auto_schema(
+        responses={
+            200: "Login is successful.",
+            401: "Unathorized.",
+        },
+        tags=["Account Management"],
+    )
+    def get(self, request):
+        """
+        """
+
+        auth_code = self.request.GET['code']
+        orcid_auth = orcid_auth_code(auth_code)
+        if "access_token" not in orcid_auth:
+            return Response(status=status.HTTP_401_UNAUTHORIZED, data={"message": orcid_auth['error_description']})
+        user = user_from_orcid(orcid_auth['orcid'])
+        if user:
+            jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+            jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
+            payload = jwt_payload_handler(user)
+            token = jwt_encode_handler(payload)
+
+            return Response(
+                status=status.HTTP_200_OK, data=custom_jwt_handler(token, user)
+            )
+
+        return Response(
+            status=status.HTTP_401_UNAUTHORIZED,
+            data={"message": "That account does not exist"},
+        )
 
 class GoogleUsername(serializers.CharField):
     """

@@ -14,6 +14,25 @@ from users.services import UserSerializer, ProfileSerializer
 from users.selectors import profile_from_username
 from rest_framework_jwt.utils import unix_epoch
 
+def orcid_auth_code(code: str)-> Response:
+    """
+    """
+    data = {
+        "client_id": settings.ORCID_CLIENT,
+        "client_secret": settings.ORCID_SECRET,
+        "grant_type": "authorization_code",
+        "code": code,
+        "redirect_uri": "http://localhost:3000/login"
+    }
+    headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
+    response = requests.post("https://sandbox.orcid.org/oauth/token", data=data, headers=headers)
+
+    return response.json()
+
+
 def google_authentication(request):
     """Google Authentication"""
 

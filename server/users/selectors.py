@@ -20,3 +20,11 @@ def profile_from_username(username: str) -> Profile:
     returns a user object from a username
     """
     return Profile.objects.get(username=username)
+
+def user_from_orcid(orcid: str):
+    """User from Orcid
+    returns a user object from an ORCID
+    """
+    
+    profile = Profile.objects.get(orcid__icontains=orcid)
+    return user_from_username(username=profile.username)
