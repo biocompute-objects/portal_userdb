@@ -45,7 +45,8 @@ export default function Servers() {
 
   const handleGroups = (database, index) => {
     const { token, public_hostname, group_permissions } = database 
-    dispatch(groupInfo({group_permissions, token, public_hostname, index}))      .unwrap()
+    dispatch(groupInfo({group_permissions, token, public_hostname, index}))
+      .unwrap()
       .then(() => {
         navigate(`/profile/bcodb/${index}`)
       })

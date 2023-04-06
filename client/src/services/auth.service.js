@@ -49,18 +49,13 @@ const googleRegister = async (data) => {
   return response;
 };
 
-const orcidLogIn = async (data) => {
-  const response = await axios.get("https://orcid.org/oauth/authorize", {
-    client_id: "APP-HK00CLY49353RXNU",
-    response_type: "code",
-    scope: "/authenticate",
-    redirect_uri: "https://developers.google.com/oauthplayground/"
-  }, {
-    headers: {
-      "Accept": "application/json",
-    }
-  })
-  return response
+const orcidLogIn = async (code) => {
+  const response = await axios.get(`${USERS_URL}orcid/login/?code=${code}`)
+  if (response.data.token) {
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+    localStorage.setItem("token", JSON.stringify(response.data.token));
+  }
+  return response.data;
 }
 
 const logout = () => {

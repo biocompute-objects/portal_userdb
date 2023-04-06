@@ -179,10 +179,11 @@ export const googleRegister = createAsyncThunk(
 
 export const orcidLogIn = createAsyncThunk(
   "auth/orcidLogin",
-  async (data, thunkAPI) => {
+  async (code, thunkAPI) => {
     try {
-      const authentication = await AuthService.orcidLogIn(data);
-      thunkAPI.dispatch(setMessage(authentication.data.message));
+      const authentication = await AuthService.orcidLogIn(code);
+      // thunkAPI.dispatch(setMessage(authentication.data.message));
+      console.log(authentication)
       return authentication
     } catch (error) {
       const message =
@@ -323,6 +324,14 @@ export const accountSlice = createSlice({
         state.user = action.payload.user;
       })
       .addCase(login.rejected, (state) => {
+        state.isLoggedIn = false;
+        state.user = null;
+      })
+      .addCase(orcidLogIn.fulfilled, (state, action) => {
+        state.isLoggedIn = true;
+        state.user = action.payload.user;
+      })
+      .addCase(orcidLogIn.rejected, (state) => {
         state.isLoggedIn = false;
         state.user = null;
       })
