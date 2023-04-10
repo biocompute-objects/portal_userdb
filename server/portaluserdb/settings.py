@@ -29,6 +29,8 @@ if secrets['ORCID_KEYS']['DJANGO_ORCID_OAUTH2_CLIENT_ID']:
     ORCID_CLIENT = secrets['ORCID_KEYS']['DJANGO_ORCID_OAUTH2_CLIENT_ID']
 if secrets['ORCID_KEYS']['DJANGO_ORCID_OAUTH2_CLIENT_SECRET']:
     ORCID_SECRET = secrets['ORCID_KEYS']['DJANGO_ORCID_OAUTH2_CLIENT_SECRET']
+if secrets['ORCID_KEYS']['DJANGO_ORCID_OAUTH2_URL']:
+    ORCID_URL = secrets['ORCID_KEYS']['DJANGO_ORCID_OAUTH2_URL']
 
 if secrets['GOOGLE_KEYS']['DJANGO_GOOGLE_OAUTH2_CLIENT_ID']:
     GOOGLE_CLIENT = secrets['GOOGLE_KEYS']['DJANGO_GOOGLE_OAUTH2_CLIENT_ID']
@@ -171,6 +173,7 @@ CORS_ORIGIN_ALL_ALL = True
 
 # set to the origin so that JWT can make call-backs to verify
 ORIGIN = "http://localhost:8080"
+CLIENT = "https://biocomputeobject.org"
 
 CORS_ORIGIN_WHITELIST = (
     "http://localhost:3000",
