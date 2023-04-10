@@ -178,6 +178,8 @@ CORS_ORIGIN_WHITELIST = (
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     "https://test.portal.biochemistry.gwu.edu",
+    "https://biocomputeobject.org",
+    "https://www.biocomputeobject.org",
 )
 
 CSRF_TRUSTED_ORIGINS = ['https://*.biochemistry.gwu.edu','https://*.127.0.0.1']
@@ -188,4 +190,11 @@ JWT_AUTH = {
     "JWT_REFRESH_EXPIRATION_DELTA": timedelta(days=14),
     "JWT_ALLOW_REFRESH": True,
     "JWT_PAYLOAD_HANDLER": 'authentication.services.custom_jwt_create_payload',
+}
+
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"}
+    },
+    "DEEP_LINKING": True,
 }
