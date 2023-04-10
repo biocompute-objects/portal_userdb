@@ -8,7 +8,7 @@ from django.utils.timezone import make_aware
 from rest_framework import serializers
 from bcodb.models import BcoDb
 from users.models import Profile
-from bcodb.selectors import accounts_describe
+from bcodb.selectors import accounts_describe, get_all_bcodbs
 
 
 class BcoDbSerializer(serializers.ModelSerializer):
@@ -33,7 +33,7 @@ class BcoDbSerializer(serializers.ModelSerializer):
 
 def update_bcodbs(profile: Profile) -> query.QuerySet:
     """Updates the information for a BcoDb object"""
-    bcodbs = BcoDb.objects.filter(owner=profile)
+    bcodbs = get_all_bcodbs(profile)
 
     for db in bcodbs:
         bco_api_response = accounts_describe(db.public_hostname, db.token)
@@ -68,3 +68,41 @@ def create_bcodb(data: dict) -> BcoDb:
     bcodb_serializer.save()
 
     return bcodb_serializer.data
+
+def add_authentication(token: str, auth_object: dict, bcodb: BcoDb):
+    """Add Authentication
+    Adds an authentication object to the BCODB object.
+    """
+    try: 
+        bco_api_response = requests.post(
+            url=bcodb.public_hostname + "/api/auth/add/",
+            data=json.dumps(auth_object),
+            headers= {
+                "Authorization": "Bearer " + token,
+                "Content-type": "application/json; charset=UTF-8",
+            }
+        )
+        return bco_api_response.status_code
+
+    except Exception as err:
+        print(err)
+
+def remove_authentication(token: str, auth_object: dict, bcodb: BcoDb):
+    """Remove Authentication
+    Removes an authentication object to the BCODB object.
+    """
+    try:
+        bco_api_response = requests.post(
+            url=bcodb.public_hostname + "/api/auth/remove/",
+            data=json.dumps(auth_object),
+            headers= {
+                "Authorization": "Bearer " + token,
+                "Content-type": "application/json; charset=UTF-8",
+            }
+        )
+        return bco_api_response.status_code
+    
+    except Exception as err:
+        print(err)
+
+    

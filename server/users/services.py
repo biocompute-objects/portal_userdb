@@ -53,8 +53,16 @@ def user_create(
 @transaction.atomic
 def profile_update(user: User, profile: Profile, data: dict) -> str:
     """Profile update
-    Takes a serilized object from the request, parses the values and writes
-    to database
+    Updates the user's profile and user model with the provided data and
+    saves the changes to the database.
+
+    Args:
+    - user: User model instance to be updated.
+    - profile: Profile model instance to be updated.
+    - data: Dictionary of updated data.
+
+    Returns:
+    - 0 if the update was successful.
     """
 
     if data["public"] == False:
@@ -62,8 +70,8 @@ def profile_update(user: User, profile: Profile, data: dict) -> str:
     if data["public"] == True:
         profile.public = True
     profile.affiliation = data["affiliation"]
-    profile.orcid = data["orcid"]
     profile.email = data["email"]
+    profile.orcid = data["orcid"]
     profile.full_clean()
     profile.save()
 
