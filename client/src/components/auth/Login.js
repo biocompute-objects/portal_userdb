@@ -15,7 +15,8 @@ import { useSearchParams } from "react-router-dom";
 
 const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
 const orcid_id = process.env.REACT_APP_ORCID_CLIENT_ID
-
+const orcidUrl = process.env.REACT_APP_ORCID_URL
+const serverUrl = process.env.REACT_APP_SERVER_URL
 const onGoogleLoginFailure = (response) => {
   console.log(response);
 }
@@ -129,7 +130,7 @@ const Login = () => {
             onFailure={onGoogleLoginFailure}
             cookiePolicy={"single_host_origin"}
           /><br/><br/>
-          <a href={`https://sandbox.orcid.org/oauth/authorize?client_id=${orcid_id}&response_type=code&scope=/authenticate&redirect_uri=http://localhost:3000/login`}>
+          <a href={`${orcidUrl}/oauth/authorize?client_id=${orcid_id}&response_type=code&scope=/authenticate&redirect_uri=${serverUrl}/login`}>
             <Button
               variant="outlined"
             >

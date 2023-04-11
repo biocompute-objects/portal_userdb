@@ -20,11 +20,13 @@ secrets.read(BASE_DIR + '/.secrets')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-try:
-    SECRET_KEY = secrets['DJANGO_KEY']['SECRET_KEY']
-except:
+if secrets['DJANGO_KEYS']['SECRET_KEY']:
+    SECRET_KEY = secrets['DJANGO_KEYS']['SECRET_KEY']
+else:
     SECRET_KEY = get_random_secret_key()
 
+if secrets['ORCID_KEYS']['DJANGO_ORCID_OAUTH2_CLIENT_URL']:
+    CLIENT = secrets['ORCID_KEYS']['DJANGO_ORCID_OAUTH2_CLIENT_URL']
 if secrets['ORCID_KEYS']['DJANGO_ORCID_OAUTH2_CLIENT_ID']:
     ORCID_CLIENT = secrets['ORCID_KEYS']['DJANGO_ORCID_OAUTH2_CLIENT_ID']
 if secrets['ORCID_KEYS']['DJANGO_ORCID_OAUTH2_CLIENT_SECRET']:
@@ -173,7 +175,6 @@ CORS_ORIGIN_ALL_ALL = True
 
 # set to the origin so that JWT can make call-backs to verify
 ORIGIN = "http://localhost:8080"
-CLIENT = "https://biocomputeobject.org"
 
 CORS_ORIGIN_WHITELIST = (
     "http://localhost:3000",
