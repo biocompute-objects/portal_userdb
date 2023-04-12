@@ -8,20 +8,21 @@ const addExtension = async (newSchema) => {
   return response
 }
 
-const getDraftBco = async (objectInfo, object_id) => {
+const getDraftBco = async (object_id) => {
   const response = await axios.get(object_id, {
     headers: {
-      "Authorization": `Token ${objectInfo[0]}`,
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
       "Content-Type": "application/json"
     }
   })
   return response;
 }
 
-const getPubBco = async (objectInfo, object_id) => {
+const getPubBco = async (object_id) => {
+  console.log(object_id)
   const response = await axios.get(object_id, {
     headers: {
-      "Authorization": `Token ${objectInfo[0]}`,
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
       "Content-Type": "application/json"
     }
   })

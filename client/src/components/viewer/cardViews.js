@@ -7,6 +7,7 @@ export const ProvenanceView = () => {
   return (
     <Card>
       <CardHeader title="Provenance Domain" />
+      {console.log(prov)}
       <CardContent>
         <Typography>Name: {prov.name}</Typography>
         <Typography>Version: {prov.version}</Typography>
@@ -32,17 +33,21 @@ export const ProvenanceView = () => {
       </CardContent>
       <CardContent>
         <CardHeader subheader="Review" />
-        {prov.review.map((review, review_index)=>(
-          <div key={review_index}>
-            <Typography>Reviewer name: {review.reviewer.name}</Typography>
-            <Typography>Reviewer comment: {review.reviewer_comment}</Typography>
-            <Typography>Status: {review.status}</Typography>
-            <Typography>Date: {review.date}</Typography>
-            <Typography>Reviewer email: {review.reviewer.email}</Typography>
-            <Typography>Reviewer affiliation: {review.reviewer.affiliation}</Typography>
-            <Typography>Reviewer ORCID: {review.reviewer.orcid}</Typography>
-          </div>
-        ))}
+        {
+          prov.review
+            ? (prov.review.map((review, review_index)=>(
+              <div key={review_index}>
+                <Typography>Reviewer name: {review.reviewer.name}</Typography>
+                <Typography>Reviewer comment: {review.reviewer_comment}</Typography>
+                <Typography>Status: {review.status}</Typography>
+                <Typography>Date: {review.date}</Typography>
+                <Typography>Reviewer email: {review.reviewer.email}</Typography>
+                <Typography>Reviewer affiliation: {review.reviewer.affiliation}</Typography>
+                <Typography>Reviewer ORCID: {review.reviewer.orcid}</Typography>
+              </div>
+            )))
+            : (<div></div>)
+        }
       </CardContent>
     </Card>
   )
@@ -75,15 +80,18 @@ export const DescriptionView = () => {
       </CardContent>
       <CardHeader subheader="External References"/>
       <CardContent>
-        {desc.xref.map((xref, x_index)=>(
-          <div key={x_index}>
-            <Typography>Namespace: {xref.namespace}</Typography>
-            <Typography>Name: {xref.name}</Typography>
-            <Typography>Access time: {xref.access_time}</Typography>
-            <Typography>Identifiers: {xref.ids}</Typography>
-            <br/>
-          </div>
-        ))}
+        {desc.xref
+          ? (desc.xref.map((xref, x_index)=>(
+            <div key={x_index}>
+              <Typography>Namespace: {xref.namespace}</Typography>
+              <Typography>Name: {xref.name}</Typography>
+              <Typography>Access time: {xref.access_time}</Typography>
+              <Typography>Identifiers: {xref.ids}</Typography>
+              <br/>
+            </div>
+          )))
+          : <div></div>
+        }
         <Typography>Platform: {desc.platform}</Typography>
       </CardContent>
       <CardHeader subheader="Pipeline Steps" />

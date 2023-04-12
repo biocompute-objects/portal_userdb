@@ -1,17 +1,18 @@
 // src/components/viewer/index.js
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card, CardContent, Container, Grid, ListItem, ListItemText, Paper,
   Typography 
 } from "@material-ui/core";
 import DataObjectIcon from "@mui/icons-material/DataObject";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import {
   ProvenanceView, UsabilityView, DescriptionView, ExtensionView,
   ExecutionView, ParametricView, IoView
 } from "./cardViews";
+import { getPubBco } from "../../slices/bcoSlice";
 
 const data = [
   {
@@ -46,12 +47,12 @@ const data = [
 
 
 export default function BcoViewer () {
+  const dispatch = useDispatch();
   const [value, setValue] = React.useState(0);
   const bco = useSelector(state => state.bco.data)
 
   const handleChange = (newValue) => {
     setValue(newValue);
-    console.log(bco[data[value].value])
   };
 
   function a11yProps(index) {
@@ -85,6 +86,29 @@ export default function BcoViewer () {
     value: PropTypes.any.isRequired,
   };
 
+  function validURL(url) {
+    try {
+      new URL(url);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
+  useEffect(() => {
+    const object_id = global.window.location.search.substring(1)
+    console.log("index", object_id)
+    if (validURL(object_id) === true) {
+      dispatch(getPubBco(object_id))
+        .unwrap()
+        .then(() => {
+          // navigate("/viewer")
+        })
+        .catch(() => {
+          console.log("Error");
+        });
+    }
+  }, [])
   return (
     <Container>
       <Paper>
@@ -132,13 +156,6 @@ export default function BcoViewer () {
             <TabPanel value={value} index={6}>
               <ExecutionView/>
             </TabPanel>
-          </Grid>
-          <Grid item>
-            <pre >
-              <code>
-                {JSON.stringify(bco[data[value].value],undefined, 2)}
-              </code>
-            </pre>
           </Grid>
         </Grid>
       </Paper>
