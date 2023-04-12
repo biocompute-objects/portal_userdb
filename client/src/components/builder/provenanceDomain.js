@@ -26,6 +26,7 @@ export const  ProvenanceDomain = ({onSave} ) => {
         </Paper>
         <CardContent>
           <Formik
+            enableReinitialize={true}
             initialValues={
               {
                 "name": provenanceDomain["name"],
