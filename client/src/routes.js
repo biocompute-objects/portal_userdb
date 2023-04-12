@@ -28,8 +28,12 @@ export default function Router() {
         { path: "/", element: <HomePage /> },
         { path: "/builder", element: <BuilderColorCode /> },
         { path: "/viewer", element: <BcoViewer />},
-        { path: "/profile", element: isLoggedIn ? <AccountPage /> : <Navigate to="/login" />},
-        { path: "/profile/bcodb/:id", element: isLoggedIn ? <GroupsPage /> : <Navigate to="/login" />},
+        { path: "/profile", element: isLoggedIn
+          ? <AccountPage />
+          : <Navigate to="/login" />},
+        { path: "/profile/bcodb/:id", element: isLoggedIn
+          ? <GroupsPage />
+          : <Navigate to="/login" />},
         { path: "/login", element: <Login /> },
         { path: "/register", element: <Register /> },
         { path: "/resources", element: <Resources /> },
