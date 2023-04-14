@@ -12,7 +12,7 @@ import {
 
 export const Preview = () => {
   const [prefixHolder, setPrefixHolder] = useState("");
-  const bco = useSelector(state => state.bco.data);
+  const [bco, setBco] = useState(useSelector(state => state.bco.data));
   const prefix = useSelector(state => state.bco.prefix);
   const bcoErrors = useSelector(state => state.bco.error);
   const bcoStatus = useSelector(state => state.bco.status);
@@ -48,13 +48,24 @@ export const Preview = () => {
     
   }
 
+  const handleChange = (event) => {
+    console.log(bco);
+    console.log('event.updated_src', event.updated_src);
+    setBco(event.updated_src);
+  };
+
   return (
     <Card>
       <Paper>
         <Typography variant='h4'> Preview</Typography>
       </Paper>
       <CardContent  align='left'>
-        { <ReactJson src={bco}/> }
+        <ReactJson 
+          src={bco}
+          onEdit={handleChange}
+          onDelete={handleChange}
+          onAdd={handleChange}
+        />
       </CardContent>
       {
         bcoStatus === "invalid"
