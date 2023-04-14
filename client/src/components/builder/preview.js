@@ -49,8 +49,6 @@ export const Preview = () => {
   }
 
   const handleChange = (event) => {
-    console.log(bco);
-    console.log('event.updated_src', event.updated_src);
     setBco(event.updated_src);
   };
 
