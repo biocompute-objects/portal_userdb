@@ -79,18 +79,6 @@ const bcoSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchBco.pending, (state) => {
-        state.status = "loading"
-      })
-      .addCase(fetchBco.fulfilled, (state, action) => {
-        state.status = "succeeded"
-        state.status = "idle"
-        state.data = action.payload
-      })
-      .addCase(fetchBco.rejected, (state, action) => {
-        state.status = "failed"
-        state.error = action.error.message
-      })
       .addCase(getDraftBco.pending, (state) => {
         state.status = "loading"
       })
@@ -143,30 +131,6 @@ const bcoSlice = createSlice({
       })
   }
 })
-
-export const fetchBco = createAsyncThunk(
-  "fetchBco",
-  async (objectInfo) => {
-    console.log(objectInfo[1])
-    const data = await fetch(`${objectInfo[0]}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Token ${objectInfo[1]}`,
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(response.status);
-        } else {
-          return response.json();
-        }
-      })
-      .catch((error) => {
-        console.log("error", error);
-      })
-    return data
-  })
 
 export const createDraftBco = createAsyncThunk(
   "createDraft",

@@ -131,7 +131,18 @@ const userInfo = async () => {
   return response.data;
 };
 
-const searchBcodbAPI = async (data) => {
+const searchBcodbAPI = async ({publicHostname, quickSearch}) => {
+  console.log("service", publicHostname, quickSearch, JSON.parse(localStorage.getItem("token")))
+  const response = await axios.get( `${publicHostname}/api/objects/?contents=${quickSearch}`, {
+    headers: {
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      "Content-Type": "application/json"
+    }
+  });
+  return response;
+}
+
+const advSearchBcodbAPI = async (data) => {
   const response = await axios.post(data.public_hostname + "/api/objects/search/", {
     POST_api_objects_search: [
       {
@@ -226,6 +237,7 @@ const authService = {
   googleRegister,
   userInfo,
   orcidLogIn,
+  advSearchBcodbAPI,
   searchBcodbAPI,
   authenticateBcoDb,
   registerBcoDb,
