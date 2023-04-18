@@ -37,9 +37,9 @@ def update_bcodbs(profile: Profile) -> query.QuerySet:
 
     for db in bcodbs:
         bco_api_response = accounts_describe(db.public_hostname, db.token)
-        update = bco_api_response.json()
-        now = make_aware(datetime.utcnow())
-        if bco_api_response.status_code == 200:
+        try:
+            update = bco_api_response.json()
+            now = make_aware(datetime.utcnow())
             BcoDb.objects.filter(id=db.id).update(
                 token = update['token'],
                 user_permissions = update['other_info']['permissions']['user'],
@@ -50,11 +50,12 @@ def update_bcodbs(profile: Profile) -> query.QuerySet:
                 recent_attempt = now.isoformat()
             )
 
-        else:
+        except:
             BcoDb.objects.filter(id=db.id).update(
                 recent_status = bco_api_response.status_code,
                 recent_attempt = now.isoformat()
             )
+
     updated_bcodbs = BcoDb.objects.filter(owner=profile)
     return updated_bcodbs
 
