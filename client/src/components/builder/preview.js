@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, CardContent, CardHeader, Grid, Paper, TextField, Typography } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import ReactJson from "react-json-view"
@@ -8,7 +8,11 @@ import {
   publishDraftBco,
   validateBco,
   setPrefix,
+  updateETag,
+  updateBco,
 } from "../../slices/bcoSlice";
+import objectHash from "object-hash";
+
 
 export const Preview = () => {
   const [prefixHolder, setPrefixHolder] = useState("");
@@ -18,6 +22,19 @@ export const Preview = () => {
   const bcoStatus = useSelector(state => state.bco.status);
   const dispatch = useDispatch();
   const BCODB_URL = process.env.REACT_APP_BCOAPI_URL;
+
+  const hash = (bco) => objectHash(bco,{ excludeKeys: function(key) {
+    if (( key === "object_id" ) || (key === "etag") || (key === "spec_version")) {
+      return true;
+    }
+    return false;
+  }
+  })
+
+  useEffect(() => {
+    const etag = hash(bco)
+    dispatch(updateETag(etag))
+  }, [])
 
   const createDraft = () => {
     console.log("create", BCODB_URL, bco)
@@ -49,7 +66,9 @@ export const Preview = () => {
   }
 
   const handleChange = (event) => {
-    setBco(event.updated_src);
+    dispatch(updateBco(event.updated_src))
+    const etag = hash(bco)
+    dispatch(updateETag(etag))
   };
 
   return (
@@ -75,7 +94,9 @@ export const Preview = () => {
               </CardContent>
             </Card>
           )
-          : (<></>)
+          : (<Card>
+            <CardHeader title="BCO Valid"/>
+          </Card>)
       }
       <CardContent>
         <Grid container spacing={2}> 

@@ -75,6 +75,12 @@ const bcoSlice = createSlice({
     },
     setPrefix: (state, action) => {
       state["prefix"] = action.payload
+    },
+    updateETag: (state, action) => {
+      state["data"]["etag"] = action.payload
+    },
+    updateBco: (state, action) => {
+      state["data"] = action.payload
     }
   },
   extraReducers(builder) {
@@ -294,4 +300,6 @@ export const {
   deleteExtensionDomain,
   updateExecutionDomain,
   setPrefix,
+  updateETag,
+  updateBco,
 } = bcoSlice.actions;
