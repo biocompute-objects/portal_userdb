@@ -7,6 +7,7 @@ import { IODomain } from "./ioDomain";
 import { ExecutionDomain } from "./executionDomain";
 import { Preview } from "./preview";
 import { ExtensionDomain } from "./extensionDomain";
+import { RawJson } from "./rawJson";
 import { useDispatch, useSelector } from "react-redux"
 import PropTypes from "prop-types";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -54,6 +55,9 @@ const data = [
   },
   {
     name: "Execution Domain"
+  },
+  {
+    name: "Raw JSON View"
   },
   {
     name: "Review & Publish"
@@ -204,6 +208,9 @@ export const  BuilderColorCode = () => {
                 <ExecutionDomain onSave={onSave} />
               </TabPanel>
               <TabPanel value={value} index={7}>
+                <RawJson onSave={onSave}/>
+              </TabPanel>
+              <TabPanel value={value} index={8}>
                 <Preview/>
               </TabPanel>
             </Grid>

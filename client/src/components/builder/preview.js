@@ -16,13 +16,19 @@ import objectHash from "object-hash";
 
 export const Preview = () => {
   const [prefixHolder, setPrefixHolder] = useState("");
+  // const [ bcodbInfo, setBcodbInfo ] = useState([])
   const [bco, setBco] = useState(useSelector(state => state.bco.data));
   const prefix = useSelector(state => state.bco.prefix);
   const bcoErrors = useSelector(state => state.bco.error);
   const bcoStatus = useSelector(state => state.bco.status);
   const dispatch = useDispatch();
   const BCODB_URL = process.env.REACT_APP_BCOAPI_URL;
-
+  let isLoggedIn = useSelector((state) => state.account.isLoggedIn);
+  const bcodbs = (isLoggedIn
+    ? useSelector((state) => state.account.user.bcodbs)
+    : []);
+    
+  console.log(isLoggedIn, bcodbs)
   const hash = (bco) => objectHash(bco,{ excludeKeys: function(key) {
     if (( key === "object_id" ) || (key === "etag") || (key === "spec_version")) {
       return true;
@@ -94,24 +100,30 @@ export const Preview = () => {
               </CardContent>
             </Card>
           )
-          : (<Card>
-            <CardHeader title="BCO Valid"/>
-          </Card>)
+          : (<></>)
       }
       <CardContent>
         <Grid container spacing={2}> 
           {
             (prefix !== null)
               ? (<></>)
-              : (<Grid container spacing={2}>
-                <TextField
-                  value={prefixHolder}
-                  onChange={(event) => setPrefixHolder(event.target.value)}
-                />
-                <Button
-                  disabled={prefixHolder.length < 3 || prefixHolder.length > 5}
-                  onClick={() => dispatch(setPrefix(prefixHolder))}
-                >Set Prefix</Button>
+              : (<Grid container justifyContent="center" spacing={2}>
+                <Grid item >
+                  <TextField
+                    value={prefixHolder}
+                    onChange={(event) => setPrefixHolder(event.target.value)}
+                  />
+                  <Button
+                    disabled={prefixHolder.length < 3 || prefixHolder.length > 5}
+                    onClick={() => dispatch(setPrefix(prefixHolder))}
+                  >Set Prefix</Button>
+                  {/* <select>{
+                    bcodbs.map((database, index) => {
+                      {console.log(database.human_readable_hostname, index)}
+                      <option value={index} key={index}>{database.human_readable_hostname}</option>
+                    })
+                  }</select> */}
+                </Grid>
               </Grid>)
           }
           { ( bco["object_id"].length > 1)
