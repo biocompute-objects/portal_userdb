@@ -12,8 +12,8 @@ import {
   updateBco,
 } from "../../slices/bcoSlice";
 import objectHash from "object-hash";
-import { handleFileUpload, handleDownloadClick } from "../fileHandeling";
-
+import { FileUpload, handleDownloadClick } from "../fileHandeling";
+import "../../styles.css";
 
 export const Preview = () => {
   const [prefixHolder, setPrefixHolder] = useState("");
@@ -31,8 +31,7 @@ export const Preview = () => {
   const bcodbs = (isLoggedIn
     ? useSelector((state) => state.account.user.bcodbs)
     : []);
-    
-  console.log(isLoggedIn, bcodbs)
+
   const hash = (bco) => objectHash(bco,{ excludeKeys: function(key) {
     if (( key === "object_id" ) || (key === "etag") || (key === "spec_version")) {
       return true;
@@ -171,6 +170,7 @@ export const Preview = () => {
         <Grid container justifyContent="center" spacing={2}>
           <Grid item>
             <Button 
+              className="download-button"
               type='submit'
               variant="contained"
               color="primary"
@@ -184,9 +184,9 @@ export const Preview = () => {
               color="primary"
             > Upload </Button>
           </Grid>
-          <Grid item >
+          <Grid item className="upload-grid">
             <label htmlFor="bcoUpload">Upload a BCO</label>
-            <input type="file" accept="application/json" onChange={handleFileUpload} />
+            <FileUpload />
           </Grid>
 
         </Grid>

@@ -1,19 +1,26 @@
+import React from "react";
 import { useDispatch } from "react-redux";
 import { updateBco } from "../slices/bcoSlice";
 
-
-export const handleFileUpload = (event) => {
+export const FileUpload = () => {
   const dispatch = useDispatch()
-  const file = event.target.files[0];
-  const reader = new global.FileReader();
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new global.FileReader();
       
-  reader.onload = (event) => {
-    const fileContent = JSON.parse(event.target.result);
-    console.log(fileContent)
-    dispatch(updateBco(fileContent))
+    reader.onload = (event) => {
+      const fileContent = JSON.parse(event.target.result);
+      console.log(fileContent)
+      dispatch(updateBco(fileContent))
+    };
+      
+    reader.readAsText(file);
   };
-      
-  reader.readAsText(file);
+  return (
+    <div>
+      <input type="file" accept="application/json" onChange={handleFileUpload} />
+    </div>
+  );
 };
 
 export const handleDownloadClick = (jsonData) => {

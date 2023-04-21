@@ -207,14 +207,12 @@ export const validateBco = createAsyncThunk(
     try {
       const response = await BcoService.validateBco(bcoURL, bcoObject);
       if (response.status === 207) {
-        // thunkAPI.dispatch(setMessage(JSON.stringify(response.data)))
         return response.data
       }
       if (response.status === 200) {
-        // thunkAPI.dispatch(setMessage("BCO is valid"))
+        thunkAPI.dispatch(setMessage("BCO is valid"))
         return 200;
-      }
-      
+      } 
     } catch(error) {
       const message =
           (error.response &&

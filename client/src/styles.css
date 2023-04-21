@@ -1,0 +1,19 @@
+
+.download-button {
+    background-color: #4285f4;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.upload-grid {
+    background-color: #4285f4;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    align-items: center;
+}

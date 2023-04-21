@@ -181,11 +181,9 @@ export const  BuilderColorCode = () => {
                     <DataObjectIcon />{" "}<ListItemText primary={item.name} />
                   </ListItem>
                 ))}
-                    
               </div>
             </Grid>
             <Grid item xs={12} md>
-                                
               <TabPanel value={value} index={0}>
                 <ProvenanceDomain onSave={onSave} />
               </TabPanel>
