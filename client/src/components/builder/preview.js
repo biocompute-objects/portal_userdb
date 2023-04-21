@@ -12,18 +12,22 @@ import {
   updateBco,
 } from "../../slices/bcoSlice";
 import objectHash from "object-hash";
+import { handleFileUpload, handleDownloadClick } from "../fileHandeling";
 
 
 export const Preview = () => {
   const [prefixHolder, setPrefixHolder] = useState("");
   // const [ bcodbInfo, setBcodbInfo ] = useState([])
+  const jsonData = useSelector((state) => state.bco.data);
   const [bco, setBco] = useState(useSelector(state => state.bco.data));
   const prefix = useSelector(state => state.bco.prefix);
   const bcoErrors = useSelector(state => state.bco.error);
   const bcoStatus = useSelector(state => state.bco.status);
   const dispatch = useDispatch();
   const BCODB_URL = process.env.REACT_APP_BCOAPI_URL;
+  
   let isLoggedIn = useSelector((state) => state.account.isLoggedIn);
+  
   const bcodbs = (isLoggedIn
     ? useSelector((state) => state.account.user.bcodbs)
     : []);
@@ -163,6 +167,28 @@ export const Preview = () => {
               onClick={() =>  publish()  }
             > Publish </Button>
           </Grid>
+        </Grid>
+        <Grid container justifyContent="center" spacing={2}>
+          <Grid item>
+            <Button 
+              type='submit'
+              variant="contained"
+              color="primary"
+              onClick={() => {handleDownloadClick(jsonData)}}
+            > Download BCO</Button>
+          </Grid>
+          <Grid item>
+            <Button 
+              type='submit'
+              variant="contained"
+              color="primary"
+            > Upload </Button>
+          </Grid>
+          <Grid item >
+            <label htmlFor="bcoUpload">Upload a BCO</label>
+            <input type="file" accept="application/json" onChange={handleFileUpload} />
+          </Grid>
+
         </Grid>
       </CardContent>
     </Card>
