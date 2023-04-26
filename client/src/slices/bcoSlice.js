@@ -283,6 +283,28 @@ export const getPubBco = createAsyncThunk(
   }
 )
 
+export const modifyGroup = createAsyncThunk(
+  "modifyGroup",
+  async (bcodb, request, thunkAPI) => {
+    try {
+      const response = await BcoService.modifyGroup(bcodb, request);
+      // thunkAPI.dispatch(JSON.stringify(response.data[0].message))
+      return response.data[0];
+    } catch(error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
+
+
+
 export const bcoReducer = bcoSlice.reducer;
 export const bcoStatus = state => state.bco.status
 export const {
