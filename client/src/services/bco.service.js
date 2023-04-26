@@ -96,6 +96,18 @@ const validateBco = async (bcoURL, bcoObject) => {
   return response;
 }
 
+const modifyGroup = async ({bcodb, request}) => {
+  const response = await axios.post(`${bcodb.public_hostname}/api/groups/modify/`, {
+    "POST_api_groups_modify": [request]
+  },{
+    headers: {
+      "Authorization": `Token ${bcodb.token}`,
+      "Content-Type": "application/json"
+    }
+  })
+  return response;
+}
+
 const BcoService = {
   addExtension,
   getDraftBco,
@@ -104,6 +116,7 @@ const BcoService = {
   updateDraftBco,
   publishDraftBco,
   validateBco,
+  modifyGroup,
 };
 
 export default BcoService;

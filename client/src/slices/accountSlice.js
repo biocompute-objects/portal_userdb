@@ -346,7 +346,6 @@ export const accountSlice = createSlice({
         state.user = action.payload.user;
       })
       .addCase(userInfo.fulfilled, (state, action) => {
-        console.log(action.payload)
         state.user = action.payload.user;
       })
       .addCase(authenticateBcoDb.pending, () => {
@@ -362,8 +361,7 @@ export const accountSlice = createSlice({
         state.user = action.payload.user;
       })
       .addCase(groupInfo.fulfilled, (state, action) => {
-        console.log(action.payload)
-        state.user.bcodbs[action.payload[1]].groups = action.payload[0]
+        state.user.bcodbs[action.payload[1]].groups_info = action.payload[0]
       }) 
   },
 });

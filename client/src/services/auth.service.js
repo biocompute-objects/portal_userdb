@@ -211,7 +211,6 @@ const removeBcoDb = async (database) => {
 }
 
 const groupInfo = async (group_permissions, token, public_hostname) => {
-  console.log("Service", group_permissions, token, public_hostname)
   const response = await axios.post(`${public_hostname}/api/groups/group_info/`, {
     POST_api_groups_info: {
       names: group_permissions
