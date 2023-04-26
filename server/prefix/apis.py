@@ -44,8 +44,8 @@ class RegisterPrefixAPI(APIView):
     @transaction.atomic
     def post(self, request):
         """Post"""
-        print(request.data)
-        prefix = request.data['prefix']
+        
+        prefix = request.data['prefix'].upper()
         if len(search_prefix(prefix)) > 0:
             return Response(
                 data={"message": f"The Prefix provided, {prefix}, is not available."},
