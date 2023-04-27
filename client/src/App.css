@@ -41,3 +41,44 @@
     transform: rotate(360deg);
   }
 }
+
+.member-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  /* by changing margin 35px (to < 38px) below you control how many team members cards will fitt in one row */
+  margin: 5px;
+}
+
+.member {
+  text-align: center;
+  vertical-align: middle;
+  /* padding-bottom: 10px; */
+  padding-top: 20px;
+  flex-basis: calc(25% - 30px);
+  margin: 0 15px 30px;
+}
+
+.gg-align-center {
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.content-box-md {
+  padding: 40px 0;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 -15px;
+}
+
+.aboutimg {
+  width: 100%;
+  height: auto;
+  border: 1px solid #f3f0f0;
+  margin: 10px 0;
+}

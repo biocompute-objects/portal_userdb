@@ -18,15 +18,16 @@ const useStyles = makeStyles({
   linkCard: {
     minHeight: "300px",
     minWidth: 275,
-    textAlign: "center"
+    textAlign: "center",
+    backgroundColor:"#D8E9FD"
   },
   title: {
     fontSize: "33px",
     marginTop: 10
   },
-  colorBackground: {
-    backgroundColor: "#D8EDF9"
-}
+  // colorBackground: {
+  //   backgroundColor: "#D8EDF9"
+// }
 });
 
 export default function BCOnexus() {
@@ -35,12 +36,12 @@ export default function BCOnexus() {
     return (
         <Card className={classes.linkCard}>
             <CardContent className={classes.linkCard}>
-            <Box className={classes.colorBackground}>
+            <Box>
                 <Typography className={classes.title}>
-                    <stong>Seven Bridges app</stong>
+                    <stong>Velsera</stong>
                 </Typography>
                 <Typography className={classes.bullet}>
-                BCO fields can be directly pre-populated from workflows on Seven Bridges. Including inputs, outputs, parameters, and etc. 
+                BCO fields can be directly pre-populated from workflows on Velsera. Including inputs, outputs, parameters, and etc. 
                 </Typography>
             </Box>
             </CardContent>

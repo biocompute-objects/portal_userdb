@@ -15,27 +15,9 @@ import interoperabilitypic from "../../images/interoperability.png";
 import domainspic from "../../images/domains.png";
 import Bconexus from "./BCOnexus";
 import SB from "./SB";
-// import MeetOurTeam from "./MeetOurTeam";
 // import OurTeam from "./OurTeam";
-// import cycle from "../../src/images/cycle.png";
-// import domains from "../../images/domains.png";
-// import timeline from "../../images/timeline.png";
-// import interoperability from "../../images/interoperability.png";
-
-// const useStyles = makeStyles((theme) => ({
-//     root: {
-//       backgroundColor: theme.palette.background.dark,
-//       minHeight: "100%",
-//       paddingBottom: theme.spacing(3),
-//       paddingTop: theme.spacing(3)
-//     },
-//     marginTopped: {
-//       marginTop: "50px"
-//     },
-//     whiteBackground: {
-//       backgroundColor: "#ffffff"
-//     }
-//   }));
+import MemberInfoCard from "./MemberInfoCard";
+import OurTeam from "./OurTeam";
 
 
 const About = () => {
@@ -60,28 +42,18 @@ const About = () => {
         <React.Fragment>
             <section>
                 <Container maxWidth="xl">
-                    {/* <Row className="content-box-md">
-                        <Col>
-                            <HorizontalHeading post={HeadBioCompute} />
-                        </Col>
-                        <Col md={"auto"} className="gg-align-middle gg-align-center">
-                            <Col> */}
-                                <img src={biocomputepic} alt="BCO logo" />
-                            {/* </Col>
-                        </Col>
-                    </Row> */}
+                    <img src={biocomputepic} alt="BCO logo" />
                 </Container>
                 <br>
                 </br>
             </section>
             <section>
                 <Overview post={OverviewCompo} />
-            </section>
-            {/* IEEE */}    
+            </section>  
             <section>
                 <Container maxWidth={false} > 
                 <Grid container justifyContent="center" spacing={5}>
-                        <img src={timelineImg} />
+                        <img src={timelineImg} className="aboutimg" />
                 </Grid>
                 </Container>
             </section>
@@ -90,7 +62,6 @@ const About = () => {
                     <Story />
                 </Grid>
             </section> 
-            {/* Our Goals Title */}
             <section>
                 <Typography
                     style={{ fontWeight: "150" }}
@@ -106,15 +77,15 @@ const About = () => {
             <section>
                 <Container maxWidth={false} > 
                 <Grid container justifyContent="center" spacing={5}>
-                        <img src={cyclepic} />
+                        <img src={cyclepic} className="aboutimg"/>
             <br></br>
             <br></br>
             <br></br>
-                        <img src={interoperabilitypic} />
+                        <img src={interoperabilitypic} className="aboutimg"/>
             <br></br>
             <br></br>
             <br></br>
-                        <img src={domainspic} />
+                        <img src={domainspic} className="aboutimg"/>
                 </Grid>
                 </Container>
             </section>
@@ -131,27 +102,25 @@ const About = () => {
                     <span style={{ fontWeight: "900" }}>Applications</span>
                 </Typography>
             </section>
-            <section>
-                <Grid container justifyContent="space-around" spacing={3}>
-                <Grid item lg={6} sm={6} xl={6} xs={12} >
+            <section style={{ display:'flex'}}>
+                <Grid container justifyContent="space-around" spacing={3} style={{ height: '100%'}}>
+                <Grid item lg={6} sm={6} xl={6} xs={12} style={{ height: '100%' }}>
                     <Bconexus />
                 </Grid>
-                <Grid item lg={6} sm={6} xl={6} xs={12}>
+                <Grid item lg={6} sm={6} xl={6} xs={12} style={{ height: '100%'}}>
                     <SB />
                 </Grid>
                 </Grid>
             </section>
             <br></br>
-            {/* <section>
-                <Grid item xs={10} sm={12} lg={12} xl={12}>
-                    <MeetOurTeam />
-                </Grid>
-            </section> */}
-            {/* <section>
-                <OurTeam />
-            </section> */}
+            <section>
+			<div style={{ backgroundColor: "367DE0" }}>
+				<OurTeam />
+			</div>
+                <MemberInfoCard />
+            </section>
         </React.Fragment>
         );
 };
 
-export default About
+export default About;
