@@ -45,14 +45,14 @@ const HomePage = () => {
                     <Intro />
                   </Grid>
                   <Grid item lg={4} sm={6} xl={4} xs={12}>
-                    <Specification />
+                    <BcoDb />
                   </Grid>
                   <Grid item lg={4} sm={6} xl={4} xs={12}>
-                    <BioComputeResources />
+                    <Builder />
                     {/* <Galaxy /> */}
                   </Grid>
                   <Grid item lg={4} sm={6} xl={4} xs={12}>
-                    <Workshop />
+                    <Docs />
                   </Grid>
                 </Grid>
               </Box>
@@ -60,13 +60,13 @@ const HomePage = () => {
             <Container maxWidth={false}>
               <Grid container justifyContent="center" spacing={3}>
                 <Grid item xs={12} sm={12} lg={4} xl={4}>
-                  <BcoDb />
+                  <Specification />
                 </Grid>
                 <Grid item xs={12} sm={6} lg={4} xl={4}>
-                  <Builder />
+                  <BioComputeResources />
                 </Grid>
                 <Grid item xs={12} sm={6} lg={4} xl={4}>
-                  <Docs />
+                  <Workshop />
                 </Grid>
               </Grid>
             </Container>

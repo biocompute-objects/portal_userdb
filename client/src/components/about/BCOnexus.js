@@ -18,14 +18,15 @@ const useStyles = makeStyles({
   linkCard: {
     minHeight: "300px",
     minWidth: 275,
-    textAlign: "center"
+    textAlign: "center",
+    backgroundColor:"#D8E9FD"
   },
   title: {
     fontSize: "33px",
   },
-  colorBackground: {
-    backgroundColor: "#D8EDF9"
-}
+//   colorBackground: {
+//     backgroundColor: "#D8EDF9"
+// }
 });
 
 export default function BCOnexus() {
@@ -34,7 +35,7 @@ export default function BCOnexus() {
     return (
         <Card className={classes.linkCard}>
             <CardContent className={classes.linkCard}>
-            <Box className={classes.colorBackground}>
+            <Box>
                 <Typography className={classes.title}>
                     <stong>BCOnexus</stong>
                 </Typography>
