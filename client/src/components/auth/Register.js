@@ -118,7 +118,6 @@ const Register = () => {
           })}
           onSubmit={(values, {setSubmitting}) => {
             setSubmitting(true)
-            console.log(values)
             handleRegister(values)
             setSubmitting(false)
           }}

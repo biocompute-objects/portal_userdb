@@ -12,7 +12,7 @@ class Profile(models.Model):
     username = models.CharField(unique=True, max_length=200, default="")
     affiliation = models.CharField(blank=True, default="", max_length=255)
     email = models.CharField(max_length=200, default="")
-    orcid = models.CharField(max_length=200, default=" ")
+    orcid = models.CharField(max_length=200, blank=True, default=" ")
     public = models.BooleanField(blank=True, default=False)
 
     def __str__(self):

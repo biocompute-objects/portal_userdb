@@ -8,11 +8,15 @@ const user = JSON.parse(localStorage.getItem("user"));
 
 export const forgotPassword = createAsyncThunk(
   "auth/forgot_password",
-  async (email, thunkAPI) => {
+  async (resetEmail, thunkAPI) => {
     try {
-      console.log("Slice", email)
-      const response = await AuthService.forgotPassword(email);
-      thunkAPI.dispatch(setMessage(response.message));
+      console.log("Slice", resetEmail)
+      const response = await AuthService.forgotPassword(resetEmail);
+      
+      if (response.status !== 200) {
+        thunkAPI.dispatch(setMessage("Password reset not email sent"));  
+      }
+      thunkAPI.dispatch(setMessage("Password reset email sent"));
       return response.data;
     } catch (error) {
       const message =
@@ -21,6 +25,23 @@ export const forgotPassword = createAsyncThunk(
           error.response.data.message) ||
           error.response.data.email[0] || error.message || 
         error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  "auth/forgot_password",
+  async ({newPassword, token}, thunkAPI) => {
+    try {
+      const response = await AuthService.resetPassword({newPassword, token});
+      if (response.status === 200) {
+        thunkAPI.dispatch(setMessage("Your password has been reset"));
+      }
+      return response.data;
+    } catch (error) {
+      const message = JSON.stringify(error.response.data)
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
@@ -90,9 +111,11 @@ export const register = createAsyncThunk(
   "auth/register",
   async ({ username, email, password }, thunkAPI) => {
     try {
-      const response = await AuthService.register(username, email, password);
-      thunkAPI.dispatch(setMessage(response.data.message));
-      return response.data;
+      const userResponse = await AuthService.register(username, email, password);
+      const token = userResponse.data["token"]
+      const apiResponse = await AuthService.registerBcoDb(email, token)
+      thunkAPI.dispatch(setMessage(apiResponse.data.message));
+      return apiResponse.data;
     } catch (error) {
       const message =
         (error.response &&
@@ -111,7 +134,6 @@ export const googleLogin = createAsyncThunk(
   async (idToken, thunkAPI) => {
     try {
       const authentication = await AuthService.googleLogin(idToken);
-      // thunkAPI.dispatch(setMessage(authentication.data.message));
       return authentication
     } catch (error) {
       console.log(error)
@@ -132,7 +154,10 @@ export const googleRegister = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const authentication = await AuthService.googleRegister(data);
-      thunkAPI.dispatch(setMessage(authentication.data.message));
+      const token = authentication.data["token"]
+      const email = authentication.data["user"]["userinfo"]["email"]
+      const apiResponse = await AuthService.registerBcoDb(email, token)
+      thunkAPI.dispatch(setMessage(apiResponse.data.message));
       return authentication
     } catch (error) {
       const message =
@@ -149,10 +174,11 @@ export const googleRegister = createAsyncThunk(
 
 export const orcidLogIn = createAsyncThunk(
   "auth/orcidLogin",
-  async (data, thunkAPI) => {
+  async (code, thunkAPI) => {
     try {
-      const authentication = await AuthService.orcidLogIn(data);
-      thunkAPI.dispatch(setMessage(authentication.data.message));
+      const authentication = await AuthService.orcidLogIn(code);
+      // thunkAPI.dispatch(setMessage(authentication.data.message));
+      console.log(authentication)
       return authentication
     } catch (error) {
       const message =
@@ -258,7 +284,7 @@ export const permInfo = createAsyncThunk(
   "bcodb/permInfo",
   async ({perm, token, public_hostname}, thunkAPI) => {
     try {
-      const response = await authService.permInfo(perm, token, public_hostname);
+      const response = await AuthService.permInfo(perm, token, public_hostname);
       return response
     } catch (error) {
       const message =
@@ -293,6 +319,14 @@ export const accountSlice = createSlice({
         state.user = action.payload.user;
       })
       .addCase(login.rejected, (state) => {
+        state.isLoggedIn = false;
+        state.user = null;
+      })
+      .addCase(orcidLogIn.fulfilled, (state, action) => {
+        state.isLoggedIn = true;
+        state.user = action.payload.user;
+      })
+      .addCase(orcidLogIn.rejected, (state) => {
         state.isLoggedIn = false;
         state.user = null;
       })

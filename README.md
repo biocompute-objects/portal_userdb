@@ -1,11 +1,15 @@
 # BCO Portal
 
-The BCO Portal consists of a [`SERVER`](/server/README.md)  and a [`CLIENT`](client/README.md) applications
-
-Local deployment instructions for development can be found here: [localDeployment.md](docs/localDeployment.md)
+The BCO Portal consists of two applications. 
 
 ## BCO Portal Server (AKA UserDB)
-Some brief text explaining how to use and deploy? 
+The [`SERVER`](server/README.md) directory contains the UserDB application. It utilizes Django (Python) and a SQLite3 DB.
 
 ## BCO Portal Client (AKA Portal)
-Some brief text explaining how to use and deploy? 
+ The [`CLIENT`](client/README.md) directory contains the UI application. It utilizes React and Redux ToolKit. 
+
+## Deployment instructions can be found here: 
+- [Local deployment for devleopment](docs/localDeployment.md)
+- [Production deployment](docs/productionDeployment.md)
+- [Docker deployment](docs/dockerDeployment.md) [WIP]
+

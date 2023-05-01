@@ -23,7 +23,7 @@ import {
 } from "../../slices/bcoSlice"
 import { LargeTextField } from "./specialFeilds";
 
-export const  UsabilityDomain = () => {
+export const  UsabilityDomain = ({onSave}) => {
   const dispatch = useDispatch();
   const usabilityDomain = useSelector(state => state.bco.data.usability_domain)
   return (
@@ -40,6 +40,7 @@ export const  UsabilityDomain = () => {
               dispatch(updateModified())
               dispatch(updateUsability(myData["usability_domain"]))
               setSubmitting(false);
+              onSave()
             }
           }
         >

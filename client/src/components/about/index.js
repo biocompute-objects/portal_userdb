@@ -1,12 +1,7 @@
-import React, {useState, useEffect} from "react";
-import CssBaseline from "@material-ui/core";
-import { Box, Container, Grid, Typography, makeStyles } from "@material-ui/core";
+import React from "react";
+import { Container, Grid, Typography } from "@material-ui/core";
 import Overview from "./Overview";
-import { Helmet } from "react-helmet";
-import { AbcOutlined } from "@mui/icons-material";
 import leadspace from "../../images/leadspace.png";
-import domain from "../../images/domains.png";
-import HorizontalHeading from "./HorizontalHeading";
 import biocomputepic from "../../images/biocompute.png";
 import timelineImg from  "../../images/timeline.png";
 import Story from "./Story";
@@ -15,28 +10,16 @@ import interoperabilitypic from "../../images/interoperability.png";
 import domainspic from "../../images/domains.png";
 import Bconexus from "./BCOnexus";
 import SB from "./SB";
-// import OurTeam from "./OurTeam";
 import MemberInfoCard from "./MemberInfoCard";
 import OurTeam from "./OurTeam";
 
-
 const About = () => {
-    const OverviewCompo = {
-        title: "Who we are",
-        description: "A documentation interface for bioinformatics experiments workflow in a standardized human and machine-readable format. Improve and ease communication of HTS data and information between the research community, the clinical community, and regulatory organizations.",
-        image: leadspace,
-        imageText: "biocompute image"
-    };
-    const HeadBioCompute = {
-        h2textTop: "About BioCompute"
-    };
-    const HeadIEEE ={
-        h2textBottomStrongBefore: "Shorthand for the Institute of Electrical and Electronics Engineers Standards Association (IEEE 2791-2020)",
-    };
-    const HeadMyGoal = {
-        h2textTop: "Our Goals"
-    };
-
+  const OverviewCompo = {
+    title: "Who we are",
+    description: "A documentation interface for bioinformatics experiments workflow in a standardized human and machine-readable format. Improve and ease communication of HTS data and information between the research community, the clinical community, and regulatory organizations.",
+    image: leadspace,
+    imageText: "biocompute image"
+  };
 
     return (
         <React.Fragment>
@@ -90,6 +73,7 @@ const About = () => {
                 </Container>
             </section>
             <br></br>
+            <img src={interoperabilitypic} />
             <br></br>
             <br></br>
             <section>

@@ -1,14 +1,14 @@
 import React from "react";
-import {Card, Typography, CardContent, TextField, Grid, Button} from "@material-ui/core";
+import {Card, Typography, CardContent, Grid, Button} from "@material-ui/core";
 
-import { Formik, Form, Field, FieldArray, ErrorMessage, useField, useFormikContext } from "formik";
+import { Formik, Form, FieldArray } from "formik";
 
 import { useSelector, useDispatch } from "react-redux"
 import { updateParametricDomain } from "../../slices/bcoSlice"
 
 import { MyTextField } from "./specialFeilds"
 
-export const  ParametricDomain = () => {
+export const  ParametricDomain = ({onSave}) => {
     
   const dispatch = useDispatch();
   const parametric_domain = useSelector(state => state.bco.data.parametric_domain)
@@ -29,6 +29,7 @@ export const  ParametricDomain = () => {
                 setSubmitting(true);
                 dispatch(updateParametricDomain(myData["parametric_domain"]));
                 setSubmitting(false);
+                onSave()
               }
             }
           >

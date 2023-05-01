@@ -3,6 +3,11 @@ from requests.models import Response
 from users.models import Profile
 from bcodb.models import BcoDb
 
+def get_all_bcodbs(profile: Profile)-> dict:
+    """Retrieve all BCODBs associated with a profile
+    """
+    return BcoDb.objects.filter(owner=profile)
+
 def get_bcodb(profile: Profile, bcodb_username: str, hostname: str, token: str ) -> BcoDb:
     """Retriuevs a BCODB object. Requires Profile and a db object."""
 
