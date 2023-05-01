@@ -130,7 +130,7 @@ const bcoSlice = createSlice({
           state.status = "valid"
           state.error = "null"
         } else {
-          console.log(action)
+          console.log(action.payload)
           state.status = "invalid"
           state.error = action.payload
         }
@@ -140,12 +140,12 @@ const bcoSlice = createSlice({
 
 export const createDraftBco = createAsyncThunk(
   "createDraft",
-  async ({bcoURL, bcoObject}, thunkAPI) => {
+  async ({bcoURL, bcoObject, prefix}, thunkAPI) => {
     try {
-      console.log("bcoURL: ", bcoURL);
-      const response = await BcoService.createDraftBco(bcoURL, bcoObject);
-      thunkAPI.dispatch(setMessage(response.data[0].message))
-      return response.data;
+      const owner_group = `${prefix.toLowerCase()}_drafter`
+      const response = await BcoService.createDraftBco(bcoURL, bcoObject, prefix, owner_group);
+      thunkAPI.dispatch(setMessage(response[0].message))
+      return response;
     } catch(error) {
       const message =
           (error.response &&
@@ -165,7 +165,7 @@ export const updateDraftBco = createAsyncThunk(
     try {
       console.log("bcoURL: ", bcoURL);
       const response = await BcoService.updateDraftBco(bcoURL, bcoObject);
-      thunkAPI.dispatch(setMessage(response.data[0].message))
+      thunkAPI.dispatch(setMessage(response.data.message))
       return response.data;
     } catch(error) {
       const message =
@@ -302,8 +302,6 @@ export const modifyGroup = createAsyncThunk(
     }
   }
 )
-
-
 
 export const bcoReducer = bcoSlice.reducer;
 export const bcoStatus = state => state.bco.status

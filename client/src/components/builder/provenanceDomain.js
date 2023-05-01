@@ -17,7 +17,6 @@ export const  ProvenanceDomain = ({onSave} ) => {
   let has_review = "review" in provenanceDomain;
   const [obsolete, setObsolete] = useState("obsolete_after" in provenanceDomain)
   const [embargo, setEmbargo] = useState("embargo" in provenanceDomain)
-  console.log(has_obsolete, has_embargo, has_review)
   return (
     <>
       <Card> 
