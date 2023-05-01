@@ -133,7 +133,7 @@ export default function Servers() {
                   </DialogContentText>
                   <br/>
                   <DialogContentText>
-                    Click CANCLE to go back.
+                    Click CANCEL to go back.
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -144,7 +144,7 @@ export default function Servers() {
                     color="primary"
                   >Confirm</Button>
                   <Button
-                    id="cancle-removedb"
+                    id="cancel-removedb"
                     onClick={handleClose}
                     variant="contained"
                     color="secondary"

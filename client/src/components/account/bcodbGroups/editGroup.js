@@ -137,7 +137,7 @@ export default function EditGroup({openGroup, setOpenGroup, groupInfo, bcodb}) {
                       variant="contained"
                       onClick={() => setOpenGroup(false)}
                       color="secondary"
-                    >Cancle</Button>
+                    >Cancel</Button>
                   </div>
                 </Form>)}
             </Formik>

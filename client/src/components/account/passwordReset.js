@@ -82,11 +82,11 @@ export default function PasswordReset ({open, setOpen}) {
                   color="primary"
                 >submit</Button>
                 <Button
-                  id="cancle-resetPassword"
+                  id="cancel-resetPassword"
                   onClick={handleClose}
                   variant="outlined"
                   color="secondary"
-                >CANCLE</Button>
+                >CANCEL</Button>
               </DialogActions>
             </Form>
           )}
