@@ -38,7 +38,7 @@ export default function Galaxy() {
 
   const hive = require("../../images/galaxy.png");
   const aws = require("../../images/powered-by-aws.png");
-  const galaxyLink = ("http://galaxy.aws.biochemistry.gwu.edu/");
+  const galaxyLink = ("https://usegalaxy.org/");
 
   return (
     <Card className={`${classes.root} ${classes.linkCard}`} elevation={2}>

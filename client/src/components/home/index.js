@@ -37,7 +37,7 @@ const HomePage = () => {
     <Container>
       <Container maxWidth={false}>
         <Grid container justifyContent="center" spacing={2}>
-          <Grid item xs={12} sm={10} lg={9} xl={10}>
+          <Grid item xs={12} sm={12} lg={9} xl={12}>
             <Container className={classes.marginTopped} maxWidth={false}>
               <Box className={classes.whiteBackground}>
                 <Grid classes={classes.colored} container justifyContent="space-around" spacing={3}>
