@@ -348,6 +348,10 @@ export const accountSlice = createSlice({
       .addCase(userInfo.fulfilled, (state, action) => {
         state.user = action.payload.user;
       })
+      .addCase(userInfo.rejected, (state) => {
+        state.isLoggedIn = false;
+        state.user = null;
+      })
       .addCase(authenticateBcoDb.pending, () => {
         console.log("loading")
       })
