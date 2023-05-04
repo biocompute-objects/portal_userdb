@@ -10,6 +10,7 @@ import interoperabilitypic from "../../images/interoperability.png";
 import domainspic from "../../images/domains.png";
 import Bconexus from "./BCOnexus";
 import SB from "./SB";
+// import OurTeam from "./OurTeam";
 import MemberInfoCard from "./MemberInfoCard";
 import OurTeam from "./OurTeam";
 
