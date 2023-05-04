@@ -6,8 +6,10 @@ import NotificationBox from "../NotificationBox";
 import PrefixResults from "./PrefixResults";
 import PrefixSearch from "./PrefixSearch";
 import PrefixRegister from "./prefixRegister";
+import { useSelector } from "react-redux";
 
 export default function BcoDbs () {
+  const prefixes = useSelector(state => state.prefix.data)
   const [addPrefix, setAddPrefix] = useState(false);
   return (
     <Container >
@@ -16,7 +18,11 @@ export default function BcoDbs () {
       <PrefixSearch
         setAddPrefix={setAddPrefix}
       />
-      <PrefixResults />
+      {
+        (prefixes.length > 1)
+          ? (<PrefixResults />)
+          : (<div></div>)
+      }
       <PrefixRegister
         addPrefix={addPrefix}
         setAddPrefix={setAddPrefix}
