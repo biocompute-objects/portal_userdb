@@ -1,10 +1,13 @@
-# bcodb/apis.py
+#!/usr/bin/env python3 bcodb/apis.py
+
+"""BCODB APIs
+"""
 
 from django.db import transaction
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from rest_framework.response import Response
 from datetime import datetime
 from users.selectors import profile_from_username, user_from_username
@@ -26,13 +29,24 @@ def getRouts(request):
 #     serialize = BcoDbSerializer(bcodb, many=True)
 #     return Response(serialize.data)
 
-
 class AddBcodbApi(APIView):
     """Add BcoDb object"""
+
+    @swagger_auto_schema(
+        responses={
+            200: "BCODB creation is successful.",
+            409: "Conflict.",
+        },
+        tags=["BCODB Management"],
+    )
+
     @transaction.atomic
     def post(self, request):
         """"""
-        data = request.data["data"]
+        try:
+            data = request.data["data"]
+        except KeyError:
+            data = request.data
         now = datetime.utcnow()
         profile = profile_from_username(request.user.username)
         input_fileter = {
@@ -60,6 +74,14 @@ class AddBcodbApi(APIView):
 
 class RemoveBcodbApi(APIView):
     """Remove a BCODB from a user account"""
+
+    @swagger_auto_schema(
+        responses={
+            200: "BCODB removal is successful.",
+            409: "Conflict.",
+        },
+        tags=["BCODB Management"],
+    )
 
     @transaction.atomic
     def post(self, request):

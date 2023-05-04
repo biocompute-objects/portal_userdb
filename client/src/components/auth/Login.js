@@ -1,6 +1,6 @@
 // src/components/auth/Login.js
 
-import React, { useState  } from "react";
+import React, { useEffect, useState  } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
@@ -11,9 +11,12 @@ import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogCon
 import { Link } from "react-router-dom";
 import { forgotPassword, login, googleLogin, orcidLogIn } from "../../slices/accountSlice";
 import NotificationBox from "../NotificationBox";
-const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
-const orcidClientId = process.env.REACT_APP_ORCID_CLIENT_ID
+import { useSearchParams } from "react-router-dom";
 
+const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
+const orcid_id = process.env.REACT_APP_ORCID_CLIENT_ID
+const orcidUrl = process.env.REACT_APP_ORCID_URL
+const serverUrl = process.env.REACT_APP_SERVER_URL
 const onGoogleLoginFailure = (response) => {
   console.log(response);
 }
@@ -21,14 +24,29 @@ const onGoogleLoginFailure = (response) => {
 const Login = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = useState(false);
   const [resetEmail, setResetEmail] = React.useState("");
   const { isLoggedIn } = useSelector((state) => state.account);
+  const code = searchParams.get("code")
   const initialValues = {
     username: "",
     password: "",
   };
+
+  useEffect(() => {
+    if (code !== null) {
+      console.log("response", code);
+      dispatch(orcidLogIn(code))
+        .unwrap()
+        .catch((error) => {
+          console.log(error)
+          navigate("/login");
+        })
+    }
+  }, [])
+
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("This field is required!"),
     password: Yup.string()
@@ -91,20 +109,6 @@ const Login = () => {
     setOpen(false);
   }
 
-
-  const handleOrcid = () => {
-    console.log(orcidClientId)
-    const data = orcidClientId
-    dispatch(orcidLogIn(data))
-      .unwrap()
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-
   if (isLoggedIn) {
     return <Navigate to="/" />;
   }
@@ -125,13 +129,19 @@ const Login = () => {
             onSuccess={onGoogleLoginSuccess}
             onFailure={onGoogleLoginFailure}
             cookiePolicy={"single_host_origin"}
-          /><br/>
-          {/* <Button            
-            onClick={() => {
-              handleOrcid()
-            }}
-          >Sign in with ORCID</Button> */}
-            
+          /><br/><br/>
+          <a href={`${orcidUrl}/oauth/authorize?client_id=${orcid_id}&response_type=code&scope=/authenticate&redirect_uri=${serverUrl}/login`}>
+            <Button
+              variant="outlined"
+            >
+              <img  
+                alt="ORCID Sign in"
+                src="https://orcid.org/assets/vectors/orcid.logo.icon.svg"
+                width="25"
+              />
+              <Typography variant="subtitle1" >Sign in with ORCID</Typography>
+            </Button>
+          </a>  
           <Typography variant="h5">Or</Typography>
           <Formik
             initialValues={initialValues}

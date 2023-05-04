@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { DescriptionDomain } from "./descriptionDomain";
 import { ProvenanceDomain } from "./provenanceDomain";
 import { UsabilityDomain } from "./usabilityDomain";
@@ -7,7 +7,8 @@ import { IODomain } from "./ioDomain";
 import { ExecutionDomain } from "./executionDomain";
 import { Preview } from "./preview";
 import { ExtensionDomain } from "./extensionDomain";
-import { useDispatch } from "react-redux"
+import { RawJson } from "./rawJson";
+import { useDispatch, useSelector } from "react-redux"
 import PropTypes from "prop-types";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import DataObjectIcon from "@mui/icons-material/DataObject";
@@ -17,12 +18,11 @@ import {
   Grid,
   Card,
   Paper,
-  TextField,
   Container
 } from "@material-ui/core";
 import MuiListItem from "@material-ui/core/ListItem";
 import "./sidebar.css";
-import { fetchBco } from "../../slices/bcoSlice";
+import { getDraftBco } from "../../slices/bcoSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,6 +55,9 @@ const data = [
   },
   {
     name: "Execution Domain"
+  },
+  {
+    name: "Raw JSON View"
   },
   {
     name: "Review & Publish"
@@ -90,20 +93,50 @@ const ListItem = withStyles({
 
 
 export const  BuilderColorCode = () => {
-  const [bco, setBco] = useState("http://127.0.0.1:8000/BCO_000001/DRAFT")
   const dispatch = useDispatch();
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const bcoStatus = useSelector(state => state.bco.error)
+  
+  function validURL(url) {
+    try {
+      new URL(url);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
+  useEffect(()=> {
+    const object_id = global.window.location.search.substring(1)
+    if (validURL(object_id) === true) {
+      dispatch(getDraftBco(object_id))
+        .unwrap()
+        .then(() => {
+          console.log(bcoStatus)
+        })
+        .catch(() => {
+          console.log("Error");
+        });
+    }
+
+  }, [])
+
   const handleChange = (newValue) => {
     setValue(newValue);
   };
+
+  const onSave = () => {
+    console.log(value)
+    setValue(value+1)
+  }
+
   function a11yProps(index) {
     return {
       id: `simple-tab-${index}`,
       "aria-controls": `simple-tabpanel-${index}`,
     };
   }
-  const token = "07801a1a4cdbf1945e22ac8439f1db27fe813f7a"
 
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -133,49 +166,49 @@ export const  BuilderColorCode = () => {
     <Container>
       <div className={classes.root}>
         <Paper className={classes.paper}>
+          <NotificationBox />
           <Grid container spacing={2}>
             <Grid item>
               <div className='sidebar'>
                 {data.map((item, index) => (
-                  <ListItem selected={value === index} value={index} button key={index} onClick={() => {handleChange(index)}} {...a11yProps(index)}>          
+                  <ListItem 
+                    selected={value === index}
+                    value={index}
+                    button key={index}
+                    onClick={() => {handleChange(index)}} 
+                    {...a11yProps(index)}
+                  >          
                     <DataObjectIcon />{" "}<ListItemText primary={item.name} />
                   </ListItem>
                 ))}
-                    
-              </div>
-              <div className='object'>
-                <TextField
-                  value={bco}
-                  onChange={(event) => setBco(event.target.value)}
-                  placeholder="http://127.0.0.1:8000/BCO_000001/DRAFT"
-                />
-                <button onClick={() => dispatch(fetchBco([bco, token]))}>retrieve</button>
               </div>
             </Grid>
             <Grid item xs={12} md>
-                                
               <TabPanel value={value} index={0}>
-                <ProvenanceDomain/>
+                <ProvenanceDomain onSave={onSave} />
               </TabPanel>
               <TabPanel value={value} index={1}>
-                <UsabilityDomain/>
+                <UsabilityDomain onSave={onSave} />
               </TabPanel>
               <TabPanel value={value} index={2}>
-                <DescriptionDomain/>
+                <DescriptionDomain onSave={onSave} />
               </TabPanel>
               <TabPanel value={value} index={4}>
-                <ParametricDomain/>
+                <ParametricDomain onSave={onSave} />
               </TabPanel>
               <TabPanel value={value} index={5}>
-                <IODomain/>
+                <IODomain onSave={onSave} />
               </TabPanel>
               <TabPanel value={value} index={3}>
-                <ExtensionDomain/>
+                <ExtensionDomain onSave={onSave} />
               </TabPanel>
               <TabPanel value={value} index={6}>
-                <ExecutionDomain/>
+                <ExecutionDomain onSave={onSave} />
               </TabPanel>
               <TabPanel value={value} index={7}>
+                <RawJson onSave={onSave}/>
+              </TabPanel>
+              <TabPanel value={value} index={8}>
                 <Preview/>
               </TabPanel>
             </Grid>

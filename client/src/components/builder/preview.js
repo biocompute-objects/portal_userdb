@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, CardContent, CardHeader, Grid, Paper, TextField, Typography } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import ReactJson from "react-json-view"
@@ -8,16 +8,42 @@ import {
   publishDraftBco,
   validateBco,
   setPrefix,
+  updateETag,
+  updateBco,
 } from "../../slices/bcoSlice";
+import objectHash from "object-hash";
+import { FileUpload, handleDownloadClick } from "../fileHandeling";
+import "../../styles.css";
 
 export const Preview = () => {
   const [prefixHolder, setPrefixHolder] = useState("");
-  const bco = useSelector(state => state.bco.data);
+  // const [ bcodbInfo, setBcodbInfo ] = useState([])
+  const jsonData = useSelector((state) => state.bco.data);
+  const [bco, setBco] = useState(useSelector(state => state.bco.data));
   const prefix = useSelector(state => state.bco.prefix);
   const bcoErrors = useSelector(state => state.bco.error);
   const bcoStatus = useSelector(state => state.bco.status);
   const dispatch = useDispatch();
   const BCODB_URL = process.env.REACT_APP_BCOAPI_URL;
+  
+  let isLoggedIn = useSelector((state) => state.account.isLoggedIn);
+  
+  const bcodbs = (isLoggedIn
+    ? useSelector((state) => state.account.user.bcodbs)
+    : []);
+
+  const hash = (bco) => objectHash(bco,{ excludeKeys: function(key) {
+    if (( key === "object_id" ) || (key === "etag") || (key === "spec_version")) {
+      return true;
+    }
+    return false;
+  }
+  })
+
+  useEffect(() => {
+    const etag = hash(bco)
+    dispatch(updateETag(etag))
+  }, [])
 
   const createDraft = () => {
     console.log("create", BCODB_URL, bco)
@@ -48,13 +74,24 @@ export const Preview = () => {
     
   }
 
+  const handleChange = (event) => {
+    dispatch(updateBco(event.updated_src))
+    const etag = hash(bco)
+    dispatch(updateETag(etag))
+  };
+
   return (
     <Card>
       <Paper>
         <Typography variant='h4'> Preview</Typography>
       </Paper>
       <CardContent  align='left'>
-        { <ReactJson src={bco}/> }
+        <ReactJson 
+          src={bco}
+          onEdit={handleChange}
+          onDelete={handleChange}
+          onAdd={handleChange}
+        />
       </CardContent>
       {
         bcoStatus === "invalid"
@@ -73,15 +110,23 @@ export const Preview = () => {
           {
             (prefix !== null)
               ? (<></>)
-              : (<Grid container spacing={2}>
-                <TextField
-                  value={prefixHolder}
-                  onChange={(event) => setPrefixHolder(event.target.value)}
-                />
-                <Button
-                  disabled={prefixHolder.length < 3 || prefixHolder.length > 5}
-                  onClick={() => dispatch(setPrefix(prefixHolder))}
-                >Set Prefix</Button>
+              : (<Grid container justifyContent="center" spacing={2}>
+                <Grid item >
+                  <TextField
+                    value={prefixHolder}
+                    onChange={(event) => setPrefixHolder(event.target.value)}
+                  />
+                  <Button
+                    disabled={prefixHolder.length < 3 || prefixHolder.length > 5}
+                    onClick={() => dispatch(setPrefix(prefixHolder))}
+                  >Set Prefix</Button>
+                  {/* <select>{
+                    bcodbs.map((database, index) => {
+                      {console.log(database.human_readable_hostname, index)}
+                      <option value={index} key={index}>{database.human_readable_hostname}</option>
+                    })
+                  }</select> */}
+                </Grid>
               </Grid>)
           }
           { ( bco["object_id"].length > 1)
@@ -121,6 +166,29 @@ export const Preview = () => {
               onClick={() =>  publish()  }
             > Publish </Button>
           </Grid>
+        </Grid>
+        <Grid container justifyContent="center" spacing={2}>
+          <Grid item>
+            <Button 
+              className="download-button"
+              type='submit'
+              variant="contained"
+              color="primary"
+              onClick={() => {handleDownloadClick(jsonData)}}
+            > Download BCO</Button>
+          </Grid>
+          <Grid item>
+            <Button 
+              type='submit'
+              variant="contained"
+              color="primary"
+            > Upload </Button>
+          </Grid>
+          <Grid item className="upload-grid">
+            <label htmlFor="bcoUpload">Upload a BCO</label>
+            <FileUpload />
+          </Grid>
+
         </Grid>
       </CardContent>
     </Card>

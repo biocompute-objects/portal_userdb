@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # /prefix/apis.py
 import json
 from django.db import transaction

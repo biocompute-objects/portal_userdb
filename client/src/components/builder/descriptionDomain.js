@@ -10,13 +10,13 @@ import {
   Paper
 } from "@material-ui/core";
 import {Autocomplete } from "@material-ui/lab";
-import { Formik, Form, Field, FieldArray, ErrorMessage, useField, useFormikContext } from "formik";
+import { Formik, Form, FieldArray } from "formik";
 import { useSelector, useDispatch } from "react-redux"
 import { updateDescription } from "../../slices/bcoSlice"
-import { LargeTextField, MyDateTimeFiel, MyTextField } from "./specialFeilds";
+import { LargeTextField, MyTextField } from "./specialFeilds";
 import { Uri } from "./components"
 
-export const  DescriptionDomain = () => {
+export const  DescriptionDomain = ({onSave}) => {
   const dispatch = useDispatch();
   const description_domain = useSelector(state => state.bco.data.description_domain)
 
@@ -32,6 +32,7 @@ export const  DescriptionDomain = () => {
             setSubmitting(true);
             dispatch(updateDescription(myData));
             setSubmitting(false);
+            onSave()
           }
         }
       >
@@ -50,6 +51,7 @@ export const  DescriptionDomain = () => {
                       renderTags={(value, getTagProps) =>
                         value.map((option, index) => (
                           <Chip
+                            key={index}
                             variant="outlined"
                             color="primary"
                             label={option}
@@ -81,6 +83,7 @@ export const  DescriptionDomain = () => {
                       renderTags={(value, getTagProps) =>
                         value.map((option, index) => (
                           <Chip
+                            key={index}
                             variant="outlined"
                             label={option}
                             color="primary"
