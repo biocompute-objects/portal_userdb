@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { PropTypes } from "prop-types";
 import {
-  Box, Button, Card, CardContent, CardHeader, Checkbox, Container, Dialog,
-  DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer,
+  Box, Paper, Table, TableBody, TableCell, TableContainer,
   TableRow, TableHead, TablePagination, TableSortLabel, Toolbar, Typography
 } from "@material-ui/core";
 import { IconButton, Tooltip } from "@mui/material";
@@ -11,8 +10,8 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { Field, FieldArray, Form, Formik } from "formik";
-
+import { Link } from "react-router-dom";
+import EditGroup from "./editGroup";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -76,7 +75,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
+  const { order, orderBy, onRequestSort } =
     props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -86,15 +85,7 @@ function EnhancedTableHead(props) {
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              "aria-label": "select all desserts",
-            }}
-          />
+
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
@@ -125,7 +116,6 @@ function EnhancedTableHead(props) {
 EnhancedTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
@@ -187,12 +177,11 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function Groups () {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [open, setOpen] = React.useState(false);
+  const [openGroup, setOpenGroup] = useState(false);
+  const [groupInfo, setGroupInfo] = useState({})
   const params = useParams();
+  const groups = useSelector((state) => state.account.user.bcodbs[params.id].groups_info);
   const bcodb = useSelector((state) => state.account.user.bcodbs[params.id]);
-  const groups = useSelector((state) => state.account.user.bcodbs[params.id].groups);
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
@@ -203,35 +192,6 @@ export default function Groups () {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelected = groups.map((n) => n.prefix);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -248,95 +208,102 @@ export default function Groups () {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - groups.length) : 0;
-
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={"small"}
-          >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={groups.length}
-            />
-            <TableBody>
-              {stableSort(groups, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.name}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">{JSON.stringify(row.admin)}</TableCell>
-                      <TableCell align="right">{row.description}</TableCell>
-                      <TableCell
-                        align="right"
-                      >{row.members.map((member, index)=>(
-                          `${member}, `
-                        ))}</TableCell>
-                      <TableCell
-                        align="right"
-                      >{row.permissions.map((perm) => (
-                          `${perm}, `
-                        ))}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: 33 * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={groups.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
+        <EditGroup
+          openGroup={openGroup}
+          setOpenGroup={setOpenGroup}
+          groupInfo={groupInfo}
+          bcodb={bcodb}
         />
+        { groups
+          ? (<TableContainer>
+            <Table
+              sx={{ minWidth: 750 }}
+              aria-labelledby="tableTitle"
+              size={"small"}
+            >
+              <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+                rowCount={groups.length}
+              />
+              <TableBody>
+                {stableSort(groups, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const isItemSelected = isSelected(row.name);
+                    const labelId = `enhanced-table-checkbox-${index}`;
+
+                    return (
+                      <TableRow
+                        hover
+                        // onClick={(event) => handleClick(event, row.name)}
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row.name}
+                        // selected={isItemSelected}
+                      >
+                        <TableCell padding="checkbox">
+   
+                        </TableCell>
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
+                        >
+                          <Link
+                            key={row.name}
+                            onClick={() => {
+                              setGroupInfo(row);
+                              setOpenGroup(true);
+                            }}
+                          >{row.name}</Link>
+                        </TableCell>
+                        <TableCell align="right">{JSON.stringify(row.admin)}</TableCell>
+                        <TableCell align="right">{row.description}</TableCell>
+                        <TableCell
+                          align="right"
+                        >{row.members.map((member, index)=>(
+                            `${member}, `
+                          ))}</TableCell>
+                        <TableCell
+                          align="right"
+                        >{row.permissions.map((perm) => (
+                            `${perm}, `
+                          ))}</TableCell>
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow
+                    style={{
+                      height: 33 * emptyRows,
+                    }}
+                  >
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={groups.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </TableContainer>)
+          : (<div>Error Loading Groups...</div>)
+        }
       </Paper>
     </Box>
   );

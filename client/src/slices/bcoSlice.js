@@ -94,10 +94,10 @@ const bcoSlice = createSlice({
         state.data = action.payload
         state.prefix = action.payload["object_id"].split("/")[3].split("_")[0]
       })
-      .addCase(getDraftBco.rejected, (state, action) => {
+      .addCase(getDraftBco.rejected, (state) => {
         state.status = "failed"
       })
-      .addCase(getPubBco.pending, (state, action) => {
+      .addCase(getPubBco.pending, (state) => {
         state.status = "loading"
       })
       .addCase(getPubBco.fulfilled, (state, action) => {
@@ -130,7 +130,7 @@ const bcoSlice = createSlice({
           state.status = "valid"
           state.error = "null"
         } else {
-          console.log(action)
+          console.log(action.payload)
           state.status = "invalid"
           state.error = action.payload
         }
@@ -140,12 +140,12 @@ const bcoSlice = createSlice({
 
 export const createDraftBco = createAsyncThunk(
   "createDraft",
-  async ({bcoURL, bcoObject}, thunkAPI) => {
+  async ({bcoURL, bcoObject, prefix}, thunkAPI) => {
     try {
-      console.log("bcoURL: ", bcoURL);
-      const response = await BcoService.createDraftBco(bcoURL, bcoObject);
-      thunkAPI.dispatch(setMessage(response.data[0].message))
-      return response.data;
+      const owner_group = `${prefix.toLowerCase()}_drafter`
+      const response = await BcoService.createDraftBco(bcoURL, bcoObject, prefix, owner_group);
+      thunkAPI.dispatch(setMessage(response[0].message))
+      return response;
     } catch(error) {
       const message =
           (error.response &&
@@ -165,7 +165,7 @@ export const updateDraftBco = createAsyncThunk(
     try {
       console.log("bcoURL: ", bcoURL);
       const response = await BcoService.updateDraftBco(bcoURL, bcoObject);
-      thunkAPI.dispatch(setMessage(response.data[0].message))
+      thunkAPI.dispatch(setMessage(response.data.message))
       return response.data;
     } catch(error) {
       const message =
@@ -269,6 +269,26 @@ export const getPubBco = createAsyncThunk(
   async (object_id, thunkAPI) => {
     try {
       const response = await BcoService.getPubBco(object_id);
+      return response.data[0];
+    } catch(error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
+
+export const modifyGroup = createAsyncThunk(
+  "modifyGroup",
+  async (bcodb, request, thunkAPI) => {
+    try {
+      const response = await BcoService.modifyGroup(bcodb, request);
+      // thunkAPI.dispatch(JSON.stringify(response.data[0].message))
       return response.data[0];
     } catch(error) {
       const message =

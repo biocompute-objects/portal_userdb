@@ -202,11 +202,11 @@ const Login = () => {
               disabled={!resetEmail}
             >Submit</Button>
             <Button
-              id="cancle-resetPassword"
+              id="Cancel-resetPassword"
               onClick={handleClose}
               variant="outlined"
               color="secondary"
-            >Cancle</Button>
+            >Cancel</Button>
           </DialogActions>
         </Dialog>
       </Box>

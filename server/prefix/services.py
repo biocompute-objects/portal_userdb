@@ -64,6 +64,8 @@ def register_prefix(user: User, prefix: str) -> str:
         'registration_date': datetime.now(),
     })
     message = prefix_serializer.is_valid(raise_exception=True)
+    if message is True:
+        prefix_serializer.save()
 
     return message
 

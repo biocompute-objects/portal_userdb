@@ -67,7 +67,7 @@ export default function SearchOptions ({setBcodbInfo}) {
           <TextField
             value={quickSearch}
             onChange={(e) => setQuickSearch(e.target.value)}
-            placeholder="Search using BCO_ID"
+            placeholder="Search BCO contents"
           />
           <Button
             variant="contained"

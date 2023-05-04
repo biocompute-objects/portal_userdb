@@ -20,7 +20,7 @@ export default function DbInfo () {
           {bcodb.public_hostname}
         </Typography>
         <Typography>
-          {bcodb.token}
+          {"************************"}
         </Typography>
         <Typography>
           {bcodb.last_update}

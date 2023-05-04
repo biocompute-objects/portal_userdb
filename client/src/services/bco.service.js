@@ -29,12 +29,12 @@ const getPubBco = async (object_id) => {
   return response;
 }
 
-const createDraftBco = async (bcoURL, bcoObject) => {
-  const response = await axios.post(`${bcoURL}objects/drafts/create/`, {
+const createDraftBco = async (bcoURL, bcoObject, prefix, owner_group) => {
+  const response = await axios.post(`${bcoURL}/api/objects/drafts/create/`, {
     "POST_api_objects_draft_create": [
       {
-        "prefix": "BCO",
-        "owner_group": "bco_drafter",
+        "prefix": prefix,
+        "owner_group": owner_group,
         "schema": "IEEE",
         "contents": 
           bcoObject
@@ -46,7 +46,7 @@ const createDraftBco = async (bcoURL, bcoObject) => {
       "Content-Type": "application/json"
     }
   });
-  return response;
+  return response.data;
 }
 
 const updateDraftBco = async (bcoURL, bcoObject) => {
@@ -96,6 +96,18 @@ const validateBco = async (bcoURL, bcoObject) => {
   return response;
 }
 
+const modifyGroup = async ({bcodb, request}) => {
+  const response = await axios.post(`${bcodb.public_hostname}/api/groups/modify/`, {
+    "POST_api_groups_modify": [request]
+  },{
+    headers: {
+      "Authorization": `Token ${bcodb.token}`,
+      "Content-Type": "application/json"
+    }
+  })
+  return response;
+}
+
 const BcoService = {
   addExtension,
   getDraftBco,
@@ -104,6 +116,7 @@ const BcoService = {
   updateDraftBco,
   publishDraftBco,
   validateBco,
+  modifyGroup,
 };
 
 export default BcoService;

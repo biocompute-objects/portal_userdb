@@ -1,6 +1,6 @@
 
 .download-button {
-    background-color: #4285f4;
+    background-color: #0071BD;
     border: none;
     color: white;
     padding: 10px 20px;
@@ -9,11 +9,17 @@
 }
 
 .upload-grid {
-    background-color: #4285f4;
+    background-color: #0071BD;
     border: none;
     color: white;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
     align-items: center;
+}
+
+
+.confirm {
+
+    align-items: left;
 }
