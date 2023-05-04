@@ -29,7 +29,7 @@ export default function PrefixSearch({setAddPrefix}) {
         <Box>
           <Formik
             initialValues={{
-              radio: "search",
+              radio: "all",
               search: "",
             }}
             // validationSchema={{}}

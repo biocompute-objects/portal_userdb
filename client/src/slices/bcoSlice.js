@@ -94,10 +94,10 @@ const bcoSlice = createSlice({
         state.data = action.payload
         state.prefix = action.payload["object_id"].split("/")[3].split("_")[0]
       })
-      .addCase(getDraftBco.rejected, (state, action) => {
+      .addCase(getDraftBco.rejected, (state) => {
         state.status = "failed"
       })
-      .addCase(getPubBco.pending, (state, action) => {
+      .addCase(getPubBco.pending, (state) => {
         state.status = "loading"
       })
       .addCase(getPubBco.fulfilled, (state, action) => {

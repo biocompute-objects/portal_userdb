@@ -9,7 +9,6 @@ export const searchPrefix = createAsyncThunk(
     try {
       const response = await prefixService.searchPrefix(data);
       thunkAPI.dispatch(setMessage(`Search returned ${response.data.length} prefixes`));
-      console.log("response",response.data)
       return response.data
     } catch (error) {
       const message =
@@ -73,7 +72,6 @@ export const prefixSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(searchPrefix.fulfilled, (state, action) => {
-        console.log(action.payload, state)
         state.data = action.payload
         state.status = "fulfilled";
       })
