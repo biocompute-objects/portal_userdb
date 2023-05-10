@@ -143,7 +143,7 @@ export default function SearchOptions ({setBcodbInfo}) {
                     <Field type='radio' name='action' value='mine' disabled={values.index === "None"}/>
                 &nbsp;&nbsp;My BCOs&nbsp;&nbsp;
                     <Field type='radio' name='action' value='prefix' disabled={values.index === "None"}/>
-                &nbsp;&nbsp;Prefixs&nbsp;&nbsp;
+                &nbsp;&nbsp;Prefixes&nbsp;&nbsp;
                     <Field type='radio' name='action' value='bco_id' />
                 &nbsp;&nbsp;BCO IDs&nbsp;&nbsp;
                   </CardContent>
