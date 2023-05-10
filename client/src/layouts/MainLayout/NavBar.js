@@ -21,6 +21,9 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import { Link } from "react-router-dom";
 import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { Info } from "@mui/icons-material";
+
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1
@@ -129,6 +132,14 @@ const NavBar = () => {
         </IconButton>
         <p>BCO DB</p>
       </MenuItem>
+      <MenuItem component={Link} to='/about'>
+        <IconButton aria-label='About Us' color='inherit'>
+          <Badge overlap="rectangular" badgeContent={0} color='secondary'>
+            <InfoOutlinedIcon />
+          </Badge>
+        </IconButton>
+        <p>About Us</p>
+      </MenuItem>
       <a href='https://github.com/biocompute-objects/portal_userdb/issues/new/choose' target='_blank' rel="noreferrer" >
         <MenuItem>
           <IconButton aria-label='BioCompute Object builder' color='inherit'>
@@ -214,6 +225,14 @@ const NavBar = () => {
         </IconButton>
         <p>BCO DB</p>
       </MenuItem>
+      <MenuItem component={Link} to='/about'>
+        <IconButton aria-label='About Us' color='inherit'>
+          <Badge overlap="rectangular" badgeContent={0} color='secondary'>
+            <InfoOutlinedIcon />
+          </Badge>
+        </IconButton>
+        <p>About Us</p>
+      </MenuItem>
       <a href='https://github.com/biocompute-objects/portal_userdb/issues/new/choose' target='_blank' rel="noreferrer" >
         <MenuItem>
           <IconButton aria-label='BioCompute Object builder' color='inherit'>
@@ -291,6 +310,13 @@ const NavBar = () => {
                     </Badge>
                   </IconButton>
                 </Tooltip>
+                <Tooltip title="About Us">
+                  <IconButton component={Link} to='/about' aria-label='show 0 new notifications' color='inherit'>
+                    <Badge overlap="rectangular" badgeContent={0} color='secondary'>
+                      <InfoOutlinedIcon />
+                    </Badge>
+                  </IconButton>
+                </Tooltip>
                 <Tooltip title="Bug Report">
                   <a href='https://github.com/biocompute-objects/portal_userdb/issues/new/choose' target='_blank' rel="noreferrer" >
                     <IconButton aria-label='BCO builder' color='inherit'>
@@ -359,6 +385,13 @@ const NavBar = () => {
                   <IconButton component={Link} to='/bcodbs' aria-label='show 0 new notifications' color='inherit'>
                     <Badge overlap="rectangular" badgeContent={0} color='secondary'>
                       <DataObjectIcon />
+                    </Badge>
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="About Us">
+                  <IconButton component={Link} to='/about' aria-label='show 0 new notifications' color='inherit'>
+                    <Badge overlap="rectangular" badgeContent={0} color='secondary'>
+                      <InfoOutlinedIcon />
                     </Badge>
                   </IconButton>
                 </Tooltip>
