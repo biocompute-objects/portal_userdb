@@ -1,11 +1,10 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux"
-import { Card, CardContent, TextField, Typography, Grid, Button, Paper, Select, MenuItem, InputLabel} from "@material-ui/core";
-import { addExtension, addExtensionDomain, deleteExtensionDomain } from "../../slices/bcoSlice"
-import { MyTextField } from "./specialFeilds";
+import { Card, CardContent, TextField, Typography, Grid, Button, Paper } from "@material-ui/core";
+import { addExtensionDomain, deleteExtensionDomain } from "../../slices/bcoSlice"
 import { Extension } from "./extension";
 
-export const  ExtensionDomain = () => {
+export const  ExtensionDomain = ({onSave}) => {
   const dispatch = useDispatch();
   const extensionDomain = useSelector(state => state.bco.data.extension_domain)
   const [newSchema, setNewSchema] = React.useState("")
@@ -20,7 +19,7 @@ export const  ExtensionDomain = () => {
       })
       .catch((error) => {
         console.log(`ERROR: ${error}`);
-        alert(`Fetch schema from '${newSchema}' FAILED: ${error}`);
+        global.window.alert(`Fetch schema from '${newSchema}' FAILED: ${error}`);
       });
     setNewSchema("");
   };
@@ -75,8 +74,16 @@ export const  ExtensionDomain = () => {
               </Button>
             </CardContent>)
         }))
-        : (<CardContent>no</CardContent>)
+        : (<CardContent></CardContent>)
       }
+      <CardContent>
+        <Button
+          onClick={() => onSave()}
+          variant="contained"
+          color="primary"
+          disableElevation
+        >Save</Button>
+      </CardContent>
     </Card>
   )
 }

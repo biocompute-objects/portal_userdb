@@ -20,7 +20,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getDraftBco, getPubBco } from "../../slices/bcoSlice";
 
 function descendingComparator(a, b, orderBy) {
@@ -202,12 +202,12 @@ EnhancedTableToolbar.propTypes = {
 export default function EnhancedTable({bcodbInfo}) {
   const dispatch = useDispatch()
   const results = useSelector((state) => state.search.results)
+  const location  = process.env.REACT_APP_SERVER_URL
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  let navigate = useNavigate();
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -261,26 +261,10 @@ export default function EnhancedTable({bcodbInfo}) {
 
   const clickObject = (event, object_id, state) => {
     if (state === "PUBLISHED") {
-      console.log(bcodbInfo, object_id)
-      dispatch(getPubBco({bcodbInfo, object_id}))
-        .unwrap()
-        .then(() => {
-          navigate("/viewer")
-        })
-        .catch(() => {
-          console.log("Error");
-        });
+      global.window.open(`${location}/viewer?${object_id}`, "_blank", "noopener,noreferrer")
     }
     if (state === "DRAFT") {
-      console.log(bcodbInfo, object_id)
-      dispatch(getDraftBco({bcodbInfo, object_id}))
-        .unwrap()
-        .then(() => {
-          navigate("/builder")
-        })
-        .catch(() => {
-          console.log("Error");
-        });
+      global.window.open(`${location}/builder?${object_id}`, "_blank", "noopener,noreferrer")
     }
   }
 

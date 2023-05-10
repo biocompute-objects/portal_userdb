@@ -43,16 +43,8 @@ export default function Servers() {
   const [open, setOpen] = React.useState(false);
   let navigate = useNavigate();
 
-  const handleGroups = (database, index) => {
-    const { token, public_hostname, group_permissions } = database 
-    dispatch(groupInfo({group_permissions, token, public_hostname, index}))      .unwrap()
-      .then(() => {
-        navigate(`/profile/bcodb/${index}`)
-      })
-      .catch((error) => {
-        console.log(error)        
-      });
-
+  const handleGroups = (index) => {
+    navigate(`/profile/bcodb/${index}`)
   };
 
   const dialogeOpen = () => {
@@ -85,7 +77,7 @@ export default function Servers() {
             >Remove Database</Button>
             <Button
               variant="outlined"
-              onClick={() => handleGroups(database, index)}
+              onClick={() => handleGroups(index)}
               disabled={database.recent_status !== "200"}
             >Groups/Permissions</Button>
             <CardHeader title={database.human_readable_hostname}/>
@@ -141,7 +133,7 @@ export default function Servers() {
                   </DialogContentText>
                   <br/>
                   <DialogContentText>
-                    Click CANCLE to go back.
+                    Click CANCEL to go back.
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -152,7 +144,7 @@ export default function Servers() {
                     color="primary"
                   >Confirm</Button>
                   <Button
-                    id="cancle-removedb"
+                    id="cancel-removedb"
                     onClick={handleClose}
                     variant="contained"
                     color="secondary"

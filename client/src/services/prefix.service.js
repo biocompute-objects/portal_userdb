@@ -30,9 +30,22 @@ const registerPrefix = async (values) => {
   return response
 }
 
+const prefixList = async (bcodb) => {
+  const response = await axios.post(`${bcodb}/api/prefixes/token/`, {
+  }, {
+    headers: {
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      "Content-Type": "application/json"
+    }
+  })
+  return response;
+}
+
+
 const prefixService = {
   searchPrefix,
   registerPrefix,
+  prefixList,
 };
 
 export default prefixService;

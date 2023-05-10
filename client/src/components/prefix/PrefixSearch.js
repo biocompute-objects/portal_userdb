@@ -6,11 +6,14 @@ import {
   Button,
   Card,
   CardContent,
+  Grid,
 } from "@material-ui/core";
 import { Field, Form, Formik  } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { searchPrefix } from "../../slices/prefixSlice";
 import { MyTextField } from "../builder/specialFeilds";
+import "../../styles.css";
+
 
 export default function PrefixSearch({setAddPrefix}) {
   const isLoggedIn = useSelector((state) => state.account.isLoggedIn);
@@ -51,37 +54,49 @@ export default function PrefixSearch({setAddPrefix}) {
           >
             {({values, isSubmitting, resetForm}) => (
               <Form>
+                <Grid container justifyContent="center">
+                  <Grid item>
                 Search Type:&nbsp;&nbsp;
-                <Field type='radio' name='radio' value='mine' disabled={!isLoggedIn}/>
+                    <Field type='radio' name='radio' value='mine' disabled={!isLoggedIn}/>
                 &nbsp;&nbsp;My Prefixes&nbsp;&nbsp;
-                <Field type='radio' name='radio' value='all' disabled={values.index === "None"}/>
+                    <Field type='radio' name='radio' value='all' disabled={values.index === "None"}/>
                 &nbsp;&nbsp;Return all&nbsp;&nbsp;
-                <Field type='radio' name='radio' value='search' disabled={values.index === "None"}/>
-                &nbsp;&nbsp;Search Prefix Name&nbsp;&nbsp;
-                &nbsp;&nbsp;
-                <Button
-                  type="submit"
-                  color="primary"
-                  variant="contained"
-                >
-                  Search
-                </Button>
-                &nbsp;&nbsp;
-                <Button
-                  disabled={isSubmitting}
-                  color="primary"
-                  variant="contained"
-                  type="reset"
-                  onClick={resetForm}
-                >
-                  Clear Search
-                </Button>
+                    <Field type='radio' name='radio' value='search' disabled={values.index === "None"}/>
+                &nbsp;&nbsp;Search Prefix Name
+                  </Grid>
+                </Grid>
                 <br/>
-                {
-                  (values.radio !== "search")
-                    ? (<div />)
-                    : (<MyTextField name='search' lable='Search Prefix' placeholder='Prefix name'/>)
-                }
+                <Grid container justifyContent="center">
+                  <Grid item>
+                    {
+                      (values.radio !== "search")
+                        ? (<div />)
+                        : (<MyTextField name='search' lable='Search Prefix' placeholder='Prefix name'/>)
+                    }&nbsp;&nbsp;
+                  &nbsp;&nbsp;
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      type="submit"
+                      color="primary"
+                      variant="contained"
+                    >
+                  Search
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                &nbsp;&nbsp;
+                    <Button
+                      disabled={isSubmitting}
+                      color="primary"
+                      variant="contained"
+                      type="reset"
+                      onClick={resetForm}
+                    >
+                  Clear Search
+                    </Button>
+                  </Grid>
+                </Grid>
               </Form>
             )}
           </Formik>

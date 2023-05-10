@@ -8,32 +8,33 @@ const addExtension = async (newSchema) => {
   return response
 }
 
-const getDraftBco = async (objectInfo, object_id) => {
+const getDraftBco = async (object_id) => {
   const response = await axios.get(object_id, {
     headers: {
-      "Authorization": `Token ${objectInfo[0]}`,
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
       "Content-Type": "application/json"
     }
   })
   return response;
 }
 
-const getPubBco = async (objectInfo, object_id) => {
+const getPubBco = async (object_id) => {
+  console.log(object_id)
   const response = await axios.get(object_id, {
     headers: {
-      "Authorization": `Token ${objectInfo[0]}`,
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
       "Content-Type": "application/json"
     }
   })
   return response;
 }
 
-const createDraftBco = async (bcoURL, bcoObject) => {
-  const response = await axios.post(`${bcoURL}objects/drafts/create/`, {
+const createDraftBco = async (bcoURL, bcoObject, prefix, owner_group) => {
+  const response = await axios.post(`${bcoURL}/api/objects/drafts/create/`, {
     "POST_api_objects_draft_create": [
       {
-        "prefix": "BCO",
-        "owner_group": "bco_drafter",
+        "prefix": prefix,
+        "owner_group": owner_group,
         "schema": "IEEE",
         "contents": 
           bcoObject
@@ -45,7 +46,7 @@ const createDraftBco = async (bcoURL, bcoObject) => {
       "Content-Type": "application/json"
     }
   });
-  return response;
+  return response.data;
 }
 
 const updateDraftBco = async (bcoURL, bcoObject) => {
@@ -95,6 +96,18 @@ const validateBco = async (bcoURL, bcoObject) => {
   return response;
 }
 
+const modifyGroup = async ({bcodb, request}) => {
+  const response = await axios.post(`${bcodb.public_hostname}/api/groups/modify/`, {
+    "POST_api_groups_modify": [request]
+  },{
+    headers: {
+      "Authorization": `Token ${bcodb.token}`,
+      "Content-Type": "application/json"
+    }
+  })
+  return response;
+}
+
 const BcoService = {
   addExtension,
   getDraftBco,
@@ -103,6 +116,7 @@ const BcoService = {
   updateDraftBco,
   publishDraftBco,
   validateBco,
+  modifyGroup,
 };
 
 export default BcoService;

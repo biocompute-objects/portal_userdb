@@ -3,6 +3,7 @@
 import axios from "axios";
 
 const USERS_URL = process.env.REACT_APP_USERDB_URL;
+const BCODB_URL = process.env.REACT_APP_BCOAPI_URL;
 
 const register = (username, email, password) => {
   return axios.post(USERS_URL + "auth/register/", {
@@ -48,18 +49,13 @@ const googleRegister = async (data) => {
   return response;
 };
 
-const orcidLogIn = async (data) => {
-  const response = await axios.get("https://orcid.org/oauth/authorize", {
-    client_id: "APP-HK00CLY49353RXNU",
-    response_type: "code",
-    scope: "/authenticate",
-    redirect_uri: "https://developers.google.com/oauthplayground/"
-  }, {
-    headers: {
-      "Accept": "application/json",
-    }
-  })
-  return response
+const orcidLogIn = async (code) => {
+  const response = await axios.get(`${USERS_URL}orcid/login/?code=${code}`)
+  if (response.data.token) {
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+    localStorage.setItem("token", JSON.stringify(response.data.token));
+  }
+  return response.data;
 }
 
 const logout = () => {
@@ -103,8 +99,20 @@ const changePassword = (data) => {
 };
 
 const forgotPassword = async (email) => {
-  const response = await axios.post(`${USERS_URL}forgot_password/`, {
+  const response = await axios.post(`${USERS_URL}password_reset/`, {
     email
+  }, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  return response
+};
+
+const resetPassword = async ({newPassword, token}) => {
+  const response = await axios.post(`${USERS_URL}password_reset/confirm/`, {
+    "password": newPassword,
+    "token": token
   }, {
     headers: {
       "Content-Type": "application/json"
@@ -123,7 +131,18 @@ const userInfo = async () => {
   return response.data;
 };
 
-const searchBcodbAPI = async (data) => {
+const searchBcodbAPI = async ({publicHostname, quickSearch}) => {
+  console.log("service", publicHostname, quickSearch, JSON.parse(localStorage.getItem("token")))
+  const response = await axios.get( `${publicHostname}/api/objects/?contents=${quickSearch}`, {
+    headers: {
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      "Content-Type": "application/json"
+    }
+  });
+  return response;
+}
+
+const advSearchBcodbAPI = async (data) => {
   const response = await axios.post(data.public_hostname + "/api/objects/search/", {
     POST_api_objects_search: [
       {
@@ -148,6 +167,16 @@ const authenticateBcoDb = async (token, hostname) => {
     }
   });
   return response.data;
+};
+
+const registerBcoDb = async (email, token) => {
+  console.log(email, token, BCODB_URL);
+  const response = await axios.post(`${BCODB_URL}auth/register/`, {
+    "hostname": `${USERS_URL}`,
+    "email": email,
+    "token": token
+  });
+  return response
 };
 
 const addBcoDb = async (data) => {
@@ -182,7 +211,6 @@ const removeBcoDb = async (database) => {
 }
 
 const groupInfo = async (group_permissions, token, public_hostname) => {
-  console.log("Service", group_permissions, token, public_hostname)
   const response = await axios.post(`${public_hostname}/api/groups/group_info/`, {
     POST_api_groups_info: {
       names: group_permissions
@@ -203,12 +231,15 @@ const authService = {
   account,
   changePassword,
   forgotPassword,
+  resetPassword,
   googleLogin,
   googleRegister,
   userInfo,
   orcidLogIn,
+  advSearchBcodbAPI,
   searchBcodbAPI,
   authenticateBcoDb,
+  registerBcoDb,
   addBcoDb,
   removeBcoDb,
   groupInfo,

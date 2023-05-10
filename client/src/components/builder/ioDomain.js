@@ -1,15 +1,15 @@
 import React from "react";
-import {Card, Typography, CardContent, TextField, Grid, Button} from "@material-ui/core";
+import {Card, Typography, CardContent, Grid, Button} from "@material-ui/core";
 
-import { Formik, Form, Field, FieldArray, ErrorMessage, useField, useFormikContext } from "formik";
+import { Formik, Form, FieldArray } from "formik";
 
 import { useSelector, useDispatch } from "react-redux"
 import { updateIODomain } from "../../slices/bcoSlice"
 
-import { MyTextField, BaisicDateTimePicker } from "./specialFeilds"
+import { MyTextField } from "./specialFeilds"
 import { Uri } from "./components"
 
-export const  IODomain = () => {
+export const  IODomain = ({onSave}) => {
   const dispatch = useDispatch();
   const io_domain = useSelector(state => state.bco.data.io_domain)
   let has_input = "input_subdomain" in io_domain;
@@ -34,6 +34,7 @@ export const  IODomain = () => {
                 setSubmitting(true);
                 dispatch(updateIODomain(myData));
                 setSubmitting(false);
+                onSave()
               }
             }
           >

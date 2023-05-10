@@ -31,7 +31,7 @@ export default function NotificationBox() {
           </DialogContent>
           <DialogActions>
             <Button
-              id="cancle-removedb"
+              id="cancel-removedb"
               onClick={handleClose}
               variant="outlined"
               color="primary"

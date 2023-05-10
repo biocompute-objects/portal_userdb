@@ -75,22 +75,16 @@ const bcoSlice = createSlice({
     },
     setPrefix: (state, action) => {
       state["prefix"] = action.payload
+    },
+    updateETag: (state, action) => {
+      state["data"]["etag"] = action.payload
+    },
+    updateBco: (state, action) => {
+      state["data"] = action.payload
     }
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchBco.pending, (state) => {
-        state.status = "loading"
-      })
-      .addCase(fetchBco.fulfilled, (state, action) => {
-        state.status = "succeeded"
-        state.status = "idle"
-        state.data = action.payload
-      })
-      .addCase(fetchBco.rejected, (state, action) => {
-        state.status = "failed"
-        state.error = action.error.message
-      })
       .addCase(getDraftBco.pending, (state) => {
         state.status = "loading"
       })
@@ -100,10 +94,10 @@ const bcoSlice = createSlice({
         state.data = action.payload
         state.prefix = action.payload["object_id"].split("/")[3].split("_")[0]
       })
-      .addCase(getDraftBco.rejected, (state, action) => {
+      .addCase(getDraftBco.rejected, (state) => {
         state.status = "failed"
       })
-      .addCase(getPubBco.pending, (state, action) => {
+      .addCase(getPubBco.pending, (state) => {
         state.status = "loading"
       })
       .addCase(getPubBco.fulfilled, (state, action) => {
@@ -136,7 +130,7 @@ const bcoSlice = createSlice({
           state.status = "valid"
           state.error = "null"
         } else {
-          console.log(action)
+          console.log(action.payload)
           state.status = "invalid"
           state.error = action.payload
         }
@@ -144,38 +138,14 @@ const bcoSlice = createSlice({
   }
 })
 
-export const fetchBco = createAsyncThunk(
-  "fetchBco",
-  async (objectInfo) => {
-    console.log(objectInfo[1])
-    const data = await fetch(`${objectInfo[0]}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Token ${objectInfo[1]}`,
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(response.status);
-        } else {
-          return response.json();
-        }
-      })
-      .catch((error) => {
-        console.log("error", error);
-      })
-    return data
-  })
-
 export const createDraftBco = createAsyncThunk(
   "createDraft",
-  async ({bcoURL, bcoObject}, thunkAPI) => {
+  async ({bcoURL, bcoObject, prefix}, thunkAPI) => {
     try {
-      console.log("bcoURL: ", bcoURL);
-      const response = await BcoService.createDraftBco(bcoURL, bcoObject);
-      thunkAPI.dispatch(setMessage(response.data[0].message))
-      return response.data;
+      const owner_group = `${prefix.toLowerCase()}_drafter`
+      const response = await BcoService.createDraftBco(bcoURL, bcoObject, prefix, owner_group);
+      thunkAPI.dispatch(setMessage(response[0].message))
+      return response;
     } catch(error) {
       const message =
           (error.response &&
@@ -195,7 +165,7 @@ export const updateDraftBco = createAsyncThunk(
     try {
       console.log("bcoURL: ", bcoURL);
       const response = await BcoService.updateDraftBco(bcoURL, bcoObject);
-      thunkAPI.dispatch(setMessage(response.data[0].message))
+      thunkAPI.dispatch(setMessage(response.data.message))
       return response.data;
     } catch(error) {
       const message =
@@ -237,14 +207,12 @@ export const validateBco = createAsyncThunk(
     try {
       const response = await BcoService.validateBco(bcoURL, bcoObject);
       if (response.status === 207) {
-        // thunkAPI.dispatch(setMessage(JSON.stringify(response.data)))
         return response.data
       }
       if (response.status === 200) {
-        // thunkAPI.dispatch(setMessage("BCO is valid"))
+        thunkAPI.dispatch(setMessage("BCO is valid"))
         return 200;
-      }
-      
+      } 
     } catch(error) {
       const message =
           (error.response &&
@@ -279,9 +247,9 @@ export const addExtension = createAsyncThunk(
 
 export const getDraftBco = createAsyncThunk(
   "getDraft",
-  async ({bcodbInfo, object_id}, thunkAPI) => {
+  async (object_id, thunkAPI) => {
     try {
-      const response = await BcoService.getDraftBco(bcodbInfo, object_id);
+      const response = await BcoService.getDraftBco(object_id);
       return response.data;
     } catch(error) {
       const message =
@@ -298,10 +266,29 @@ export const getDraftBco = createAsyncThunk(
 
 export const getPubBco = createAsyncThunk(
   "getPub",
-  async ({bcodbInfo, object_id}, thunkAPI) => {
-    console.log("Slice", bcodbInfo, object_id)
+  async (object_id, thunkAPI) => {
     try {
-      const response = await BcoService.getPubBco(bcodbInfo, object_id);
+      const response = await BcoService.getPubBco(object_id);
+      return response.data[0];
+    } catch(error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
+
+export const modifyGroup = createAsyncThunk(
+  "modifyGroup",
+  async (bcodb, request, thunkAPI) => {
+    try {
+      const response = await BcoService.modifyGroup(bcodb, request);
+      // thunkAPI.dispatch(JSON.stringify(response.data[0].message))
       return response.data[0];
     } catch(error) {
       const message =
@@ -331,4 +318,6 @@ export const {
   deleteExtensionDomain,
   updateExecutionDomain,
   setPrefix,
+  updateETag,
+  updateBco,
 } = bcoSlice.actions;
