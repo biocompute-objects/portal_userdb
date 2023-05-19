@@ -469,7 +469,6 @@ export const  BuilderColorCode = () => {
               </TabPanel>
             </Grid>
           </Grid>
-          <NotificationBox />
         </Paper>
       </div>
       <br/>
