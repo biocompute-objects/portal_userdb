@@ -261,6 +261,25 @@ export const removeBcoDb = createAsyncThunk(
   }
 );
 
+export const resetToken = createAsyncThunk(
+  "bcodb/resetToken",
+  async ({ public_hostname, token }, thunkAPI) => {
+    try {
+      const response = await AuthService.resetToken(public_hostname, token);
+      return response.data
+    } catch (error) {
+      const message =
+      (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
 export const groupInfo = createAsyncThunk(
   "bcodb/groupInfo",
   async ({group_permissions, token, public_hostname, index}, thunkAPI) => {
@@ -367,6 +386,9 @@ export const accountSlice = createSlice({
       .addCase(groupInfo.fulfilled, (state, action) => {
         state.user.bcodbs[action.payload[1]].groups_info = action.payload[0]
       }) 
+      .addCase(resetToken.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+      })
   },
 });
 
