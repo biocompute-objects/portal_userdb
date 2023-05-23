@@ -106,4 +106,20 @@ def remove_authentication(token: str, auth_object: dict, bcodb: BcoDb):
     except Exception as err:
         print(err)
 
-    
+def reset_token(public_hostname: str, token: str) -> BcoDb:
+    """Reset BCODB Token"""
+
+    try:
+        bco_api_response = requests.post(
+            url=public_hostname + "/api/auth/reset_token/",
+            data={},
+            headers= {
+                "Authorization": "Token " + token,
+                "Content-type": "application/json; charset=UTF-8",
+            },
+        )
+        BcoDb.objects.filter(token=token).update(token=bco_api_response.json()['token'])
+        
+        return bco_api_response.json()
+    except:
+        return bco_api_response.json()
