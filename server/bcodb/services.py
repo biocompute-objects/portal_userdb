@@ -34,12 +34,12 @@ class BcoDbSerializer(serializers.ModelSerializer):
 def update_bcodbs(profile: Profile) -> query.QuerySet:
     """Updates the information for a BcoDb object"""
     bcodbs = get_all_bcodbs(profile)
-
+    now = make_aware(datetime.utcnow())
+    
     for db in bcodbs:
         bco_api_response = accounts_describe(db.public_hostname, db.token)
         try:
             update = bco_api_response.json()
-            now = make_aware(datetime.utcnow())
             BcoDb.objects.filter(id=db.id).update(
                 token = update['token'],
                 user_permissions = update['other_info']['permissions']['user'],

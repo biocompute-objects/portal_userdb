@@ -3,6 +3,7 @@
 """Authentication APIs
 """
 
+import jwt
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -10,11 +11,12 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import permissions, status, serializers
+from rest_framework import permissions, status, serializers, exceptions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_jwt.settings import api_settings
-from authentication.services import custom_jwt_handler, google_authentication, orcid_auth_code
+from authentication.services import custom_jwt_handler, google_authentication, orcid_auth_code, authenticate_orcid
+from users.models import Profile
 from users.services import user_create
 from users.selectors import user_from_email, user_from_orcid
 
@@ -67,14 +69,56 @@ def password_reset_token_created(
             },
         )
 
+class OrcidUserInfoApi(APIView):
+    """Orcid User Info Api
+    API view for getting user info in with ORCID OAuth authentication.
+    """
 
-class OrcidInputSerializer(serializers.Serializer):
-    """ORCID Serializer
-    Serializer class for ORCID authentication input data, including ...
-    """
-    
+    authentication_classes = []
+    permission_classes = []
+
+
+    @swagger_auto_schema(
+        responses={
+            200: "Request is successful.",
+            401: "A user with that ORCID does not exist.",
+            403: "Authentication credentials were not provided."
+        },
+        tags=["Account Management"],
+    )
+
+    def post(self, request):
+        """
+        """
+        if 'Authorization' in request.headers:
+            type, token = request.headers['Authorization'].split(' ')
+            if request.META['HTTP_REFERER'] == 'http://localhost:8080/users/docs/':
+                iss_oauth = 'https://sandbox.orcid.org/oauth/jwks'
+            else:
+                iss_oauth = 'https://orcid.org/oauth/jwks'
+
+            try:
+                verified_payload = authenticate_orcid(iss_oauth, token)
+            except Exception as exp:
+                raise exceptions.AuthenticationFailed(exp)
+            try:
+                user = User.objects.get(username=Profile.objects.get(orcid__icontains=verified_payload['sub']))
+            except:
+                return Response(
+                    status=status.HTTP_401_UNAUTHORIZED,
+                    data={"message": "A user with that ORCID does not exist"},
+                )
+            return Response(
+                status=status.HTTP_200_OK,
+                data=custom_jwt_handler(token, user)
+            )
+        return Response(
+            status=status.HTTP_403_FORBIDDEN,
+            data={"message": "Authentication credentials were not provided."}
+        )
+
 class OrcidLoginApi(APIView):
-    """
+    """Orcid Login Api
     API view for logging in with ORCID OAuth authentication.
     """
     permission_classes = (permissions.AllowAny,)
