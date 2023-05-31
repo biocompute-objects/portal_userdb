@@ -79,7 +79,7 @@ def add_authentication(token: str, auth_object: dict, bcodb: BcoDb):
             url=bcodb.public_hostname + "/api/auth/add/",
             data=json.dumps(auth_object),
             headers= {
-                "Authorization": "Bearer " + token,
+                "Authorization": "Token " + bcodb.token,
                 "Content-type": "application/json; charset=UTF-8",
             }
         )
