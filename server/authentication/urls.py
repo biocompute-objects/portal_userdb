@@ -4,6 +4,7 @@ from rest_framework_jwt.views import (
     refresh_jwt_token,
     verify_jwt_token,
 )
+
 from authentication.apis import GoogleLoginApi, GoogleRegisterApi, OrcidLoginApi, OrcidUserInfoApi, OrcidAddApi, OrcidRemoveApi
 from users.apis import UserCreateApi
 

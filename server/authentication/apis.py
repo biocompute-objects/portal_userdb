@@ -103,6 +103,7 @@ class OrcidUserInfoApi(APIView):
         No schema for this request since only the Authorization header is required.
         The word 'Bearer' must be included in the header.
         For example: 'Bearer #####################################################'
+
         """
         if 'Authorization' in request.headers:
             type, token = request.headers['Authorization'].split(' ')
