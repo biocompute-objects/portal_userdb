@@ -58,6 +58,33 @@ const orcidLogIn = async (code) => {
   return response.data;
 }
 
+const orcidAdd = async (code) => {
+  const response = await axios.post(`${USERS_URL}orcid/add/?code=${code}`, {},
+    {
+      headers: {
+        "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        "Content-Type": "application/json"
+      }})
+  if (response.data.token) {
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+    localStorage.setItem("token", JSON.stringify(response.data.token));
+  }
+  return response.data;
+}
+
+const orcidRemove = async () => {
+  const response = await axios.post(`${USERS_URL}orcid/remove/`, {},{
+    headers: {
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      "Content-Type": "application/json"
+    }})
+  if (response.data.token) {
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+    localStorage.setItem("token", JSON.stringify(response.data.token));
+  }
+  return response.data;
+}
+
 const logout = () => {
   localStorage.removeItem("user");
   localStorage.removeItem("token");
@@ -66,20 +93,21 @@ const logout = () => {
 
 const account = async (data) => {
   const response = await axios
-    .post(USERS_URL + "update_user/", {
-      "username": data.username,
-      "first_name": data.first_name,
-      "last_name": data.last_name,
-      "email": data.email,
-      "affiliation": data.affiliation,
-      "orcid": data.orcid,
-      "public": data.public,
-    }, {
-      headers: {
-        "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-        "Content-Type": "application/json"
-      }
-    });
+    .post(USERS_URL + "update_user/", 
+      {
+        "username": data.username,
+        "first_name": data.first_name,
+        "last_name": data.last_name,
+        "email": data.email,
+        "affiliation": data.affiliation,
+        "orcid": data.orcid,
+        "public": data.public,
+      }, {
+        headers: {
+          "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+          "Content-Type": "application/json"
+        }
+      });
   if (response.data.token) {
     localStorage.setItem("user", JSON.stringify(response.data.user));
   }
@@ -249,6 +277,8 @@ const authService = {
   googleRegister,
   userInfo,
   orcidLogIn,
+  orcidAdd,
+  orcidRemove,
   advSearchBcodbAPI,
   searchBcodbAPI,
   authenticateBcoDb,
