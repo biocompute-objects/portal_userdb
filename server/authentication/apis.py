@@ -4,12 +4,15 @@
 """
 
 import jwt
+from bcodb.services import add_authentication, remove_authentication
+from bcodb.selectors import get_all_bcodbs
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.dispatch import receiver
 from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
+from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions, status, serializers, exceptions
 from rest_framework.response import Response
@@ -18,7 +21,7 @@ from rest_framework_jwt.settings import api_settings
 from authentication.services import custom_jwt_handler, google_authentication, orcid_auth_code, authenticate_orcid
 from users.models import Profile
 from users.services import user_create
-from users.selectors import user_from_email, user_from_orcid
+from users.selectors import user_from_email, user_from_orcid, profile_from_username
 
 @receiver(reset_password_token_created)
 def password_reset_token_created(
@@ -77,8 +80,15 @@ class OrcidUserInfoApi(APIView):
     authentication_classes = []
     permission_classes = []
 
-
+    authentication = [
+        openapi.Parameter(
+            "Authorization",
+            openapi.IN_HEADER,
+            description="Authorization Token",
+            type=openapi.TYPE_STRING,
+        )]
     @swagger_auto_schema(
+        manual_parameters=authentication,
         responses={
             200: "Request is successful.",
             401: "A user with that ORCID does not exist.",
@@ -88,7 +98,12 @@ class OrcidUserInfoApi(APIView):
     )
 
     def post(self, request):
-        """
+        """Orcid User Info Api
+        ----------------------
+        No schema for this request since only the Authorization header is required.
+        The word 'Bearer' must be included in the header.
+        For example: 'Bearer #####################################################'
+
         """
         if 'Authorization' in request.headers:
             type, token = request.headers['Authorization'].split(' ')
@@ -135,7 +150,7 @@ class OrcidLoginApi(APIView):
         """
 
         auth_code = self.request.GET['code']
-        orcid_auth = orcid_auth_code(auth_code)
+        orcid_auth = orcid_auth_code(auth_code, path='/login')
         if "access_token" not in orcid_auth:
             return Response(status=status.HTTP_401_UNAUTHORIZED, data={"message": orcid_auth['error_description']})
         user = user_from_orcid(orcid_auth['orcid'])
@@ -154,6 +169,90 @@ class OrcidLoginApi(APIView):
             status=status.HTTP_401_UNAUTHORIZED,
             data={"message": "That account does not exist"},
         )
+
+class OrcidAddApi(APIView):
+    """Add Orcid API 
+    This API view allows for a user to add an ORCID for OAuth authentication. The
+    request should include a valid JWT token in the authorization header.
+
+    Returns the updated user information in the response body.
+    """
+    
+
+    @swagger_auto_schema(
+        responses={
+            200: "Add ORCID successful.",
+            401: "Unathorized.",
+            500: "Error"
+        },
+        tags=["Account Management"],
+    )
+    def post(self, request):
+        auth_code = self.request.GET['code']
+        orcid_auth = orcid_auth_code(auth_code, path='/profile')
+        if "access_token" not in orcid_auth:
+            return Response(
+                status=status.HTTP_401_UNAUTHORIZED,
+                data={"message": orcid_auth['error_description']}
+            )
+        
+        conflict = user_from_orcid(orcid_auth['orcid'])
+        if conflict != 0:
+            return Response(
+                status=status.HTTP_403_FORBIDDEN,
+                data={"message": "A user with that ORCID already exists"},
+            )
+
+        user = request.user
+        token = request.headers["Authorization"].removeprefix("Bearer ")
+        profile = profile_from_username(user.username)
+        bcodbs = get_all_bcodbs(profile)
+        profile.orcid = settings.ORCID_URL + '/' + orcid_auth['orcid']
+        profile.save()
+        auth_obj = {
+            "iss": settings.ORCID_URL,
+            "sub": orcid_auth['orcid']
+        }
+        for bcodb in bcodbs:
+            add_authentication(auth_obj, bcodb)
+        return Response(
+            status=status.HTTP_200_OK, data=custom_jwt_handler(token, user)
+        )
+
+class OrcidRemoveApi(APIView):
+    """Remove Orcid API
+    This API view allows for a user to remove an ORCID for OAuth authentication. The
+    request should include a valid JWT token in the authorization header.
+
+    Returns the updated user information in the response body.
+    """
+    
+    @swagger_auto_schema(
+        responses={
+            200: "Add ORCID successful.",
+            401: "Unathorized.",
+            500: "Error"
+        },
+        tags=["Account Management"],
+    )
+    def post(self, request):
+        """"""
+        user = request.user
+        profile = profile_from_username(user.username)
+        token = request.headers["Authorization"].removeprefix("Bearer ")
+        auth_obj = {
+            "iss": settings.ORCID_URL,
+            "sub": profile.orcid.split('/')[-1]
+        }
+        profile.orcid = ""
+        profile.save()
+        bcodbs = get_all_bcodbs(profile)
+        for bcodb in bcodbs:
+            remove_authentication(auth_obj, bcodb)
+        return Response(
+            status=status.HTTP_200_OK, data=custom_jwt_handler(token, user)
+        )
+
 
 class GoogleUsername(serializers.CharField):
     """
