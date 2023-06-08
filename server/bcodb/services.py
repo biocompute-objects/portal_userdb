@@ -70,7 +70,7 @@ def create_bcodb(data: dict) -> BcoDb:
 
     return bcodb_serializer.data
 
-def add_authentication(token: str, auth_object: dict, bcodb: BcoDb):
+def add_authentication(auth_object: dict, bcodb: BcoDb):
     """Add Authentication
     Adds an authentication object to the BCODB object.
     """
@@ -88,7 +88,7 @@ def add_authentication(token: str, auth_object: dict, bcodb: BcoDb):
     except Exception as err:
         print(err)
 
-def remove_authentication(token: str, auth_object: dict, bcodb: BcoDb):
+def remove_authentication(auth_object: dict, bcodb: BcoDb):
     """Remove Authentication
     Removes an authentication object to the BCODB object.
     """
@@ -97,7 +97,7 @@ def remove_authentication(token: str, auth_object: dict, bcodb: BcoDb):
             url=bcodb.public_hostname + "/api/auth/remove/",
             data=json.dumps(auth_object),
             headers= {
-                "Authorization": "Bearer " + token,
+                "Authorization": "Token " + bcodb.token,
                 "Content-type": "application/json; charset=UTF-8",
             }
         )
