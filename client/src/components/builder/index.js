@@ -38,6 +38,7 @@ import {
   getDraftBco,
   publishDraftBco,
   validateBco,
+  deriveBco,
   setPrefix,
   updateETag,
 } from "../../slices/bcoSlice";
@@ -206,7 +207,6 @@ export const  BuilderColorCode = () => {
     if (validURL(bco["object_id"]) === true) {
       navigate(`/builder?${bco["object_id"]}`);
     }
-    console.log("ELSE")
   }, [bco])
 
   useEffect(()=> {
@@ -219,8 +219,8 @@ export const  BuilderColorCode = () => {
         .then(() => {
           console.log(bcoStatus)
         })
-        .catch(() => {
-          console.log("Error");
+        .catch((error) => {
+          console.log("Error", error);
         });
     }
 
@@ -234,6 +234,11 @@ export const  BuilderColorCode = () => {
     console.log(value)
     setValue(value+1)
   }
+
+  const  handleDerive = (jsonData) => {
+    navigate("/builder")
+    dispatch(deriveBco(jsonData))
+  };
 
   function a11yProps(index) {
     return {
@@ -422,6 +427,16 @@ export const  BuilderColorCode = () => {
                     <Grid item className="upload-grid">
                       <label htmlFor="bcoUpload">Upload a BCO</label>
                       <FileUpload />
+                    </Grid>
+                    <br/>
+                    <Grid item>
+                      <Button 
+                        className="derive-button"
+                        type='submit'
+                        variant="contained"
+                        color="primary"
+                        onClick={() => {handleDerive(jsonData)}}
+                      > Derive BCO </Button>
                     </Grid>
                   </Collapse>
                 </div>

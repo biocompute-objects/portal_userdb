@@ -91,7 +91,6 @@ export default function BcoViewer () {
   };
 
   const  handleDerive = (jsonData) => {
-    console.log(jsonData)
     navigate("/builder")
     dispatch(deriveBco(jsonData))
   };
