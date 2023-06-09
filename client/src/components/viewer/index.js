@@ -2,9 +2,19 @@
 
 import React, { useEffect, useState } from "react";
 import {
-  Button, Card, CardActions, CardHeader, CardContent, Collapse, Container, Grid, ListItem, ListItemText, Paper,
+  Button,
+  Card,
+  CardActions,
+  CardHeader,
+  CardContent,
+  Collapse,
+  Container,
+  Grid,
+  ListItem,
+  ListItemText,
   Typography
 } from "@material-ui/core";
+import { useNavigate } from "react-router-dom";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -12,9 +22,9 @@ import {
   ProvenanceView, UsabilityView, DescriptionView, ExtensionView,
   ExecutionView, ParametricView, IoView, ErrorView
 } from "./cardViews";
-import { FileUpload, handleDownloadClick } from "../fileHandeling";
+import { handleDownloadClick } from "../fileHandeling";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { getPubBco } from "../../slices/bcoSlice";
+import { getPubBco, deriveBco } from "../../slices/bcoSlice";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 
@@ -65,6 +75,7 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function BcoViewer () {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [value, setValue] = React.useState(0);
   const bco = useSelector(state => state.bco.data)
@@ -77,6 +88,12 @@ export default function BcoViewer () {
 
   const handleChange = (newValue) => {
     setValue(newValue);
+  };
+
+  const  handleDerive = (jsonData) => {
+    console.log(jsonData)
+    navigate("/builder")
+    dispatch(deriveBco(jsonData))
   };
 
   function a11yProps(index) {
@@ -166,6 +183,16 @@ export default function BcoViewer () {
                   color="primary"
                   onClick={() => {handleDownloadClick(jsonData)}}
                 > Download BCO</Button>
+              </Grid>
+              <br/>
+              <Grid item>
+                <Button 
+                  className="derive-button"
+                  type='submit'
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {handleDerive(jsonData)}}
+                > Derive BCO </Button>
               </Grid>
             </Collapse>
           </Grid>
