@@ -7,7 +7,7 @@ import { Reviewer } from "./reviewer";
 
 import { useSelector, useDispatch } from "react-redux"
 import { BaisicDateTimePicker, MyTextField } from "./specialFeilds";
-import { updateProvenanceDomain } from "../../slices/bcoSlice"
+import { updateProvenanceDomain, updateModified } from "../../slices/bcoSlice"
 
 export const  ProvenanceDomain = ({onSave} ) => {
   const dispatch = useDispatch();
@@ -43,7 +43,7 @@ export const  ProvenanceDomain = ({onSave} ) => {
             onSubmit={
               (values, {setSubmitting, setValues}) => {
                 setSubmitting(true);
-                console.log("myData", values)
+                dispatch(updateModified());
                 if (obsolete === false) {
                   delete values["obsolete_after"]
                 }
@@ -52,7 +52,6 @@ export const  ProvenanceDomain = ({onSave} ) => {
                 }
                 dispatch(updateProvenanceDomain(values));
                 setSubmitting(false);
-                console.log(values.contributors.length)
                 onSave()
               }
             }

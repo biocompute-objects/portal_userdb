@@ -6,7 +6,7 @@ import { UsabilityDomain } from "./usabilityDomain";
 import { ParametricDomain } from "./parametricDomain";
 import { IODomain } from "./ioDomain";
 import { ExecutionDomain } from "./executionDomain";
-import { TreeView } from "./preview";
+import { TreeView } from "./treeView";
 import { ExtensionDomain } from "./extensionDomain";
 import { RawJson } from "./rawJson";
 import { useDispatch, useSelector } from "react-redux"
