@@ -192,7 +192,7 @@ export const updateDraftBco = createAsyncThunk(
     try {
       console.log("bcoURL: ", bcoURL);
       const response = await BcoService.updateDraftBco(bcoURL, bcoObject);
-      thunkAPI.dispatch(setMessage(response.data.message))
+      thunkAPI.dispatch(setMessage(response.data[0].message))
       return response.data;
     } catch(error) {
       const message =

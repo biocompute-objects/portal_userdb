@@ -45,7 +45,7 @@ export const  UsabilityDomain = ({onSave}) => {
           }
         >
           {
-            ({values, isSubmitting,errors}) => (
+            ({values, isSubmitting, errors}) => (
               <Form>
                 <FieldArray name='usability_domain'>
                   {arrayHelpers => (

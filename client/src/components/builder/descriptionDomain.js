@@ -12,7 +12,7 @@ import {
 import {Autocomplete } from "@material-ui/lab";
 import { Formik, Form, FieldArray } from "formik";
 import { useSelector, useDispatch } from "react-redux"
-import { updateDescription } from "../../slices/bcoSlice"
+import { updateDescription, updateModified } from "../../slices/bcoSlice"
 import { LargeTextField, MyTextField } from "./specialFeilds";
 import { Uri } from "./components"
 
@@ -30,6 +30,7 @@ export const  DescriptionDomain = ({onSave}) => {
         onSubmit={
           (myData, {setSubmitting}) => {
             setSubmitting(true);
+            dispatch(updateModified())
             dispatch(updateDescription(myData));
             setSubmitting(false);
             onSave()
