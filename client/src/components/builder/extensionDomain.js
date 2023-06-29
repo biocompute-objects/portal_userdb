@@ -82,7 +82,7 @@ export const  ExtensionDomain = ({onSave}) => {
           variant="contained"
           color="primary"
           disableElevation
-        >Save</Button>
+        >Next</Button>
       </CardContent>
     </Card>
   )

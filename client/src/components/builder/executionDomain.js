@@ -247,7 +247,7 @@ export const ExecutionDomain = ({onSave}) => {
                       type='submit'
                       variant="contained"
                       color="primary"
-                    > Save </Button>
+                    > Next </Button>
                   </div>
                 </Form>
               )

@@ -231,7 +231,7 @@ export const  ProvenanceDomain = ({onSave} ) => {
 
                     <Grid container spacing={2}> 
                       <Grid item xs>
-                        <Button disabled={isSubmitting} type='submit' variant="contained" color="primary"> Save </Button>
+                        <Button disabled={isSubmitting} type='submit' variant="contained" color="primary"> Next </Button>
                       </Grid>
                     </Grid>
                   </Grid>

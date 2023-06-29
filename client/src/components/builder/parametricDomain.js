@@ -79,7 +79,7 @@ export const  ParametricDomain = ({onSave}) => {
                     />                
                   </Grid>   
                   <div style={{padding: 20}}> 
-                    <Button disabled={isSubmitting} type='submit' variant="contained" color="primary"> Save </Button>
+                    <Button disabled={isSubmitting} type='submit' variant="contained" color="primary"> Next </Button>
                   </div>
                       
 
