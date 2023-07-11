@@ -4,7 +4,7 @@ import {Card, Typography, CardContent, Grid, Button} from "@material-ui/core";
 import { Formik, Form, FieldArray } from "formik";
 
 import { useSelector, useDispatch } from "react-redux"
-import { updateParametricDomain } from "../../slices/bcoSlice"
+import { updateParametricDomain, updateModified } from "../../slices/bcoSlice"
 
 import { MyTextField } from "./specialFeilds"
 
@@ -28,6 +28,7 @@ export const  ParametricDomain = ({onSave}) => {
               (myData, {setSubmitting}) => {
                 setSubmitting(true);
                 dispatch(updateParametricDomain(myData["parametric_domain"]));
+                dispatch(updateModified());
                 setSubmitting(false);
                 onSave()
               }

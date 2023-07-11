@@ -1,10 +1,12 @@
 # authentication/services.py
 
+import jwt
+import json
 import uuid
 import requests
 from datetime import datetime
 from django.conf import settings
-from rest_framework import status
+from rest_framework import status, exceptions
 from rest_framework.response import Response
 from rest_framework_jwt.settings import api_settings
 from bcodb.models import BcoDb
@@ -14,17 +16,45 @@ from users.services import UserSerializer, ProfileSerializer
 from users.selectors import profile_from_username
 from rest_framework_jwt.utils import unix_epoch
 
+def authenticate_orcid(iss_oauth, token):
+    """Authenticate ORCID
+    
+    Custom function to authenticate ORCID credentials.
+    """
+
+    orcid_jwks = {
+        jwk['kid']: json.dumps(jwk)
+        for jwk in requests.get(iss_oauth).json()['keys']
+    }
+    orcid_jwk = next(iter(orcid_jwks.values()))
+    orcid_key = jwt.algorithms.RSAAlgorithm.from_jwk(orcid_jwk)
+
+    try:
+        verified_payload = jwt.decode(token, key=orcid_key, algorithms=['RS256'], audience=['APP-88DEA42BRILGEHKC', 'APP-ZQZ0BL62NV9SBWAX'])
+    except Exception as exp:
+        print('exp:', exp)
+        raise exceptions.AuthenticationFailed(exp)
+    return verified_payload
+    
+    # try:
+    #     user = User.objects.get(username=Authentication.objects.get(auth_service__icontains=payload['sub']).username)
+    # except (Authentication.DoesNotExist, User.DoesNotExist):
+    #     return None
+    # return user
 
 
-def orcid_auth_code(code: str)-> Response:
+def orcid_auth_code(code: str, path: str)-> Response:
+    """ORCID Authorization Code
+
+    Verifies the ORCID authentication.
     """
-    """
+
     data = {
         "client_id": settings.ORCID_CLIENT,
         "client_secret": settings.ORCID_SECRET,
         "grant_type": "authorization_code",
         "code": code,
-        "redirect_uri": settings.CLIENT + "/login"
+        "redirect_uri": settings.CLIENT + path
     }
     headers = {
         "Accept": "application/json",

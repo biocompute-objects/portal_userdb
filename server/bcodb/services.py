@@ -34,12 +34,12 @@ class BcoDbSerializer(serializers.ModelSerializer):
 def update_bcodbs(profile: Profile) -> query.QuerySet:
     """Updates the information for a BcoDb object"""
     bcodbs = get_all_bcodbs(profile)
-
+    now = make_aware(datetime.utcnow())
+    
     for db in bcodbs:
         bco_api_response = accounts_describe(db.public_hostname, db.token)
         try:
             update = bco_api_response.json()
-            now = make_aware(datetime.utcnow())
             BcoDb.objects.filter(id=db.id).update(
                 token = update['token'],
                 user_permissions = update['other_info']['permissions']['user'],
@@ -70,7 +70,7 @@ def create_bcodb(data: dict) -> BcoDb:
 
     return bcodb_serializer.data
 
-def add_authentication(token: str, auth_object: dict, bcodb: BcoDb):
+def add_authentication(auth_object: dict, bcodb: BcoDb):
     """Add Authentication
     Adds an authentication object to the BCODB object.
     """
@@ -79,7 +79,7 @@ def add_authentication(token: str, auth_object: dict, bcodb: BcoDb):
             url=bcodb.public_hostname + "/api/auth/add/",
             data=json.dumps(auth_object),
             headers= {
-                "Authorization": "Bearer " + token,
+                "Authorization": "Token " + bcodb.token,
                 "Content-type": "application/json; charset=UTF-8",
             }
         )
@@ -88,7 +88,7 @@ def add_authentication(token: str, auth_object: dict, bcodb: BcoDb):
     except Exception as err:
         print(err)
 
-def remove_authentication(token: str, auth_object: dict, bcodb: BcoDb):
+def remove_authentication(auth_object: dict, bcodb: BcoDb):
     """Remove Authentication
     Removes an authentication object to the BCODB object.
     """
@@ -97,7 +97,7 @@ def remove_authentication(token: str, auth_object: dict, bcodb: BcoDb):
             url=bcodb.public_hostname + "/api/auth/remove/",
             data=json.dumps(auth_object),
             headers= {
-                "Authorization": "Bearer " + token,
+                "Authorization": "Token " + bcodb.token,
                 "Content-type": "application/json; charset=UTF-8",
             }
         )
@@ -106,4 +106,20 @@ def remove_authentication(token: str, auth_object: dict, bcodb: BcoDb):
     except Exception as err:
         print(err)
 
-    
+def reset_token(public_hostname: str, token: str) -> BcoDb:
+    """Reset BCODB Token"""
+
+    try:
+        bco_api_response = requests.post(
+            url=public_hostname + "/api/auth/reset_token/",
+            data={},
+            headers= {
+                "Authorization": "Token " + token,
+                "Content-type": "application/json; charset=UTF-8",
+            },
+        )
+        BcoDb.objects.filter(token=token).update(token=bco_api_response.json()['token'])
+        
+        return bco_api_response.json()
+    except:
+        return bco_api_response.json()
