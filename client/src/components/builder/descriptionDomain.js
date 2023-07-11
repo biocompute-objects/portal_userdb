@@ -14,7 +14,7 @@ import { Formik, Form, FieldArray } from "formik";
 import { useSelector, useDispatch } from "react-redux"
 import { updateDescription, updateModified } from "../../slices/bcoSlice"
 import { LargeTextField, MyTextField } from "./specialFeilds";
-import { Uri } from "./components"
+import { Uri, Next } from "./components"
 
 export const  DescriptionDomain = ({onSave}) => {
   const dispatch = useDispatch();
@@ -342,7 +342,7 @@ export const  DescriptionDomain = ({onSave}) => {
                 )}
               />                
               <div>
-                <button disabled={isSubmitting} type='submit'> Next </button>
+                <Next />
               </div>
             </Form>
           )}  

@@ -2,8 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import {Card, CardContent, Typography, Grid, Button, Paper } from "@material-ui/core";
 import { Formik, Form, FieldArray } from "formik";
-import { Contribution } from "./contibutor";
-import { Reviewer } from "./reviewer";
+import { Contribution, Reviewer, Next } from "./components";
 
 import { useSelector, useDispatch } from "react-redux"
 import { BaisicDateTimePicker, MyTextField } from "./specialFeilds";
@@ -232,7 +231,7 @@ export const  ProvenanceDomain = ({onSave} ) => {
 
                     <Grid container spacing={2}> 
                       <Grid item xs>
-                        <Button disabled={isSubmitting} type='submit' variant="contained" color="primary"> Next </Button>
+                        <Next />
                       </Grid>
                     </Grid>
                   </Grid>

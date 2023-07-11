@@ -96,7 +96,7 @@ const data = [
     name: "Raw JSON View"
   },
   {
-    name: "Review & Publish"
+    name: "Tree View"
   }
 ];
 
@@ -139,7 +139,6 @@ export const  BuilderColorCode = () => {
   const [value, setValue] = React.useState(0);
   const classes = useStyles();
   const BCODB_URL = process.env.REACT_APP_BCOAPI_URL;
-  const [prefixHolder, setPrefixHolder] = useState("");
   const [expanded, setExpanded] = useState(false);
   const [bcodb, setBcodb] = useState("");
 
