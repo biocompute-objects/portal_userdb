@@ -62,7 +62,7 @@ export const  UsabilityDomain = ({onSave}) => {
                   )}
                 </FieldArray>
                 <div>
-                  <Button disabled={isSubmitting} varient="contained" color="primary" type='submit'> Save </Button>
+                  <Button disabled={isSubmitting} varient="contained" color="primary" type='submit'> Next </Button>
                 </div>
               </Form>
             )

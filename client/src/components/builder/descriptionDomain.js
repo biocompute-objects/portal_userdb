@@ -342,7 +342,7 @@ export const  DescriptionDomain = ({onSave}) => {
                 )}
               />                
               <div>
-                <button disabled={isSubmitting} type='submit'> Save </button>
+                <button disabled={isSubmitting} type='submit'> Next </button>
               </div>
             </Form>
           )}  
