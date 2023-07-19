@@ -12,17 +12,22 @@ import Menu from "@material-ui/core/Menu";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import LoginIcon from '@mui/icons-material/Login';
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import ConstructionIcon from "@mui/icons-material/Construction";
-import DataObjectIcon from "@mui/icons-material/DataObject";
+// import EditOutlinedIcon from "@mui/icons-material/Construction";
+// import SearchIcon from "@mui/icons-material/DataObject";
 import BugReportIcon from "@mui/icons-material/BugReport";
-import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+// import GroupIcon from "@mui/icons-material/AppRegistration";
 import { useSelector } from "react-redux";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { Link } from "react-router-dom";
-import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
+// import SettingsInputAntennaIcon from "@mui/icons-material/MiscellaneousServices";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Info } from "@mui/icons-material";
+import SettingsInputAntennaIcon from '@mui/icons-material/SettingsInputAntenna';
+// import SearchIcon from '@mui/icons-material/Storage';
+import SearchIcon from '@mui/icons-material/Search';
+import GroupIcon from '@mui/icons-material/Group';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -103,7 +108,7 @@ const NavBar = () => {
       <MenuItem component={Link} to='/resources'>
         <IconButton aria-label='BioCompute Object builder' color='inherit'>
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <MiscellaneousServicesIcon />
+            <SettingsInputAntennaIcon />
           </Badge>
         </IconButton>
         <p>BCO Resources</p>
@@ -111,7 +116,7 @@ const NavBar = () => {
       <MenuItem component={Link} to='/builder'>
         <IconButton aria-label='BioCompute Object builder' color='inherit'>
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <ConstructionIcon />
+            <EditOutlinedIcon />
           </Badge>
         </IconButton>
         <p>BCO Builder</p>
@@ -119,7 +124,7 @@ const NavBar = () => {
       <MenuItem component={Link} to="/prefix">
         <IconButton aria-label='prefix registry' color='inherit'>
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <AppRegistrationIcon />
+            <GroupIcon />
           </Badge>
         </IconButton>
         <p>Prefix Registry</p>
@@ -127,7 +132,7 @@ const NavBar = () => {
       <MenuItem component={Link} to='/bcodbs'>
         <IconButton aria-label='BCO DB' color='inherit'>
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <DataObjectIcon />
+            <SearchIcon />
           </Badge>
         </IconButton>
         <p>BCO DB</p>
@@ -196,7 +201,7 @@ const NavBar = () => {
       <MenuItem component={Link} to='/resources'>
         <IconButton aria-label='BioCompute Object builder' color='inherit'>
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <MiscellaneousServicesIcon />
+            <SettingsInputAntennaIcon />
           </Badge>
         </IconButton>
         <p>BCO Resources</p>
@@ -204,7 +209,7 @@ const NavBar = () => {
       <MenuItem component={Link} to='/builder'>
         <IconButton aria-label='BioCompute Object builder' color='inherit'>
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <ConstructionIcon />
+            <EditOutlinedIcon />
           </Badge>
         </IconButton>
         <p>BCO Builder</p>
@@ -212,7 +217,7 @@ const NavBar = () => {
       <MenuItem component={Link} to="/prefix">
         <IconButton aria-label='prefix registry' color='inherit'>
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <AppRegistrationIcon />
+            <GroupIcon />
           </Badge>
         </IconButton>
         <p>Prefix Registry</p>
@@ -220,7 +225,7 @@ const NavBar = () => {
       <MenuItem component={Link} to='/bcodbs'>
         <IconButton aria-label='BCO DB' color='inherit'>
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <DataObjectIcon />
+            <SearchIcon />
           </Badge>
         </IconButton>
         <p>BCO DB</p>
@@ -285,28 +290,28 @@ const NavBar = () => {
                 <Tooltip title="BCO Resources">
                   <IconButton component={Link} to='/resources' aria-label='BCO builder' color='inherit'>
                     <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                      <MiscellaneousServicesIcon />
+                      <SettingsInputAntennaIcon />
                     </Badge>
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="BCO Builder">
                   <IconButton component={Link} to='/builder' aria-label='BCO builder' color='inherit'>
                     <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                      <ConstructionIcon />
+                      <EditOutlinedIcon />
                     </Badge>
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Prefix registry">
                   <IconButton component={Link} to="/prefix" aria-label='prefix registry' color='inherit'>
                     <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                      <AppRegistrationIcon />
+                      <GroupIcon />
                     </Badge>
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="BioCompute Object DB">
                   <IconButton component={Link} to='/bcodbs' aria-label='show 0 new notifications' color='inherit'>
                     <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                      <DataObjectIcon />
+                      <SearchIcon />
                     </Badge>
                   </IconButton>
                 </Tooltip>
@@ -363,28 +368,28 @@ const NavBar = () => {
                 <Tooltip title="BCO Resources">
                   <IconButton component={Link} to='/resources' aria-label='BCO builder' color='inherit'>
                     <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                      <MiscellaneousServicesIcon />
+                      <SettingsInputAntennaIcon />
                     </Badge>
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="BCO Builder">
                   <IconButton component={Link} to='/builder' aria-label='BCO builder' color='inherit'>
                     <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                      <ConstructionIcon />
+                      <EditOutlinedIcon />
                     </Badge>
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Prefix registry">
                   <IconButton component={Link} to="/prefix" aria-label='prefix registry' color='inherit'>
                     <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                      <AppRegistrationIcon />
+                      <GroupIcon />
                     </Badge>
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="BioCompute Object DB">
                   <IconButton component={Link} to='/bcodbs' aria-label='show 0 new notifications' color='inherit'>
                     <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                      <DataObjectIcon />
+                      <SearchIcon />
                     </Badge>
                   </IconButton>
                 </Tooltip>

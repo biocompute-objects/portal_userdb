@@ -2,12 +2,11 @@ import * as React from "react";
 import { useState } from "react";
 import {Card, CardContent, Typography, Grid, Button, Paper } from "@material-ui/core";
 import { Formik, Form, FieldArray } from "formik";
-import { Contribution } from "./contibutor";
-import { Reviewer } from "./reviewer";
+import { Contribution, Reviewer, Next } from "./components";
 
 import { useSelector, useDispatch } from "react-redux"
 import { BaisicDateTimePicker, MyTextField } from "./specialFeilds";
-import { updateProvenanceDomain } from "../../slices/bcoSlice"
+import { updateProvenanceDomain, updateModified } from "../../slices/bcoSlice"
 
 export const  ProvenanceDomain = ({onSave} ) => {
   const dispatch = useDispatch();
@@ -15,6 +14,7 @@ export const  ProvenanceDomain = ({onSave} ) => {
   let has_obsolete = "obsolete_after" in provenanceDomain;
   let has_embargo = "embargo" in provenanceDomain;
   let has_review = "review" in provenanceDomain;
+  let is_derived = "derived_from" in provenanceDomain;
   const [obsolete, setObsolete] = useState("obsolete_after" in provenanceDomain)
   const [embargo, setEmbargo] = useState("embargo" in provenanceDomain)
   return (
@@ -33,6 +33,7 @@ export const  ProvenanceDomain = ({onSave} ) => {
                 "license": provenanceDomain["license"],
                 "created": provenanceDomain["created"],
                 "modified": provenanceDomain["modified"],
+                "derived_from": is_derived ? provenanceDomain["derived_from"] : [], 
                 "obsolete_after": has_obsolete ? provenanceDomain["obsolete_after"] : [],
                 "contributors": provenanceDomain["contributors"],
                 "review": has_review ? provenanceDomain["review"] : [],
@@ -41,7 +42,7 @@ export const  ProvenanceDomain = ({onSave} ) => {
             onSubmit={
               (values, {setSubmitting, setValues}) => {
                 setSubmitting(true);
-                console.log("myData", values)
+                dispatch(updateModified());
                 if (obsolete === false) {
                   delete values["obsolete_after"]
                 }
@@ -50,7 +51,6 @@ export const  ProvenanceDomain = ({onSave} ) => {
                 }
                 dispatch(updateProvenanceDomain(values));
                 setSubmitting(false);
-                console.log(values.contributors.length)
                 onSave()
               }
             }
@@ -231,7 +231,7 @@ export const  ProvenanceDomain = ({onSave} ) => {
 
                     <Grid container spacing={2}> 
                       <Grid item xs>
-                        <Button disabled={isSubmitting} type='submit' variant="contained" color="primary"> Save </Button>
+                        <Next />
                       </Grid>
                     </Grid>
                   </Grid>

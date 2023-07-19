@@ -4,7 +4,8 @@ from rest_framework_jwt.views import (
     refresh_jwt_token,
     verify_jwt_token,
 )
-from authentication.apis import GoogleLoginApi, GoogleRegisterApi, OrcidLoginApi, OrcidUserInfoApi
+
+from authentication.apis import GoogleLoginApi, GoogleRegisterApi, OrcidLoginApi, OrcidUserInfoApi, OrcidAddApi, OrcidRemoveApi
 from users.apis import UserCreateApi
 
 urlpatterns = [
@@ -16,6 +17,8 @@ urlpatterns = [
     path("google/register/", GoogleRegisterApi.as_view()),
     path("orcid/login/", OrcidLoginApi.as_view()),
     path("orcid/user_info/", OrcidUserInfoApi.as_view()),
+    path("orcid/add/", OrcidAddApi.as_view()),
+    path("orcid/remove/", OrcidRemoveApi.as_view()),
     # path("orcid/register/", GoogleRegisterApi.as_view()),
     path("password_reset/", include('django_rest_passwordreset.urls', namespace='password_reset')),
 ]
