@@ -98,14 +98,14 @@ const Memberinfo = {
               "url": "https://atlarge-research.com/mrcrusoe/"
     },
           {
-              "name": "Konstantinos Karagiannis",
+              "name": "Luis V Santana-Quintero",
               "position": "",
               "department": "",
               "institution": "Food and Drug Administration",
               "location": "Silver Spring, MD",
-              "image": "/Teams/Karagiannis.jpg",
-              "imageText": "Konstantinos Karagiannis image",
-              "url": "https://www.linkedin.com/in/k-karagiannis?trk=public_profile_samename-profile"
+              "image": "/Teams/Luis.jpg",
+              "imageText": "Luis V Santana-Quintero image",
+              "url": "https://www.researchgate.net/profile/Luis-Santana-Quintero"
     },
           {
               "name": "Nicola Soranzo",
@@ -196,6 +196,16 @@ const Memberinfo = {
               "image": "/Teams/anonymous.png",
               "imageText": "",
               "url": ""
+    },
+        {
+            "name": "Konstantinos Karagiannis",
+            "position": "",
+            "department": "",
+            "institution": "",
+            "location": "",
+            "image": "/Teams/Karagiannis.jpg",
+            "imageText": "Konstantinos Karagiannis image",
+            "url": "https://www.linkedin.com/in/k-karagiannis?trk=public_profile_samename-profile"
     },
           {
               "name": "Payal Banerjee",
