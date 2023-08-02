@@ -281,9 +281,7 @@ export const getDraftBco = createAsyncThunk(
     } catch(error) {
       const message =
         (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
+          error.response.data) ||
         error.toString();
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
