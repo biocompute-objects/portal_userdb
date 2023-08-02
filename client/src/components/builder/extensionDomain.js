@@ -1,9 +1,8 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux"
 import { Card, CardContent, TextField, Typography, Grid, Button, Paper } from "@material-ui/core";
-import { addExtensionDomain, deleteExtensionDomain, updateModified } from "../../slices/bcoSlice"
+import { addExtensionDomain, deleteExtensionDomain } from "../../slices/bcoSlice"
 import { Extension } from "./extension";
-import { Next } from "./components";
 
 export const  ExtensionDomain = ({onSave}) => {
   const dispatch = useDispatch();
@@ -22,13 +21,11 @@ export const  ExtensionDomain = ({onSave}) => {
         console.log(`ERROR: ${error}`);
         global.window.alert(`Fetch schema from '${newSchema}' FAILED: ${error}`);
       });
-    dispatch(updateModified())
     setNewSchema("");
   };
 
   const removeRows = (index) => {
     dispatch(deleteExtensionDomain({index}))
-    dispatch(updateModified())
   };
 
   return (
@@ -85,7 +82,7 @@ export const  ExtensionDomain = ({onSave}) => {
           variant="contained"
           color="primary"
           disableElevation
-        >Next</Button>
+        >Save</Button>
       </CardContent>
     </Card>
   )

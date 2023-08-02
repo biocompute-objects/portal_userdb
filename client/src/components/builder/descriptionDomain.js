@@ -12,9 +12,9 @@ import {
 import {Autocomplete } from "@material-ui/lab";
 import { Formik, Form, FieldArray } from "formik";
 import { useSelector, useDispatch } from "react-redux"
-import { updateDescription, updateModified } from "../../slices/bcoSlice"
+import { updateDescription } from "../../slices/bcoSlice"
 import { LargeTextField, MyTextField } from "./specialFeilds";
-import { Uri, Next } from "./components"
+import { Uri } from "./components"
 
 export const  DescriptionDomain = ({onSave}) => {
   const dispatch = useDispatch();
@@ -30,7 +30,6 @@ export const  DescriptionDomain = ({onSave}) => {
         onSubmit={
           (myData, {setSubmitting}) => {
             setSubmitting(true);
-            dispatch(updateModified())
             dispatch(updateDescription(myData));
             setSubmitting(false);
             onSave()
@@ -109,86 +108,6 @@ export const  DescriptionDomain = ({onSave}) => {
                   </Grid>
                 </Grid>
               </Card>
-              <FieldArray
-                name="xref"
-                render={arrayHelpers => (
-                  <Card>
-                    <Typography gutterBottom variant='h5'>External References</Typography>
-                    {
-                      values.xref
-                        ?(<div>
-                          {values["xref"].map((ref, index) => (
-                            <CardContent key={index}>
-                              <Grid container>
-                                <Grid item>
-                                  <MyTextField name={`xref[${index}].name`} label={"Name"}/>
-                                </Grid>
-                                <Grid item>
-                                  <MyTextField name={`xref[${index}].namespace`} label={"Namespace"} />
-                                </Grid>
-                                <Grid item xs>
-                                  <Autocomplete
-                                    multiple
-                                    name="IDs"
-                                    options={[]}
-                                    freeSolo
-                                    renderTags={(value, getTagProps) =>
-                                      value.map((option, index) => (
-                                        <Chip
-                                          key={index}
-                                          variant="outlined"
-                                          color="primary"
-                                          label={option}
-                                          {...getTagProps({ index })}
-                                        />
-                                      ))
-                                    }
-                                    value={ref.ids}
-                                    onChange={(e, new_id)=>{
-                                      setFieldValue("IDs", new_id);
-                                    }}
-                                    renderInput={(params) => (
-                                      <TextField
-                                        {...params}
-                                        variant="outlined"
-                                        label="IDs"
-                                        name="IDs"
-                                        placeholder='type and enter'
-                                      />
-                                    )}
-                                  />
-                                </Grid>
-                                <Grid item>
-                                  <MyTextField name={`xref[${index}].access_time`} label={"Access Time"}/>
-                                </Grid>
-                                <Grid container>
-                                  <Button
-                                    variant='outlined'
-                                    color='secondary'
-                                    type="button"
-                                    onClick={() => arrayHelpers.remove(index)}
-                                  >Remove Eternal Refernce</Button>
-                                </Grid>
-                              </Grid>
-                        
-                            </CardContent>
-                          ))}
-                        </div>)
-                        :( <div></div>)
-                    }
-                    <Button
-                      variant='outlined'
-                      color='primary'
-                      onClick={() => arrayHelpers.push({
-                        namespace: "",
-                        name: "",
-                        ids: "",
-                        access_time: ""
-                      })}
-                    > Add External Reference</Button>
-                  </Card>
-                )}
-              />
               <FieldArray
                 name="pipeline_steps"
                 render={arrayHelpers => (
@@ -342,7 +261,7 @@ export const  DescriptionDomain = ({onSave}) => {
                 )}
               />                
               <div>
-                <Next />
+                <button disabled={isSubmitting} type='submit'> Save </button>
               </div>
             </Form>
           )}  

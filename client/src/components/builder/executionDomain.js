@@ -4,7 +4,7 @@ import {Card, Typography, CardContent, Grid, Button, TextField} from "@material-
 import { Formik, Form, FieldArray } from "formik";
 
 import { useSelector, useDispatch } from "react-redux"
-import { updateExecutionDomain, updateModified } from "../../slices/bcoSlice"
+import { updateExecutionDomain } from "../../slices/bcoSlice"
 
 import { MyTextField } from "./specialFeilds"
 import { Uri } from "./components"
@@ -50,7 +50,6 @@ export const ExecutionDomain = ({onSave}) => {
                 setSubmitting(true);
                 dispatch(updateExecutionDomain({formData, envars}));
                 setSubmitting(false);
-                dispatch(updateModified())
                 onSave()
               }
             }
@@ -248,7 +247,7 @@ export const ExecutionDomain = ({onSave}) => {
                       type='submit'
                       variant="contained"
                       color="primary"
-                    > Next </Button>
+                    > Save </Button>
                   </div>
                 </Form>
               )

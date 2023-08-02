@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardContent, CardHeader, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateBco, updateModified } from "../../slices/bcoSlice";
+import { updateBco } from "../../slices/bcoSlice";
 export const RawJson = () => {
   const dispatch = useDispatch()
   const [bco, setBco] = useState(useSelector(state => state.bco.data))
@@ -50,10 +50,7 @@ export const RawJson = () => {
           disabled={jsonErrors !== ""}
           variant="contained"
           color="primary"
-          onClick={() => {
-            dispatch(updateBco(bco));
-            dispatch(updateModified());
-          }}
+          onClick={() => dispatch(updateBco(bco))}
         > Submit Changes </Button>
       </CardContent>
     </Card>)

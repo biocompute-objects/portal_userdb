@@ -7,6 +7,7 @@ export const ProvenanceView = () => {
   return (
     <Card>
       <CardHeader title="Provenance Domain" />
+      {console.log(prov)}
       <CardContent>
         <Typography>Name: {prov.name}</Typography>
         <Typography>Version: {prov.version}</Typography>
@@ -17,7 +18,7 @@ export const ProvenanceView = () => {
       <CardContent>
         <CardHeader subheader="Contributors" />
         {prov.contributors.map((contributor, cont_index)=> (
-          <Card key={cont_index}>
+          <div key={cont_index}>
             <Typography >Name: {contributor.name}</Typography>
             <Typography >Email: {contributor.email}</Typography>
             <Typography >Affiliation: {contributor.affiliation}</Typography>
@@ -27,7 +28,7 @@ export const ProvenanceView = () => {
                 <Typography key={contribution_index}>{contribution}</Typography>
               ))}
             </Typography>
-          </Card>
+          </div>
         ))}
       </CardContent>
       <CardContent>
@@ -35,7 +36,7 @@ export const ProvenanceView = () => {
         {
           prov.review
             ? (prov.review.map((review, review_index)=>(
-              <Card key={review_index}>
+              <div key={review_index}>
                 <Typography>Reviewer name: {review.reviewer.name}</Typography>
                 <Typography>Reviewer comment: {review.reviewer_comment}</Typography>
                 <Typography>Status: {review.status}</Typography>
@@ -43,7 +44,7 @@ export const ProvenanceView = () => {
                 <Typography>Reviewer email: {review.reviewer.email}</Typography>
                 <Typography>Reviewer affiliation: {review.reviewer.affiliation}</Typography>
                 <Typography>Reviewer ORCID: {review.reviewer.orcid}</Typography>
-              </Card>
+              </div>
             )))
             : (<div></div>)
         }
@@ -148,17 +149,10 @@ export const DescriptionView = () => {
   )
 };
 export const ExtensionView = () => {
-  const extension = useSelector(state => state.bco.data.extension_domain)
   return (
     <Card>
       <CardHeader title="Extension Domain"/>
-      <CardContent>
-        <Typography>
-          <pre><code>
-            {JSON.stringify(extension, null, 2)}
-          </code></pre>
-        </Typography>
-      </CardContent>
+      <CardContent></CardContent>
     </Card>
   )
 };
@@ -225,45 +219,18 @@ export const IoView = () => {
               ))}
             </div>
           )
-          : <div></div>
+          : <div>no</div>
         }
       </CardContent>
     </Card>
   )
 };
-
 export const ExecutionView = () => {
-  const ExDom = useSelector(state => state.bco.data.execution_domain)
+  const IoDom = useSelector(state => state.bco.data.io_domain)
   return (
     <Card>
       <CardHeader title="Execution Domain"/>
-      <CardContent>
-        <Typography>Script: {JSON.stringify(ExDom.script)}</Typography>
-        <Typography>Script Driver: {JSON.stringify(ExDom.script_driver)}</Typography>
-        <Typography>Software Prerequisties: {JSON.stringify(ExDom.software_prerequisites)}</Typography>
-        <Typography>Environmane Variables: {JSON.stringify(ExDom.environment_variables)}</Typography>
-        {/* <Typography>
-          <pre>
-            {JSON.stringify(ExDom, null, 2)}
-          </pre>
-        </Typography> */}
-      </CardContent>
-    </Card>
-  )
-};
-
-export const ErrorView = () => {
-  const ErrDom = useSelector(state => state.bco.data.error_domain)
-  return (
-    <Card>
-      <CardHeader title="Error Domain"/>
-      <CardContent>
-        <Typography>
-          <pre><code>
-            {JSON.stringify(ErrDom, null, 2)}
-          </code></pre>
-        </Typography>
-      </CardContent>
+      <CardContent></CardContent>
     </Card>
   )
 };

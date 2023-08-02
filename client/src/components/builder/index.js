@@ -6,7 +6,7 @@ import { UsabilityDomain } from "./usabilityDomain";
 import { ParametricDomain } from "./parametricDomain";
 import { IODomain } from "./ioDomain";
 import { ExecutionDomain } from "./executionDomain";
-import { TreeView } from "./treeView";
+import { TreeView } from "./preview";
 import { ExtensionDomain } from "./extensionDomain";
 import { RawJson } from "./rawJson";
 import { useDispatch, useSelector } from "react-redux"
@@ -38,7 +38,6 @@ import {
   getDraftBco,
   publishDraftBco,
   validateBco,
-  deriveBco,
   setPrefix,
   updateETag,
 } from "../../slices/bcoSlice";
@@ -96,7 +95,7 @@ const data = [
     name: "Raw JSON View"
   },
   {
-    name: "Tree View"
+    name: "Review & Publish"
   }
 ];
 
@@ -139,6 +138,7 @@ export const  BuilderColorCode = () => {
   const [value, setValue] = React.useState(0);
   const classes = useStyles();
   const BCODB_URL = process.env.REACT_APP_BCOAPI_URL;
+  const [prefixHolder, setPrefixHolder] = useState("");
   const [expanded, setExpanded] = useState(false);
   const [bcodb, setBcodb] = useState("");
 
@@ -206,6 +206,7 @@ export const  BuilderColorCode = () => {
     if (validURL(bco["object_id"]) === true) {
       navigate(`/builder?${bco["object_id"]}`);
     }
+    console.log("ELSE")
   }, [bco])
 
   useEffect(()=> {
@@ -218,9 +219,8 @@ export const  BuilderColorCode = () => {
         .then(() => {
           console.log(bcoStatus)
         })
-        .catch((error) => {
-          console.log("Error", error);
-          global.window.close()
+        .catch(() => {
+          console.log("Error");
         });
     }
 
@@ -234,11 +234,6 @@ export const  BuilderColorCode = () => {
     console.log(value)
     setValue(value+1)
   }
-
-  const  handleDerive = (jsonData) => {
-    navigate("/builder")
-    dispatch(deriveBco(jsonData))
-  };
 
   function a11yProps(index) {
     return {
@@ -428,16 +423,6 @@ export const  BuilderColorCode = () => {
                       <label htmlFor="bcoUpload">Upload a BCO</label>
                       <FileUpload />
                     </Grid>
-                    <br/>
-                    <Grid item>
-                      <Button 
-                        className="derive-button"
-                        type='submit'
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {handleDerive(jsonData)}}
-                      > Derive BCO </Button>
-                    </Grid>
                   </Collapse>
                 </div>
               </Grid>
@@ -484,6 +469,7 @@ export const  BuilderColorCode = () => {
               </TabPanel>
             </Grid>
           </Grid>
+          <NotificationBox />
         </Paper>
       </div>
       <br/>

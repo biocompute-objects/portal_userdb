@@ -4,7 +4,7 @@ import {Card, Typography, CardContent, Grid, Button} from "@material-ui/core";
 import { Formik, Form, FieldArray } from "formik";
 
 import { useSelector, useDispatch } from "react-redux"
-import { updateParametricDomain, updateModified } from "../../slices/bcoSlice"
+import { updateParametricDomain } from "../../slices/bcoSlice"
 
 import { MyTextField } from "./specialFeilds"
 
@@ -28,7 +28,6 @@ export const  ParametricDomain = ({onSave}) => {
               (myData, {setSubmitting}) => {
                 setSubmitting(true);
                 dispatch(updateParametricDomain(myData["parametric_domain"]));
-                dispatch(updateModified());
                 setSubmitting(false);
                 onSave()
               }
@@ -80,7 +79,7 @@ export const  ParametricDomain = ({onSave}) => {
                     />                
                   </Grid>   
                   <div style={{padding: 20}}> 
-                    <Button disabled={isSubmitting} type='submit' variant="contained" color="primary"> Next </Button>
+                    <Button disabled={isSubmitting} type='submit' variant="contained" color="primary"> Save </Button>
                   </div>
                       
 
