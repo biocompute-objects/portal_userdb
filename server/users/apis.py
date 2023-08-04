@@ -164,11 +164,6 @@ class UserUpdateApi(APIView):
         if profile.orcid != data["orcid"]:
             bcodbs = get_all_bcodbs(profile)
             if data['orcid'] == '':
-                auth_obj = {
-                    "iss": "https://" + profile.orcid.split("/")[-2],
-                    "sub": profile.orcid.split("/")[-1]
-                }
-                print('Remove')
                 for bcodb in bcodbs:
                     remove_authentication(token, auth_obj, bcodb)
             else:

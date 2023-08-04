@@ -7,21 +7,25 @@ import {
   CardContent,
   Paper
 } from "@material-ui/core";
+
 import {
   Formik,
   Form,
-  Field,
   FieldArray
 } from "formik";
+
 import {
   useSelector,
   useDispatch
 } from "react-redux"
+
 import {
   updateUsability,
   updateModified
 } from "../../slices/bcoSlice"
+
 import { LargeTextField } from "./specialFeilds";
+import { Next } from "./components";
 
 export const  UsabilityDomain = ({onSave}) => {
   const dispatch = useDispatch();
@@ -45,7 +49,7 @@ export const  UsabilityDomain = ({onSave}) => {
           }
         >
           {
-            ({values, isSubmitting,errors}) => (
+            ({values, isSubmitting, errors}) => (
               <Form>
                 <FieldArray name='usability_domain'>
                   {arrayHelpers => (
@@ -54,7 +58,7 @@ export const  UsabilityDomain = ({onSave}) => {
                         <Grid item key={index}>
                           <LargeTextField name={`usability_domain.${index}`} />
                           <button type="button" onClick={() => arrayHelpers.remove(index)}
-                          > - </button>
+                          > Remove </button>
                         </Grid>
                       ))}
                       <Button type="button" onClick={() => arrayHelpers.push("")}>Add </Button>
@@ -62,8 +66,7 @@ export const  UsabilityDomain = ({onSave}) => {
                   )}
                 </FieldArray>
                 <div>
-                  <Button disabled={isSubmitting} varient="contained" color="primary" type='submit'> Next </Button>
-                </div>
+                  <Next />
               </Form>
             )
           }

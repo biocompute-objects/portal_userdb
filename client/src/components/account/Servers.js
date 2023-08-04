@@ -5,7 +5,7 @@ import {
   Button, Card, CardContent, CardHeader, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, makeStyles, TextField, Typography
 } from "@material-ui/core"
 import { useSelector, useDispatch } from "react-redux";
-import { removeBcoDb, groupsPermissions, groupInfo } from "../../slices/accountSlice";
+import { removeBcoDb, resetToken } from "../../slices/accountSlice";
 import AddServer from "./AddServer";
 import { useNavigate } from "react-router-dom";
 
@@ -63,6 +63,16 @@ export default function Servers() {
       })
     setOpen(false);
   };
+
+  const handleTokenReset = (index) => {
+    const { public_hostname, token } = bcodbs[index]
+    console.log("Dispatch", public_hostname, token)
+    dispatch(resetToken({public_hostname, token}))
+      .unwrap()
+      .catch((error) =>{
+        console.log(error);
+      })
+  }
 
   return (
     <Container elevation={2}>
@@ -151,6 +161,11 @@ export default function Servers() {
                   >Cancel</Button>
                 </DialogActions>
               </Dialog>
+              <Button
+                variant="outlined"
+                onClick={() => handleTokenReset(index)}
+                disabled={database.recent_status !== "200"}
+              >Reset API Token</Button>
             </CardContent>
           </Card>
         ))

@@ -4,7 +4,7 @@ import {Card, Typography, CardContent, Grid, Button} from "@material-ui/core";
 import { Formik, Form, FieldArray } from "formik";
 
 import { useSelector, useDispatch } from "react-redux"
-import { updateIODomain } from "../../slices/bcoSlice"
+import { updateIODomain, updateModified } from "../../slices/bcoSlice"
 
 import { MyTextField } from "./specialFeilds"
 import { Uri } from "./components"
@@ -33,6 +33,7 @@ export const  IODomain = ({onSave}) => {
               (myData, {setSubmitting}) => {
                 setSubmitting(true);
                 dispatch(updateIODomain(myData));
+                dispatch(updateModified());
                 setSubmitting(false);
                 onSave()
               }
