@@ -67,7 +67,6 @@ export const  UsabilityDomain = ({onSave}) => {
                 </FieldArray>
                 <div>
                   <Next />
-                </div>
               </Form>
             )
           }
