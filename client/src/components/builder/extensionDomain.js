@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux"
 import { Card, CardContent, TextField, Typography, Grid, Button, Paper } from "@material-ui/core";
-import { addExtensionDomain, deleteExtensionDomain, updateModified } from "../../slices/bcoSlice"
+import { addExtensionDomain, getExtension, deleteExtensionDomain, updateModified } from "../../slices/bcoSlice"
 import { Extension } from "./extension";
 import { Next } from "./components";
 
@@ -11,16 +11,27 @@ export const  ExtensionDomain = ({onSave}) => {
   const [newSchema, setNewSchema] = React.useState("")
   let has_extension = extensionDomain.length > 0
 
+  const errorSchema = {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+      "message": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "message"
+    ]
+  }
+
   const addExtension = async () => {
-    await fetch(newSchema)
-      .then((response) => response.json())
-      .then((jsonData) => {
-        console.log(has_extension, jsonData);
+    dispatch(getExtension({newSchema}))
+      .unwrap()
+      .then((
         dispatch(addExtensionDomain({extension_schema: newSchema}))
-      })
+      ))
       .catch((error) => {
-        console.log(`ERROR: ${error}`);
-        global.window.alert(`Fetch schema from '${newSchema}' FAILED: ${error}`);
+        console.log("ERROR: ", error)
       });
     dispatch(updateModified())
     setNewSchema("");

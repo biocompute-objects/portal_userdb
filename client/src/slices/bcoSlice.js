@@ -41,7 +41,6 @@ const bcoSlice = createSlice({
       state["data"]["provenance_domain"] = action.payload;
     },
     addExtensionDomain: (state, action) => {
-      console.log("action",action.payload)
       state["data"]["extension_domain"].push(action.payload);
     },
     deleteExtensionDomain: (state, action) => {
@@ -56,7 +55,6 @@ const bcoSlice = createSlice({
     },
     updateModified: (state) => {
       state["data"]["provenance_domain"]["modified"] = new Date().toISOString().split(".")[0]
-      console.log("modified", state["data"]["provenance_domain"]["modified"])
     },
     updateUsability: (state, action) => {
       state["data"]["usability_domain"] = action.payload;
@@ -130,7 +128,6 @@ const bcoSlice = createSlice({
       .addCase(getPubBco.fulfilled, (state, action) => {
         state.status = "succeeded"
         state.status = "idle"
-        console.log(action.payload)
         state.data = action.payload
       })
       .addCase(getPubBco.rejected, (state) => {
@@ -157,10 +154,15 @@ const bcoSlice = createSlice({
           state.status = "valid"
           state.error = "null"
         } else {
-          console.log(action.payload)
           state.status = "invalid"
           state.error = action.payload
         }
+      })
+      .addCase(getExtension.fulfilled, (state, action) => {
+        console.log(action.payload)
+      })
+      .addCase(getExtension.rejected, (state, action) => {
+        console.log(action)
       })
   }
 })
@@ -190,7 +192,6 @@ export const updateDraftBco = createAsyncThunk(
   "updateDraft",
   async ({bcoURL, bcoObject}, thunkAPI) => {
     try {
-      console.log("bcoURL: ", bcoURL);
       const response = await BcoService.updateDraftBco(bcoURL, bcoObject);
       thunkAPI.dispatch(setMessage(response.data[0].message))
       return response.data;
@@ -211,7 +212,6 @@ export const publishDraftBco = createAsyncThunk(
   "publishDraft",
   async ({prefix, bcoURL, bcoObject}, thunkAPI) => {
     try {
-      console.log("bcoURL: ", bcoURL);
       const response = await BcoService.publishDraftBco(prefix, bcoURL, bcoObject);
       thunkAPI.dispatch(setMessage(response.data[0].message))
       return response.data;
@@ -253,20 +253,26 @@ export const validateBco = createAsyncThunk(
   }
 )
 
-export const addExtension = createAsyncThunk(
-  "addExtension",
-  async ({newSchema}, thunkAPI) => {
+export const getExtension = createAsyncThunk(
+  "getExtension",
+  async ({schemaUrl}, thunkAPI) => {
     try {
-      const schema = await BcoService.addExtension(newSchema);
+      const schema = await BcoService.getExtension(schemaUrl);
       return schema;
     } catch (error) {
-      const message =
+      if (error.response.status === 404) {
+        const message = `Unable to resolve extension schema URL:
+        ${schemaUrl}`
+        thunkAPI.dispatch(setMessage(message));
+      } else {
+        const message =
         (error.response &&
           error.response.data &&
           error.response.data.message) ||
         error.message ||
         error.toString();
-      thunkAPI.dispatch(setMessage(message));
+        thunkAPI.dispatch(setMessage(message));
+      }
       return thunkAPI.rejectWithValue();
     }
   }
