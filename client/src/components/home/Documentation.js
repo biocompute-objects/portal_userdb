@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 
 import mediaWiki from "../../images/mediawikiwiki.svg";
+import api from "../../images/api.jpeg";
 
 const useStyles = makeStyles({
   bullet: {
@@ -42,7 +43,7 @@ const useStyles = makeStyles({
 export default function Documentation() {
   const classes = useStyles();
   const wikiLink = "https://wiki.biocomputeobject.org/index.php?title=Main_Page";
-  const docsLink = "https://docs.biocomputeobject.org/";
+  const apiLink = "https://biocomputeobject.org/api/docs/";
 
   return (
     <Card className={classes.supportCard} elevation={1}>
@@ -54,11 +55,12 @@ export default function Documentation() {
       <CardActionArea onClick={() => global.window.open(docsLink)}>
         <CardContent>
           <Typography className={classes.subtitle}>
-            BCO Docs Site
+          <img src={api} height={25} alt="api logo" />
+            Swagger/API
             <br />
           </Typography>
           <Typography className={classes.bullet}>
-            User Guide, Best Practices, tutorial
+            Access BioCompute API
           </Typography>
         </CardContent>
       </CardActionArea>
