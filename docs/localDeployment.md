@@ -192,13 +192,13 @@ EX: http://localhost:8000/api/admin/
 
 ##### For Windows:
 
-'cd client'
+`cd client`
 
-'python -m venv env'
+`python -m venv env`
 
-'source env/Scripts/activate'
+`source env/Scripts/activate`
 
-'pip install -r requirements.txt'
+`pip install -r requirements.txt`
 
 
 #### Modify the Config file
@@ -218,6 +218,11 @@ EX: http://localhost:8000/api/admin/
 - On linux (or MAC) generate a 32-bytes long PSK key using the openssl command for the `DJANO_KEY`:
 
 `openssl rand -base64 32`
+
+- On Windows, generate a 32-bytes long PSK key using the PowerShell command for the `DJANGO_KEY`:
+   
+`[Convert]::ToBase64String((1..32 | ForEach-Object { Get-Random -Minimum 0 -Maximum 256 }) -as [byte[]])`
+
 
 - Update the `.secrets` file with the required keys: 
 
@@ -266,6 +271,10 @@ If it worked you should be able to login using the SuperUser credentials you cre
 ## BCO Portal Client deployment  (portal_userdb/client)
 
 `cd /client/`
+
+##### For Windows: 
+
+`cd client/`
 
 **Install packages**
 
