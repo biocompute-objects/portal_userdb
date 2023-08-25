@@ -89,3 +89,22 @@
   flex-wrap: wrap;
   margin: 0 -15px;
 }
+
+.nav-link {
+  text-decoration: none;
+  color: inherit; /* Inherits the color from its parent */
+  /* Add any additional styling you want */
+}
+
+.hover-background {
+  color: inherit;
+  transition: background-color 0.3s ease;
+}
+
+.white-icon {
+  color: white;
+}
+
+.hover-background:hover {
+  background-color: inherit; /* Change to the desired background color on hover */
+}
