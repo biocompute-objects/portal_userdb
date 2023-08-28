@@ -10,6 +10,7 @@ export const FileUpload = () => {
       
     reader.onload = (event) => {
       const fileContent = JSON.parse(event.target.result);
+      fileContent.object_id = "";
       console.log(fileContent)
       dispatch(updateBco(fileContent))
     };
