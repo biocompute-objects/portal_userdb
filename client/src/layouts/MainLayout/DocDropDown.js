@@ -6,12 +6,12 @@ import MenuButton from "@mui/joy/MenuButton";
 import Dropdown from "@mui/joy/Dropdown";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import { Tooltip } from "@material-ui/core";
-import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
-import ApiOutlinedIcon from '@mui/icons-material/ApiOutlined';
-import WebhookOutlinedIcon from '@mui/icons-material/WebhookOutlined';
-import SettingsInputAntennaIcon from '@mui/icons-material/SettingsInputAntenna';
+import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
+import ApiOutlinedIcon from "@mui/icons-material/ApiOutlined";
+import WebhookOutlinedIcon from "@mui/icons-material/WebhookOutlined";
+import SettingsInputAntennaIcon from "@mui/icons-material/SettingsInputAntenna";
 import { ListItemDecorator } from "@mui/joy";
-import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
+import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 
 export default function DocDropDown() {
   return (
@@ -23,11 +23,11 @@ export default function DocDropDown() {
         endDecorator={<ArrowDropDown className="white-icon"/>}
       >
         <Tooltip title="Documentation">
-        <DescriptionOutlinedIcon className="hover-background white-icon" title="Documentation" />
+          <DescriptionOutlinedIcon className="hover-background white-icon" />
         </Tooltip>
       </MenuButton>
       <Menu placement="bottom-end">
-      <MenuItem
+        <MenuItem
           component="a"
           href="https://wiki.biocomputeobject.org/index.php?title=Quick_Start_Guide"
           target="_blank"
