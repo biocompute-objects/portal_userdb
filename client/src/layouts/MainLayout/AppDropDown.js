@@ -4,15 +4,13 @@ import Menu from "@mui/joy/Menu";
 import MenuItem from "@mui/joy/MenuItem";
 import Apps from "@mui/icons-material/Apps";
 import Dropdown from "@mui/joy/Dropdown";
-// import AppRegistrationOutlinedIcon from "@mui/icons-material/AppRegistrationOutlined";
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { ListItemDecorator } from "@mui/joy";
-import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
+import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import IconButton from "@mui/joy/IconButton";
 import { Tooltip } from "@material-ui/core";
-// import { Mode } from "@mui/icons-material";
-import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
+import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
 
 export default function APP() {
   return (
@@ -21,9 +19,10 @@ export default function APP() {
         slots={{ root: IconButton }}
         slotProps={{ root: { color: "secondary" } }}
         title="Apps"
-        endDecorator={<ArrowDropDown className="white-icon"/>}>
+        endDecorator={<ArrowDropDown className="white-icon"/>}
+      >
         <Tooltip title="App">
-        <Apps className="hover-background white-icon" title="App" fontSize="18px"/>
+          <Apps className="hover-background white-icon" fontSize="18px"/>
         </Tooltip>
       </MenuButton>
       <Menu>

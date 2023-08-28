@@ -1,13 +1,11 @@
 import React from "react";
 import {Card, Typography, CardContent, Grid, Button} from "@material-ui/core";
-
 import { Formik, Form, FieldArray } from "formik";
-
 import { useSelector, useDispatch } from "react-redux"
 import { updateIODomain, updateModified } from "../../slices/bcoSlice"
-
 import { MyTextField } from "./specialFeilds"
 import { Uri } from "./components"
+import { removeEmptyValues } from "./components";
 
 export const  IODomain = ({onSave}) => {
   const dispatch = useDispatch();
@@ -31,8 +29,9 @@ export const  IODomain = ({onSave}) => {
             }
             onSubmit={
               (myData, {setSubmitting}) => {
+                const cleanData = removeEmptyValues(myData)
                 setSubmitting(true);
-                dispatch(updateIODomain(myData));
+                dispatch(updateIODomain(cleanData));
                 dispatch(updateModified());
                 setSubmitting(false);
                 onSave()
@@ -106,7 +105,7 @@ export const  IODomain = ({onSave}) => {
                                   <Grid container spacing={2} alignItems='center' justifyContent='center'>
                                     {/** both these conventions do the same */}
                                     <Grid item xs>
-                                      <MyTextField name={`output_subdomain[${index}].mediatype`} label="Media Type"/>
+                                      <MyTextField name={`output_subdomain[${index}].mediatype`} label="Media Type" isRequired/>
                                     </Grid>
                                     <Uri uri_element={`output_subdomain[${index}].uri`}/>
                                                     
