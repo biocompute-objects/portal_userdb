@@ -3,7 +3,8 @@
 import axios from "axios";
 
 const getExtension = async (schemaUrl) => {
-  const response = await axios.get(schemaUrl);
+  const secureUrl = schemaUrl.replace("http://", "https://")
+  const response = await axios.get(secureUrl);
   return response.data
 }
 
