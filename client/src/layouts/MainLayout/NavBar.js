@@ -27,7 +27,7 @@ import QuickSearch from "../../components/quickSearch";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   nav: {
     backgroundColor: theme.palette.primary.main,
@@ -294,12 +294,12 @@ const NavBar = () => {
           <Typography className={classes.title} variant='h6' noWrap>
             <a href="/" className="nav-link">BioCompute Object Portal </a>
           </Typography>
-          <div className={classes.grow} />
+          <div className={classes.grow}>
+            <QuickSearch />
+          </div>
           <div className={classes.sectionDesktop}>
             {auth.user ? (
               <>
-                <QuickSearch/>
-                <></>
                 <Tooltip title="Apps">
                   <><AppDropDown /></>
                 </Tooltip>
