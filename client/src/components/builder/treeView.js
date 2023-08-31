@@ -4,8 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import ReactJson from "react-json-view"
 import { updateBco } from "../../slices/bcoSlice";
 
-import "../../styles.css";
-
 export const TreeView = () => {
   const bco = useSelector(state => state.bco.data);
   // const [ bcodbInfo, setBcodbInfo ] = useState([])

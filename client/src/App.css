@@ -1,47 +1,7 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.rdt .rdtPicker{
-  position:relative
-}
+/* App.css */
 
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
+/* about pages */
 .member-image {
   width: 150px;
   height: 150px;
@@ -107,4 +67,34 @@
 
 .hover-background:hover {
   background-color: inherit; /* Change to the desired background color on hover */
+}
+
+
+/* Object Views */
+
+.viewer-root {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+
+.viewer-wrapper {
+  display: flex;
+  flex: 1 1 auto;
+  overflow: hidden;
+  padding-top: 64;
+}
+
+.viewer-container {
+  display: flex;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.viewer-content {
+  flex: 1 1 auto;
+  height: 100%;
+  overflow: auto;
+  padding-top: 75px;
 }

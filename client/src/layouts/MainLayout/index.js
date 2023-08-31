@@ -3,7 +3,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
-import NavBar from "./NavBar";
+import NavBar from "./MainNavBar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
