@@ -19,10 +19,10 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import { Link } from "react-router-dom";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import DocDropDown from "./DocDropDown";
-import AppDropDown from "./AppDropDown";
+import DocDropDown from "../shared/DocDropDown";
+import AppDropDown from "../shared/AppDropDown";
 import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
-import HelpDropDown from "./HelpDropDown";
+import HelpDropDown from "../shared/HelpDropDown";
 import QuickSearch from "../../components/quickSearch";
 
 const useStyles = makeStyles((theme) => ({

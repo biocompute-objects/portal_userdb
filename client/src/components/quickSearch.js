@@ -1,22 +1,14 @@
 import React, { useState } from "react";
-import { Button, Input, TextField } from "@material-ui/core";
+import { Input} from "@material-ui/core";
 import { searchBcodb } from "../slices/searchSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
-import InputAdornment from '@mui/material/InputAdornment';
-import InputLabel from '@mui/material/InputLabel';
-import SearchIcon from '@mui/icons-material/Search';
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles((theme) => ({
-  search: {
-    color: "white",
-  }
-}))
+import { useNavigate } from "react-router-dom";
+import InputAdornment from "@mui/material/InputAdornment";
+import SearchIcon from "@mui/icons-material/Search";
+import "../App.css";
 
 
 export default function QuickSearch () {
-  const classes = useStyles();
   const navigate = useNavigate();
   const [quickSearch, setQuickSearch] = useState("")
   const dispatch = useDispatch();
@@ -41,13 +33,13 @@ export default function QuickSearch () {
 
   return (
     <Input
-      className={classes.search}
+      className="white-icon"
       id="bcodb"
       value={quickSearch}
       variant="outlined" 
       startAdornment={
         <InputAdornment position="end">
-          <SearchIcon className={classes.search}/>
+          <SearchIcon className="white-icon"/>
         </InputAdornment>
       }
       onChange={(e) => setQuickSearch(e.target.value)}
