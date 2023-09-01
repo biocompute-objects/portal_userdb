@@ -1,5 +1,4 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, {useEffect, useState} from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -19,45 +18,21 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import { Link } from "react-router-dom";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import DocDropDown from "../shared/DocDropDown";
-import AppDropDown from "../shared/AppDropDown";
+import DocDropDown from "./shared/DocDropDown";
+import AppDropDown from "./shared/AppDropDown";
 import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
-import HelpDropDown from "../shared/HelpDropDown";
-import QuickSearch from "../../components/quickSearch";
-
-const useStyles = makeStyles((theme) => ({
-  grow: {
-    flexGrow: 1,
-  },
-  imageContainer: {
-    maxWidth: "100%",
-    height: "auto",
-    "& img": {
-      width: "2em"
-    }
-  },
-  sectionDesktop: {
-    display: "none",
-    [theme.breakpoints.up("sm")]: {
-      display: "flex"
-    }
-  },
-  sectionMobile: {
-    display: "flex",
-    [theme.breakpoints.up("sm")]: {
-      display: "none"
-    }
-  }
-}));
+import HelpDropDown from "./shared/HelpDropDown";
+import QuickSearch from "../components/quickSearch";
 
 const NavBar = () => {
-  const classes = useStyles();
+  const auth = useSelector((state) => state.account);
+  const [windowWidth, setWindowWidth] = useState(global.window.innerWidth);
+  
+  
   /* Should hold reference to DOM element, set anchorEl when
   menu is clicked open.*/
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const auth = useSelector((state) => state.account);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
   /*The anchor pieces of state need to either be null or have a DOM element */
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
@@ -66,8 +41,21 @@ const NavBar = () => {
     setMobileMoreAnchorEl(null);
   };
 
+  useEffect(() => {
+    // Update window width when the component mounts and on window resize
+    const handleResize = () => {
+      setWindowWidth(global.window.innerWidth);
+    };
+
+    global.window.addEventListener("resize", handleResize);
+
+    return () => {
+      // Clean up the event listener when the component unmounts
+      global.window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const mobileMenuId = "menu-mobile";
-  /*Need to add switch in here */
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
@@ -78,11 +66,6 @@ const NavBar = () => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <QuickSearch
-          onClick={()=>{console.log(mobileMoreAnchorEl)}}
-        />
-      </MenuItem>
       <MenuItem component={Link} to='/'>
         <IconButton aria-label='go home' color='inherit'>
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
@@ -143,120 +126,52 @@ const NavBar = () => {
           <p>Contact Us</p>
         </MenuItem>
       </a>
-      <MenuItem component={Link} to='/profile'>
-        <IconButton
-          aria-label='account of current user'
-          aria-controls='primary-search-account-menu'
-          color='inherit'
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuNoLogIn = "menu-mobile";
-  /*Need to add switch in here */
-  const renderMenuNoLogIn = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem component={Link} to='/'>
-        <IconButton aria-label='go home' color='inherit'>
-          <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <HomeIcon />
-          </Badge>
-        </IconButton>
-        <p>Home</p>
-      </MenuItem>
-      <MenuItem component={Link} to='/builder'>
-        <IconButton aria-label='BioCompute Object builder' color='inherit'>
-          <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <ConstructionIcon />
-          </Badge>
-        </IconButton>
-        <p>BCO Builder</p>
-      </MenuItem>
-      <MenuItem component={Link} to="/prefix">
-        <IconButton aria-label='prefix registry' color='inherit'>
-          <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <AppRegistrationIcon />
-          </Badge>
-        </IconButton>
-        <p>Prefix Registry</p>
-      </MenuItem>
-      <MenuItem component={Link} to='/bcodbs'>
-        <IconButton aria-label='BCO DB' color='inherit'>
-          <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <DataObjectIcon />
-          </Badge>
-        </IconButton>
-        <p>BCO DB</p>
-      </MenuItem>
-      <MenuItem component={Link} to='/about'>
-        <IconButton aria-label='About Us' color='inherit'>
-          <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <InfoOutlinedIcon />
-          </Badge>
-        </IconButton>
-        <p>About Us</p>
-      </MenuItem>
-      <a href='https://github.com/biocompute-objects/portal_userdb/issues/new/choose' target='_blank' rel="noreferrer" >
-        <MenuItem>
-          <IconButton aria-label='BioCompute Object builder' color='inherit'>
-            <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-              <BugReportOutlinedIcon />
-            </Badge>
+      {auth.user ? (
+        <MenuItem component={Link} to='/profile'>
+          <IconButton
+            aria-label='account of current user'
+            aria-controls='primary-search-account-menu'
+            color='inherit'
+          >
+            <AccountCircle />
           </IconButton>
-          <p>Bug Report</p>
+          <p>Profile</p>
         </MenuItem>
-      </a>
-      <a href='https://docs.biocomputeobject.org/contact'>
-        <MenuItem>
-          <IconButton aria-label='BioCompute Object builder' color='inherit'>
-            <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-              <ContactPageIcon />
-            </Badge>
+      ) : (
+        <MenuItem component={Link} to='/login'>
+          <IconButton
+            aria-label='log in'
+            aria-controls='primary-search-account-menu'
+            color='inherit'
+          >
+            <LoginIcon />
           </IconButton>
-          <p>Contact Us</p>
+          <p>Login</p>
         </MenuItem>
-      </a>
-      <MenuItem component={Link} to='/login'>
-        <IconButton
-          aria-label='log in'
-          aria-controls='primary-search-account-menu'
-          color='inherit'
-        >
-          <LoginIcon />
-        </IconButton>
-        <p>Login</p>
-      </MenuItem>
+      )}
     </Menu>
   );
   
   return (
-    <header className={classes.grow}>
+    <header className="grow">
       <AppBar component='div'>
         <Toolbar component='nav' >
           <Tooltip title="Home">
             <Typography  variant='h6' noWrap>
               <a href="/" className="nav-link">
                 <HomeIcon />{" "}
-              BioCompute Object Portal
+                {windowWidth > 820 ? (
+                  "BioCompute Object Portal"
+                ) : (
+                  "BCP Portal"
+                )}
               </a>
             </Typography>
           </Tooltip>
-          <div className={classes.grow} />
+          <div className="grow" />
           <QuickSearch />
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
+          <div className="grow" />
+          <div className="section-desktop">
             <Tooltip title="Apps">
               <><AppDropDown /></>
             </Tooltip>
@@ -283,7 +198,7 @@ const NavBar = () => {
                     aria-haspopup='true'
                     color='inherit'
                   >
-                    <div className={classes.imageContainer}>
+                    <div className="image-container">
                       {
                         (auth.user.imageUrl)
                           ? (<img src={auth.user.imageUrl} alt="user profile"/>)
@@ -304,36 +219,21 @@ const NavBar = () => {
             )}
           </div>
 
-          <div className={classes.sectionMobile}>
-            {auth.user ? (
-              <>
-                <IconButton
-                  aria-label='show more'
-                  aria-controls={mobileMenuId}
-                  aria-haspopup='true'
-                  onClick={handleMobileMenuOpen}
-                  color='inherit'
-                >
-                  <MoreIcon />
-                </IconButton>
-              </>
-            ) : (
-              <>
-                <IconButton
-                  aria-label='show more'
-                  aria-controls={mobileMenuNoLogIn}
-                  aria-haspopup='true'
-                  onClick={handleMobileMenuOpen}
-                  color='inherit'
-                >
-                  <MoreIcon />
-                </IconButton>
-              </>
-            )}
+          <div className="section-mobile">
+            <IconButton
+              aria-label='show more'
+              aria-controls={mobileMenuId}
+              aria-haspopup='true'
+              onClick={handleMobileMenuOpen}
+              color='inherit'
+            >
+              <MoreIcon />
+            </IconButton>
+            
           </div>
         </Toolbar>
       </AppBar>
-      {auth.user ? renderMobileMenu : renderMenuNoLogIn}
+      {renderMobileMenu}
     </header>
   );
 };
