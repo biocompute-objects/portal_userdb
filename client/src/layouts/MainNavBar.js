@@ -163,7 +163,7 @@ const NavBar = () => {
                 {windowWidth > 820 ? (
                   "BioCompute Object Portal"
                 ) : (
-                  "BCP Portal"
+                  "BCO Portal"
                 )}
               </a>
             </Typography>

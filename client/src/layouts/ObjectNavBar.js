@@ -24,7 +24,7 @@ import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
 import HelpDropDown from "./shared/HelpDropDown";
 import QuickSearch from "../components/quickSearch";
 
-const NavBar = () => {
+const ObjectNavBar = () => {
   const auth = useSelector((state) => state.account);
   const [windowWidth, setWindowWidth] = useState(global.window.innerWidth);
   
@@ -153,7 +153,7 @@ const NavBar = () => {
   );
   
   return (
-    <header className="grow">
+    <header >
       <AppBar component='div'>
         <Toolbar component='nav' >
           <Tooltip title="Home">
@@ -163,7 +163,7 @@ const NavBar = () => {
                 {windowWidth > 820 ? (
                   "BioCompute Object Portal"
                 ) : (
-                  "BCP Portal"
+                  "BCO Portal"
                 )}
               </a>
             </Typography>
@@ -238,4 +238,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default ObjectNavBar;
