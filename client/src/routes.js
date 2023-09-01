@@ -4,7 +4,7 @@ import { useRoutes, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import MainLayout from "./layouts/MainLayout";
 import ObjectViewLayout from "./layouts/ObjectViewLayout";
-import { BuilderColorCode } from "./components/builder";
+import BuilderColorCode from "./components/builder";
 import About from "./components/about";
 import HomePage from "./components/home"
 import GroupsPage from "./components/account/bcodbGroups";
