@@ -86,9 +86,15 @@
   padding-top: 75px;
 }
 
+.outlet-main-content {
+  text-align: center;
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
 .outlet-content {
   flex: 1 1 auto;
-  overflow: auto; /* change back to auto ? */
+  overflow: auto;
 }
 
 /* NavBar styles */
