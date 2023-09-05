@@ -9,17 +9,17 @@ import {
   CardContent,
   CardHeader,
   Container,
-  TextField,
   Typography,
 } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { Field, Form, Formik } from "formik";
 import { MyTextField } from "../builder/specialFeilds";
-import { advSeachBcodb, searchBcodb } from "../../slices/searchSlice";
+import { advSeachBcodb } from "../../slices/searchSlice";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
+import QuickSearch from "../quickSearch";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -34,8 +34,7 @@ const ExpandMore = styled((props) => {
 
 export default function SearchOptions ({setBcodbInfo}) {
   const [expanded, setExpanded] = useState(false);
-  const bcodbUrl = process.env.REACT_APP_BCOAPI_URL
-  const [quickSearch, setQuickSearch] = useState("")
+  
   const dispatch = useDispatch();
   let isLoggedIn = useSelector((state) => state.account.isLoggedIn);
   
@@ -46,35 +45,14 @@ export default function SearchOptions ({setBcodbInfo}) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
-  const handleQuickSearch = (quickSearch, bcodbs) => {
-    if (isLoggedIn === true) {
-      const publicHostname = bcodbs[0]["public_hostname"]
-      console.log("search loged in", publicHostname, quickSearch)
-      dispatch(searchBcodb({publicHostname, quickSearch}))
-    } else {
-      const publicHostname = bcodbUrl.replace("/api/", "")
-      console.log("search nnot logged in", publicHostname, quickSearch)
-      dispatch(searchBcodb({publicHostname, quickSearch}))
-    }
-  }
  
   return (
     <Container>
       <Card>
-        <CardHeader title="Quick Search"/>
+        {/* <CardHeader title="Quick Search"/>
         <CardContent>
-          <TextField
-            value={quickSearch}
-            onChange={(e) => setQuickSearch(e.target.value)}
-            placeholder="Search BCO contents"
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => handleQuickSearch(quickSearch, bcodbs)}
-          >Submit</Button>
-        </CardContent>
+          <QuickSearch />
+        </CardContent> */}
         <CardActions disableSpacing>
           <CardHeader title="Advanced Search (click to expand)"/>
           <ExpandMore

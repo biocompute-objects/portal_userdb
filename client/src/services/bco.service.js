@@ -2,10 +2,10 @@
 
 import axios from "axios";
 
-const addExtension = async (newSchema) => {
-  console.log(newSchema)
-  const response = await axios.get(newSchema);
-  return response
+const getExtension = async (schemaUrl) => {
+  const secureUrl = schemaUrl.replace("http://", "https://")
+  const response = await axios.get(secureUrl);
+  return response.data
 }
 
 const getDraftBco = async (object_id) => {
@@ -19,7 +19,6 @@ const getDraftBco = async (object_id) => {
 }
 
 const getPubBco = async (object_id) => {
-  console.log(object_id)
   const response = await axios.get(object_id, {
     headers: {
       "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
@@ -68,7 +67,6 @@ const updateDraftBco = async (bcoURL, bcoObject) => {
 }
 
 const publishDraftBco = async (prefix, bcoURL, bcoObject) => {
-  console.log(bcoObject["object_id"], prefix)
   const response = await axios.post(`${bcoURL}objects/drafts/publish/`, {
     "POST_api_objects_drafts_publish": [
       {
@@ -109,7 +107,7 @@ const modifyGroup = async ({bcodb, request}) => {
 }
 
 const BcoService = {
-  addExtension,
+  getExtension,
   getDraftBco,
   getPubBco,
   createDraftBco,

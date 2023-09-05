@@ -9,6 +9,21 @@ import {
 import { Grid } from "@material-ui/core";
 import { Button, Card } from "@material-ui/core";
 
+export const removeEmptyValues = (myData) => {
+  const obj = JSON.parse(JSON.stringify(myData))
+  for (const key in obj) {
+    if (typeof obj[key] === "object" && obj[key] !== null) {
+      obj[key] = removeEmptyValues(obj[key]);
+      if (Object.keys(obj[key]).length === 0) {
+        delete obj[key];
+      }
+    } else if (!obj[key]) {
+      delete obj[key];
+    }
+  }
+  return obj;
+};
+
 export const Uri = ({uri_element}) => {
   return (
     <>
@@ -16,7 +31,7 @@ export const Uri = ({uri_element}) => {
         <MyTextField name={`${uri_element}["filename"]`} label="File name"/>
       </Grid>
       <Grid item xs>
-        <MyTextField name={`${uri_element}["uri"]`} label="URI"/>
+        <MyTextField name={`${uri_element}["uri"]`} label="URI" isRequired/>
       </Grid>
       <Grid item xs>
         <BaisicDateTimePicker name={`${uri_element}["access_time"]`} label="Access Time"/>

@@ -145,7 +145,7 @@ export const  DescriptionDomain = ({onSave}) => {
                                     }
                                     value={ref.ids}
                                     onChange={(e, new_id)=>{
-                                      setFieldValue("IDs", new_id);
+                                      setFieldValue(`xref[${index}].ids`, new_id);
                                     }}
                                     renderInput={(params) => (
                                       <TextField
@@ -182,7 +182,7 @@ export const  DescriptionDomain = ({onSave}) => {
                       onClick={() => arrayHelpers.push({
                         namespace: "",
                         name: "",
-                        ids: "",
+                        ids: [],
                         access_time: ""
                       })}
                     > Add External Reference</Button>

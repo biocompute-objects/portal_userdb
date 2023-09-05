@@ -1,6 +1,5 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -9,29 +8,26 @@ import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import HomeIcon from "@mui/icons-material/Home";
 import Menu from "@material-ui/core/Menu";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import LoginIcon from '@mui/icons-material/Login';
+import Tooltip from "@mui/material/Tooltip";
+import LoginIcon from "@mui/icons-material/Login";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-// import EditOutlinedIcon from "@mui/icons-material/Construction";
-// import SearchIcon from "@mui/icons-material/DataObject";
-import BugReportIcon from "@mui/icons-material/BugReport";
-// import GroupIcon from "@mui/icons-material/AppRegistration";
+import ConstructionIcon from "@mui/icons-material/Construction";
+import DataObjectIcon from "@mui/icons-material/DataObject";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import { useSelector } from "react-redux";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { Link } from "react-router-dom";
-// import SettingsInputAntennaIcon from "@mui/icons-material/MiscellaneousServices";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { Info } from "@mui/icons-material";
-import SettingsInputAntennaIcon from '@mui/icons-material/SettingsInputAntenna';
-// import SearchIcon from '@mui/icons-material/Storage';
-import SearchIcon from '@mui/icons-material/Search';
-import GroupIcon from '@mui/icons-material/Group';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import DocDropDown from "./DocDropDown";
+import AppDropDown from "./AppDropDown";
+import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
+import HelpDropDown from "./HelpDropDown";
+import QuickSearch from "../../components/quickSearch";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   nav: {
     backgroundColor: theme.palette.primary.main,
@@ -66,7 +62,38 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       display: "none"
     }
-  }
+  },
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: "#ffffff", // White background color
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: "150px",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(3),
+      width: "auto",
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: "80%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  inputRoot: {
+    color: "inherit",
+  },
+  inputInput: {
+    padding: theme.spacing(1),
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    textAlign:"center"
+  },
 }));
 
 const NavBar = () => {
@@ -97,6 +124,11 @@ const NavBar = () => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
+      <MenuItem>
+        <QuickSearch
+          onClick={()=>{console.log(mobileMoreAnchorEl)}}
+        />
+      </MenuItem>
       <MenuItem component={Link} to='/'>
         <IconButton aria-label='go home' color='inherit'>
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
@@ -105,18 +137,10 @@ const NavBar = () => {
         </IconButton>
         <p>Home</p>
       </MenuItem>
-      <MenuItem component={Link} to='/resources'>
-        <IconButton aria-label='BioCompute Object builder' color='inherit'>
-          <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <SettingsInputAntennaIcon />
-          </Badge>
-        </IconButton>
-        <p>BCO Resources</p>
-      </MenuItem>
       <MenuItem component={Link} to='/builder'>
         <IconButton aria-label='BioCompute Object builder' color='inherit'>
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <EditOutlinedIcon />
+            <ConstructionIcon />
           </Badge>
         </IconButton>
         <p>BCO Builder</p>
@@ -124,7 +148,7 @@ const NavBar = () => {
       <MenuItem component={Link} to="/prefix">
         <IconButton aria-label='prefix registry' color='inherit'>
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <GroupIcon />
+            <AppRegistrationIcon />
           </Badge>
         </IconButton>
         <p>Prefix Registry</p>
@@ -132,7 +156,7 @@ const NavBar = () => {
       <MenuItem component={Link} to='/bcodbs'>
         <IconButton aria-label='BCO DB' color='inherit'>
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <SearchIcon />
+            <DataObjectIcon />
           </Badge>
         </IconButton>
         <p>BCO DB</p>
@@ -149,7 +173,7 @@ const NavBar = () => {
         <MenuItem>
           <IconButton aria-label='BioCompute Object builder' color='inherit'>
             <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-              <BugReportIcon />
+              <BugReportOutlinedIcon />
             </Badge>
           </IconButton>
           <p>Bug Report</p>
@@ -198,18 +222,10 @@ const NavBar = () => {
         </IconButton>
         <p>Home</p>
       </MenuItem>
-      <MenuItem component={Link} to='/resources'>
-        <IconButton aria-label='BioCompute Object builder' color='inherit'>
-          <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <SettingsInputAntennaIcon />
-          </Badge>
-        </IconButton>
-        <p>BCO Resources</p>
-      </MenuItem>
       <MenuItem component={Link} to='/builder'>
         <IconButton aria-label='BioCompute Object builder' color='inherit'>
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <EditOutlinedIcon />
+            <ConstructionIcon />
           </Badge>
         </IconButton>
         <p>BCO Builder</p>
@@ -217,7 +233,7 @@ const NavBar = () => {
       <MenuItem component={Link} to="/prefix">
         <IconButton aria-label='prefix registry' color='inherit'>
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <GroupIcon />
+            <AppRegistrationIcon />
           </Badge>
         </IconButton>
         <p>Prefix Registry</p>
@@ -225,7 +241,7 @@ const NavBar = () => {
       <MenuItem component={Link} to='/bcodbs'>
         <IconButton aria-label='BCO DB' color='inherit'>
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-            <SearchIcon />
+            <DataObjectIcon />
           </Badge>
         </IconButton>
         <p>BCO DB</p>
@@ -242,7 +258,7 @@ const NavBar = () => {
         <MenuItem>
           <IconButton aria-label='BioCompute Object builder' color='inherit'>
             <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-              <BugReportIcon />
+              <BugReportOutlinedIcon />
             </Badge>
           </IconButton>
           <p>Bug Report</p>
@@ -276,72 +292,32 @@ const NavBar = () => {
       <AppBar position='static' component='div'>
         <Toolbar component='nav' className={classes.nav}>
           <Typography className={classes.title} variant='h6' noWrap>
-            BioCompute Object Portal
+            <a href="/" className="nav-link">BioCompute Object Portal </a>
           </Typography>
-          <div className={classes.grow} />
+          <div className={classes.grow}>
+            <QuickSearch />
+          </div>
           <div className={classes.sectionDesktop}>
             {auth.user ? (
               <>
-                <Tooltip title="Home">
-                  <IconButton component={Link} to='/' aria-label='go home' color='inherit'>
-                    <HomeIcon />
-                  </IconButton>
+                <Tooltip title="Apps">
+                  <><AppDropDown /></>
                 </Tooltip>
-                <Tooltip title="BCO Resources">
-                  <IconButton component={Link} to='/resources' aria-label='BCO builder' color='inherit'>
-                    <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                      <SettingsInputAntennaIcon />
-                    </Badge>
-                  </IconButton>
+                <Tooltip title="Documentation">
+                  <><DocDropDown /></>
                 </Tooltip>
-                <Tooltip title="BCO Builder">
-                  <IconButton component={Link} to='/builder' aria-label='BCO builder' color='inherit'>
-                    <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                      <EditOutlinedIcon />
-                    </Badge>
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Prefix registry">
-                  <IconButton component={Link} to="/prefix" aria-label='prefix registry' color='inherit'>
-                    <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                      <GroupIcon />
-                    </Badge>
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="BioCompute Object DB">
-                  <IconButton component={Link} to='/bcodbs' aria-label='show 0 new notifications' color='inherit'>
-                    <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                      <SearchIcon />
-                    </Badge>
-                  </IconButton>
+                <Tooltip title="Help">
+                  <><HelpDropDown /></>
                 </Tooltip>
                 <Tooltip title="About Us">
-                  <IconButton component={Link} to='/about' aria-label='show 0 new notifications' color='inherit'>
+                  <><IconButton component={Link} to='/about' aria-label='show 0 new notifications' color='inherit'>
                     <Badge overlap="rectangular" badgeContent={0} color='secondary'>
                       <InfoOutlinedIcon />
                     </Badge>
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Bug Report">
-                  <a href='https://github.com/biocompute-objects/portal_userdb/issues/new/choose' target='_blank' rel="noreferrer" >
-                    <IconButton aria-label='BCO builder' color='inherit'>
-                      <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                        <BugReportIcon />
-                      </Badge>
-                    </IconButton>
-                  </a>
-                </Tooltip>
-                <Tooltip title="Contact us">
-                  <a href='https://docs.biocomputeobject.org/contact' target='_blank' rel="noreferrer">
-                    <IconButton aria-label='BCO builder' color='inherit'>
-                      <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                        <ContactPageIcon />
-                      </Badge>
-                    </IconButton>
-                  </a>
+                  </IconButton></>
                 </Tooltip>
                 <Tooltip title="Profile Page">
-                  <IconButton
+                  <><IconButton
                     component={Link} to='/profile'
                     edge='end'
                     aria-label='account of current user'
@@ -355,69 +331,27 @@ const NavBar = () => {
                           : (<div>{auth.user.userinfo.username}</div>)
                       }
                     </div>
-                  </IconButton>
+                  </IconButton></>
                 </Tooltip>
               </>
             ) : (
               <>
-                <Tooltip title="Home">
-                  <IconButton component={Link} to='/' aria-label='go home' color='inherit'>
-                    <HomeIcon />
-                  </IconButton>
+                <Tooltip title="Apps">
+                  <><AppDropDown /></>
                 </Tooltip>
-                <Tooltip title="BCO Resources">
-                  <IconButton component={Link} to='/resources' aria-label='BCO builder' color='inherit'>
-                    <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                      <SettingsInputAntennaIcon />
-                    </Badge>
-                  </IconButton>
+                <Tooltip title="Documentation">
+                  <><DocDropDown /></>
                 </Tooltip>
-                <Tooltip title="BCO Builder">
-                  <IconButton component={Link} to='/builder' aria-label='BCO builder' color='inherit'>
-                    <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                      <EditOutlinedIcon />
-                    </Badge>
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Prefix registry">
-                  <IconButton component={Link} to="/prefix" aria-label='prefix registry' color='inherit'>
-                    <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                      <GroupIcon />
-                    </Badge>
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="BioCompute Object DB">
-                  <IconButton component={Link} to='/bcodbs' aria-label='show 0 new notifications' color='inherit'>
-                    <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                      <SearchIcon />
-                    </Badge>
-                  </IconButton>
+                <Tooltip title="Help">
+                  <><HelpDropDown /></>
                 </Tooltip>
                 <Tooltip title="About Us">
                   <IconButton component={Link} to='/about' aria-label='show 0 new notifications' color='inherit'>
                     <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                      <InfoOutlinedIcon />
+                      <InfoOutlinedIcon className="hover-background white-icon" />
                     </Badge>
                   </IconButton>
-                </Tooltip>
-                <Tooltip title="Bug Report">
-                  <a href='https://github.com/biocompute-objects/portal_userdb/issues/new/choose' target='_blank' rel="noreferrer">
-                    <IconButton aria-label='BCO builder' color='inherit'>
-                      <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                        <BugReportIcon />
-                      </Badge>
-                    </IconButton>
-                  </a>
-                </Tooltip>
-                <Tooltip title="Contact us">
-                  <a href='https://docs.biocomputeobject.org/contact' target='_blank' rel="noreferrer">
-                    <IconButton aria-label='BCO builder' color='inherit'>
-                      <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                        <ContactPageIcon />
-                      </Badge>
-                    </IconButton>
-                  </a>
-                </Tooltip>
+                </Tooltip> 
                 <IconButton component={Link} to='/login' aria-label='log in' color='inherit'>
                   <Typography variant='h6' component='h6'>
                     Log in
@@ -426,6 +360,7 @@ const NavBar = () => {
               </>
             )}
           </div>
+
           <div className={classes.sectionMobile}>
             {auth.user ? (
               <>
