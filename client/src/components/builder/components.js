@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   MyTextField,
   MultiSelector,
@@ -8,6 +8,9 @@ import {
 } from "./specialFeilds"
 import { Grid } from "@material-ui/core";
 import { Button, Card } from "@material-ui/core";
+import { useFormikContext } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import { updateBcoStatus } from "../../slices/bcoSlice";
 
 export const removeEmptyValues = (myData) => {
   const obj = JSON.parse(JSON.stringify(myData))
@@ -79,4 +82,15 @@ export const Reviewer = ({reviewer, reviewerPath}) => {
       <Contribution contributor={reviewer.reviewer} contributorPath={`${reviewerPath}.reviewer`}/>
     </Card>
   )
+}
+
+export const FormObserver = () => {
+  const { dirty } = useFormikContext();
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(updateBcoStatus(dirty))  
+  }, [dirty]);
+
+  return null
 }

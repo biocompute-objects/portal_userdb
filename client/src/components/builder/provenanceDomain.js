@@ -1,9 +1,8 @@
-import * as React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import * as Yup from "yup";
 import {Card, CardContent, Typography, Grid, Button, Paper } from "@material-ui/core";
 import { Formik, Form, FieldArray } from "formik";
-import { Contribution, Reviewer, Next } from "./components";
-
+import { Contribution, FormObserver, Reviewer, Next } from "./components";
 import { useSelector, useDispatch } from "react-redux"
 import { BaisicDateTimePicker, MyTextField } from "./specialFeilds";
 import { updateProvenanceDomain, updateModified } from "../../slices/bcoSlice"
@@ -17,6 +16,7 @@ export const  ProvenanceDomain = ({onSave} ) => {
   let is_derived = "derived_from" in provenanceDomain;
   const [obsolete, setObsolete] = useState("obsolete_after" in provenanceDomain)
   const [embargo, setEmbargo] = useState("embargo" in provenanceDomain)
+
   return (
     <>
       <Card> 
@@ -54,6 +54,7 @@ export const  ProvenanceDomain = ({onSave} ) => {
                 onSave()
               }
             }
+            
             validate={
               (values) => {
                 const errors = {};
@@ -65,11 +66,12 @@ export const  ProvenanceDomain = ({onSave} ) => {
             }
           >
             {
-              ({values, isSubmitting, errors, setFieldValue}) => (
-            
+              ({values, isSubmitting, errors, setFieldValue}) => (              
                 <Form>
+                  <FormObserver />
                   <Grid container spacing={2}>
                     <Grid container spacing={2}>
+                      
                       <Grid item xs> 
                         <MyTextField name="name" type="input" placeholder="Name" label='Name' isRequired isFullWidth/>
                       </Grid>

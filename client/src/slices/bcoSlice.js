@@ -15,7 +15,8 @@ const bcoSlice = createSlice({
         license: "",
         created: new Date().toISOString().split(".")[0],
         modified: new Date().toISOString(),
-        contributors: []
+        contributors: [{name:"",affiliation:"",email:"",contribution:[],orcid:""}
+        ]
       },
       usability_domain: [],
       description_domain: {
@@ -37,6 +38,15 @@ const bcoSlice = createSlice({
     error: null
   },
   reducers: { // list of functions action
+    updateBcoStatus: (state, action) => {
+      if (action.payload === true) {
+        state["status"] = "writing"
+      }
+      if (action.payload === false) {
+        state["status"] = "idle"
+      }
+      console.log(action.payload)
+    },
     updateProvenanceDomain: (state, action) => {
       state["data"]["provenance_domain"] = action.payload;
     },
@@ -337,6 +347,7 @@ export const modifyGroup = createAsyncThunk(
 export const bcoReducer = bcoSlice.reducer;
 export const bcoStatus = state => state.bco.status
 export const {
+  updateBcoStatus,
   updateProvenanceDomain,
   updateUsability,
   addUsability,

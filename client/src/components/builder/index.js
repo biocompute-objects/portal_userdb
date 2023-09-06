@@ -10,12 +10,28 @@ import { ExecutionDomain } from "./executionDomain";
 import { TreeView } from "./treeView";
 import { ExtensionDomain } from "./extensionDomain";
 import { RawJson } from "./rawJson";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux"
+import objectHash from "object-hash";
+import NotificationBox from "../NotificationBox";
+import {
+  getDraftBco,
+  updateETag,
+} from "../../slices/bcoSlice";
 
 export default function BuilderColorCode () {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const bco = useSelector(state => state.bco.data);
   const {domain, setDomain} = useOutletContext()
+  const hash = (bco) => objectHash(bco,{ excludeKeys: function(key) {
+    if (( key === "object_id" ) || (key === "etag") || (key === "spec_version")) {
+      return true;
+    }
+    return false;
+  }
+  })
+
   function TabPanel(props) {
     const { children, domain, index, ...other } = props;
     return (
@@ -45,9 +61,43 @@ export default function BuilderColorCode () {
     setDomain(domain+1)
   }
 
+  function validURL(url) {
+    try {
+      new URL(url);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+  
+  useEffect(()=> {
+    const etag = hash(bco)
+    dispatch(updateETag(etag))
+    const object_id = global.window.location.search.substring(1)
+    if (validURL(object_id) === true) {
+      dispatch(getDraftBco(object_id))
+        .unwrap()
+        .then(() => {
+          // console.log(bcoStatus)
+        })
+        .catch((error) => {
+          console.log("Error", error);
+          global.window.close()
+        });
+    }
+
+  }, [])
+  
+  useEffect(() => {
+    if (validURL(bco["object_id"]) === true) {
+      navigate(`/builder?${bco["object_id"]}`);
+    }
+  }, [bco])
+
   return (  
     <>
       <Grid container spacing={2}>
+        <NotificationBox />
         <Grid item xs={12} md>
           <Card>
             <CardContent>
@@ -64,7 +114,10 @@ export default function BuilderColorCode () {
           </Card>
           <br/>
           <TabPanel domain={domain} index={0}>
-            <ProvenanceDomain onSave={onSave}/>
+            <ProvenanceDomain
+              onSave={onSave}
+              // setIsFormDirty={setIsFormDirty}
+            />
           </TabPanel>
           <TabPanel domain={domain} index={1}>
             <UsabilityDomain onSave={onSave}/>
