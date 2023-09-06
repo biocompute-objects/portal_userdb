@@ -21,18 +21,18 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import DocDropDown from "./shared/DocDropDown";
 import ToolsDropDown from "./shared/ToolsDropDown";
 import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
-import HelpDropDown from "./shared/HelpDropDown";
 import { Box, TextField } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { Field, Formik, Form } from "formik";
-import { prefixList } from "../slices/prefixSlice";
+import { getPrefixList } from "../slices/prefixSlice";
+import { setPrefix } from "../slices/bcoSlice";
 
 const ObjectNavBar = () => {
-  const [bcodb, setBcodb] = useState("");
-  const [selectedPrefix, setSelectedPrefix] = useState("")
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.account.isLoggedIn)
   const auth = useSelector((state) => state.account);
-  const prefix = useSelector((state) => state.bco.prefix)
+  const bcoPrefix = useSelector((state) => state.bco.prefix);
+  const prefixList = useSelector((state) => state.prefix.data);
   const [windowWidth, setWindowWidth] = useState(global.window.innerWidth);
   /* Should hold reference to DOM element, set anchorEl when
   menu is clicked open.*/
@@ -44,12 +44,12 @@ const ObjectNavBar = () => {
   };
   
   const handleBcodb = (event) => {
-    setBcodb(event.target.value);
     console.log(event.target.value)
+    dispatch(getPrefixList(event.target.value))
   };
 
   const handlePrefix = (event) => {
-    setSelectedPrefix(event.target.value);
+    dispatch(setPrefix(event.target.value))
   };
 
   const handleMobileMenuClose = () => {
@@ -62,7 +62,6 @@ const ObjectNavBar = () => {
       setWindowWidth(global.window.innerWidth);
     };
     global.window.addEventListener("resize", handleResize);
-    console.log((global.window.location.pathname === "/builder"))
     return () => {
       // Clean up the event listener when the component unmounts
       global.window.removeEventListener("resize", handleResize);
@@ -169,7 +168,7 @@ const ObjectNavBar = () => {
       )}
     </Menu>
   );
-
+  console.log(prefixList)
   return (
     <header >
       <AppBar component='div'>
@@ -187,69 +186,61 @@ const ObjectNavBar = () => {
             </Typography>
           </Tooltip>
           <div className="grow" />
-          {
-            (prefix === null) ? (
-              <>
-                <Formik
-                  initialValues={{database: "", prefix: ""}}
-                  onSubmit={(values) => {
-                    console.log(values.database)
-                  }}
-                >
-                  {({values}) => (
-                    <Form>
-                      <Field as='select' name='database'>
-                        <option value="" key=""></option>
-                        {bcodbs.map((database, index) => (
-                          <option value={database.public_hostname} key={index}>{database.hostname}</option>
-                        ))
-                        }
-                      </Field>
-                    </Form>
-                  )}
-                </Formik>
-                {/* <Box className="select-box">
-                  <TextField
-                    select
-                    label="Select BCODB"
-                    onChange={handleBcodb}
-                    value={bcodb}
+          {((global.window.location.pathname === "/builder") ? (
+            <>
+              {(bcoPrefix === null) ? (
+                <>
+                  <Formik
+                    initialValues={{database: "", prefix: ""}}
+                    onSubmit={(values) => {
+                      console.log(values.database)
+                    }}
                   >
-                    {bcodbs.map((database, index) => (
-                      <option
-                        value={database}
-                        key={index}
-                      >{database.hostname}
-                      </option>
-                    ))}
-                  </TextField>
-                </Box>
-                <Box className="select-box">
-                  <TextField
-                  // select
-                    label="Select Prefix"
-                    onChange={handlePrefix}
-                    value={bcodb}
-                  >
-                    {bcodbs.map((database, index) => (
-                      <option
-                        value={database.public_hostname}
-                        key={index}
-                      >{database.hostname}
-                      </option>
-                    ))}
-                  </TextField>
-                </Box> */}
-              </>
-            ) : (
-              <TextField
-                value={`BCO prefix: ${prefix}`}
-                variant="outlined"
-                disabled
-                size="small"
-                className="button-confirm"
-              />)
-          }
+                    {() => (
+                      (prefixList.length === 0 ) ? (
+                        <Form>
+                          <label htmlFor="email" style={{ display: "block" }}>Select BCODB</label>
+                          <Field
+                            as='select'
+                            name='database'
+                            onChange={handleBcodb}
+                          >
+                            <option value="" key=""></option>
+                            {bcodbs.map((database, index) => (
+                              <option value={database.public_hostname} key={index}>{database.hostname}</option>
+                            ))}
+                          </Field>
+                        </Form>
+                      ) : (
+                        <Form>
+                          <label htmlFor="email" style={{ display: "block" }}>Select Prefix</label>
+                          {/* {console.log(values)} */}
+                          <Field
+                            as='select'
+                            name='database'
+                            onChange={handlePrefix}
+                          >
+                            <option value="" key=""></option>
+                            {prefixList.map((prefix, index) => (
+                              <option value={prefix} key={index}>{prefix}</option>
+                            ))}
+                          </Field>
+                        </Form>
+                      )
+                    )}
+                  </Formik>
+                </>
+              ) : (
+                <TextField
+                  value={`BCO prefix: ${bcoPrefix}`}
+                  variant="outlined"
+                  disabled
+                  size="small"
+                  className="button-confirm"
+                />)
+              }
+            </>
+          ) : (<></>))}
           <div className="grow" />
 
           
