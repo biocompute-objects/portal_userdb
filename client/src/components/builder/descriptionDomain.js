@@ -14,7 +14,7 @@ import { Formik, Form, FieldArray } from "formik";
 import { useSelector, useDispatch } from "react-redux"
 import { updateDescription, updateModified } from "../../slices/bcoSlice"
 import { LargeTextField, MyTextField } from "./specialFeilds";
-import { Uri, Next } from "./components"
+import { FormObserver, Next, Uri } from "./components"
 
 export const  DescriptionDomain = ({onSave}) => {
   const dispatch = useDispatch();
@@ -38,8 +38,9 @@ export const  DescriptionDomain = ({onSave}) => {
         }
       >
         {
-          ({values, isSubmitting, errors, setFieldValue}) => (
+          ({values, dirty, isSubmitting, errors, setFieldValue}) => (
             <Form>
+              <FormObserver />
               <Card>
                 <br/>
                 <Grid container spacing={2} alignItems="center">                      

@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { updateExecutionDomain, updateModified } from "../../slices/bcoSlice"
 
 import { MyTextField } from "./specialFeilds"
-import { Uri } from "./components"
+import { FormObserver, Uri } from "./components"
 
 export const ExecutionDomain = ({onSave}) => {
   const dispatch = useDispatch();
@@ -37,6 +37,7 @@ export const ExecutionDomain = ({onSave}) => {
   return (
     <>
       <Card>
+        
         <CardContent>
           <Typography variant='h4'> Execution Domain</Typography>
         </CardContent>
@@ -58,6 +59,7 @@ export const ExecutionDomain = ({onSave}) => {
             {
               ({values, isSubmitting,}) => (
                 <Form>
+                  <FormObserver />
                   <Grid container spacing={2}>
                     <Grid container spacing={2}>
                       <Grid item xs>

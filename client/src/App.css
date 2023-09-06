@@ -1,6 +1,5 @@
 /* App.css */
 
-
 /* about pages */
 .member-image {
   width: 150px;
@@ -125,7 +124,7 @@
 .object-sidebar {
   width: 200px;
   flex-shrink: 0;
-  overflow: auto;
+  overflow: none;
   height: 100%;
 }
 
@@ -136,3 +135,11 @@
   overflow: auto;
 }
 
+.button-confirm {
+  color: blue;
+}
+
+.select-box {
+  min-width: 250px;
+  align-content: center;
+}

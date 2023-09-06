@@ -40,9 +40,7 @@ export const  IODomain = ({onSave}) => {
           >
             {
               ({values, isSubmitting,errors}) => (
-                <Form>
-                   
-                             
+                <Form>       
                   <Grid container spacing={2}>
                     <CardContent>   
                       <Grid container spacing={2} justifyContent='center'>
@@ -99,7 +97,6 @@ export const  IODomain = ({onSave}) => {
                           name="output_subdomain"
                           render={arrayHelpers => (
                             <div>
-                              {/*console.log(values)*/}
                               {values["output_subdomain"].map((aa, index) => (
                                 <CardContent key={index}>
                                   <Grid container spacing={2} alignItems='center' justifyContent='center'>

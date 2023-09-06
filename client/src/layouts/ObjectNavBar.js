@@ -19,16 +19,21 @@ import { Link } from "react-router-dom";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import DocDropDown from "./shared/DocDropDown";
-import AppDropDown from "./shared/AppDropDown";
+import ToolsDropDown from "./shared/ToolsDropDown";
 import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
 import HelpDropDown from "./shared/HelpDropDown";
-import QuickSearch from "../components/quickSearch";
+import { Box, TextField } from "@material-ui/core";
+import { useDispatch } from "react-redux";
+import { Field, Formik, Form } from "formik";
+import { prefixList } from "../slices/prefixSlice";
 
 const ObjectNavBar = () => {
+  const [bcodb, setBcodb] = useState("");
+  const [selectedPrefix, setSelectedPrefix] = useState("")
+  const isLoggedIn = useSelector((state) => state.account.isLoggedIn)
   const auth = useSelector((state) => state.account);
+  const prefix = useSelector((state) => state.bco.prefix)
   const [windowWidth, setWindowWidth] = useState(global.window.innerWidth);
-  
-  
   /* Should hold reference to DOM element, set anchorEl when
   menu is clicked open.*/
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -37,6 +42,16 @@ const ObjectNavBar = () => {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+  
+  const handleBcodb = (event) => {
+    setBcodb(event.target.value);
+    console.log(event.target.value)
+  };
+
+  const handlePrefix = (event) => {
+    setSelectedPrefix(event.target.value);
+  };
+
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
@@ -46,14 +61,17 @@ const ObjectNavBar = () => {
     const handleResize = () => {
       setWindowWidth(global.window.innerWidth);
     };
-
     global.window.addEventListener("resize", handleResize);
-
+    console.log((global.window.location.pathname === "/builder"))
     return () => {
       // Clean up the event listener when the component unmounts
       global.window.removeEventListener("resize", handleResize);
     };
   }, []);
+  
+  const bcodbs = (isLoggedIn
+    ? useSelector((state) => state.account.user.bcodbs)
+    : []);
 
   const mobileMenuId = "menu-mobile";
   const renderMobileMenu = (
@@ -151,7 +169,7 @@ const ObjectNavBar = () => {
       )}
     </Menu>
   );
-  
+
   return (
     <header >
       <AppBar component='div'>
@@ -169,16 +187,80 @@ const ObjectNavBar = () => {
             </Typography>
           </Tooltip>
           <div className="grow" />
-          <QuickSearch />
+          {
+            (prefix === null) ? (
+              <>
+                <Formik
+                  initialValues={{database: "", prefix: ""}}
+                  onSubmit={(values) => {
+                    console.log(values.database)
+                  }}
+                >
+                  {({values}) => (
+                    <Form>
+                      <Field as='select' name='database'>
+                        <option value="" key=""></option>
+                        {bcodbs.map((database, index) => (
+                          <option value={database.public_hostname} key={index}>{database.hostname}</option>
+                        ))
+                        }
+                      </Field>
+                    </Form>
+                  )}
+                </Formik>
+                {/* <Box className="select-box">
+                  <TextField
+                    select
+                    label="Select BCODB"
+                    onChange={handleBcodb}
+                    value={bcodb}
+                  >
+                    {bcodbs.map((database, index) => (
+                      <option
+                        value={database}
+                        key={index}
+                      >{database.hostname}
+                      </option>
+                    ))}
+                  </TextField>
+                </Box>
+                <Box className="select-box">
+                  <TextField
+                  // select
+                    label="Select Prefix"
+                    onChange={handlePrefix}
+                    value={bcodb}
+                  >
+                    {bcodbs.map((database, index) => (
+                      <option
+                        value={database.public_hostname}
+                        key={index}
+                      >{database.hostname}
+                      </option>
+                    ))}
+                  </TextField>
+                </Box> */}
+              </>
+            ) : (
+              <TextField
+                value={`BCO prefix: ${prefix}`}
+                variant="outlined"
+                disabled
+                size="small"
+                className="button-confirm"
+              />)
+          }
           <div className="grow" />
+
+          
           <div className="section-desktop">
-            <Tooltip title="Apps">
-              <><AppDropDown /></>
+            <Tooltip title="BCO Tools">
+              <><ToolsDropDown /></>
             </Tooltip>
             <Tooltip title="Documentation">
               <><DocDropDown /></>
             </Tooltip>
-            <Tooltip title="Help">
+            {/* <Tooltip title="Help">
               <><HelpDropDown /></>
             </Tooltip>
             <Tooltip title="About Us">
@@ -187,7 +269,7 @@ const ObjectNavBar = () => {
                   <InfoOutlinedIcon />
                 </Badge>
               </IconButton></>
-            </Tooltip>
+            </Tooltip> */}
             {auth.user ? (
               <>
                 <Tooltip title="Profile Page">

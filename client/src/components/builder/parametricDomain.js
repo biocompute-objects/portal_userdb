@@ -1,12 +1,10 @@
 import React from "react";
 import {Card, Typography, CardContent, Grid, Button} from "@material-ui/core";
-
 import { Formik, Form, FieldArray } from "formik";
-
 import { useSelector, useDispatch } from "react-redux"
 import { updateParametricDomain, updateModified } from "../../slices/bcoSlice"
-
 import { MyTextField } from "./specialFeilds"
+import { FormObserver } from "./components";
 
 export const  ParametricDomain = ({onSave}) => {
     
@@ -37,16 +35,15 @@ export const  ParametricDomain = ({onSave}) => {
             {
               ({values, isSubmitting, errors}) => (
                 <Form>
+                  <FormObserver />
                   <Grid container spacing={2}>
                     <FieldArray
                       name="parametric_domain"
                       render={arrayHelpers => (
                         <div>
-                          {/*console.log(values)*/}
                           {values["parametric_domain"].map((aa, index) => (
                             <CardContent key={index}>
                               <Grid container spacing={2} alignItems='center' justifyContent='center'>
-                                {/** both these conventions do the same */}
                                 <Grid item xs>
                                   <MyTextField name={`parametric_domain[${index}].step`} label="Step"/>
                                 </Grid>
