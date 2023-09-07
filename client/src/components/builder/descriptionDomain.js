@@ -7,7 +7,7 @@ import {
   Grid,
   Typography,
   TextField,
-  Paper
+  CardHeader
 } from "@material-ui/core";
 import {Autocomplete } from "@material-ui/lab";
 import { Formik, Form, FieldArray } from "formik";
@@ -15,16 +15,14 @@ import { useSelector, useDispatch } from "react-redux"
 import { updateDescription, updateModified } from "../../slices/bcoSlice"
 import { LargeTextField, MyTextField } from "./specialFeilds";
 import { FormObserver, Next, Uri } from "./components"
+import "../../App.css";
 
 export const  DescriptionDomain = ({onSave}) => {
   const dispatch = useDispatch();
   const description_domain = useSelector(state => state.bco.data.description_domain)
 
   return (
-    <Card variant="outlined" style={{background: "#D8D8D8"}}>
-      <Paper>
-        <Typography variant='h4'> Description Domain</Typography>
-      </Paper>
+    <Card className="object-domain">
       <Formik
         initialValues={description_domain}
         onSubmit={
@@ -38,8 +36,12 @@ export const  DescriptionDomain = ({onSave}) => {
         }
       >
         {
-          ({values, dirty, isSubmitting, errors, setFieldValue}) => (
+          ({values, isSubmitting, errors, setFieldValue}) => (
             <Form>
+              <CardHeader 
+                title="Description Domain"
+                action={<Next />}  
+              />
               <FormObserver />
               <Card>
                 <br/>
@@ -341,10 +343,7 @@ export const  DescriptionDomain = ({onSave}) => {
                     > Add Step</Button>
                   </Card>
                 )}
-              />                
-              <div>
-                <Next />
-              </div>
+              />
             </Form>
           )}  
       </Formik>

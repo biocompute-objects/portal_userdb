@@ -7,6 +7,7 @@ import { UsabilityDomain } from "./usabilityDomain";
 import { ParametricDomain } from "./parametricDomain";
 import { IODomain } from "./ioDomain";
 import { ExecutionDomain } from "./executionDomain";
+import { ErrorDomain } from "./errorDomain";
 import { TreeView } from "./treeView";
 import { ExtensionDomain } from "./extensionDomain";
 import { RawJson } from "./rawJson";
@@ -14,6 +15,7 @@ import { useOutletContext, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux"
 import objectHash from "object-hash";
 import NotificationBox from "../NotificationBox";
+
 import {
   getDraftBco,
   updateETag,
@@ -57,8 +59,11 @@ export default function BuilderColorCode () {
   };
 
   const onSave = () => {
-    console.log(domain)
-    setDomain(domain+1)
+    if (domain === 9) {
+      setDomain(0)
+    } else {
+      setDomain(domain+1)
+    }
   }
 
   function validURL(url) {
@@ -95,56 +100,55 @@ export default function BuilderColorCode () {
   }, [bco])
 
   return (  
-    <>
-      <Grid container spacing={2}>
-        <NotificationBox />
-        <Grid item xs={12} md>
-          <Card>
-            <CardContent>
-              <Typography>
+
+    <Grid container spacing={2}>
+      <NotificationBox />
+      <Grid item className="object-contents">
+        <Card>
+          <CardContent>
+            <Typography>
                   Object ID: {bco.object_id}
-              </Typography>
-              <Typography>
+            </Typography>
+            <Typography>
                   Spec Version: {bco.spec_version}
-              </Typography>
-              <Typography>
+            </Typography>
+            <Typography>
                   ETag: {bco.etag}
-              </Typography>
-            </CardContent>
-          </Card>
-          <br/>
-          <TabPanel domain={domain} index={0}>
-            <ProvenanceDomain
-              onSave={onSave}
-              // setIsFormDirty={setIsFormDirty}
-            />
-          </TabPanel>
-          <TabPanel domain={domain} index={1}>
-            <UsabilityDomain onSave={onSave}/>
-          </TabPanel>
-          <TabPanel domain={domain} index={2}>
-            <DescriptionDomain onSave={onSave}/>
-          </TabPanel>
-          <TabPanel domain={domain} index={3}>
-            <ExtensionDomain onSave={onSave}/>
-          </TabPanel>
-          <TabPanel domain={domain} index={4}>
-            <ParametricDomain onSave={onSave}/>
-          </TabPanel>
-          <TabPanel domain={domain} index={5}>
-            <IODomain onSave={onSave}/>
-          </TabPanel>
-          <TabPanel domain={domain} index={6}>
-            <ExecutionDomain onSave={onSave}/>
-          </TabPanel>
-          <TabPanel domain={domain} index={8}>
-            <RawJson onSave={onSave}/>
-          </TabPanel>
-          <TabPanel domain={domain} index={9}>
-            <TreeView onSave={onSave}/>
-          </TabPanel>
-        </Grid>
+            </Typography>
+          </CardContent>
+        </Card>
+        <br/>
+        <TabPanel  domain={domain} index={0}>
+          <ProvenanceDomain onSave={onSave}/>
+        </TabPanel>
+        <TabPanel domain={domain} index={1}>
+          <UsabilityDomain onSave={onSave}/>
+        </TabPanel>
+        <TabPanel domain={domain} index={2}>
+          <DescriptionDomain onSave={onSave}/>
+        </TabPanel>
+        <TabPanel domain={domain} index={3}>
+          <ExtensionDomain onSave={onSave}/>
+        </TabPanel>
+        <TabPanel domain={domain} index={4}>
+          <ParametricDomain onSave={onSave}/>
+        </TabPanel>
+        <TabPanel domain={domain} index={5}>
+          <IODomain onSave={onSave}/>
+        </TabPanel>
+        <TabPanel domain={domain} index={6}>
+          <ExecutionDomain onSave={onSave}/>
+        </TabPanel>
+        <TabPanel domain={domain} index={7}>
+          <ErrorDomain onSave={onSave}/>
+        </TabPanel>
+        <TabPanel domain={domain} index={8}>
+          <RawJson onSave={onSave}/>
+        </TabPanel>
+        <TabPanel domain={domain} index={9}>
+          <TreeView onSave={onSave}/>
+        </TabPanel>
       </Grid>
-    </>
+    </Grid>
   )
 }

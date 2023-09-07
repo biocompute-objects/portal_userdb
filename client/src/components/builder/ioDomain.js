@@ -1,10 +1,10 @@
 import React from "react";
-import {Card, Typography, CardContent, Grid, Button} from "@material-ui/core";
+import {Card, Typography, CardContent, Grid, Button, CardHeader} from "@material-ui/core";
 import { Formik, Form, FieldArray } from "formik";
 import { useSelector, useDispatch } from "react-redux"
 import { updateIODomain, updateModified } from "../../slices/bcoSlice"
 import { MyTextField } from "./specialFeilds"
-import { Uri } from "./components"
+import { FormObserver, Next, Uri } from "./components"
 import { removeEmptyValues } from "./components";
 
 export const  IODomain = ({onSave}) => {
@@ -16,31 +16,33 @@ export const  IODomain = ({onSave}) => {
   return (
     <>
       <Card> 
-        <CardContent>
-          <Typography variant='h4'> IO Domain</Typography>
-        </CardContent>
-        <Grid container justifyContent='center'>
-          <Formik
-            initialValues={
-              {
-                "input_subdomain": has_input ? io_domain["input_subdomain"] : [],
-                "output_subdomain": has_output ? io_domain["output_subdomain"] : []
-              }
-            }
-            onSubmit={
-              (myData, {setSubmitting}) => {
-                const cleanData = removeEmptyValues(myData)
-                setSubmitting(true);
-                dispatch(updateIODomain(cleanData));
-                dispatch(updateModified());
-                setSubmitting(false);
-                onSave()
-              }
-            }
-          >
+        <Formik
+          initialValues={
             {
-              ({values, isSubmitting,errors}) => (
-                <Form>       
+              "input_subdomain": has_input ? io_domain["input_subdomain"] : [],
+              "output_subdomain": has_output ? io_domain["output_subdomain"] : []
+            }
+          }
+          onSubmit={
+            (myData, {setSubmitting}) => {
+              const cleanData = removeEmptyValues(myData)
+              setSubmitting(true);
+              dispatch(updateIODomain(cleanData));
+              dispatch(updateModified());
+              setSubmitting(false);
+              onSave()
+            }
+          }
+        >
+          {
+            ({values, isSubmitting,errors}) => (
+              <Form>
+                <CardHeader
+                  title={"IO Domain"}
+                  action={<Next />}
+                />
+                <CardContent >
+                  <FormObserver/>
                   <Grid container spacing={2}>
                     <CardContent>   
                       <Grid container spacing={2} justifyContent='center'>
@@ -49,7 +51,6 @@ export const  IODomain = ({onSave}) => {
                         </Grid> 
                       </Grid>
                       <Grid container>
-                                
                         <FieldArray
                           name="input_subdomain"
                           render={arrayHelpers => (
@@ -130,18 +131,11 @@ export const  IODomain = ({onSave}) => {
                       </Grid>
                     </CardContent>                  
                   </Grid>
-                               
-                  <div style={{padding: 20}}> 
-                    <Button disabled={isSubmitting} type='submit' variant="contained" color="primary"> Next </Button>
-                  </div>
-                      
-
-                </Form>
-              )
-            }  
-
-          </Formik>
-        </Grid>
+                </CardContent>
+              </Form>
+            )
+          }
+        </Formik>
       </Card>
     </>
   )

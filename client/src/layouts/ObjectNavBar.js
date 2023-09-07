@@ -11,6 +11,7 @@ import Tooltip from "@mui/material/Tooltip";
 import LoginIcon from "@mui/icons-material/Login";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import ConstructionIcon from "@mui/icons-material/Construction";
+import HelpDropDown from "./shared/HelpDropDown"
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import { useSelector } from "react-redux";
@@ -168,7 +169,7 @@ const ObjectNavBar = () => {
       )}
     </Menu>
   );
-  console.log(prefixList)
+
   return (
     <header >
       <AppBar component='div'>
@@ -251,16 +252,9 @@ const ObjectNavBar = () => {
             <Tooltip title="Documentation">
               <><DocDropDown /></>
             </Tooltip>
-            {/* <Tooltip title="Help">
+            <Tooltip title="Help">
               <><HelpDropDown /></>
             </Tooltip>
-            <Tooltip title="About Us">
-              <><IconButton component={Link} to='/about' aria-label='show 0 new notifications' color='inherit'>
-                <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                  <InfoOutlinedIcon />
-                </Badge>
-              </IconButton></>
-            </Tooltip> */}
             {auth.user ? (
               <>
                 <Tooltip title="Profile Page">
