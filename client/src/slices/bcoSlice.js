@@ -45,7 +45,6 @@ const bcoSlice = createSlice({
       if (action.payload === false) {
         state["status"] = "idle"
       }
-      console.log(action.payload)
     },
     updateProvenanceDomain: (state, action) => {
       state["data"]["provenance_domain"] = action.payload;
@@ -80,6 +79,9 @@ const bcoSlice = createSlice({
     },
     updateIODomain: (state, action) => {
       state["data"]["io_domain"] = action.payload;
+    },
+    updateErrorDomain: (state, action) => {
+      state["data"]["error_domain"] = action.payload
     },
     setPrefix: (state, action) => {
       state["prefix"] = action.payload
@@ -354,6 +356,7 @@ export const {
   updateDescription,
   updateParametricDomain,
   updateIODomain,
+  updateErrorDomain,
   updateModified,
   updateExtensionDomain,
   addExtensionDomain,

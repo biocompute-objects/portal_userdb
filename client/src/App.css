@@ -122,10 +122,10 @@
 
 /* Object Styles */
 .object-sidebar {
-  width: 200px;
+  width: 250px;
   flex-shrink: 0;
   overflow: none;
-  height: 100%;
+  height: 600px;
 }
 
 .object-contents {
@@ -141,5 +141,15 @@
 
 .select-box {
   min-width: 250px;
-  align-content: center;
+  justify-content: center;
+}
+
+.object-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
+.object-domain {
+  margin-bottom: 35px;
 }

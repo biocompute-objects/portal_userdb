@@ -1,10 +1,12 @@
 import { Box, Button, Card, CardContent, CardHeader, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateBco, updateModified } from "../../slices/bcoSlice";
+import { updateBco, updateBcoStatus, updateModified } from "../../slices/bcoSlice";
 
-export const RawJson = () => {
+export const RawJson = ({onSave}) => {
   const dispatch = useDispatch()
+  dispatch(updateBcoStatus(true))
+  const [writing, setWriting] = useState(false);
   const [bco, setBco] = useState(useSelector(state => state.bco.data))
   const [jsonErrors, setJsonErrors] = useState("");
   const rawContents = JSON.stringify(bco, null, 4);
@@ -12,6 +14,8 @@ export const RawJson = () => {
   const setInput = (value) => {
     let holder = {};
     try {
+      setWriting(true)
+      dispatch(updateBcoStatus(true))
       holder = JSON.parse(value);
       setJsonErrors("")
       console.log("All Good")
@@ -24,7 +28,20 @@ export const RawJson = () => {
 
   return (
     <Card>
-      <CardHeader title="Raw JSON View"/>
+      <CardHeader 
+        title="Raw JSON View"
+        action={        
+          <Button 
+            disabled={jsonErrors !== "" || !writing}
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              dispatch(updateBco(bco));
+              dispatch(updateModified());
+              onSave()
+            }}
+          > Next </Button>}
+      />
       <CardContent>
         {
           jsonErrors !== ""
@@ -46,16 +63,6 @@ export const RawJson = () => {
             variant="outlined"
           />
         </Box>
-        <br/>
-        <Button 
-          disabled={jsonErrors !== ""}
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            dispatch(updateBco(bco));
-            dispatch(updateModified());
-          }}
-        > Submit Changes </Button>
       </CardContent>
     </Card>)
 }

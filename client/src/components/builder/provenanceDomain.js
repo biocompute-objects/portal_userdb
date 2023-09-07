@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import * as Yup from "yup";
-import {Card, CardContent, Typography, Grid, Button, Paper } from "@material-ui/core";
+import {Card, CardContent, CardHeader, Typography, Grid, Button } from "@material-ui/core";
 import { Formik, Form, FieldArray } from "formik";
 import { Contribution, FormObserver, Reviewer, Next } from "./components";
 import { useSelector, useDispatch } from "react-redux"
 import { BaisicDateTimePicker, MyTextField } from "./specialFeilds";
-import { updateProvenanceDomain, updateModified } from "../../slices/bcoSlice"
+import { updateProvenanceDomain, updateModified } from "../../slices/bcoSlice";
+import "../../App.css";
 
 export const  ProvenanceDomain = ({onSave} ) => {
   const dispatch = useDispatch();
@@ -19,55 +20,56 @@ export const  ProvenanceDomain = ({onSave} ) => {
 
   return (
     <>
-      <Card> 
-        <Paper>
-          <Typography variant='h4'> Provenance Domain</Typography>
-        </Paper>
-        <CardContent>
-          <Formik
-            enableReinitialize={true}
-            initialValues={
-              {
-                "name": provenanceDomain["name"],
-                "version": provenanceDomain["version"],
-                "license": provenanceDomain["license"],
-                "created": provenanceDomain["created"],
-                "modified": provenanceDomain["modified"],
-                "derived_from": is_derived ? provenanceDomain["derived_from"] : [], 
-                "obsolete_after": has_obsolete ? provenanceDomain["obsolete_after"] : [],
-                "contributors": provenanceDomain["contributors"],
-                "review": has_review ? provenanceDomain["review"] : [],
-              }
-            }
-            onSubmit={
-              (values, {setSubmitting, setValues}) => {
-                setSubmitting(true);
-                dispatch(updateModified());
-                if (obsolete === false) {
-                  delete values["obsolete_after"]
-                }
-                if (embargo === false) {
-                  delete values["embargo"]
-                }
-                dispatch(updateProvenanceDomain(values));
-                setSubmitting(false);
-                onSave()
-              }
-            }
-            
-            validate={
-              (values) => {
-                const errors = {};
-                if (!values.contributors) {
-                  errors.contributors = "Required";
-                }
-                return errors;
-              }
-            }
-          >
+      <Card className="object-domain">
+        <Formik
+          enableReinitialize={true}
+          initialValues={
             {
-              ({values, isSubmitting, errors, setFieldValue}) => (              
-                <Form>
+              "name": provenanceDomain["name"],
+              "version": provenanceDomain["version"],
+              "license": provenanceDomain["license"],
+              "created": provenanceDomain["created"],
+              "modified": provenanceDomain["modified"],
+              "derived_from": is_derived ? provenanceDomain["derived_from"] : [], 
+              "obsolete_after": has_obsolete ? provenanceDomain["obsolete_after"] : [],
+              "contributors": provenanceDomain["contributors"],
+              "review": has_review ? provenanceDomain["review"] : [],
+            }
+          }
+          onSubmit={
+            (values, {setSubmitting, setValues}) => {
+              setSubmitting(true);
+              dispatch(updateModified());
+              if (obsolete === false) {
+                delete values["obsolete_after"]
+              }
+              if (embargo === false) {
+                delete values["embargo"]
+              }
+              dispatch(updateProvenanceDomain(values));
+              setSubmitting(false);
+              onSave()
+            }
+          }
+            
+          validate={
+            (values) => {
+              const errors = {};
+              if (!values.contributors) {
+                errors.contributors = "Required";
+              }
+              return errors;
+            }
+          }
+        >
+          {
+            ({values, isSubmitting, errors, setFieldValue}) => (              
+              <Form>
+                <CardHeader
+                  title="Provenance Domain"
+                  action={<Next />}
+                />
+                <CardContent>
                   <FormObserver />
                   <Grid container spacing={2}>
                     <Grid container spacing={2}>
@@ -230,18 +232,12 @@ export const  ProvenanceDomain = ({onSave} ) => {
                         }
                       />
                     </Grid>
-
-                    <Grid container spacing={2}> 
-                      <Grid item xs>
-                        <Next />
-                      </Grid>
-                    </Grid>
                   </Grid>
-                </Form>
-              )
-            }
-          </Formik>
-        </CardContent>
+                </CardContent>
+              </Form>
+            )
+          }
+        </Formik>
       </Card>
     </>
   )

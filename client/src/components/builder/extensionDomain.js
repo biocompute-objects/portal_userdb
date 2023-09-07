@@ -1,15 +1,15 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux"
-import { Card, CardContent, TextField, Typography, Grid, Button, Paper } from "@material-ui/core";
+import { Card, CardContent, TextField, Typography, Grid, Button, Paper, CardHeader } from "@material-ui/core";
 import { addExtensionDomain, getExtension, deleteExtensionDomain, updateModified } from "../../slices/bcoSlice"
 import { Extension } from "./extension";
 import { Next } from "./components";
+import "../../App.css";
 
 export const  ExtensionDomain = ({onSave}) => {
   const dispatch = useDispatch();
   const extensionDomain = useSelector(state => state.bco.data.extension_domain)
   const [newSchema, setNewSchema] = React.useState("")
-  let has_extension = extensionDomain.length > 0
 
   const errorSchema = {
     "$schema": "http://json-schema.org/draft-04/schema#",
@@ -43,10 +43,17 @@ export const  ExtensionDomain = ({onSave}) => {
   };
 
   return (
-    <Card>
-      <Paper>
-        <Typography variant='h4'> Extension Domain</Typography>
-      </Paper>
+    <Card className="object-domain">
+      <CardHeader
+        title="Extension Domain"
+        action={
+          <Button
+            onClick={() => onSave()}
+            variant="contained"
+            color="primary"
+            disableElevation
+          >Next</Button>}
+      />
       <CardContent>
         <Grid>
           <Typography>
@@ -79,7 +86,7 @@ export const  ExtensionDomain = ({onSave}) => {
               />
               <Button
                 variant="contained"
-                color="primary"
+                color="secondary"
                 disableElevation
                 fullWidth
                 onClick={() => removeRows(index)}
@@ -90,14 +97,6 @@ export const  ExtensionDomain = ({onSave}) => {
         }))
         : (<CardContent></CardContent>)
       }
-      <CardContent>
-        <Button
-          onClick={() => onSave()}
-          variant="contained"
-          color="primary"
-          disableElevation
-        >Next</Button>
-      </CardContent>
     </Card>
   )
 }

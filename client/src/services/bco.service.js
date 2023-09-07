@@ -29,7 +29,7 @@ const getPubBco = async (object_id) => {
 }
 
 const createDraftBco = async (bcoURL, bcoObject, prefix, owner_group) => {
-  const response = await axios.post(`${bcoURL}/api/objects/drafts/create/`, {
+  const response = await axios.post(`${bcoURL}objects/drafts/create/`, {
     "POST_api_objects_draft_create": [
       {
         "prefix": prefix,

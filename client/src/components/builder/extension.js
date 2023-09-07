@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Card, CardContent,
-} from "@material-ui/core";
+
 import { Form as JsonForm} from "@rjsf/material-ui"
 import validator from "@rjsf/validator-ajv8";
 import { useDispatch } from "react-redux"
@@ -49,23 +47,18 @@ export const Extension = ({extension, schemaUrl, index, allExtensions}) => {
     }
   };
 
-  return (
-    <Card>
-      <CardContent>
-        {/* {JSON.stringify(extension)} */}
-        <JsonForm
-          liveValidate
-          schema={schema}
-          formData={formData}
-          uiSchema={uiSchema}
-          validator={validator}
-          onChange={e => {
-            setFormData(e.formData);
-          }}
-          showErrorList='top'
-          onSubmit={onSubmit}
-        />
-      </CardContent>
-    </Card>
+  return (    
+    <JsonForm
+      liveValidate
+      schema={schema}
+      formData={formData}
+      uiSchema={uiSchema}
+      validator={validator}
+      onChange={e => {
+        setFormData(e.formData);
+      }}
+      showErrorList='top'
+      onSubmit={onSubmit}
+    />
   )
 }
