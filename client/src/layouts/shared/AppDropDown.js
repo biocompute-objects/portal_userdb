@@ -29,8 +29,8 @@ export default function APP() {
         <MenuItem
           component="a"
           href="/builder"
-          target="_blank"
-          rel="noopener noreferrer"
+          // target="_blank"
+          // rel="noopener noreferrer"
         >
           <ListItemDecorator>
             <ModeEditOutlineOutlinedIcon />

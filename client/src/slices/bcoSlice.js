@@ -31,7 +31,8 @@ const bcoSlice = createSlice({
         "external_data_endpoints":[],
         "environment_variables": {}
       },
-      extension_domain: []
+      extension_domain: [],
+      error_domain: {}
     },
     prefix: null,
     status: "idle",

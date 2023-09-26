@@ -4,8 +4,7 @@ import { Formik, Form, FieldArray } from "formik";
 import { useSelector, useDispatch } from "react-redux"
 import { updateIODomain, updateModified } from "../../slices/bcoSlice"
 import { MyTextField } from "./specialFeilds"
-import { FormObserver, Next, Uri } from "./components"
-import { removeEmptyValues } from "./components";
+import { FormObserver, Next, removeEmptyValues, Uri } from "./components"
 
 export const  IODomain = ({onSave}) => {
   const dispatch = useDispatch();
