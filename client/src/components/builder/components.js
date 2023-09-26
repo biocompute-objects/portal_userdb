@@ -49,7 +49,6 @@ export const Uri = ({uri_element}) => {
 
 export const Next = () => {
   const bcoStatus = useSelector((state) => state.bco.status);
-  console.log("pres")
   return(
     <Button
       type='submit'

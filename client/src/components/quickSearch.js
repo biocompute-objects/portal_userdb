@@ -13,18 +13,14 @@ export default function QuickSearch () {
   const [quickSearch, setQuickSearch] = useState("")
   const dispatch = useDispatch();
   const bcodbUrl = process.env.REACT_APP_BCOAPI_URL
-  let isLoggedIn = useSelector((state) => state.account.isLoggedIn);
-  const bcodbs = (isLoggedIn) => {
-    if (isLoggedIn) {
-      return useSelector((state) => state.account.user.bcodbs)
-    }
-    return []
-  }
+  const isLoggedIn = useSelector((state) => state.account.isLoggedIn);
+  
   
   const handleQuickSearch = () => {
     console.log("hadley", isLoggedIn)
     if (isLoggedIn === true) {
-      const publicHostname = bcodbs[0]["public_hostname"]
+      const bcodb = useSelector((state) => state.account.user.bcodbs)
+      const publicHostname = bcodb[0]["public_hostname"]
       dispatch(searchBcodb({publicHostname, quickSearch}))
         .then(() => {
           navigate("/bcodbs")
@@ -32,6 +28,9 @@ export default function QuickSearch () {
     } else {
       const publicHostname = bcodbUrl.replace("/api/", "")
       dispatch(searchBcodb({publicHostname, quickSearch}))
+        .then(() => {
+          navigate("/bcodbs")
+        })
     }
   }
 

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Card, CardContent, Container, Grid, Typography } from "@material-ui/core";
+import React, { useEffect } from "react";
+import { Card, CardContent, CardHeader, Container, Grid, Typography } from "@material-ui/core";
 import PropTypes from "prop-types";
+import ReactJson from "react-json-view"
 import { DescriptionDomain } from "./descriptionDomain";
 import { ProvenanceDomain } from "./provenanceDomain";
 import { UsabilityDomain } from "./usabilityDomain";
@@ -25,6 +26,7 @@ export default function BuilderColorCode () {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const bco = useSelector(state => state.bco.data);
+  const bcoError = useSelector(state => state.bco.error);
   const {domain, setDomain} = useOutletContext()
   const hash = (bco) => objectHash(bco,{ excludeKeys: function(key) {
     if (( key === "object_id" ) || (key === "etag") || (key === "spec_version")) {
@@ -116,6 +118,18 @@ export default function BuilderColorCode () {
                   ETag: {bco.etag}
             </Typography>
           </CardContent>
+        </Card>
+        <Card>
+          {
+            bcoError !== null
+              ? (<>
+                <CardHeader title="BCO Errors"/>
+                <CardContent>
+                  <ReactJson src={bcoError[0]}/>
+                </CardContent>
+              </>)
+              : (<></>)
+          }
         </Card>
         <br/>
         <TabPanel  domain={domain} index={0}>
