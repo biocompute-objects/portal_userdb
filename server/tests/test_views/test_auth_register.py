@@ -16,8 +16,8 @@ class TestUserCreateApi(TestCase):
     def setUp(self):
         self.client = Client()
         
-        self.user_info = {
-            
+        self.dup_user_info = {
+            "username": "TestUser",
             "email": "test@testing.com",
             "password": "testing123",
             "profile": {
@@ -27,11 +27,36 @@ class TestUserCreateApi(TestCase):
             }
         }
 
+        self.user_info = {
+            "username": "NewTestUser",
+            "email": "new_test@testing.com",
+            "password": "testing123",
+            "profile": {
+                "public": True,
+                "affiliation": "",
+                "orcid": ""
+            }
+        }
+
     def test_user_register(self):
-        """test for user registration
+        """test for user registration '201: Registration is successful.'
         """
         
-        # import pdb; pdb.set_trace() 
         response = self.client.post("/users/auth/register/", data=self.user_info, format='json')
+        # import pdb; pdb.set_trace() 
         self.assertEqual(response.status_code, 201)
 
+    def test_user_register_conflict(self):
+        """test for user registration '409: Conflict'
+        """
+        
+        response = self.client.post("/users/auth/register/", data=self.dup_user_info, format='json')
+        self.assertEqual(response.status_code, 409)
+
+    def test_user_register_bad_request(self):
+        """test for user registration '400: Bad request'
+        """
+        
+        del self.user_info['username']
+        response = self.client.post("/users/auth/register/", data=self.user_info, format='json')
+        self.assertEqual(response.status_code, 400)

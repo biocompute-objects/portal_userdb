@@ -73,11 +73,43 @@ class UserCreateApi(APIView):
 
     permission_classes = (permissions.AllowAny,)
     
+
     @swagger_auto_schema(
-        manual_parameters=[],
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            title="Registration Schema",
+            required=["username", "email", "password", "profile"],
+            description="",
+            properties={
+                "username": openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                    default="test"
+                ),
+                "email": openapi.Schema(type=openapi.TYPE_STRING,),
+                "password": openapi.Schema(type=openapi.TYPE_STRING,),
+                "profile": openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        "public": openapi.Schema(
+                            type=openapi.TYPE_BOOLEAN,
+                            default=True
+                        ),
+                        "affiliation": openapi.Schema(
+                            type=openapi.TYPE_STRING,
+                            default="George Wasington University"
+                        ),
+                        "orcid": openapi.Schema(
+                            type=openapi.TYPE_STRING,
+                            default=""
+                        ),
+                    }
+                )
+            }
+        ),
         responses={
             201: "Registration is successful.",
-            400: "Bad request."
+            400: "Bad request.",
+            409: "Conflict. A user with that emil already exists."
         },
         tags=["Account Management"],
     )
