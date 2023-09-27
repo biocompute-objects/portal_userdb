@@ -3,6 +3,8 @@ from django.core.mail import send_mail
 from django.dispatch import receiver
 from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions, status, serializers
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -64,18 +66,27 @@ class ChangePasswordApi(APIView):
 
 class UserCreateApi(APIView):
     """
-    allows you to post data on successful registration to the backend to
+    This allows you to post data on successful registration to the backend to
     confirm and store a user to the site.
     passed through the serializer UserSerializerWithToken
     """
 
     permission_classes = (permissions.AllowAny,)
+    
+    @swagger_auto_schema(
+        manual_parameters=[],
+        responses={
+            201: "Registration is successful.",
+            400: "Bad request."
+        },
+        tags=["Account Management"],
+    )
 
     def post(self, request, format=None):
         user_serializer = UserSerializerWithToken(data=request.data)
         user_serializer.is_valid(raise_exception=True)
         profile_serializer = ProfileSerializer(data=request.data)
-        if profile_serializer.is_valid():
+        if profile_serializer.is_valid()and len(User.objects.filter(email=request.data['email'])) == 0:
             user_serializer.save()
             profile_serializer.save()
             return Response(user_serializer.data, status=status.HTTP_201_CREATED)
