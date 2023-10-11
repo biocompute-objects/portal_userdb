@@ -11,7 +11,7 @@ from users.models import User
 class TestUserCreateApi(TestCase):
     """Class for testing User creation
     """
-    fixtures = ['tests/fixtures/test_data']
+    fixtures = ['tests/fixtures/testing_data']
 
     def setUp(self):
         self.client = Client()
