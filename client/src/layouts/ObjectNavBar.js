@@ -256,25 +256,25 @@ const ObjectNavBar = () => {
               <><HelpDropDown /></>
             </Tooltip>
             {auth.user ? (
-              <>
-                <Tooltip title="Profile Page">
-                  <><IconButton
-                    component={Link} to='/profile'
-                    edge='end'
-                    aria-label='account of current user'
-                    aria-haspopup='true'
-                    color='inherit'
-                  >
-                    <div className="image-container">
-                      {
-                        (auth.user.imageUrl)
-                          ? (<img src={auth.user.imageUrl} alt="user profile"/>)
-                          : (<div>{auth.user.userinfo.username}</div>)
-                      }
-                    </div>
-                  </IconButton></>
-                </Tooltip>
-              </>
+              
+              <Tooltip title="Profile Page">
+                <IconButton
+                  component={Link} to='/profile'
+                  edge='end'
+                  aria-label='account of current user'
+                  aria-haspopup='true'
+                  color='inherit'
+                >
+                  <div className="image-container">
+                    {
+                      (auth.user.imageUrl)
+                        ? (<img src={auth.user.imageUrl} alt="user profile"/>)
+                        : (<div>{auth.user.userinfo.username}</div>)
+                    }
+                  </div>
+                </IconButton>
+              </Tooltip>
+              
             ) : (
               <>
                 <IconButton component={Link} to='/login' aria-label='log in' color='inherit'>
