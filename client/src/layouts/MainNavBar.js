@@ -181,17 +181,17 @@ const NavBar = () => {
             <Tooltip title="Help">
               <><HelpDropDown /></>
             </Tooltip>
-            <Tooltip title="About Us">
-              <><IconButton component={Link} to='/about' aria-label='show 0 new notifications' color='inherit'>
+            <Tooltip title="About BCO">
+              <IconButton component={Link} to='/about' aria-label='show 0 new notifications' color='inherit'>
                 <Badge overlap="rectangular" badgeContent={0} color='secondary'>
                   <InfoOutlinedIcon />
                 </Badge>
-              </IconButton></>
+              </IconButton>
             </Tooltip>
             {auth.user ? (
               <>
                 <Tooltip title="Profile Page">
-                  <><IconButton
+                  <IconButton
                     component={Link} to='/profile'
                     edge='end'
                     aria-label='account of current user'
@@ -205,7 +205,7 @@ const NavBar = () => {
                           : (<div>{auth.user.userinfo.username}</div>)
                       }
                     </div>
-                  </IconButton></>
+                  </IconButton>
                 </Tooltip>
               </>
             ) : (
