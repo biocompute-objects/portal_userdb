@@ -34,14 +34,14 @@
     "react-json-view": "^1.21.3",
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.6.0",
-    "react-scripts": "5.0.1",
+    
     "react-twitter-embed": "^4.0.4",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "DISABLE_ESLINT_PLUGIN=true react-scripts start",
-    "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
+    "start": "cross-env DISABLE_ESLINT_PLUGIN=true react-scripts start",
+    "build": "cross-env DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!@toolz/allow-react)/\" --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.{js,jsx}\"",
@@ -66,6 +66,7 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^8.31.0"
+    "eslint": "^8.31.0",
+    "react-scripts": "^5.0.1"
   }
 }
