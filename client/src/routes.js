@@ -38,7 +38,7 @@ export default function Router() {
         { path: "/bcodbs", element: <BcoDbs />},
         { path: "/prefix", element: <Prefix />},
         { path: "/about", element: <About />},
-        { path: "/password_reset/confirm", element: <PasswordReset />},
+        { path: "/password/confirm/?", element: <PasswordReset />},
       ]
     },
     {
