@@ -165,7 +165,7 @@ const bcoSlice = createSlice({
       .addCase(validateBco.fulfilled, (state, action) => {
         if (action.payload === 200) {
           state.status = "valid"
-          state.error = "null"
+          state.error = null
         } else {
           state.status = "invalid"
           state.error = action.payload

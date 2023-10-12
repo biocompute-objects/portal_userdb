@@ -125,7 +125,7 @@ export default function BuilderColorCode () {
               ? (<>
                 <CardHeader title="BCO Errors"/>
                 <CardContent>
-                  <ReactJson src={bcoError[0]}/>
+                  <ReactJson src={bcoError}/>
                 </CardContent>
               </>)
               : (<></>)

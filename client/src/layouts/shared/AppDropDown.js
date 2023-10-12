@@ -29,8 +29,6 @@ export default function APP() {
         <MenuItem
           component="a"
           href="/builder"
-          // target="_blank"
-          // rel="noopener noreferrer"
         >
           <ListItemDecorator>
             <ModeEditOutlineOutlinedIcon />
@@ -40,8 +38,6 @@ export default function APP() {
         <MenuItem
           component="a"
           href="/prefix"
-          target="_blank"
-          rel="noopener noreferrer"
         >
           <ListItemDecorator>
             <GroupOutlinedIcon />
@@ -51,8 +47,6 @@ export default function APP() {
         <MenuItem
           component="a"
           href="/bcodbs"
-          target="_blank"
-          rel="noopener noreferrer"
         >
           <ListItemDecorator>
             <SearchOutlinedIcon />

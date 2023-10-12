@@ -622,11 +622,11 @@
         "model": "bcodb.bcodb",
         "pk": "8be48b95-86ed-439a-a2eb-e60f2dddba1e",
         "fields": {
-            "bcodb_username": "bco_publisher",
+            "bcodb_username": "bco_api_user",
             "hostname": "127.0.0.1:8000",
             "human_readable_hostname": "BCO Server (Default)",
             "public_hostname": "http://127.0.0.1:8000",
-            "token": "2f2a599026581c158a07f968c56292c77f4be875",
+            "token": "bd97d8cbec1fc7234e11e80957496aefc20c6395",
             "owner": "80ee9548-274f-426b-bf80-046c9210e33b",
             "user_permissions": [
                 "Can add BCOs with prefix BCO",
