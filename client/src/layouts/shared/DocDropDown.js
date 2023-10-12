@@ -63,8 +63,6 @@ export default function DocDropDown() {
         <MenuItem
           component="a"
           href="/resources"
-          target="_blank"
-          rel="noopener noreferrer"
         >
           <ListItemDecorator>
             <SettingsInputAntennaIcon />
