@@ -178,16 +178,19 @@ export const  ProvenanceDomain = ({onSave} ) => {
                         name='contributors'
                         render={arrayHelpers => (
                           <Grid item xs>
-                            {values.contributors.map((contributor, index) => (
-                              <CardContent key={index}>
-                                <Contribution contributor={contributor} contributorPath={`contributors[${index}]`}/>
-                                <Button
-                                  variant="outlined"
-                                  color="secondary"
-                                  onClick={() => {arrayHelpers.remove(index)}}
-                                >Remove Contributor</Button>
-                              </CardContent>
-                            ))}
+                            {values.contributors ?(<div>
+                              {values.contributors.map((contributor, index) => (
+                                <CardContent key={index}>
+                                  <Contribution contributor={contributor} contributorPath={`contributors[${index}]`}/>
+                                  <Button
+                                    variant="outlined"
+                                    color="secondary"
+                                    onClick={() => {arrayHelpers.remove(index)}}
+                                  >Remove Contributor</Button>
+                                </CardContent>
+                              ))}
+                            </div>) :(<div></div>)
+                            }
                             <Button
                               variant="outlined"
                               color="primary"

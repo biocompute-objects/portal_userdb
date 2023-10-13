@@ -148,7 +148,7 @@ const bcoSlice = createSlice({
       })
       .addCase(createDraftBco.fulfilled, (state, action) => {
         state.data.object_id = action.payload[0].object_id
-        state.error = "null"
+        state.error = null
         state.status = "idle"
       })
       .addCase(createDraftBco.rejected, (state) => {
@@ -156,11 +156,11 @@ const bcoSlice = createSlice({
       })
       .addCase(updateDraftBco.rejected, (state) => {
         state.status = "rejected"
-        state.error = "null"
+        state.error = null
       })
       .addCase(updateDraftBco.fulfilled, (state) => {
         state.status = "idle"
-        state.error = "null"
+        state.error = null
       })
       .addCase(validateBco.fulfilled, (state, action) => {
         if (action.payload === 200) {
