@@ -14,6 +14,8 @@ import { ListItemDecorator } from "@mui/joy";
 import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 
 export default function DocDropDown() {
+  const bcodbUrl = process.env.REACT_APP_BCOAPI_URL
+  
   return (
     <Dropdown>
       <MenuButton
@@ -40,7 +42,7 @@ export default function DocDropDown() {
         </MenuItem>
         <MenuItem
           component="a"
-          href="https://biocomputeobject.org/api/docs/"
+          href={`${bcodbUrl}docs/`}
           target="_blank"
           rel="noopener noreferrer"
         >
