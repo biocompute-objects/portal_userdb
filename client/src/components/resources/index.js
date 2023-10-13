@@ -55,24 +55,24 @@ function DocView() {
           <Grid item xs={12} sm={6} lg={4} xl={4}>
             <CGC />
           </Grid>
-          <Grid classes={classes.colored} container alignItems="stretch" spacing={3}>
-            {/* <Grid item lg={4} sm={6} xl={4} xs={12}>
+          {/* <Grid classes={classes.colored} container alignItems="stretch" spacing={3}> */}
+          {/* <Grid item lg={4} sm={6} xl={4} xs={12}>
               <Hive />
             </Grid> */}
-            {/* <Grid item lg={4} sm={6} xl={4} xs={12}>
+          {/* <Grid item lg={4} sm={6} xl={4} xs={12}>
               <Packages />
             </Grid> */}
-            {/* <Grid item lg={4} sm={6} xl={4} xs={12}>
+          {/* <Grid item lg={4} sm={6} xl={4} xs={12}>
               <Galaxy />
             </Grid> */}
-            {/* <Grid item lg={3} sm={6} xl={4} xs={12}>
+          {/* <Grid item lg={3} sm={6} xl={4} xs={12}>
                     <Tsc />
                   </Grid> */}
-            <Grid item xs={12} sm={12} lg={12} xl={12}>
-              <Citations />
-            </Grid>
-
+          <Grid item xs={12} sm={12} lg={12} xl={12}>
+            <Citations />
           </Grid>
+
+          {/* </Grid> */}
 
         </Grid>
       </Container>
