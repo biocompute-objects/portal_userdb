@@ -1,6 +1,7 @@
-import { Card, CardContent, CardHeader, Grid, Typography } from "@material-ui/core";
+import { Box, Card, CardContent, CardHeader, Grid, TextField, Typography } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
+import ReactJson from "react-json-view"
 
 export const ProvenanceView = () => {
   const prov = useSelector(state => state.bco.data.provenance_domain)
@@ -234,3 +235,33 @@ export const ExecutionView = () => {
     </Card>
   )
 };
+
+export const RawJson = () => {
+  const bco = useSelector(state => state.bco.data)
+  return (
+    <Card>
+      <CardHeader title="Raw JSON View"/>
+      <CardContent></CardContent>
+      <Box>
+        <TextField
+          color="primary"
+          fullWidth
+          id="outlined-multiline-static"
+          multiline
+          minRows={25}
+          defaultValue={JSON.stringify(bco, null, 4)}
+          variant="outlined"
+        />
+      </Box>
+    </Card>
+  )
+}
+
+export const TreeView = () => {
+  const bco = useSelector(state => state.bco.data)
+  return (
+    <ReactJson 
+      src={bco}
+    />
+  )
+}

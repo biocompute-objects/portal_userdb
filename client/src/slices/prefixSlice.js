@@ -43,7 +43,7 @@ export const registerPrefix= createAsyncThunk(
   }
 );
 
-export const prefixList = createAsyncThunk(
+export const getPrefixList = createAsyncThunk(
   "prefixList",
   async (bcodb, thunkAPI) => {
     try {
@@ -79,7 +79,7 @@ export const prefixSlice = createSlice({
         state.error = action.error.message
         state.status = "failed";
       })
-      .addCase(prefixList.fulfilled, (state, action) => {
+      .addCase(getPrefixList.fulfilled, (state, action) => {
         for (let i = 0; i < action.payload.length; i++) {
           if (action.payload[i].includes("draft_")) {
             const prefix = action.payload[i].split("_")[1]
@@ -90,7 +90,7 @@ export const prefixSlice = createSlice({
         }
         state.status = "fulfilled";
       })
-      .addCase(prefixList.rejected, (state, action) => {
+      .addCase(getPrefixList.rejected, (state, action) => {
         state.error = action.error.message
         state.status = "failed";
         state.data = ["BCO"]

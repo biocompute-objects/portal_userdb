@@ -4,7 +4,7 @@
 ### Requirements
 - Node.js
 - Python 3
-- PyEnv (optional but reccomended)
+- PyEnv (optional but recommended)
 
 
 ## BCO_API
@@ -145,7 +145,7 @@ Then follow the prompts
 #### Then:  Do a quick check to make sure the server can run
 
 
-**Start the serer**
+**Start the server**
 
 `python3.9 manage.py runserver 8000`
 
@@ -178,6 +178,8 @@ EX: http://localhost:8000/api/admin/
 
 ### Enter the repository, create a virtual environment, and install the required packages
 
+##### For Mac/Linux:
+
 `cd client`
 
 `pyenv local 3.9.4` *(optional)*
@@ -187,6 +189,17 @@ EX: http://localhost:8000/api/admin/
 `source env/bin/activate`
 
 `pip3.9 install -r requirements.txt`
+
+##### For Windows:
+
+`cd client`
+
+`python -m venv env`
+
+`source env/Scripts/activate`
+
+`pip install -r requirements.txt`
+
 
 #### Modify the Config file
 `vim portaluserdb/settings.py`
@@ -205,6 +218,11 @@ EX: http://localhost:8000/api/admin/
 - On linux (or MAC) generate a 32-bytes long PSK key using the openssl command for the `DJANO_KEY`:
 
 `openssl rand -base64 32`
+
+- On Windows, generate a 32-bytes long PSK key using the PowerShell command for the `DJANGO_KEY`:
+   
+`[Convert]::ToBase64String((1..32 | ForEach-Object { Get-Random -Minimum 0 -Maximum 256 }) -as [byte[]])`
+
 
 - Update the `.secrets` file with the required keys: 
 
@@ -253,6 +271,10 @@ If it worked you should be able to login using the SuperUser credentials you cre
 ## BCO Portal Client deployment  (portal_userdb/client)
 
 `cd /client/`
+
+##### For Windows: 
+
+`cd client/`
 
 **Install packages**
 
