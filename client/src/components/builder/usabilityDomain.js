@@ -3,8 +3,9 @@ import {
   Button,
   Card,
   Grid,
+  Typography,
   CardContent,
-  CardHeader
+  Paper
 } from "@material-ui/core";
 import {
   Formik,
@@ -21,35 +22,31 @@ import {
   updateModified
 } from "../../slices/bcoSlice"
 import { LargeTextField } from "./specialFeilds";
-import { FormObserver, Next } from "./components";
-import "../../App.css";
 
 export const  UsabilityDomain = ({onSave}) => {
   const dispatch = useDispatch();
   const usabilityDomain = useSelector(state => state.bco.data.usability_domain)
   return (
-    <Card className="object-domain">
-      <Formik
-        initialValues={{"usability_domain":usabilityDomain}}
-        onSubmit={
-          (myData, {setSubmitting}) => {
-            setSubmitting(true);
-            dispatch(updateModified())
-            dispatch(updateUsability(myData["usability_domain"]))
-            setSubmitting(false);
-            onSave()
+    <Card variant="outlined" style={{background: "#E5E4E2"}}>
+      <Paper>
+        <Typography variant={"h4"} component={"span"}> Usability Domain</Typography>
+      </Paper>
+      <CardContent>
+        <Formik
+          initialValues={{"usability_domain":usabilityDomain}}
+          onSubmit={
+            (myData, {setSubmitting}) => {
+              setSubmitting(true);
+              dispatch(updateModified())
+              dispatch(updateUsability(myData["usability_domain"]))
+              setSubmitting(false);
+              onSave()
+            }
           }
-        }
-      >
-        {
-          ({values, isSubmitting, errors}) => (
-            <Form>
-              <FormObserver />
-              <CardHeader 
-                title="Usability Domain"
-                action={<Next />}
-              />
-              <CardContent>
+        >
+          {
+            ({values, isSubmitting,errors}) => (
+              <Form>
                 <FieldArray name='usability_domain'>
                   {arrayHelpers => (
                     <div>
@@ -64,11 +61,14 @@ export const  UsabilityDomain = ({onSave}) => {
                     </div>
                   )}
                 </FieldArray>
-              </CardContent>
-            </Form>
-          )
-        }
-      </Formik>
+                <div>
+                  <Button disabled={isSubmitting} varient="contained" color="primary" type='submit'> Save </Button>
+                </div>
+              </Form>
+            )
+          }
+        </Formik>
+      </CardContent>
     </Card>
   )
 }

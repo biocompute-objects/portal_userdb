@@ -1,36 +1,25 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux"
-import { Card, CardContent, TextField, Typography, Grid, Button, CardHeader } from "@material-ui/core";
-import { addExtensionDomain, getExtension, deleteExtensionDomain } from "../../slices/bcoSlice"
+import { Card, CardContent, TextField, Typography, Grid, Button, Paper } from "@material-ui/core";
+import { addExtensionDomain, deleteExtensionDomain } from "../../slices/bcoSlice"
 import { Extension } from "./extension";
-import "../../App.css";
 
 export const  ExtensionDomain = ({onSave}) => {
   const dispatch = useDispatch();
   const extensionDomain = useSelector(state => state.bco.data.extension_domain)
   const [newSchema, setNewSchema] = React.useState("")
-
-  const errorSchema = {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "type": "object",
-    "properties": {
-      "message": {
-        "type": "string"
-      }
-    },
-    "required": [
-      "message"
-    ]
-  }
+  let has_extension = extensionDomain.length > 0
 
   const addExtension = async () => {
-    dispatch(getExtension({newSchema}))
-      .unwrap()
-      .then((
+    await fetch(newSchema)
+      .then((response) => response.json())
+      .then((jsonData) => {
+        console.log(has_extension, jsonData);
         dispatch(addExtensionDomain({extension_schema: newSchema}))
-      ))
+      })
       .catch((error) => {
-        console.log("ERROR: ", error)
+        console.log(`ERROR: ${error}`);
+        global.window.alert(`Fetch schema from '${newSchema}' FAILED: ${error}`);
       });
     setNewSchema("");
   };
@@ -40,17 +29,10 @@ export const  ExtensionDomain = ({onSave}) => {
   };
 
   return (
-    <Card className="object-domain">
-      <CardHeader
-        title="Extension Domain"
-        action={
-          <Button
-            onClick={() => onSave()}
-            variant="contained"
-            color="primary"
-            disableElevation
-          >Next</Button>}
-      />
+    <Card>
+      <Paper>
+        <Typography variant='h4'> Extension Domain</Typography>
+      </Paper>
       <CardContent>
         <Grid>
           <Typography>
@@ -83,7 +65,7 @@ export const  ExtensionDomain = ({onSave}) => {
               />
               <Button
                 variant="contained"
-                color="secondary"
+                color="primary"
                 disableElevation
                 fullWidth
                 onClick={() => removeRows(index)}
@@ -94,6 +76,14 @@ export const  ExtensionDomain = ({onSave}) => {
         }))
         : (<CardContent></CardContent>)
       }
+      <CardContent>
+        <Button
+          onClick={() => onSave()}
+          variant="contained"
+          color="primary"
+          disableElevation
+        >Save</Button>
+      </CardContent>
     </Card>
   )
 }

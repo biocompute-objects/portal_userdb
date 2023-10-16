@@ -46,7 +46,7 @@ ALLOWED_HOSTS = ["*"]
 
 VERSION = "23.04"
 
-PUBLIC_HOSTNAME = secrets['SERVER']['SERVER_URL']
+PUBLIC_HOSTNAME = "http://localhost:3000"
 
 # Application definition
 INSTALLED_APPS = [
