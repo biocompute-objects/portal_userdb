@@ -7,22 +7,24 @@ import {
   Grid,
   Typography,
   TextField,
-  CardHeader
+  Paper
 } from "@material-ui/core";
 import {Autocomplete } from "@material-ui/lab";
 import { Formik, Form, FieldArray } from "formik";
 import { useSelector, useDispatch } from "react-redux"
 import { updateDescription } from "../../slices/bcoSlice"
 import { LargeTextField, MyTextField } from "./specialFeilds";
-import { FormObserver, Next, Uri } from "./components"
-import "../../App.css";
+import { Uri } from "./components"
 
 export const  DescriptionDomain = ({onSave}) => {
   const dispatch = useDispatch();
   const description_domain = useSelector(state => state.bco.data.description_domain)
 
   return (
-    <Card className="object-domain">
+    <Card variant="outlined" style={{background: "#D8D8D8"}}>
+      <Paper>
+        <Typography variant='h4'> Description Domain</Typography>
+      </Paper>
       <Formik
         initialValues={description_domain}
         onSubmit={
@@ -37,11 +39,6 @@ export const  DescriptionDomain = ({onSave}) => {
         {
           ({values, isSubmitting, errors, setFieldValue}) => (
             <Form>
-              <CardHeader 
-                title="Description Domain"
-                action={<Next />}  
-              />
-              <FormObserver />
               <Card>
                 <br/>
                 <Grid container spacing={2} alignItems="center">                      
@@ -111,86 +108,6 @@ export const  DescriptionDomain = ({onSave}) => {
                   </Grid>
                 </Grid>
               </Card>
-              <FieldArray
-                name="xref"
-                render={arrayHelpers => (
-                  <Card>
-                    <Typography gutterBottom variant='h5'>External References</Typography>
-                    {
-                      values.xref
-                        ?(<div>
-                          {values["xref"].map((ref, index) => (
-                            <CardContent key={index}>
-                              <Grid container>
-                                <Grid item>
-                                  <MyTextField name={`xref[${index}].name`} label={"Name"}/>
-                                </Grid>
-                                <Grid item>
-                                  <MyTextField name={`xref[${index}].namespace`} label={"Namespace"} />
-                                </Grid>
-                                <Grid item xs>
-                                  <Autocomplete
-                                    multiple
-                                    name="IDs"
-                                    options={[]}
-                                    freeSolo
-                                    renderTags={(value, getTagProps) =>
-                                      value.map((option, index) => (
-                                        <Chip
-                                          key={index}
-                                          variant="outlined"
-                                          color="primary"
-                                          label={option}
-                                          {...getTagProps({ index })}
-                                        />
-                                      ))
-                                    }
-                                    value={ref.ids}
-                                    onChange={(e, new_id)=>{
-                                      setFieldValue(`xref[${index}].ids`, new_id);
-                                    }}
-                                    renderInput={(params) => (
-                                      <TextField
-                                        {...params}
-                                        variant="outlined"
-                                        label="IDs"
-                                        name="IDs"
-                                        placeholder='type and enter'
-                                      />
-                                    )}
-                                  />
-                                </Grid>
-                                <Grid item>
-                                  <MyTextField name={`xref[${index}].access_time`} label={"Access Time"}/>
-                                </Grid>
-                                <Grid container>
-                                  <Button
-                                    variant='outlined'
-                                    color='secondary'
-                                    type="button"
-                                    onClick={() => arrayHelpers.remove(index)}
-                                  >Remove Eternal Refernce</Button>
-                                </Grid>
-                              </Grid>
-                        
-                            </CardContent>
-                          ))}
-                        </div>)
-                        :( <div></div>)
-                    }
-                    <Button
-                      variant='outlined'
-                      color='primary'
-                      onClick={() => arrayHelpers.push({
-                        namespace: "",
-                        name: "",
-                        ids: [],
-                        access_time: ""
-                      })}
-                    > Add External Reference</Button>
-                  </Card>
-                )}
-              />
               <FieldArray
                 name="pipeline_steps"
                 render={arrayHelpers => (
@@ -342,7 +259,10 @@ export const  DescriptionDomain = ({onSave}) => {
                     > Add Step</Button>
                   </Card>
                 )}
-              />
+              />                
+              <div>
+                <button disabled={isSubmitting} type='submit'> Save </button>
+              </div>
             </Form>
           )}  
       </Formik>

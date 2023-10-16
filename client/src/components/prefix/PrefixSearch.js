@@ -12,6 +12,7 @@ import { Field, Form, Formik  } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { searchPrefix } from "../../slices/prefixSlice";
 import { MyTextField } from "../builder/specialFeilds";
+import "../../styles.css";
 
 
 export default function PrefixSearch({setAddPrefix}) {

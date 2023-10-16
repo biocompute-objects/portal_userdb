@@ -1,10 +1,12 @@
 import React from "react";
-import { Button, Card, CardContent, CardHeader, Grid, Paper, Typography } from "@material-ui/core";
+import { Card, CardContent, Grid, Paper, Typography } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import ReactJson from "react-json-view"
-import { updateBco, updateModified } from "../../slices/bcoSlice";
+import { updateBco } from "../../slices/bcoSlice";
 
-export const TreeView = ({onSave}) => {
+import "../../styles.css";
+
+export const TreeView = () => {
   const bco = useSelector(state => state.bco.data);
   // const [ bcodbInfo, setBcodbInfo ] = useState([])
   const dispatch = useDispatch();
@@ -15,19 +17,9 @@ export const TreeView = ({onSave}) => {
 
   return (
     <Card>
-      <CardHeader
-        title="JSON Tree View"
-        action={
-          <Button 
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              dispatch(updateBco(bco));
-              dispatch(updateModified());
-              onSave()
-            }}
-          > Next </Button>}
-      />
+      <Paper>
+        <Typography variant='h4'> JSON Tree View</Typography>
+      </Paper>
       <CardContent  align='left'>
         <ReactJson 
           src={bco}

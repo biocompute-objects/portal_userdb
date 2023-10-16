@@ -1,10 +1,13 @@
 import React from "react";
-import {Card, Typography, CardContent, Grid, Button, CardHeader} from "@material-ui/core";
+import {Card, Typography, CardContent, Grid, Button} from "@material-ui/core";
+
 import { Formik, Form, FieldArray } from "formik";
+
 import { useSelector, useDispatch } from "react-redux"
-import { updateIODomain, updateModified } from "../../slices/bcoSlice"
+import { updateIODomain } from "../../slices/bcoSlice"
+
 import { MyTextField } from "./specialFeilds"
-import { FormObserver, Next, removeEmptyValues, Uri } from "./components"
+import { Uri } from "./components"
 
 export const  IODomain = ({onSave}) => {
   const dispatch = useDispatch();
@@ -15,33 +18,31 @@ export const  IODomain = ({onSave}) => {
   return (
     <>
       <Card> 
-        <Formik
-          initialValues={
+        <CardContent>
+          <Typography variant='h4'> IO Domain</Typography>
+        </CardContent>
+        <Grid container justifyContent='center'>
+          <Formik
+            initialValues={
+              {
+                "input_subdomain": has_input ? io_domain["input_subdomain"] : [],
+                "output_subdomain": has_output ? io_domain["output_subdomain"] : []
+              }
+            }
+            onSubmit={
+              (myData, {setSubmitting}) => {
+                setSubmitting(true);
+                dispatch(updateIODomain(myData));
+                setSubmitting(false);
+                onSave()
+              }
+            }
+          >
             {
-              "input_subdomain": has_input ? io_domain["input_subdomain"] : [],
-              "output_subdomain": has_output ? io_domain["output_subdomain"] : []
-            }
-          }
-          onSubmit={
-            (myData, {setSubmitting}) => {
-              const cleanData = removeEmptyValues(myData)
-              setSubmitting(true);
-              dispatch(updateIODomain(cleanData));
-              dispatch(updateModified());
-              setSubmitting(false);
-              onSave()
-            }
-          }
-        >
-          {
-            ({values, isSubmitting,errors}) => (
-              <Form>
-                <CardHeader
-                  title={"IO Domain"}
-                  action={<Next />}
-                />
-                <CardContent >
-                  <FormObserver/>
+              ({values, isSubmitting,errors}) => (
+                <Form>
+                   
+                             
                   <Grid container spacing={2}>
                     <CardContent>   
                       <Grid container spacing={2} justifyContent='center'>
@@ -50,6 +51,7 @@ export const  IODomain = ({onSave}) => {
                         </Grid> 
                       </Grid>
                       <Grid container>
+                                
                         <FieldArray
                           name="input_subdomain"
                           render={arrayHelpers => (
@@ -91,17 +93,19 @@ export const  IODomain = ({onSave}) => {
                           <Typography variant="h6">Output Subdomain</Typography>
                         </Grid> 
                       </Grid>
-                      <Grid container>        
+                      <Grid container>
+                                
                         <FieldArray
                           name="output_subdomain"
                           render={arrayHelpers => (
                             <div>
+                              {/*console.log(values)*/}
                               {values["output_subdomain"].map((aa, index) => (
                                 <CardContent key={index}>
                                   <Grid container spacing={2} alignItems='center' justifyContent='center'>
                                     {/** both these conventions do the same */}
                                     <Grid item xs>
-                                      <MyTextField name={`output_subdomain[${index}].mediatype`} label="Media Type" isRequired/>
+                                      <MyTextField name={`output_subdomain[${index}].mediatype`} label="Media Type"/>
                                     </Grid>
                                     <Uri uri_element={`output_subdomain[${index}].uri`}/>
                                                     
@@ -129,11 +133,18 @@ export const  IODomain = ({onSave}) => {
                       </Grid>
                     </CardContent>                  
                   </Grid>
-                </CardContent>
-              </Form>
-            )
-          }
-        </Formik>
+                               
+                  <div style={{padding: 20}}> 
+                    <Button disabled={isSubmitting} type='submit' variant="contained" color="primary"> Save </Button>
+                  </div>
+                      
+
+                </Form>
+              )
+            }  
+
+          </Formik>
+        </Grid>
       </Card>
     </>
   )
