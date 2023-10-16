@@ -2,90 +2,26 @@
 
 import React, { useEffect } from "react";
 import {
-  Card, CardContent, Container, Grid, ListItem, ListItemText, Paper,
-  Typography 
+  Card,
+  CardContent,
+  Container,
+  Grid,
+  Typography
 } from "@material-ui/core";
-import DataObjectIcon from "@mui/icons-material/DataObject";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import {
   ProvenanceView, UsabilityView, DescriptionView, ExtensionView,
-  ExecutionView, ParametricView, IoView
+  ExecutionView, ParametricView, IoView, ErrorView, RawJson, TreeView
 } from "./cardViews";
 import { getPubBco } from "../../slices/bcoSlice";
-
-const data = [
-  {
-    name: "Provenance Domain",
-    value: "provenance_domain"
-  },
-  {
-    name: "Usability Domain",
-    value: "usability_domain"
-  },
-  {
-    name: "Description Domain",
-    value: "description_domain"
-  },
-  {
-    name: "Extension Domain (Optional)",
-    value: "extension_domain"
-  },
-  {
-    name: "Parametric Domain",
-    value: "parametric_domain"
-  },
-  {
-    name: "IO Domain",
-    value: "io_domain"
-  },
-  {
-    name: "Execution Domain",
-    value: "execution_domain"
-  }
-];
-
+import "../../App.css"
+import { useOutletContext } from "react-router-dom";
 
 export default function BcoViewer () {
+  const {domain, setDomain} = useOutletContext()
   const dispatch = useDispatch();
-  const [value, setValue] = React.useState(0);
   const bco = useSelector(state => state.bco.data)
-
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
-
-  function a11yProps(index) {
-    return {
-      id: `simple-tab-${index}`,
-      "aria-controls": `simple-tabpanel-${index}`,
-    };
-  }
-
-  function TabPanel(props) {
-    const { children, value, index, ...other } = props;
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && (
-          <Container>
-            {children}
-          </Container>
-        )}
-      </div>
-    );
-  }
-  TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
-  };
-
   function validURL(url) {
     try {
       new URL(url);
@@ -109,56 +45,81 @@ export default function BcoViewer () {
         });
     }
   }, [])
-  return (
-    <Container>
-      <Paper>
-        <Grid container spacing={2}>
-          <Grid item>
-            {data.map((item, index) => (
-              <ListItem selected={ value===index } value={index} button key={index} onClick={() => {handleChange(index)}} {...a11yProps(index)}>
-                <DataObjectIcon />{" "}<ListItemText primary={item.name} />
-              </ListItem>
-            ))}
-          </Grid>
-          <Grid item xs={12} md>
-            <Card>
-              <CardContent>
-                <Typography>
+
+  function TabPanel(props) {
+    const { children, domain, index, ...other } = props;
+    return (
+      <div
+        role="tabpanel"
+        hidden={domain !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {domain === index && (
+          <Container>
+            {children}
+          </Container>
+        )}
+      </div>
+    );
+  }
+  TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.any.isRequired,
+    domain: PropTypes.any.isRequired,
+  };
+
+  return (  
+    <>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md>
+          <Card>
+            <CardContent>
+              <Typography>
                   Object ID: {bco.object_id}
-                </Typography>
-                <Typography>
+              </Typography>
+              <Typography>
                   Spec Version: {bco.spec_version}
-                </Typography>
-                <Typography>
+              </Typography>
+              <Typography>
                   ETag: {bco.etag}
-                </Typography>
-              </CardContent>
-            </Card>
-            <br/>
-            <TabPanel value={value} index={0}>
-              <ProvenanceView/>
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              <UsabilityView/>
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-              <DescriptionView/>
-            </TabPanel>
-            <TabPanel value={value} index={3}>
-              <ExtensionView/>
-            </TabPanel>
-            <TabPanel value={value} index={4}>
-              <ParametricView/>
-            </TabPanel>
-            <TabPanel value={value} index={5}>
-              <IoView/>
-            </TabPanel>
-            <TabPanel value={value} index={6}>
-              <ExecutionView/>
-            </TabPanel>
-          </Grid>
+              </Typography>
+            </CardContent>
+          </Card>
+          <br/>
+          <TabPanel domain={domain} index={0}>
+            <ProvenanceView/>
+          </TabPanel>
+          <TabPanel domain={domain} index={1}>
+            <UsabilityView/>
+          </TabPanel>
+          <TabPanel domain={domain} index={2}>
+            <DescriptionView/>
+          </TabPanel>
+          <TabPanel domain={domain} index={3}>
+            <ExtensionView/>
+          </TabPanel>
+          <TabPanel domain={domain} index={4}>
+            <ParametricView/>
+          </TabPanel>
+          <TabPanel domain={domain} index={5}>
+            <IoView/>
+          </TabPanel>
+          <TabPanel domain={domain} index={6}>
+            <ExecutionView/>
+          </TabPanel>
+          <TabPanel domain={domain} index={7}>
+            <ErrorView/>
+          </TabPanel>
+          <TabPanel domain={domain} index={8}>
+            <RawJson/>
+          </TabPanel>
+          <TabPanel domain={domain} index={9}>
+            <TreeView/>
+          </TabPanel>
         </Grid>
-      </Paper>
-    </Container>
+      </Grid>
+    </>
   )
 }

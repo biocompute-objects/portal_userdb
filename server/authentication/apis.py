@@ -36,7 +36,7 @@ def password_reset_token_created(
 
     activation_link = (
         settings.PUBLIC_HOSTNAME
-        + "/password_reset/confirm/?"
+        + "/password/confirm/?"
         + f"{token}"
     )
 

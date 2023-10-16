@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 
 import mediaWiki from "../../images/mediawikiwiki.svg";
+import api from "../../images/api.jpeg";
 
 const useStyles = makeStyles({
   bullet: {
@@ -54,11 +55,9 @@ export default function Documentation() {
       <CardActionArea onClick={() => global.window.open(docsLink)}>
         <CardContent>
           <Typography className={classes.subtitle}>
-            BCO Docs Site
+          <img src={api} height={25} alt="MediaWiki logo" />
+            API
             <br />
-          </Typography>
-          <Typography className={classes.bullet}>
-            User Guide, Best Practices, tutorial
           </Typography>
         </CardContent>
       </CardActionArea>

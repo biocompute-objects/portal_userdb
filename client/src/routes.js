@@ -1,21 +1,21 @@
 
 import React from "react";
-import { useRoutes } from "react-router-dom";
-import { Navigate } from "react-router-dom";
+import { useRoutes, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { BuilderColorCode } from "./components/builder";
-import MainLayout from "./layouts/MainLayout"
+import MainLayout from "./layouts/MainLayout";
+import ObjectViewLayout from "./layouts/ObjectViewLayout";
+import BuilderColorCode from "./components/builder";
+import About from "./components/about";
 import HomePage from "./components/home"
+import GroupsPage from "./components/account/bcodbGroups";
 import Login from "./components/auth/Login";
+import PasswordReset from "./components/auth/PasswordReset";
 import Register from "./components/auth/Register";
 import AccountPage from "./components/account";
-import Resources from "./components/resources";
 import BcoDbs from "./components/bcodbs";
+import Resources from "./components/resources";
 import Prefix from "./components/prefix";
 import BcoViewer from "./components/viewer";
-import GroupsPage from "./components/account/bcodbGroups";
-import About from "./components/about";
-import PasswordReset from "./components/auth/PasswordReset";
 
 export default function Router() {
   const isLoggedIn = useSelector((state) => state.account.isLoggedIn)
@@ -26,8 +26,6 @@ export default function Router() {
       element: <MainLayout />,
       children: [
         { path: "/", element: <HomePage /> },
-        { path: "/builder", element: <BuilderColorCode /> },
-        { path: "/viewer", element: <BcoViewer />},
         { path: "/profile", element: isLoggedIn
           ? <AccountPage />
           : <Navigate to="/login" />},
@@ -40,7 +38,15 @@ export default function Router() {
         { path: "/bcodbs", element: <BcoDbs />},
         { path: "/prefix", element: <Prefix />},
         { path: "/about", element: <About />},
-        { path: "/password_reset/confirm", element: <PasswordReset />},
+        { path: "/password/confirm/?", element: <PasswordReset />},
+      ]
+    },
+    {
+      path:"/",
+      element: <ObjectViewLayout />,
+      children: [
+        { path: "/builder", element: <BuilderColorCode /> },
+        { path: "/viewer", element: <BcoViewer />},
       ]
     },
     {
