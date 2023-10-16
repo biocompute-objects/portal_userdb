@@ -264,14 +264,7 @@ export default function EnhancedTable({bcodbInfo}) {
       global.window.open(`${location}/viewer?${object_id}`, "_blank", "noopener,noreferrer")
     }
     if (state === "DRAFT") {
-      dispatch(getDraftBco(object_id))
-        .unwrap()
-        .catch((error) => {
-          console.log(error)
-        })
-        .then(() => {
-          global.window.open(`${location}/builder?${object_id}`)
-        })
+      global.window.open(`${location}/builder?${object_id}`, "_blank", "noopener,noreferrer")
     }
   }
 
