@@ -43,6 +43,7 @@ export const Uri = ({uri_element}) => {
         <MyTextField name={`${uri_element}["sha1_checksum"]`} label="SHA1 Checksum"/>
       </Grid>
     </>
+
   )
 
 }

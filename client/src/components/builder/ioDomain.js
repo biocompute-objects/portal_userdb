@@ -91,8 +91,7 @@ export const  IODomain = ({onSave}) => {
                           <Typography variant="h6">Output Subdomain</Typography>
                         </Grid> 
                       </Grid>
-                      <Grid container>
-                                
+                      <Grid container>        
                         <FieldArray
                           name="output_subdomain"
                           render={arrayHelpers => (

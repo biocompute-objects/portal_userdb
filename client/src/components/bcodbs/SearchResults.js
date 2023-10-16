@@ -265,13 +265,13 @@ export default function EnhancedTable({bcodbInfo}) {
     }
     if (state === "DRAFT") {
       dispatch(getDraftBco(object_id))
-      .unwrap()
-      .catch((error) => {
-        console.log(error)
-      })
-      .then(() => {
-        global.window.open(`${location}/builder?${object_id}`)
-      })
+        .unwrap()
+        .catch((error) => {
+          console.log(error)
+        })
+        .then(() => {
+          global.window.open(`${location}/builder?${object_id}`)
+        })
     }
   }
 

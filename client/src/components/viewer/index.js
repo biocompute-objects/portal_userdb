@@ -22,7 +22,6 @@ export default function BcoViewer () {
   const {domain, setDomain} = useOutletContext()
   const dispatch = useDispatch();
   const bco = useSelector(state => state.bco.data)
-  console.log(domain)
   function validURL(url) {
     try {
       new URL(url);

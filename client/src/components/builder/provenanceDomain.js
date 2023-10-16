@@ -15,7 +15,6 @@ export const  ProvenanceDomain = ({onSave} ) => {
   let has_obsolete = "obsolete_after" in provenanceDomain;
   let has_embargo = "embargo" in provenanceDomain;
   let has_review = "review" in provenanceDomain;
-  let is_derived = "derived_from" in provenanceDomain;
   const [obsolete, setObsolete] = useState("obsolete_after" in provenanceDomain)
   const [embargo, setEmbargo] = useState("embargo" in provenanceDomain)
 
@@ -231,6 +230,15 @@ export const  ProvenanceDomain = ({onSave} ) => {
                         }
                       />
                     </Grid>
+<<<<<<< HEAD
+=======
+
+                    <Grid container spacing={2}> 
+                      <Grid item xs>
+                        <Button disabled={isSubmitting} type='submit' variant="contained" color="primary"> Save </Button>
+                      </Grid>
+                    </Grid>
+>>>>>>> main
                   </Grid>
                 </CardContent>
               </Form>

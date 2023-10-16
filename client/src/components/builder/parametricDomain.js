@@ -4,7 +4,7 @@ import {Card, Typography, CardContent, Grid, Button, CardHeader} from "@material
 import { Formik, Form, FieldArray } from "formik";
 
 import { useSelector, useDispatch } from "react-redux"
-import { updateParametricDomain, updateModified } from "../../slices/bcoSlice"
+import { updateParametricDomain } from "../../slices/bcoSlice"
 
 import { MyTextField } from "./specialFeilds"
 import { FormObserver, Next } from "./components";
@@ -15,7 +15,6 @@ export const  ParametricDomain = ({onSave}) => {
   const parametric_domain = useSelector(state => state.bco.data.parametric_domain)
 
   return (
-    
     <Card>         
       <Formik
         initialValues={

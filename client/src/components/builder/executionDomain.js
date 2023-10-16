@@ -4,7 +4,7 @@ import {Card, Typography, CardContent, Grid, Button, TextField, CardHeader} from
 import { Formik, Form, FieldArray } from "formik";
 
 import { useSelector, useDispatch } from "react-redux"
-import { updateExecutionDomain, updateModified } from "../../slices/bcoSlice"
+import { updateExecutionDomain } from "../../slices/bcoSlice"
 
 import { MyTextField } from "./specialFeilds"
 import { FormObserver, Next, Uri } from "./components"
