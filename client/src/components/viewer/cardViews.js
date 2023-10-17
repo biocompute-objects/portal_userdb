@@ -265,3 +265,19 @@ export const TreeView = () => {
     />
   )
 }
+
+export const ErrorView = () => {
+  const ErrDom = useSelector(state => state.bco.data.error_domain)
+  return (
+    <Card>
+      <CardHeader title="Error Domain"/>
+      <CardContent>
+        <Typography>
+          <pre><code>
+            {JSON.stringify(ErrDom, null, 2)}
+          </code></pre>
+        </Typography>
+      </CardContent>
+    </Card>
+  )
+};
