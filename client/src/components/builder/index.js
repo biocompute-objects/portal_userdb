@@ -89,7 +89,6 @@ export default function BuilderColorCode () {
         })
         .catch((error) => {
           console.log("Error", error);
-          global.window.close()
         });
     }
 
