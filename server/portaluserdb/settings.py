@@ -19,11 +19,11 @@ secrets.read(BASE_DIR + '/.secrets')
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-
 if secrets['DJANGO_KEYS']['SECRET_KEY']:
     SECRET_KEY = secrets['DJANGO_KEYS']['SECRET_KEY']
 else:
     SECRET_KEY = get_random_secret_key()
+    #SECRET_KEY = secrets['DJANGO_KEYS'].get('SECRET_KEY', get_random_secret_key())
 
 if secrets['ORCID_KEYS']['DJANGO_ORCID_OAUTH2_CLIENT_URL']:
     CLIENT = secrets['ORCID_KEYS']['DJANGO_ORCID_OAUTH2_CLIENT_URL']
