@@ -13,11 +13,13 @@ Tests for
 import json
 from django.test import TestCase
 from django.contrib.auth.models import User
-from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.models import Token 
 from rest_framework.test import APIClient
 
 class BCODBResetTokenTestCase(TestCase):
     fixtures = ['tests/fixtures/testing_data']
+
+    
     def setUp(self):
         self.client = APIClient()
 
@@ -32,16 +34,16 @@ class BCODBResetTokenTestCase(TestCase):
             self.token = Token.objects.create(user=self.user)
         else:
             self.token = Token.objects.get(user=self.user)
-    
+
+       
     def test_successful_creation(self):
-        """200: BCODB Token reset is successfull
-        """
+        """200: BCODB Token reset is successfull"""
         data = {
             'token': "2f2a599026581c158a07f968c56292c77f4be875",
-            'public_hostname':"https://test.portal.biochemistry.gwu.edu"
+            'public_hostname':"http://127.0.0.1:8000"
         }
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
-        response = self.client.post('/users/bcodb/reset_token/', data= data, format='json')
+        response = self.client.post('/users/bcodb/reset_token/', data=data, format='json')
         self.assertEqual(response.status_code, 200)
 
     
@@ -50,7 +52,7 @@ class BCODBResetTokenTestCase(TestCase):
         
         data = {
             #'token': "Invalid",
-            'public_hostname':"https://test.portal.biochemistry.gwu.edu"
+            'public_hostname':"http://127.0.0.1:8000"
         }
         #self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
         response = self.client.post('/users/bcodb/reset_token/', data=data, format='json')
@@ -62,7 +64,7 @@ class BCODBResetTokenTestCase(TestCase):
         
         data = {
             'token': "12345",
-            'public_hostname':"https://test.portal.biochemistry.gwu.edu"
+            'public_hostname':"http://127.0.0.1:8000"
         }
         self.client.credentials(HTTP_AUTHORIZATION='Token InvalidToken')
         response = self.client.post('/users/bcodb/reset_token/', data=data, format='json')
