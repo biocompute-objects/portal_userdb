@@ -1,17 +1,11 @@
-FROM node:14 as build
+FROM nginx:alpine
 
 WORKDIR /portal_userdb_client
 
-COPY package*.json ./
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-RUN npm install
-COPY . .
-RUN npm run build
+COPY build/ /portal_userdb_client/build
 
-FROM nginx:alpine
+EXPOSE 80
 
-COPY --from=build /portal_userdb_client/build /usr/share/nginx/html
-
-EXPOSE 3000
-
-CMD [ "nginx", "-g", "dsemon off;" ]
+CMD ["nginx", "-g", "daemon off;"]
