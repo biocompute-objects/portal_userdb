@@ -7,6 +7,8 @@ import { useSelector, useDispatch } from "react-redux"
 import { BaisicDateTimePicker, MyTextField } from "./specialFeilds";
 import { updateProvenanceDomain, updateModified } from "../../slices/bcoSlice";
 import "../../App.css";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 export const  ProvenanceDomain = ({onSave} ) => {
   const dispatch = useDispatch();
@@ -181,26 +183,38 @@ export const  ProvenanceDomain = ({onSave} ) => {
                       <FieldArray
                         name='contributors'
                         render={arrayHelpers => (
-                          <Grid item xs>
+                          <>
                             {values.contributors.map((contributor, index) => (
-                              <CardContent key={index}>
-                                <Contribution contributor={contributor} contributorPath={`contributors[${index}]`}/>
-                                <Button
-                                  variant="outlined"
-                                  color="secondary"
-                                  onClick={() => {arrayHelpers.remove(index)}}
-                                >Remove Contributor</Button>
-                              </CardContent>
+                              <Grid item xs={12} key={index}>
+                                <CardContent>
+                                  <Contribution contributor={contributor} contributorPath={`contributors[${index}]`} />
+                                  <Button
+                                    variant="outlined"
+                                    color="secondary"
+                                    onClick={() => { arrayHelpers.remove(index) }}
+                                  >
+                                    Remove Contributor
+                                  </Button>
+                                </CardContent>
+                              </Grid>
                             ))}
-                            <Button
-                              variant="outlined"
-                              color="primary"
-                              onClick={()=> {
-                                arrayHelpers.push({name:"",affiliation:"",email:"",contribution:[],orcid:""})}}
-                            >Add Contribution</Button>
-                          </Grid>
+                            <Grid item xs={12}>
+                              <Button
+                                variant="outlined"
+                                color="primary"
+                                onClick={() => {
+                                  arrayHelpers.push({ name: "", affiliation: "", email: "", contribution: [], orcid: "" })
+                                }}
+                              >
+                                Add Contribution
+                              </Button>
+                            </Grid>
+                          </>
                         )}
                       />
+                    </Grid>
+                        {/* )}
+                      /> */}
                     </Grid>
                     <Grid container spacing={2}>
                       <Grid item md={12} align='left' >
@@ -232,7 +246,7 @@ export const  ProvenanceDomain = ({onSave} ) => {
                         }
                       />
                     </Grid>
-                  </Grid>
+                  {/* </Grid> */}
                 </CardContent>
               </Form>
             )

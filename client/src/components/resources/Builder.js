@@ -39,10 +39,10 @@ export default function Builder() {
   const logo = require("../../images/logo.png");
 
   return (
-    <Card className={`${classes.root} ${classes.linkCard}`} elevation={2}>
-      <CardActionArea className={classes.linkCard} component={RouterLink} to="/builder">
+    <Card className="resources-root resources-linkcard" elevation={2}>
+      <CardActionArea className="resources-linkcard" component={RouterLink} to="/builder">
         <CardContent>
-          <Typography className={classes.title}>
+          <Typography className="resources-title">
             <img src={logo} height={100} alt="BCO logo" />
             <br />
             BioCompute Builder

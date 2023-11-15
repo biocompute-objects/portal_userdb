@@ -24,6 +24,8 @@ import {
 import { LargeTextField } from "./specialFeilds";
 import { FormObserver, Next } from "./components";
 import "../../App.css";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 export const  UsabilityDomain = ({onSave}) => {
   const dispatch = useDispatch();
@@ -57,11 +59,20 @@ export const  UsabilityDomain = ({onSave}) => {
                       {values.usability_domain.map((text, index) => (
                         <Grid item key={index}>
                           <LargeTextField name={`usability_domain.${index}`} />
-                          <button type="button" onClick={() => arrayHelpers.remove(index)}
-                          > Remove </button>
+                          <Button 
+                          className="delete-button" 
+                          type="button" 
+                          onClick={() => arrayHelpers.remove(index)}>
+                          <RemoveCircleIcon fontSize="23" />
+                          </Button>
                         </Grid>
                       ))}
-                      <Button type="button" onClick={() => arrayHelpers.push("")}>Add </Button>
+                      <Button 
+                      className="add-button" 
+                      type="button" 
+                      onClick={() => arrayHelpers.push("")}>
+                      <AddCircleIcon style={{ fontSize: 24}} />
+                      </Button>
                     </div>
                   )}
                 </FieldArray>

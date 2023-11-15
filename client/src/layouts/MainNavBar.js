@@ -68,7 +68,7 @@ const NavBar = () => {
     >
       <MenuItem component={Link} to='/'>
         <IconButton aria-label='go home' color='inherit'>
-          <Badge overlap="rectangular" badgeContent={0} color='secondary'>
+          <Badge className="white-icon hover-background" overlap="rectangular" badgeContent={0}>
             <HomeIcon />
           </Badge>
         </IconButton>
@@ -182,7 +182,7 @@ const NavBar = () => {
               <><HelpDropDown /></>
             </Tooltip>
             <Tooltip title="About Us">
-              <><IconButton component={Link} to='/about' aria-label='show 0 new notifications' color='inherit'>
+              <><IconButton component={Link} to='/about' aria-label='show 0 new notifications' className="nav-link">
                 <Badge overlap="rectangular" badgeContent={0} color='secondary'>
                   <InfoOutlinedIcon />
                 </Badge>
@@ -196,7 +196,8 @@ const NavBar = () => {
                     edge='end'
                     aria-label='account of current user'
                     aria-haspopup='true'
-                    color='inherit'
+                    className="nav-link"
+                    // color='inherit'
                   >
                     <div className="image-container">
                       {
@@ -210,7 +211,13 @@ const NavBar = () => {
               </>
             ) : (
               <>
-                <IconButton component={Link} to='/login' aria-label='log in' color='inherit'>
+                <IconButton 
+                component={Link} 
+                to='/login' 
+                aria-label='log in' 
+                className="nav-link"
+                // color='inherit'
+                >
                   <Typography variant='h6' component='h6'>
                     Log in
                   </Typography>
@@ -225,7 +232,8 @@ const NavBar = () => {
               aria-controls={mobileMenuId}
               aria-haspopup='true'
               onClick={handleMobileMenuOpen}
-              color='inherit'
+              // color='inherit'
+              className="nav-link"
             >
               <MoreIcon />
             </IconButton>

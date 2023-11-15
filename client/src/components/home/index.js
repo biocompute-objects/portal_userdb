@@ -34,12 +34,12 @@ const HomePage = () => {
   const classes = useStyles();
 
   return (
-    <Container>
+    <Container className="home-root">
       <Container maxWidth={false}>
         <Grid container justifyContent="center" spacing={2}>
           <Grid item xs={12} sm={9} lg={9} xl={9} >
-            <Container className={classes.marginTopped} maxWidth={false}>
-              <Box className={classes.whiteBackground}>
+            <Container className="home-margintop" maxWidth={false}>
+              <Box>
                 <Grid classes={classes.colored} container justifyContent="space-around" spacing={3}>
                   <Grid item xs={12} sm={12} lg={12} xl={12}>
                     <Intro />
@@ -49,7 +49,6 @@ const HomePage = () => {
                   </Grid>
                   <Grid item lg={4} sm={6} xl={4} xs={12}>
                     <Builder />
-                    {/* <Galaxy /> */}
                   </Grid>
                   <Grid item lg={4} sm={6} xl={4} xs={12}>
                     <Docs />
@@ -72,11 +71,12 @@ const HomePage = () => {
             </Container>
           </Grid>
           <Grid item xs={false} sm={4} lg={3} xl={2}>
-            <Box className={classes.whiteBackground}>
+            <Box className="home-margintop">
               <Typography align="center" variant={"h3"}>
                 News and Events
               </Typography>
               <FdaBox />
+              <br />
               <NewsBar />
             </Box>
           </Grid>

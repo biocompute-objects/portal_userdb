@@ -9,9 +9,6 @@ import {
   makeStyles,
   Typography
 } from "@material-ui/core";
-// import logo from '../../images/logo';
-// Routing to pages
-// import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -43,10 +40,10 @@ export default function Tsc() {
   const logo = require("../../images/logo.png");
 
   return (
-    <Card className={`${classes.root} ${classes.supportCard}`} elevation={5}>
+    <Card className="resources-root resources-supportcard" elevation={5}>
       <CardActionArea href="https://docs.google.com/document/d/1io5OBfsdEif_nWX-TmA22fz7gayHR1MsEwv2vI_QGBY" target="_blank">
         <CardContent>
-          <Typography className={classes.title}>
+          <Typography className="resources.title">
             <img src={logo} height={36} alt="BCO logo" />
             Technical Steering Committee
             <br />

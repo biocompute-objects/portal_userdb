@@ -1,10 +1,11 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux"
-import { Card, CardContent, TextField, Typography, Grid, Button, Paper, CardHeader } from "@material-ui/core";
+import { Card, CardContent, TextField, Typography, Grid, Button, Paper, CardHeader, IconButton } from "@material-ui/core";
 import { addExtensionDomain, getExtension, deleteExtensionDomain, updateModified } from "../../slices/bcoSlice"
 import { Extension } from "./extension";
 import { Next } from "./components";
-import "../../App.css";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 export const  ExtensionDomain = ({onSave}) => {
   const dispatch = useDispatch();
@@ -55,7 +56,7 @@ export const  ExtensionDomain = ({onSave}) => {
           >Next</Button>}
       />
       <CardContent>
-        <Grid>
+        <Grid justifyContent="center" alignItems="center">
           <Typography>
               Top add an extension enter a valid URL for the extension schema
               below and hit the &apos;ADD EXTENSION&apos; button.
@@ -65,13 +66,14 @@ export const  ExtensionDomain = ({onSave}) => {
             onChange={(e) => setNewSchema(e.target.value)}
             value={newSchema}
           />
-          <Button
-            variant="contained"
+          <IconButton
+            className="add-button"
+            // variant="contained"
             disabled={!newSchema}
-            onClick={() => addExtension()}
-          >
-              Add Extension
-          </Button>
+            onClick={() => addExtension()}>
+            <AddCircleIcon style={{ fontSize: 24}} />
+              {/* Add Extension */}
+          </IconButton>
         </Grid>
       </CardContent>
       { (extensionDomain.length > 0)
@@ -85,13 +87,15 @@ export const  ExtensionDomain = ({onSave}) => {
                 allExtensions={extensionDomain}
               />
               <Button
-                variant="contained"
-                color="secondary"
+                // variant="contained"
+                // color="secondary"
+                className="delete-button"
                 disableElevation
                 fullWidth
-                onClick={() => removeRows(index)}
-              >
-                Remove
+                onClick={() => removeRows(index)}>
+                <RemoveCircleIcon fontSize="23" />
+              
+                {/* Remove */}
               </Button>
             </CardContent>)
         }))

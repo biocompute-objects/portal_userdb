@@ -4,6 +4,9 @@ import { Formik, Form} from "formik";
 import { useSelector, useDispatch } from "react-redux"
 import { updateBcoStatus, updateErrorDomain, updateModified } from "../../slices/bcoSlice"
 import { FormObserver } from "./components";
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import Tooltip from "@mui/material/Tooltip";
+import { colors } from "@mui/joy";
 
 export const ErrorDomain = ({onSave}) => {
   const dispatch = useDispatch()
@@ -34,6 +37,20 @@ export const ErrorDomain = ({onSave}) => {
     }
   };
 
+  const defaultAlgorithmicError = `{
+    "algorithmic_error": { 
+      "false_positive_mutation_calls": "<0.00005", 
+      "false_discovery": "0.005"
+    }
+  }`;
+
+  const defaultEmpiricalError = `{
+    "empirical_error": {
+      "false_negative_alignment_hits": "<0.0010", 
+      "false_discovery": "<0.05"
+    }
+  }`
+
   return (
     <Card className="object-domain">
       <Formik
@@ -51,7 +68,16 @@ export const ErrorDomain = ({onSave}) => {
           <Form>
             <FormObserver />
             <CardHeader 
-              title="Error Domain"
+              title={
+                <span>
+                  Error Domain
+                  <Tooltip title="Explanation of Error Domain">
+                    <Button size="small" href='https://github.com/biocompute-objects/BCO_Specification/blob/main/content/error-domain.md'>
+                      <HelpOutlineIcon />
+                    </Button>
+                  </Tooltip>
+                </span>
+              }
               action={
                 <Button 
                   disabled={jsonErrors !== "" || !writing}
@@ -74,23 +100,33 @@ export const ErrorDomain = ({onSave}) => {
               ) : 
                 (<Box></Box>)}
               <Box>
-                <TextField
-                  id="algorithmic"
-                  fullWidth
-                  multiline
-                  minRows={5}
-                  defaultValue={JSON.stringify(algorithmic_error, null, 4)}
-                  onChange={(event) => setInput(event.target)}
-                  variant="outlined"
-                />
+              <TextField
+                id="algorithmic"
+                fullWidth
+                multiline
+                minRows={5}
+                defaultValue={
+                  (Object.keys(algorithmic_error).length > 0 && JSON.stringify(algorithmic_error) !== '{}')
+                  ? JSON.stringify(algorithmic_error, null, 4) 
+                  : defaultAlgorithmicError 
+              }
+                onChange={(event) => setInput(event.target)}
+                variant="outlined"
+              />
                 <TextField
                   id="empirical"
+                  className="largeTextField"
                   fullWidth
                   multiline
                   minRows={5}
-                  defaultValue={JSON.stringify(empirical_error, null, 4)}
+                  defaultValue={
+                    Object.keys(empirical_error).length > 0
+                      ? JSON.stringify(empirical_error, null, 4)
+                      : defaultEmpiricalError
+                  }
+                  // defaultValue={JSON.stringify(empirical_error, null, 4)}
                   onChange={(event) => setInput(event.target)}
-                  variant="outlined"
+                  // variant="outlined"
                 />
               </Box>
             </CardContent>

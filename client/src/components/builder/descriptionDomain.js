@@ -211,7 +211,7 @@ export const  DescriptionDomain = ({onSave}) => {
                               <MyTextField name={`pipeline_steps.${index}.version`} label="Version"/>    
                             </Grid>
                             <Grid container >
-                              <LargeTextField name={`pipeline_steps.${index}.description`}/>
+                              <LargeTextField name={`pipeline_steps.${index}.description`} label="A free text field for describing the specific use/purpose of the tool."/>
                             </Grid>
                           </Grid>
                           <br/>
