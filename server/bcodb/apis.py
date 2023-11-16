@@ -3,6 +3,7 @@
 """BCODB APIs
 """
 
+from django.conf import settings
 from django.db import transaction
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
@@ -132,8 +133,8 @@ class RemoveBcodbApi(APIView):
 
         return Response(status=status.HTTP_200_OK, data=user_info)
 
-class AddDraftBcoAPI(APIView):
-    """Saves a draft BCO
+class AddTempDraftBcoAPI(APIView):
+    """Saves a temp draft BCO
     """
     
     authentication_classes = [CustomJSONWebTokenAuthentication,]
@@ -155,14 +156,15 @@ class AddDraftBcoAPI(APIView):
     @swagger_auto_schema(
         request_body=schema,
         responses={
-            200: "BCO draft is successful.",
+            200: "BCO temp draft creation is successful.",
+            400: "Bad request.",
             409: "Conflict.",
         },
         tags=["BCODB Management"],
     )
 
     def post(self, request):
-
+        hostname = settings.PUBLIC_HOSTNAME
         try:
             user = User.objects.get(username=request.user)
         except User.DoesNotExist:
@@ -177,10 +179,23 @@ class AddDraftBcoAPI(APIView):
             )
         bco_serializer = BcoSerializer(data=data_to_serialize)
         bco_serializer.is_valid(raise_exception=True)
-        bco_id = bco_serializer.save().id
-        print(bco_id)
-        return Response(status=status.HTTP_200_OK, data={"bco_id": bco_id})
+        bco_pk = bco_serializer.save().id
+        object_id = f"{hostname}/builder?{bco_pk}"
+        bco = BCO.objects.get(pk=bco_pk)
+        bco.contents['object_id'] = object_id
+        bco.save()
+        return Response(status=status.HTTP_200_OK, data={"object_id": object_id})
+
+class DeleteTempDraftBco(APIView):
+    """Saves a temp draft BCO
+    """
     
+    authentication_classes = [CustomJSONWebTokenAuthentication,]
+    permission_classes = []
+
+    def post(self, request):
+        return Response(status=status.HTTP_200_OK)
+
 class GetDraftBcoAPI(APIView):
     """Retrieves a draft BCO
     """
