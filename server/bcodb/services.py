@@ -1,35 +1,16 @@
 # bcodb/serializers.py
+"""BCODB Services
+"""
 
 import json
 import requests
 from datetime import datetime
 from django.db.models import query
 from django.utils.timezone import make_aware
-from rest_framework import serializers
 from bcodb.models import BcoDb
 from users.models import Profile
 from bcodb.selectors import accounts_describe, get_all_bcodbs
-
-
-class BcoDbSerializer(serializers.ModelSerializer):
-    """Serializer for BCODB objects"""
-    class Meta:
-        model = BcoDb
-        fields = (
-            "hostname",
-            "bcodb_username",
-            "human_readable_hostname",
-            "public_hostname",
-            "token",
-            "owner",
-            "user_permissions",
-            "group_permissions",
-            "account_creation",
-            "account_expiration",
-            "last_update",
-            "recent_status",
-            "recent_attempt",
-        )
+from rest_framework_jwt.views import verify_jwt_token
 
 def update_bcodbs(profile: Profile) -> query.QuerySet:
     """Updates the information for a BcoDb object"""
@@ -58,17 +39,6 @@ def update_bcodbs(profile: Profile) -> query.QuerySet:
 
     updated_bcodbs = BcoDb.objects.filter(owner=profile)
     return updated_bcodbs
-
-def create_bcodb(data: dict) -> BcoDb:
-    """Create BcoDb
-    Serialize data for BcoDb object and saves.
-    """
-
-    bcodb_serializer = BcoDbSerializer(data=data)
-    bcodb_serializer.is_valid(raise_exception=True)
-    bcodb_serializer.save()
-
-    return bcodb_serializer.data
 
 def add_authentication(token: str, auth_object: dict, bcodb: BcoDb):
     """Add Authentication

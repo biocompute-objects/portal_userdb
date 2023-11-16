@@ -2,7 +2,6 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.postgres.fields import ArrayField
 from users.models import Profile
 import uuid
 
@@ -30,3 +29,14 @@ class BcoDb(models.Model):
         owner = self.owner
         url = self.public_hostname
         return f"{owner} at {url}"
+
+class BCO(models.Model):
+    id = models.UUIDField(
+        default=uuid.uuid4, unique=True, primary_key=True, editable=False
+    )
+    owner = models.ForeignKey(User, to_field="username", null=True, on_delete=models.CASCADE)
+    contents = models.JSONField(max_length=None, default=dict)
+    
+    def __str__(self):
+        identifier = str(self.id)
+        return identifier
