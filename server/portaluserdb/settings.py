@@ -64,7 +64,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "bcodb.apps.BcodbConfig",
     "users.apps.UsersConfig",
-    "prefix.apps.PrefixConfig",
+    "prefix.apps.PrefixConfig"
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -86,9 +86,9 @@ MIDDLEWARE = [
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
-        ##this ensures requests made to the backend must be authenticated to be processed
     ),
     "DEFAULT_AUTHENTICATION_CLASSES": (
+        # "authentication.services.CustomJSONWebTokenAuthentication",
         "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.BasicAuthentication",
@@ -123,10 +123,7 @@ WSGI_APPLICATION = "portaluserdb.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR + "/db.sqlite3",
-        "TEST": {
-            "NAME": BASE_DIR + "/tests/db.test.sqlite3",
-        }
+        "NAME": secrets["SERVER"]["DATABASE"]
     }
 }
 

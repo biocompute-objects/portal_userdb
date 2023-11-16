@@ -1,4 +1,7 @@
-# authentication/services.py
+#!/usr/bin/env python3
+"""Authentication Services
+Service functions for operations with the authentication app
+"""
 
 import jwt
 import json
@@ -8,13 +11,87 @@ from datetime import datetime
 from django.conf import settings
 from rest_framework import status, exceptions
 from rest_framework.response import Response
+from rest_framework_jwt.serializers import VerifyAuthTokenSerializer
 from rest_framework_jwt.settings import api_settings
 from bcodb.models import BcoDb
-from bcodb.services import BcoDbSerializer, update_bcodbs
 from users.models import Profile
 from users.services import UserSerializer, ProfileSerializer
 from users.selectors import profile_from_username
 from rest_framework_jwt.utils import unix_epoch
+from rest_framework_jwt.authentication import BaseAuthentication
+from django.contrib.auth.models import AnonymousUser, User
+from bcodb.services import update_bcodbs
+from rest_framework import serializers
+
+class BcoDbSerializer(serializers.ModelSerializer):
+    """Serializer for BCODB objects"""
+    class Meta:
+        model = BcoDb
+        fields = (
+            "hostname",
+            "bcodb_username",
+            "human_readable_hostname",
+            "public_hostname",
+            "token",
+            "owner",
+            "user_permissions",
+            "group_permissions",
+            "account_creation",
+            "account_expiration",
+            "last_update",
+            "recent_status",
+            "recent_attempt",
+        )
+
+class CustomJSONWebTokenAuthentication(BaseAuthentication):
+    """Class for custom authentication
+    """
+
+    def authenticate(self, request):
+        print("CustomJSONWebTokenAuthentication")
+        if "Authorization" in request.headers:
+            type, token = request.headers['Authorization'].split(' ')
+
+            try:
+                unverified_payload = jwt.decode(
+                    token, None, False, options={"verify_signature": False}
+                )
+
+                if unverified_payload['iss'] in [
+                    'http://localhost:8080',
+                    'https://test.portal.biochemistry.gwu.edu',
+                    'https://biocomputeobject.org'
+                ]:
+                    user = self.authenticate_portal(unverified_payload, token)
+                    try:
+                        return (user, token)
+                    except UnboundLocalError as exp:
+                        raise exceptions.AuthenticationFailed(
+                            "Authentication failed. Token issuer not found.",
+                            "Please contact the site admin"
+                        )
+            except Exception as exp:
+                raise exceptions.AuthenticationFailed(exp)
+        else:
+            print("no here")
+        pass
+
+    def authenticate_portal(self, payload: dict, token:str)-> User:
+        """Authenticate Portal
+        Custom function to authenticate BCO Portal credentials.
+        """
+        
+        response = requests.post(
+            payload['iss']+'/users/auth/verify/', json={"token":token}
+        )
+        if response.status_code == 201:
+            try:
+                return User.objects.get(email=payload['email'])
+            except User.DoesNotExist:
+                return None
+        else:
+            print(response.reason)
+            exceptions.AuthenticationFailed(response.reason)
 
 def authenticate_orcid(iss_oauth, token):
     """Authenticate ORCID
@@ -35,13 +112,6 @@ def authenticate_orcid(iss_oauth, token):
         print('exp:', exp)
         raise exceptions.AuthenticationFailed(exp)
     return verified_payload
-    
-    # try:
-    #     user = User.objects.get(username=Authentication.objects.get(auth_service__icontains=payload['sub']).username)
-    # except (Authentication.DoesNotExist, User.DoesNotExist):
-    #     return None
-    # return user
-
 
 def orcid_auth_code(code: str)-> Response:
     """
@@ -60,7 +130,6 @@ def orcid_auth_code(code: str)-> Response:
     response = requests.post(settings.ORCID_URL + "/oauth/token", data=data, headers=headers)
 
     return response.json()
-
 
 def google_authentication(request):
     """Google Authentication"""
