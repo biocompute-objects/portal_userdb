@@ -20,6 +20,7 @@ import NotificationBox from "../NotificationBox";
 import {
   getDraftBco,
   updateETag,
+  getTempDraftBco,
 } from "../../slices/bcoSlice";
 
 export default function BuilderColorCode () {
@@ -67,6 +68,10 @@ export default function BuilderColorCode () {
       setDomain(domain+1)
     }
   }
+  const isUUID = (str) => {
+    const uuidPattern = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+    return uuidPattern.test(str);
+  };
 
   function validURL(url) {
     try {
@@ -80,9 +85,10 @@ export default function BuilderColorCode () {
   useEffect(()=> {
     const etag = hash(bco)
     dispatch(updateETag(etag))
-    const object_id = global.window.location.search.substring(1)
-    if (validURL(object_id) === true) {
-      dispatch(getDraftBco(object_id))
+    const queryString = global.window.location.search.substring(1)
+    
+    if (validURL(queryString) === true) {
+      dispatch(getDraftBco(queryString))
         .unwrap()
         .then(() => {
           // console.log(bcoStatus)
@@ -91,7 +97,10 @@ export default function BuilderColorCode () {
           console.log("Error", error);
         });
     }
-
+    if (isUUID(queryString)) {
+      console.log("UUID", queryString);
+      dispatch(getTempDraftBco(queryString))
+    }
   }, [])
   
   useEffect(() => {
