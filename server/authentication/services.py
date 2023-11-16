@@ -50,9 +50,10 @@ class CustomJSONWebTokenAuthentication(BaseAuthentication):
     def authenticate(self, request):
         print("CustomJSONWebTokenAuthentication")
         if "Authorization" in request.headers:
-            type, token = request.headers['Authorization'].split(' ')
+            kind, token = request.headers['Authorization'].split(' ')
 
             try:
+                # import pdb; pdb.set_trace()
                 unverified_payload = jwt.decode(
                     token, None, False, options={"verify_signature": False}
                 )
