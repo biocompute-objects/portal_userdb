@@ -6,6 +6,8 @@ import { Extension } from "./extension";
 import { Next } from "./components";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import Tooltip from "@mui/material/Tooltip";
 
 export const  ExtensionDomain = ({onSave}) => {
   const dispatch = useDispatch();
@@ -46,7 +48,16 @@ export const  ExtensionDomain = ({onSave}) => {
   return (
     <Card className="object-domain">
       <CardHeader
-        title="Extension Domain"
+        title={
+          <span className="bold-title">
+            Extension Domain
+            <Tooltip title="Explanation of Extension Domain">
+              <Button size="small" href='https://wiki.biocomputeobject.org/index.php?title=Extension-domain'>
+                <HelpOutlineIcon />
+              </Button>
+            </Tooltip>
+          </span>
+        }
         action={
           <Button
             onClick={() => onSave()}

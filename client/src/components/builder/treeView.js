@@ -16,7 +16,10 @@ export const TreeView = ({onSave}) => {
   return (
     <Card>
       <CardHeader
-        title="JSON Tree View"
+        title={
+          <span className="bold-title">
+          JSON Tree View
+          </span>}
         action={
           <Button 
             variant="contained"

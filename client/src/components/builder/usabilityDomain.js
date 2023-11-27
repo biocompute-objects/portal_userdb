@@ -26,6 +26,8 @@ import { FormObserver, Next } from "./components";
 import "../../App.css";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import Tooltip from "@mui/material/Tooltip";
 
 export const  UsabilityDomain = ({onSave}) => {
   const dispatch = useDispatch();
@@ -49,7 +51,16 @@ export const  UsabilityDomain = ({onSave}) => {
             <Form>
               <FormObserver />
               <CardHeader 
-                title="Usability Domain"
+                title={
+                  <span className="bold-title">
+                    Usability Domain
+                    <Tooltip title="Explanation of Usability Domain">
+                      <Button size="xs" href='https://wiki.biocomputeobject.org/index.php?title=Usability-domain'>
+                        <HelpOutlineIcon />
+                      </Button>
+                    </Tooltip>
+                  </span>
+                }
                 action={<Next />}
               />
               <CardContent>

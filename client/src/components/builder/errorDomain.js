@@ -69,7 +69,7 @@ export const ErrorDomain = ({onSave}) => {
             <FormObserver />
             <CardHeader 
               title={
-                <span>
+                <span className="bold-title">
                   Error Domain
                   <Tooltip title="Explanation of Error Domain">
                     <Button size="small" href='https://github.com/biocompute-objects/BCO_Specification/blob/main/content/error-domain.md'>

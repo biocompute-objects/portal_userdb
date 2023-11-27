@@ -16,6 +16,8 @@ import { updateDescription, updateModified } from "../../slices/bcoSlice"
 import { LargeTextField, MyTextField } from "./specialFeilds";
 import { FormObserver, Next, Uri } from "./components"
 import "../../App.css";
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import Tooltip from "@mui/material/Tooltip";
 
 export const  DescriptionDomain = ({onSave}) => {
   const dispatch = useDispatch();
@@ -39,7 +41,16 @@ export const  DescriptionDomain = ({onSave}) => {
           ({values, isSubmitting, errors, setFieldValue}) => (
             <Form>
               <CardHeader 
-                title="Description Domain"
+                title={
+                  <span className="bold-title">
+                    Description Domain
+                    <Tooltip title="Explanation of Description Domain">
+                      <Button size="xs" href='https://wiki.biocomputeobject.org/index.php?title=Description-domain'>
+                        <HelpOutlineIcon />
+                      </Button>
+                    </Tooltip>
+                  </span>
+                }
                 action={<Next />}  
               />
               <FormObserver />

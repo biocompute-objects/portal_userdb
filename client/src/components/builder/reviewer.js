@@ -10,7 +10,7 @@ export const Reviewer = ({reviewer, reviewerPath}) => {
     <Card >
       <Selector name={`${reviewerPath}.status`} type="input" placeholder="Review status" label='Review status' isRequired />
       <BaisicDateTimePicker name={`${reviewerPath}.date`} type="input" placeholder="Review Date" label='Review Date' isRequired />
-      <LargeTextField name={`${reviewerPath}.reviewer_comment`} type="input" placeholder="Reviewer Comment" label='Reviewer Comment' isRequired />
+      <LargeTextField name={`${reviewerPath}.reviewer_comment`} type="input" placeholder="Reviewer Comment" label='Reviewer Comment' />
       <Contribution contributor={reviewer.reviewer} contributorPath={`${reviewerPath}.reviewer`}/>
     </Card>
   )

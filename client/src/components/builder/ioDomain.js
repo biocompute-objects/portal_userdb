@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from "react-redux"
 import { updateIODomain, updateModified } from "../../slices/bcoSlice"
 import { MyTextField } from "./specialFeilds"
 import { FormObserver, Next, removeEmptyValues, Uri } from "./components"
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import Tooltip from "@mui/material/Tooltip";
 
 export const  IODomain = ({onSave}) => {
   const dispatch = useDispatch();
@@ -37,7 +39,16 @@ export const  IODomain = ({onSave}) => {
             ({values, isSubmitting,errors}) => (
               <Form>
                 <CardHeader
-                  title={"IO Domain"}
+                  title={
+                    <span className="bold-title">
+                      I/O Domain
+                      <Tooltip title="Explanation of IO Domain">
+                        <Button size="xs" href='https://wiki.biocomputeobject.org/index.php?title=Iodomain'>
+                          <HelpOutlineIcon />
+                        </Button>
+                      </Tooltip>
+                    </span>
+                  }
                   action={<Next />}
                 />
                 <CardContent >

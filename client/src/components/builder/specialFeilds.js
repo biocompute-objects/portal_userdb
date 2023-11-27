@@ -10,8 +10,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 export const MyTextField = ({placeholder,label, isFullWidth, isRequired, type, isDisabled,...props}) => {
   const [field, meta] = useField(props);
   const errorText = meta.error && meta.touched ? meta.error : "";
+  const inputClass = isRequired ? "required-field" : '';
   return (
     <TextField
+      className={inputClass}
       placeholder={placeholder}
       label={label}
       {...field}
@@ -23,6 +25,19 @@ export const MyTextField = ({placeholder,label, isFullWidth, isRequired, type, i
       required={isRequired}
       disabled={isDisabled}
       type={type}
+      // InputLabelProps={{
+      //   classes: {
+      //     root: isRequired ? 'required-field' : ''}}
+      //   }
+      // InputLabelProps={{
+      //   className: isRequired ? 'required-label' : '',
+      //   style: { color: isRequired ? 'purple' : '' }
+        // classes: {
+        //   // root: inputClass, // Apply the inputClass to the InputLabel root
+        //   // focused: inputClass // Ensure focus styles are also applied
+        //   style: inputClass
+        
+      // }}
     />
   )
 }

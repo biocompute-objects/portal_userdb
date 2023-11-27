@@ -1,4 +1,9 @@
 /* App.css */
+/* Define a CSS variable for red color */
+:root {
+  /* --main-red-color: rgb(227, 55, 55); */
+  --main-red-color: rgb(210, 31, 60) !important
+}
 
 /* About page- BCOnexus.js CSS Components */
 
@@ -27,9 +32,6 @@
   margin: 0px 2px;
 
 }
-
-
-
 
 /* about pages */
 .member-image {
@@ -328,11 +330,26 @@
 } 
 
 .delete-button {
-  color: red !important;
+  color: var(--main-red-color) !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
 }
+
+.bold-title {
+  font-weight: bold;
+}
+
+/* .required-field .MuiFilledInput-underline:before {
+  border-bottom: 2px solid rgb(215, 46, 46) !important;
+} */
+.required-field {
+  /* color: rgb(227, 55, 55) !important; */
+  color: var(--main-red-color) !important;
+}
+/* .MuiFilledInput-underline:before {
+  border-bottom: 2px solid red !important; /* Change border color to red */
+ */
 
 /* text field */
 .large_textfield {

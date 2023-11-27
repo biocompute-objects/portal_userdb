@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as Yup from "yup";
-import {Card, CardContent, CardHeader, Typography, Grid, Button } from "@material-ui/core";
+import {Card, CardContent, CardHeader, Typography, Grid, Button, TextField } from "@material-ui/core";
 import { Formik, Form, FieldArray } from "formik";
 import { Contribution, FormObserver, Reviewer, Next } from "./components";
 import { useSelector, useDispatch } from "react-redux"
@@ -9,6 +9,9 @@ import { updateProvenanceDomain, updateModified } from "../../slices/bcoSlice";
 import "../../App.css";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import Tooltip from "@mui/material/Tooltip";
+import { isRejected } from "@reduxjs/toolkit";
 
 export const  ProvenanceDomain = ({onSave} ) => {
   const dispatch = useDispatch();
@@ -19,6 +22,15 @@ export const  ProvenanceDomain = ({onSave} ) => {
   let is_derived = "derived_from" in provenanceDomain;
   const [obsolete, setObsolete] = useState("obsolete_after" in provenanceDomain)
   const [embargo, setEmbargo] = useState("embargo" in provenanceDomain)
+  const contributorSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required'),
+    affiliation: Yup.string(),
+    email: Yup.string().email('Invalid email format'),
+  });
+  const reviewerSchema = Yup.object().shape({
+    status: Yup.string().required('Status is required'),
+    reviewer: contributorSchema.required('Reviewer name is required'),
+  });
 
   return (
     <>
@@ -38,6 +50,16 @@ export const  ProvenanceDomain = ({onSave} ) => {
               "review": has_review ? provenanceDomain["review"] : [],
             }
           }
+          validationSchema={Yup.object().shape({
+            name: Yup.string()
+              .required("Required field!"),
+            version: Yup.string()
+              .required("Required field!"),
+            license: Yup.string()
+              .required("Required field!"),
+            contributors: Yup.array().of(contributorSchema),
+            review: Yup.array().of(reviewerSchema),
+          })}
           onSubmit={
             (values, {setSubmitting, setValues}) => {
               setSubmitting(true);
@@ -68,7 +90,16 @@ export const  ProvenanceDomain = ({onSave} ) => {
             ({values, isSubmitting, errors, setFieldValue}) => (              
               <Form>
                 <CardHeader
-                  title="Provenance Domain"
+                  title={
+                    <span className="bold-title">
+                      Provenance Domain
+                      <Tooltip title="Explanation of Provenance Domain">
+                        <Button size="xs" href='https://wiki.biocomputeobject.org/index.php?title=Provenance-domain'>
+                          <HelpOutlineIcon />
+                        </Button>
+                      </Tooltip>
+                    </span>
+                  }
                   action={<Next />}
                 />
                 <CardContent>
@@ -77,7 +108,7 @@ export const  ProvenanceDomain = ({onSave} ) => {
                     <Grid container spacing={2}>
                       
                       <Grid item xs> 
-                        <MyTextField name="name" type="input" placeholder="Name" label='Name' isRequired isFullWidth/>
+                        <MyTextField name="name" type="input" placeholder="Name" label='Name' isRequired={true} isFullWidth/>
                       </Grid>
                       <Grid item xs>
                         <MyTextField name="version" type="input" placeholder="Version" label="Version" isRequired isFullWidth/>
@@ -179,24 +210,30 @@ export const  ProvenanceDomain = ({onSave} ) => {
                         <Typography variant="h6">Contributors</Typography>
                       </Grid> 
                     </Grid>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} alignItems="center">
                       <FieldArray
                         name='contributors'
                         render={arrayHelpers => (
                           <>
                             {values.contributors.map((contributor, index) => (
                               <Grid item xs={12} key={index}>
-                                <CardContent>
-                                  <Contribution contributor={contributor} contributorPath={`contributors[${index}]`} />
+                                <Grid container alignItems="center" spacing={2}>
+                                  <Grid item xs={10}></Grid>
+                                    <CardContent>
+                                      <Contribution contributor={contributor} contributorPath={`contributors[${index}]`} />
+                                    </CardContent>
+                                  </Grid>
+                                  <Grid item xs={2}>
                                   <Button
-                                    variant="outlined"
-                                    color="secondary"
+                                    className="delete-button"
+                                    type="button"
                                     onClick={() => { arrayHelpers.remove(index) }}
                                   >
-                                    Remove Contributor
+                                    <RemoveCircleIcon fontSize="23" />
                                   </Button>
-                                </CardContent>
+                                </Grid>
                               </Grid>
+                              // </Grid>
                             ))}
                             <Grid item xs={12}>
                               <Button
@@ -213,8 +250,6 @@ export const  ProvenanceDomain = ({onSave} ) => {
                         )}
                       />
                     </Grid>
-                        {/* )}
-                      /> */}
                     </Grid>
                     <Grid container spacing={2}>
                       <Grid item md={12} align='left' >
@@ -255,4 +290,4 @@ export const  ProvenanceDomain = ({onSave} ) => {
       </Card>
     </>
   )
-}
+        }
