@@ -12,15 +12,15 @@ import { useFormikContext } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { updateBcoStatus } from "../../slices/bcoSlice";
 
-export const removeEmptyValues = (myData) => {
+export const removeEmptyValues = (myData, excludedKeys = []) => {
   const obj = JSON.parse(JSON.stringify(myData))
   for (const key in obj) {
     if (typeof obj[key] === "object" && obj[key] !== null) {
-      obj[key] = removeEmptyValues(obj[key]);
-      if (Object.keys(obj[key]).length === 0) {
+      obj[key] = removeEmptyValues(obj[key], excludedKeys);
+      if (Object.keys(obj[key]).length === 0 && !excludedKeys.includes(key)) {
         delete obj[key];
       }
-    } else if (!obj[key]) {
+    } else if (!obj[key] && !excludedKeys.includes(key)) {
       delete obj[key];
     }
   }

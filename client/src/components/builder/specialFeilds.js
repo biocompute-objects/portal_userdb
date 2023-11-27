@@ -1,7 +1,6 @@
 import React from "react";
 import { useField, useFormikContext} from "formik";
-import { Box, MenuItem, TextField } from "@material-ui/core";
-import dayjs, { Dayjs } from "dayjs";
+import { Box, FormHelperText, MenuItem, TextField } from "@material-ui/core";
 import { Chip, FormControl, InputLabel, OutlinedInput, Select } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -78,10 +77,10 @@ export const BaisicDateTimePicker = ({placeholder, label, isFullWidth, isRequire
         {...field}
         disabled={isDisabled} selected={(field.value && new Date(field.value)) || null}
         onChange={(val) => {
-            if (val.isValid()) {
-              setFieldValue(field.name, val.toISOString());
-            }
+          if (val.isValid()) {
+            setFieldValue(field.name, val.toISOString());
           }
+        }
         }
       />
     </LocalizationProvider>
@@ -125,6 +124,8 @@ export const contributions = [
 
 export const MultiSelector = ({ placeholder, label, isFullWidth, isRequired, isDisabled, ...props }) => {
   const [field, meta] = useField(props);
+  
+
   return (
     <FormControl sx={{ m: 1, width: 300 }}>
       <InputLabel id={label}>{label}</InputLabel>
@@ -157,6 +158,15 @@ export const MultiSelector = ({ placeholder, label, isFullWidth, isRequired, isD
           </MenuItem>
         ))}
       </Select>
+      {
+        props.list.length > 0 ?(
+          <div></div>
+        ):(
+          <FormHelperText id="select-multiple-chip" error>
+            Must select at least one value
+          </FormHelperText>)
+      }
+
     </FormControl>
   )
 }
