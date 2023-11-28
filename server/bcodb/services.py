@@ -14,6 +14,7 @@ from rest_framework_jwt.views import verify_jwt_token
 
 def update_bcodbs(profile: Profile) -> query.QuerySet:
     """Updates the information for a BcoDb object"""
+
     bcodbs = get_all_bcodbs(profile)
     now = make_aware(datetime.utcnow())
     

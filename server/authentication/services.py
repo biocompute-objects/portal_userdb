@@ -53,11 +53,19 @@ class CustomJSONWebTokenAuthentication(BaseAuthentication):
             kind, token = request.headers['Authorization'].split(' ')
 
             try:
-                # import pdb; pdb.set_trace()
                 unverified_payload = jwt.decode(
                     token, None, False, options={"verify_signature": False}
                 )
-
+                if unverified_payload['iss'] == 'https://orcid.org' or unverified_payload['iss'] == 'https://sandbox.orcid.org':
+                    user = authenticate_orcid(unverified_payload, token)
+                    try:
+                        return (user, token)
+                    except UnboundLocalError as exp:
+                        raise exceptions.AuthenticationFailed(
+                            "Authentication failed. Token issuer not found.",
+                            "Please contact the site admin"
+                        )
+                
                 if unverified_payload['iss'] in [
                     'http://localhost:8080',
                     'https://test.portal.biochemistry.gwu.edu',
@@ -94,25 +102,32 @@ class CustomJSONWebTokenAuthentication(BaseAuthentication):
             print(response.reason)
             exceptions.AuthenticationFailed(response.reason)
 
-def authenticate_orcid(iss_oauth, token):
+def authenticate_orcid(payload:dict, token:str):
     """Authenticate ORCID
     
     Custom function to authenticate ORCID credentials.
     """
-
-    orcid_jwks = {
-        jwk['kid']: json.dumps(jwk)
-        for jwk in requests.get(iss_oauth).json()['keys']
-    }
-    orcid_jwk = next(iter(orcid_jwks.values()))
-    orcid_key = jwt.algorithms.RSAAlgorithm.from_jwk(orcid_jwk)
-
+    try:
+        orcid_jwks = {
+            jwk['kid']: json.dumps(jwk)
+            for jwk in requests.get(payload['iss']+'/oauth/jwks').json()['keys']
+        }
+        orcid_jwk = next(iter(orcid_jwks.values()))
+        orcid_key = jwt.algorithms.RSAAlgorithm.from_jwk(orcid_jwk)    
+    except Exception as exp:
+        print('exp:', exp)
+        raise exceptions.AuthenticationFailed(exp)
+    
     try:
         verified_payload = jwt.decode(token, key=orcid_key, algorithms=['RS256'], audience=['APP-88DEA42BRILGEHKC', 'APP-ZQZ0BL62NV9SBWAX'])
     except Exception as exp:
         print('exp:', exp)
         raise exceptions.AuthenticationFailed(exp)
-    return verified_payload
+    user = User.objects.get(
+        username=Profile.objects.get(orcid__icontains=verified_payload['sub'])
+    )
+
+    return user
 
 def orcid_auth_code(code: str)-> Response:
     """
