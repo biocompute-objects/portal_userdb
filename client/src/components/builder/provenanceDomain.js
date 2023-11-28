@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import * as Yup from "yup";
-import {Card, CardContent, CardHeader, Typography, Grid, Button } from "@material-ui/core";
+import {Card, CardContent, CardHeader, Typography, Grid, Button, TextField } from "@material-ui/core";
 import { Formik, Form, FieldArray } from "formik";
 import { Contribution, FormObserver, Reviewer, Next } from "./components";
 import { useSelector, useDispatch } from "react-redux"
 import { BaisicDateTimePicker, MyTextField } from "./specialFeilds";
 import { updateProvenanceDomain, updateModified } from "../../slices/bcoSlice";
 import "../../App.css";
-import { removeEmptyValues } from "./components";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import Tooltip from "@mui/material/Tooltip";
+import { isRejected } from "@reduxjs/toolkit";
 
 export const  ProvenanceDomain = ({onSave} ) => {
   const dispatch = useDispatch();
@@ -18,6 +22,16 @@ export const  ProvenanceDomain = ({onSave} ) => {
   let is_derived = "derived_from" in provenanceDomain;
   const [obsolete, setObsolete] = useState("obsolete_after" in provenanceDomain)
   const [embargo, setEmbargo] = useState("embargo" in provenanceDomain)
+  const contributorSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    affiliation: Yup.string(),
+    email: Yup.string().email("Invalid email format"),
+    contribution: Yup.array().min(1, "At least one contribution is required").required()
+  });
+  const reviewerSchema = Yup.object().shape({
+    status: Yup.string().required("Status is required"),
+    reviewer: contributorSchema.required("Reviewer name is required"),
+  });
 
   return (
     <>
@@ -37,12 +51,27 @@ export const  ProvenanceDomain = ({onSave} ) => {
               "review": has_review ? provenanceDomain["review"] : [],
             }
           }
+          validationSchema={Yup.object().shape({
+            name: Yup.string()
+              .required("Required field!"),
+            version: Yup.string()
+              .required("Required field!"),
+            license: Yup.string()
+              .required("Required field!"),
+            contributors: Yup.array().of(contributorSchema),
+            review: Yup.array().of(reviewerSchema),
+          })}
           onSubmit={
             (values, {setSubmitting, setValues}) => {
-              const cleanData = removeEmptyValues(values)
               setSubmitting(true);
               dispatch(updateModified());
-              dispatch(updateProvenanceDomain(cleanData));
+              if (obsolete === false) {
+                delete values["obsolete_after"]
+              }
+              if (embargo === false) {
+                delete values["embargo"]
+              }
+              dispatch(updateProvenanceDomain(values));
               setSubmitting(false);
               onSave()
             }
@@ -62,7 +91,16 @@ export const  ProvenanceDomain = ({onSave} ) => {
             ({values, isSubmitting, errors, setFieldValue}) => (              
               <Form>
                 <CardHeader
-                  title="Provenance Domain"
+                  title={
+                    <span className="bold-title">
+                      Provenance Domain
+                      <Tooltip title="Explanation of Provenance Domain">
+                        <Button size="xs" href='https://wiki.biocomputeobject.org/index.php?title=Provenance-domain'>
+                          <HelpOutlineIcon />
+                        </Button>
+                      </Tooltip>
+                    </span>
+                  }
                   action={<Next />}
                 />
                 <CardContent>
@@ -71,7 +109,7 @@ export const  ProvenanceDomain = ({onSave} ) => {
                     <Grid container spacing={2}>
                       
                       <Grid item xs> 
-                        <MyTextField name="name" type="input" placeholder="Name" label='Name' isRequired isFullWidth/>
+                        <MyTextField name="name" type="input" placeholder="Name" label='Name' isRequired={true} isFullWidth/>
                       </Grid>
                       <Grid item xs>
                         <MyTextField name="version" type="input" placeholder="Version" label="Version" isRequired isFullWidth/>
@@ -173,65 +211,78 @@ export const  ProvenanceDomain = ({onSave} ) => {
                         <Typography variant="h6">Contributors</Typography>
                       </Grid> 
                     </Grid>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} alignItems="center">
                       <FieldArray
                         name='contributors'
                         render={arrayHelpers => (
-                          <Grid item xs>
-                            {values.contributors ?(<div>
-                              {values.contributors.map((contributor, index) => (
-                                <CardContent key={index}>
-                                  <Contribution contributor={contributor} contributorPath={`contributors[${index}]`}/>
+                          <>
+                            {values.contributors.map((contributor, index) => (
+                              <Grid item xs={12} key={index}>
+                                <Grid container alignItems="center" spacing={2}>
+                                  <Grid item xs={10}></Grid>
+                                  <CardContent>
+                                    <Contribution contributor={contributor} contributorPath={`contributors[${index}]`} />
+                                  </CardContent>
+                                </Grid>
+                                <Grid item xs={2}>
                                   <Button
-                                    variant="outlined"
-                                    color="secondary"
-                                    onClick={() => {arrayHelpers.remove(index)}}
-                                  >Remove Contributor</Button>
-                                </CardContent>
-                              ))}
-                            </div>) :(<div></div>)
-                            }
-                            <Button
-                              variant="outlined"
-                              color="primary"
-                              onClick={()=> {
-                                arrayHelpers.push({name:"",affiliation:"",email:"",contribution:[],orcid:""})}}
-                            >Add Contribution</Button>
-                          </Grid>
+                                    className="delete-button"
+                                    type="button"
+                                    onClick={() => { arrayHelpers.remove(index) }}
+                                  >
+                                    <RemoveCircleIcon fontSize="23" />
+                                  </Button>
+                                </Grid>
+                              </Grid>
+                              // </Grid>
+                            ))}
+                            <Grid item xs={12}>
+                              <Button
+                                variant="outlined"
+                                color="primary"
+                                onClick={() => {
+                                  arrayHelpers.push({ name: "", affiliation: "", email: "", contribution: [], orcid: "" })
+                                }}
+                              >
+                                Add Contribution
+                              </Button>
+                            </Grid>
+                          </>
                         )}
                       />
                     </Grid>
-                    <Grid container spacing={2}>
-                      <Grid item md={12} align='left' >
-                        <Typography variant="h6">Review</Typography>
-                      </Grid> 
-                    </Grid>
-                    <Grid container spacing={2}>
-                      <FieldArray
-                        name="review"
-                        render={arrayHelpers => (
-                          <Grid item xs>
-                            {values.review.map((reviewer, index) => (
-                              <CardContent key={index}>
-                                <Reviewer reviewer={reviewer} reviewerPath={`review[${index}]`}/>
-                                <Button
-                                  variant="outlined"
-                                  color="secondary"
-                                  onClick={()=> {arrayHelpers.remove(index)}}
-                                >Remove Review</Button>
-                              </CardContent>
-                            ))}
-                            <Button
-                              variant="outlined"
-                              color="primary"
-                              onClick={()=> {arrayHelpers.push({status:"unreviewed",reviewer_comment:"",date:"",reviewer: {name:"",affiliation: "",email:"",contribution:["curatedBy"],orcid:""}})}}
-                            >Add Review</Button>
-                          </Grid> 
-                        )
-                        }
-                      />
-                    </Grid>
                   </Grid>
+                  <Grid container spacing={2}>
+                    <Grid item md={12} align='left' >
+                      <Typography variant="h6">Review</Typography>
+                    </Grid> 
+                  </Grid>
+                  <Grid container spacing={2}>
+                    <FieldArray
+                      name="review"
+                      render={arrayHelpers => (
+                        <Grid item xs>
+                          {values.review.map((reviewer, index) => (
+                            <CardContent key={index}>
+                              <Reviewer reviewer={reviewer} reviewerPath={`review[${index}]`}/>
+                              <Button
+                                variant="outlined"
+                                color="secondary"
+                                onClick={()=> {arrayHelpers.remove(index)}}
+                              >Remove Review</Button>
+                            </CardContent>
+                          ))}
+                          <Button
+                            variant="outlined"
+                            color="primary"
+                            onClick={()=> {arrayHelpers.push({status:"unreviewed",reviewer_comment:"",date:"",reviewer: {name:"",affiliation: "",email:"",contribution:["curatedBy"],orcid:""}})}}
+                          >Add Review</Button>
+                        </Grid> 
+                      )
+                      }
+                    />
+                  </Grid>
+                  {/* </Grid> */}
                 </CardContent>
               </Form>
             )
