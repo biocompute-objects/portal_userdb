@@ -11,7 +11,7 @@ from bcodb.apis import (
     RemoveBcodbApi,
     AddTempDraftBcoAPI,
     DeleteTempDraftBco,
-    GetDraftBcoAPI,
+    GetTempDraftBcoAPI,
     # getBcoDb
 )
 
@@ -20,5 +20,5 @@ urlpatterns = [
     path("bcodb/add/", AddBcodbApi.as_view()),
     path("bcodb/remove/", RemoveBcodbApi.as_view()),
     path("bcodb/draft_bco/add", AddTempDraftBcoAPI.as_view()),
-    path("bcodb/draft_bco/get", GetDraftBcoAPI.as_view()),
+    path("bcodb/draft_bco/get", GetTempDraftBcoAPI.as_view()),
 ]

@@ -38,7 +38,7 @@ class BcoSerializer(serializers.ModelSerializer):
     """Serializer for BCO objects"""
     class Meta:
         model = BCO
-        fields = ("owner", "contents")
+        fields = ("owner", "contents", "origin")
 
 class BcoDbSerializer(serializers.ModelSerializer):
     """Serializer for BCODB objects"""
@@ -171,7 +171,11 @@ class AddTempDraftBcoAPI(APIView):
             user = None
 
         try:
-            data_to_serialize = {"owner" : user, "contents": request.data["contents"]}
+            data_to_serialize = {
+                "owner" : user,
+                "contents": request.data["contents"],
+                "origin": request.headers['Origin']
+            }
         except KeyError:
             return Response(
                 status=status.HTTP_400_BAD_REQUEST,
@@ -196,7 +200,7 @@ class DeleteTempDraftBco(APIView):
     def post(self, request):
         return Response(status=status.HTTP_200_OK)
 
-class GetDraftBcoAPI(APIView):
+class GetTempDraftBcoAPI(APIView):
     """Retrieves a draft BCO
     """
     
