@@ -30,6 +30,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r server/requirements.txt
       - name: Run Tests
+        env:
+            SECRET_KEY: ${{ secrets.SECRET_KEY }}
+            DJANGO_GOOGLE_OAUTH2_CLIENT_ID: ${{ secrets.DJANGO_GOOGLE_OAUTH2_CLIENT_ID }}
+            DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET: ${{ secrets.DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET }}
+            DJANGO_ORCID_OAUTH2_CLIENT_URL: ${{ secrets.DJANGO_ORCID_OAUTH2_CLIENT_URL }}
+            DJANGO_ORCID_OAUTH2_CLIENT_ID: ${{ secrets.DJANGO_ORCID_OAUTH2_CLIENT_ID }}
+            DJANGO_ORCID_OAUTH2_CLIENT_SECRET: ${{ secrets.DJANGO_ORCID_OAUTH2_CLIENT_SECRET }}
+            DJANGO_ORCID_OAUTH2_URL: ${{ secrets.DJANGO_ORCID_OAUTH2_URL }}
+            SERVER_VERSION: ${{ secrets.SERVER_VERSION }}
+            SERVER_URL: ${{ secrets.SERVER_URL }}
+            DATABASE: ${{ secrets.DATABASE }}
+
         run: |
           cd server  # Change to the subdirectory
           python3.9 manage.py test
