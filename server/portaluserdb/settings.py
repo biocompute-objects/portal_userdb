@@ -11,11 +11,7 @@ from django.core.management.utils import get_random_secret_key
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-secrets = configparser.ConfigParser()
-secrets.read(BASE_DIR + '/.secrets')
-
-if secrets is None:
+try:
     secrets = {
         "GOOGLE_KEYS":{
             "DJANGO_GOOGLE_OAUTH2_CLIENT_ID": os.environ.get('DJANGO_GOOGLE_OAUTH2_CLIENT_ID'),
@@ -36,6 +32,9 @@ if secrets is None:
             "DATABASE": os.environ.get('DATABASE')
         }
     }
+except:
+    secrets = configparser.ConfigParser()
+    secrets.read(BASE_DIR + '/.secrets')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
