@@ -15,7 +15,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 secrets = configparser.ConfigParser()
 secrets.read(BASE_DIR + '/.secrets')
 
-if secrets['DJANGO_KEYS']['SECRET_KEY'] is None:
+if secrets is None:
     secrets = {
         "GOOGLE_KEYS":{
             "DJANGO_GOOGLE_OAUTH2_CLIENT_ID": os.environ.get('DJANGO_GOOGLE_OAUTH2_CLIENT_ID'),
