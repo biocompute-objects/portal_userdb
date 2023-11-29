@@ -224,9 +224,9 @@ class GetTempDraftBcoAPI(APIView):
         request_body=schema,
         responses={
             200: "BCO draft retrieved.",
+            400: "{bco_id} is not a valid UUID",
             401: "You are not authorized to access object {bco_id}",
             404: "Object {bco_id} not found",
-            409: "Conflict.",
         },
         tags=["BCODB Management"],
     )
@@ -234,6 +234,11 @@ class GetTempDraftBcoAPI(APIView):
     def post(self, request):
         bco_id = request.data["bco_id"]
         contents = get_temp_draft(user=request.user, bco_id=bco_id)
+        if contents == "bad_uuid":
+            return Response(
+                status=status.HTTP_400_BAD_REQUEST,
+                data={f"{bco_id} is not a valid UUID"}
+            )
         if contents == "not_authorized":
             return Response(
                status=status.HTTP_401_UNAUTHORIZED,

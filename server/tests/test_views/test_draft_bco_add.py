@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 """Test Add Temp BCO 
-Test for '201: Account has been authorized.', '404: Credentials not found.',
-and '403: Requestor's credentials were rejected.'
+Test for '200: BCO temp draft creation is successful.' and
+'400: Bad Request.'
 """
 
 import json
@@ -11,12 +11,11 @@ from bcodb.models import BCO
 
 class TestAddTempBco(APITestCase):
     """Class for testing Temp BCO creation
-    """""
+    """
     fixtures = ['tests/fixtures/testing_data']
 
     def setUp(self) -> None:
         self.client = APIClient()
-        
         with open("tests/fixtures/testing_example_bcos.json", "r") as file:
             self.bcos = json.load(file)
         
