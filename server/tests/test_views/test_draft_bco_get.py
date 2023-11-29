@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 """Test Get Temp BCO
-Test for '200:	BCO draft retrieved.', '401: You are not authorized to access
-object {bco_id}', '404: Object {bco_id} not found', and '409: Conflict.'
+Test for '200:	BCO draft retrieved.', '400: {bco_id} is not a valid UUID',
+'401: You are not authorized to access object {bco_id}', and '404: Object
+{bco_id} not found'
 """
 
 import json

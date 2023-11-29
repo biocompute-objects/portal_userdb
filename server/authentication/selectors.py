@@ -5,8 +5,6 @@ Selector functions for operations with the authentication app
 
 from bcodb.models import BCO
 from django.contrib.auth.models import User
-from rest_framework import status
-from rest_framework.response import Response
 from django.core.exceptions import ValidationError
 
 def get_all_temp_drafts():

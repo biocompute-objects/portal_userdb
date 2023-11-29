@@ -5,12 +5,13 @@
 import json
 import requests
 from datetime import datetime
-from django.db.models import query
-from django.utils.timezone import make_aware
-from bcodb.models import BcoDb
-from users.models import Profile
+from bcodb.models import BcoDb, BCO
 from bcodb.selectors import accounts_describe, get_all_bcodbs
-from rest_framework_jwt.views import verify_jwt_token
+from django.db.models import query
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.utils.timezone import make_aware
+from users.models import Profile
 
 def update_bcodbs(profile: Profile) -> query.QuerySet:
     """Updates the information for a BcoDb object"""
@@ -77,4 +78,23 @@ def remove_authentication(token: str, auth_object: dict, bcodb: BcoDb):
     except Exception as err:
         print(err)
 
+def delete_temp_draft(user: User, bco_id: str) -> dict:
+
+    try:
+        bco = BCO.objects.get(id=bco_id)
+    except BCO.DoesNotExist:
+        return "not_found"
+    except ValidationError: 
+        return "bad_uuid"
     
+    object_id = bco.id
+    
+    if bco.owner == None:
+        bco.delete()
+        return object_id
+    
+    if bco.owner != user:
+        return "not_authorized"
+    
+    bco.delete()
+    return object_id
