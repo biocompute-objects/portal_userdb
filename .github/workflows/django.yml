@@ -29,5 +29,5 @@ jobs:
           pip install -r server/requirements.txt
       - name: Run Tests
         run: |
-          cd server/
+          cd /server/
           python3.9 manage.py test
