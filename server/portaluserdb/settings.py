@@ -13,11 +13,29 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 secrets = configparser.ConfigParser()
-try:
-    secrets.read(BASE_DIR + '/.secrets')
-except KeyError:
-    SECRET_KEY = os.environ.get('SECRET_KEY')
-    print(SECRET_KEY)
+secrets.read(BASE_DIR + '/.secrets')
+
+if secrets['DJANGO_KEYS']['SECRET_KEY'] is None:
+    secrets = {
+        "GOOGLE_KEYS":{
+            "DJANGO_GOOGLE_OAUTH2_CLIENT_ID": os.environ.get('DJANGO_GOOGLE_OAUTH2_CLIENT_ID'),
+            "DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET": os.environ.get('DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET')
+        },
+        "DJANGO_KEYS": {
+            "SECRET_KEY": os.environ.get('SECRET_KEY')
+        },
+        "ORCID_KEYS": {
+            "DJANGO_ORCID_OAUTH2_CLIENT_URL": os.environ.get('DJANGO_ORCID_OAUTH2_CLIENT_URL'),
+            "DJANGO_ORCID_OAUTH2_CLIENT_ID": os.environ.get('DJANGO_ORCID_OAUTH2_CLIENT_ID'),
+            "DJANGO_ORCID_OAUTH2_CLIENT_SECRET": os.environ.get('DJANGO_ORCID_OAUTH2_CLIENT_SECRET'),
+            "DJANGO_ORCID_OAUTH2_URL": os.environ.get('DJANGO_ORCID_OAUTH2_URL'),
+        },
+        "SERVER":{
+            "SERVER_VERSION": os.environ.get('SERVER_VERSION'),
+            "SERVER_URL": os.environ.get('SERVER_URL'),
+            "DATABASE": os.environ.get('DATABASE')
+        }
+    }
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
