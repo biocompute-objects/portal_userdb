@@ -22,7 +22,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Debugging Step
         run: |
-            ls -R  # List all files and directories recursively
+            ls -R server # List all files and directories recursively
             cat server/requirements.txt  # Print the contents of the requirements file
         
       - name: Install Dependencies
