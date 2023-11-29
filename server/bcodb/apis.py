@@ -157,8 +157,7 @@ class AddTempDraftBcoAPI(APIView):
         request_body=schema,
         responses={
             200: "BCO temp draft creation is successful.",
-            400: "Bad request.",
-            409: "Conflict.",
+            400: "Bad request."
         },
         tags=["BCODB Management"],
     )
@@ -176,10 +175,11 @@ class AddTempDraftBcoAPI(APIView):
                 "contents": request.data["contents"],
                 "origin": request.headers['Origin']
             }
-        except KeyError:
+        except KeyError as error:
             return Response(
                 status=status.HTTP_400_BAD_REQUEST,
-                data="Bad request. Unable to serialize submitted data"
+                data="Bad request. Unable to serialize submitted data. " \
+                     + f"There is a problem with {error}"
             )
         bco_serializer = BcoSerializer(data=data_to_serialize)
         bco_serializer.is_valid(raise_exception=True)
