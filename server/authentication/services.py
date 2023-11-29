@@ -82,7 +82,7 @@ class CustomJSONWebTokenAuthentication(BaseAuthentication):
             except Exception as exp:
                 raise exceptions.AuthenticationFailed(exp)
         else:
-            print("no here")
+            pass
         pass
 
     def authenticate_portal(self, payload: dict, token:str)-> User:
