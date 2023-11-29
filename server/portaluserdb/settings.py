@@ -13,7 +13,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 secrets = configparser.ConfigParser()
-secrets.read(BASE_DIR + '/.secrets')
+try:
+    secrets.read(BASE_DIR + '/.secrets')
+except KeyError:
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    print(SECRET_KEY)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
