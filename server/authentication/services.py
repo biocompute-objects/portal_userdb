@@ -11,15 +11,14 @@ from datetime import datetime
 from django.conf import settings
 from rest_framework import status, exceptions
 from rest_framework.response import Response
-from rest_framework_jwt.serializers import VerifyAuthTokenSerializer
 from rest_framework_jwt.settings import api_settings
 from bcodb.models import BcoDb
 from users.models import Profile
 from users.services import UserSerializer, ProfileSerializer
 from users.selectors import profile_from_username
-from rest_framework_jwt.utils import unix_epoch
+from rest_framework_jwt.utils import check_payload, check_user, unix_epoch
 from rest_framework_jwt.authentication import BaseAuthentication
-from django.contrib.auth.models import AnonymousUser, User
+from django.contrib.auth.models import User
 from bcodb.services import update_bcodbs
 from rest_framework import serializers
 
@@ -48,10 +47,8 @@ class CustomJSONWebTokenAuthentication(BaseAuthentication):
     """
 
     def authenticate(self, request):
-        print("CustomJSONWebTokenAuthentication")
         if "Authorization" in request.headers:
             kind, token = request.headers['Authorization'].split(' ')
-
             try:
                 unverified_payload = jwt.decode(
                     token, None, False, options={"verify_signature": False}
@@ -89,18 +86,10 @@ class CustomJSONWebTokenAuthentication(BaseAuthentication):
         """Authenticate Portal
         Custom function to authenticate BCO Portal credentials.
         """
-        
-        response = requests.post(
-            payload['iss']+'/users/auth/verify/', json={"token":token}
-        )
-        if response.status_code == 201:
-            try:
-                return User.objects.get(email=payload['email'])
-            except User.DoesNotExist:
-                return None
-        else:
-            print(response.reason)
-            exceptions.AuthenticationFailed(response.reason)
+        payload = check_payload(token=token)
+        user = check_user(payload=payload)
+
+        return user
 
 def authenticate_orcid(payload:dict, token:str):
     """Authenticate ORCID

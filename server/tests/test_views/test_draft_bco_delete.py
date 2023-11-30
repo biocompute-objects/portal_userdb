@@ -83,6 +83,19 @@ class TestDeleteTempBco(APITestCase):
 
         self.assertEqual(response.status_code, 401)
 
+    def test_delete_tempbco_success_auth(self):
+        """Test for '403:	Forbidden. Error decoding JSON Web Token (JWT)'
+        """
+
+        bco_id = "0dc206f8-7d14-41bc-93f6-15f0eaf8feb0"
+        
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + 'token')
+        response = self.client.post(
+            '/users/bcodb/draft_bco/delete', data={"bco_id": bco_id}
+        )
+
+        self.assertEqual(response.status_code, 403)
+
     def test_delete_tempbco_unathorized(self):
         """Test for '404:	Object {bco_id} not found.'
         """
