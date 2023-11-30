@@ -33,13 +33,13 @@ import {
 export default function BCOnexus() {
 
     return (
-        <Card className="About-BCOnexus-linkCard">
-            <CardContent className="About-BCOnexus-linkCard">
+        <Card className="About-linkCard">
+            <CardContent className="About-inkCard">
             <Box>
-                <Typography className="About-BCOnexus-title">
+                <Typography className="About-title">
                     <stong>BCOnexus</stong>
                 </Typography>
-                <Typography className="About-BCOnexus-bullet">
+                <Typography className="About-bullet">
                 Developed by DNAnexus
                 <br>
                 </br>

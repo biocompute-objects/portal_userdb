@@ -2,12 +2,14 @@
 /* Define a CSS variable for red color */
 :root {
   /* --main-red-color: rgb(227, 55, 55); */
-  --main-red-color: rgb(210, 31, 60) !important
+  --main-red-color: rgb(210, 31, 60) !important;
+  --main-blue-color: #0477bf !important;
+  --main-cardBackground-color: #D8E9FD !important
 }
 
 /* About page- BCOnexus.js CSS Components */
 
-.About-BCOnexus-bullet {
+.About-bullet {
   /* display: "inline-block";
   margin: "0 2px";
   transform: "scale(0.8)";
@@ -15,23 +17,31 @@
   font: 26px; */
 
   color: black;
-  font-size: 26px;
+  font-size: 22px !important;
   font-family: 'Roboto', 'Helvetica', Arial, sans-serif;
-  margin: 0px 2px;
+  margin: 10px 2px !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
 }
 
-.About-BCOnexus-linkCard {
+.About-linkCard {
   min-height: 300px;
   min-width: 275px;
   text-align: center;
-  background-color:#D8E9FD;
+  background-color:var(--main-cardBackground-color)
 }
-.About-BCOnexus-title {
-  font-size: 33px;
+.About-title {
+  font-size: 33px !important;
   font-family: 'Roboto', 'Helvetica', Arial, sans-serif;
-  margin: 0px 2px;
-
+  margin: 10px 2px !important;
+  font-weight: bold !important;
 }
+
+.About-centerCard {
+  min-width: 275 !important;
+  text-align: center !important;
+}
+
 
 /* about pages */
 .member-image {
@@ -340,16 +350,11 @@
   font-weight: bold;
 }
 
-/* .required-field .MuiFilledInput-underline:before {
-  border-bottom: 2px solid rgb(215, 46, 46) !important;
-} */
 .required-field {
   /* color: rgb(227, 55, 55) !important; */
   color: var(--main-red-color) !important;
 }
-/* .MuiFilledInput-underline:before {
-  border-bottom: 2px solid red !important; /* Change border color to red */
- */
+
 
 /* text field */
 .large_textfield {
