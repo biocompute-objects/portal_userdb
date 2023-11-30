@@ -46,6 +46,7 @@ class TestGetTempBCO(APITestCase):
             '/users/bcodb/draft_bco/get',
             data={"bco_id": "0dc206f8-7d14-41bc-93f6-15f0eaf8feb0"}
         )
+
         self.assertEqual(response2.status_code, 200)
         
     def test_get_tempbco_bad_request(self):
@@ -69,6 +70,19 @@ class TestGetTempBCO(APITestCase):
         )
 
         self.assertEqual(response.status_code, 401)
+
+    def test_get_tempbco_forbidden(self):
+        """Test for '403:	Forbidden. Error decoding JSON Web Token (JWT)'
+        """
+        
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + "token")
+        
+        response2 = self.client.post(
+            '/users/bcodb/draft_bco/get',
+            data={"bco_id": "0dc206f8-7d14-41bc-93f6-15f0eaf8feb0"}
+        )
+
+        self.assertEqual(response2.status_code, 403)
 
     def test_get_tempbco_notfound(self):
         """Test for '404: Object {bco_id} not found.'

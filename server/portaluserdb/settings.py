@@ -11,28 +11,28 @@ from django.core.management.utils import get_random_secret_key
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-try:
-    secrets = {
-        "GOOGLE_KEYS":{
-            "DJANGO_GOOGLE_OAUTH2_CLIENT_ID": os.environ.get('DJANGO_GOOGLE_OAUTH2_CLIENT_ID'),
-            "DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET": os.environ.get('DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET')
-        },
-        "DJANGO_KEYS": {
-            "SECRET_KEY": os.environ.get('SECRET_KEY')
-        },
-        "ORCID_KEYS": {
-            "DJANGO_ORCID_OAUTH2_CLIENT_URL": os.environ.get('DJANGO_ORCID_OAUTH2_CLIENT_URL'),
-            "DJANGO_ORCID_OAUTH2_CLIENT_ID": os.environ.get('DJANGO_ORCID_OAUTH2_CLIENT_ID'),
-            "DJANGO_ORCID_OAUTH2_CLIENT_SECRET": os.environ.get('DJANGO_ORCID_OAUTH2_CLIENT_SECRET'),
-            "DJANGO_ORCID_OAUTH2_URL": os.environ.get('DJANGO_ORCID_OAUTH2_URL'),
-        },
-        "SERVER":{
-            "SERVER_VERSION": os.environ.get('SERVER_VERSION'),
-            "SERVER_URL": os.environ.get('SERVER_URL'),
-            "DATABASE": os.environ.get('DATABASE')
-        }
+
+secrets = {
+    "GOOGLE_KEYS":{
+        "DJANGO_GOOGLE_OAUTH2_CLIENT_ID": os.environ.get('DJANGO_GOOGLE_OAUTH2_CLIENT_ID'),
+        "DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET": os.environ.get('DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET')
+    },
+    "DJANGO_KEYS": {
+        "SECRET_KEY": os.environ.get('SECRET_KEY')
+    },
+    "ORCID_KEYS": {
+        "DJANGO_ORCID_OAUTH2_CLIENT_URL": os.environ.get('DJANGO_ORCID_OAUTH2_CLIENT_URL'),
+        "DJANGO_ORCID_OAUTH2_CLIENT_ID": os.environ.get('DJANGO_ORCID_OAUTH2_CLIENT_ID'),
+        "DJANGO_ORCID_OAUTH2_CLIENT_SECRET": os.environ.get('DJANGO_ORCID_OAUTH2_CLIENT_SECRET'),
+        "DJANGO_ORCID_OAUTH2_URL": os.environ.get('DJANGO_ORCID_OAUTH2_URL'),
+    },
+    "SERVER":{
+        "SERVER_VERSION": os.environ.get('SERVER_VERSION'),
+        "SERVER_URL": os.environ.get('SERVER_URL'),
+        "DATABASE": os.environ.get('DATABASE')
     }
-except:
+}
+if secrets['DJANGO_KEYS']['SECRET_KEY'] == None:
     secrets = configparser.ConfigParser()
     secrets.read(BASE_DIR + '/.secrets')
 
