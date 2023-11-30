@@ -210,7 +210,7 @@ export const  ProvenanceDomain = ({onSave} ) => {
                         <Typography variant="h6">Contributors</Typography>
                       </Grid> 
                     </Grid>
-                    <Grid container spacing={2} alignItems="center">
+                    <Grid container spacing={2} alignItems="flex">
                       <FieldArray
                         name='contributors'
                         render={arrayHelpers => (
