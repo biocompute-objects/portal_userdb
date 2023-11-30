@@ -1,23 +1,20 @@
 import React, { useState } from "react";
 import * as Yup from "yup";
-import {Card, CardContent, CardHeader, Typography, Grid, Button, TextField } from "@material-ui/core";
+import {Card, CardContent, CardHeader, Typography, Grid, Button } from "@material-ui/core";
 import { Formik, Form, FieldArray } from "formik";
 import { Contribution, FormObserver, Reviewer, Next } from "./components";
 import { useSelector, useDispatch } from "react-redux"
 import { BaisicDateTimePicker, MyTextField } from "./specialFeilds";
 import { updateProvenanceDomain, updateModified } from "../../slices/bcoSlice";
 import "../../App.css";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Tooltip from "@mui/material/Tooltip";
-import { isRejected } from "@reduxjs/toolkit";
 
 export const  ProvenanceDomain = ({onSave} ) => {
   const dispatch = useDispatch();
   const provenanceDomain = useSelector(state => state.bco.data.provenance_domain)
   let has_obsolete = "obsolete_after" in provenanceDomain;
-  let has_embargo = "embargo" in provenanceDomain;
   let has_review = "review" in provenanceDomain;
   let is_derived = "derived_from" in provenanceDomain;
   const [obsolete, setObsolete] = useState("obsolete_after" in provenanceDomain)
