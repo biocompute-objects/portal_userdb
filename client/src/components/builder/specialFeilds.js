@@ -125,7 +125,6 @@ export const contributions = [
 export const MultiSelector = ({ placeholder, label, isFullWidth, isRequired, isDisabled, ...props }) => {
   const [field, meta] = useField(props);
   
-
   return (
     <FormControl sx={{ m: 1, width: 300 }}>
       <InputLabel id={label}>{label}</InputLabel>
