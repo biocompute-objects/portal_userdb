@@ -157,7 +157,7 @@ Load the DB with test data:
 
 Make sure API is accessible via web browser. EX: 
 ````
-https://localhost:8080/users/admin/ 
+http://localhost:8080/users/admin/ 
 ````
 If it worked you should be able to see the API Documentation site at:
 
