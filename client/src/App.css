@@ -205,10 +205,11 @@
 }
 
 .object-contents {
-  flex: 1;
+  flex:auto;
   display: flex;
   flex-direction: column;
   overflow: auto;
+  width: fit-content;
 }
 
 .button-confirm {

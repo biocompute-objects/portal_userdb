@@ -42,8 +42,8 @@ export default function BuilderColorCode () {
       <div
         role="tabpanel"
         hidden={domain !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
+        id={`vertical-tabpanel-${index}`}
+        aria-labelledby={`vertical-tab-${index}`}
         {...other}
       >
         {domain === index && (
@@ -106,7 +106,7 @@ export default function BuilderColorCode () {
     <Grid container spacing={2}>
       <NotificationBox />
       <Grid item className="object-contents">
-        <Card>
+        <Card spacing={2}>
           <CardContent>
             <Typography>
                   Object ID: {bco.object_id}
