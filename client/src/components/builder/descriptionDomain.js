@@ -213,7 +213,7 @@ export const  DescriptionDomain = ({onSave}) => {
                         <CardContent >
                           <Grid container spacing={2}>
                             <Grid item >
-                              <MyTextField name={`pipeline_steps[${index}].step_number`} label="Step Number"/>
+                              <MyTextField type="number" name={`pipeline_steps[${index}].step_number`} label="Step Number"/>
                             </Grid>
                             <Grid item >
                               <MyTextField name={`pipeline_steps.${index}.name`} label="Name"/>    

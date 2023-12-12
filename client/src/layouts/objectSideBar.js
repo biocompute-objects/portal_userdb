@@ -2,8 +2,9 @@ import React from "react";
 import { Button, Card, Container, Grid, ListItem, ListItemText } from "@material-ui/core";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import { useDispatch, useSelector } from "react-redux";
-import { updateDraftBco, createDraftBco } from "../slices/bcoSlice";
+import { updateDraftBco, createDraftBco, publishDraftBco } from "../slices/bcoSlice";
 import "../App.css"
+import SaveDraftButton from "./SaveDraftButton";
 
 const data = [
   {
@@ -55,7 +56,8 @@ export default function ObjectSideBar ({domain, setDomain}) {
   const bcoStatus = useSelector(state => state.bco.status);
   const BCODB_URL = process.env.REACT_APP_BCOAPI_URL;
   const allowUpdate = (bcoStatus === "writing") ? (true) : (false)
-  
+  const allowPublish = (bcoStatus === "valid") ? (true) : (false)
+
   function a11yProps(index) {
     return {
       id: `simple-tab-${index}`,
@@ -65,6 +67,12 @@ export default function ObjectSideBar ({domain, setDomain}) {
   const handleChange = (newValue) => {
     setDomain(newValue);
   };  
+
+  const publishDraft = () => {
+    const bcoURL = BCODB_URL;
+    const bcoObject = bco;
+    dispatch(publishDraftBco({bcoURL, bcoObject, prefix}));
+  };
 
   const updateDraft = () => {
     console.log("Update", BCODB_URL, bco)
@@ -94,8 +102,16 @@ export default function ObjectSideBar ({domain, setDomain}) {
         ))}
         
       </Grid>
-      <Grid item className='object-buttons'>
-        {
+      {/* <Grid item className='object-buttons'>
+        <SaveDraftButton updateDraft={updateDraft} allowUpdate={allowUpdate} />
+        <Button
+                variant="contained"
+                color="primary"
+                onClick={publishDraft}
+                disabled={!allowPublish}
+              >Publish BCO</Button> */}
+              
+        {/* {
           (global.window.location.pathname === "/builder" && prefix !== null) ? (
             <div >
               <Button
@@ -103,11 +119,21 @@ export default function ObjectSideBar ({domain, setDomain}) {
                 color="primary"
                 onClick={updateDraft}
                 disabled={allowUpdate}
-              >Submit BCO</Button>
+              >Save Draft BCO</Button>
+              <div>
+                <br/>
+              </div>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={publishDraft}
+                disabled={!allowPublish}
+              >Publish BCO</Button>
+              
             </div>
           ) : (<></>)
-        }
-      </Grid>
+        } */}
+      {/* </Grid> */}
     </Card>
   )
 }
