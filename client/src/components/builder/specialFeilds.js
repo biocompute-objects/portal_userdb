@@ -136,77 +136,48 @@ export const contributions = [
 
 export const MultiSelector = ({ placeholder, label, isFullWidth, isRequired, isDisabled, ...props }) => {
   const [field, meta] = useField(props);
-  const [selectedValues, setSelectedValues] = useState([]);
-  
-  const handleSelectChange = (event) => {
-    setSelectedValues(event.target.value);
-    field.onChange(event);
-  }
 
   return (
-    <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id={label}>{label}</InputLabel>
-        <Select
-          labelId={label}
-          id={label}
-          multiple
-          name={props.name}
-          value={selectedValues}
-          onChange={handleSelectChange}
-          renderValue={(selected) => selected.join(',')}
-          MenuProps={MenuProps}
-        >
-          {contributions.map((item) => (
-            <MenuItem key={item} value={item}>
-              <Checkbox checked={selectedValues.indexOf(item) > -1} />
-              <ListItemText primary={item} />
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
-  )}
-//   return (
-//     <FormControl sx={{ m: 1, width: 300 }}>
-//       <InputLabel id={label}>{label}</InputLabel>
-//       <Select
-//         input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-//         labelId={label}
-//         id={label}
-//         name={props.name}
-//         multiple
-//         {...field}
-//         renderValue={(selected) => (
-//           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-//             {selected.map((option, index) => (
-//               <Chip
-//                 key={index}
-//                 variant="outlined"
-//                 label={option}
-//                 color="primary"
-//               />
-//             ))}
-//           </Box>
-//         )}
-//       >
-//         {contributions.map((item) => (
-//           <MenuItem
-//             key={item}
-//             value={item}
-//           >
-//             {item}
-//           </MenuItem>
-//         ))}
-//       </Select>
-//       {
-//         props.list.length > 0 ?(
-//           <div></div>
-//         ):(
-//           <FormHelperText id="select-multiple-chip" error>
-//             Must select at least one value
-//           </FormHelperText>)
-//       }
+    <FormControl sx={{ m: 1, width: 300 }}>
+      <InputLabel id={label}>{label}</InputLabel>
+      <Select
+        input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+        labelId={label}
+        id={label}
+        name={props.name}
+        multiple
+        {...field}
+        renderValue={(selected) => (
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+            {selected.map((option, index) => (
+              <Chip
+                key={index}
+                variant="outlined"
+                label={option}
+                color="primary"
+              />
+            ))}
+          </Box>
+        )}
+      >
+        {contributions.map((item) => (
+          <MenuItem
+            key={item}
+            value={item}
+          >
+            {item}
+          </MenuItem>
+        ))}
+      </Select>
+      {
+        props.list.length > 0 ?(
+          <div></div>
+        ):(
+          <FormHelperText id="select-multiple-chip" error>
+            Must select at least one value
+          </FormHelperText>)
+      }
 
-//     </FormControl>
-//   )
+    </FormControl>
+  )
+}
