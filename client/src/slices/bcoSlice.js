@@ -315,10 +315,9 @@ export const getDraftBco = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-        thunkAPI.dispatch(setMessage(message));
-      }
-      return thunkAPI.rejectWithValue();
+      thunkAPI.dispatch(setMessage(message));
     }
+    return thunkAPI.rejectWithValue();
   }
 )
 

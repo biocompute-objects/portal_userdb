@@ -281,33 +281,3 @@ export const ErrorView = () => {
     </Card>
   )
 };
-
-export const RawJson = () => {
-  const bco = useSelector(state => state.bco.data)
-  return (
-    <Card>
-      <CardHeader title="Raw JSON View"/>
-      <CardContent></CardContent>
-      <Box>
-        <TextField
-          color="primary"
-          fullWidth
-          id="outlined-multiline-static"
-          multiline
-          minRows={25}
-          defaultValue={JSON.stringify(bco, null, 4)}
-          variant="outlined"
-        />
-      </Box>
-    </Card>
-  )
-}
-
-export const TreeView = () => {
-  const bco = useSelector(state => state.bco.data)
-  return (
-    <ReactJson 
-      src={bco}
-    />
-  )
-}
