@@ -6,13 +6,12 @@ import {
   CardContent,
   CardHeader
 } from "@material-ui/core";
-
 import {
   Formik,
   Form,
+  Field,
   FieldArray
 } from "formik";
-
 import {
   useSelector,
   useDispatch
@@ -71,18 +70,18 @@ export const  UsabilityDomain = ({onSave}) => {
                         <Grid item key={index}>
                           <LargeTextField name={`usability_domain.${index}`} />
                           <Button 
-                          className="delete-button" 
-                          type="button" 
-                          onClick={() => arrayHelpers.remove(index)}>
-                          <RemoveCircleIcon fontSize="23" />
+                            className="delete-button" 
+                            type="button" 
+                            onClick={() => arrayHelpers.remove(index)}>
+                            <RemoveCircleIcon fontSize="23" />
                           </Button>
                         </Grid>
                       ))}
                       <Button 
-                      className="add-button" 
-                      type="button" 
-                      onClick={() => arrayHelpers.push("")}>
-                      <AddCircleIcon style={{ fontSize: 24}} />
+                        className="add-button" 
+                        type="button" 
+                        onClick={() => arrayHelpers.push("")}>
+                        <AddCircleIcon style={{ fontSize: 24}} />
                       </Button>
                     </div>
                   )}

@@ -100,19 +100,19 @@ export const ErrorDomain = ({onSave}) => {
               ) : 
                 (<Box></Box>)}
               <Box>
-              <TextField
-                id="algorithmic"
-                fullWidth
-                multiline
-                minRows={5}
-                defaultValue={
-                  (Object.keys(algorithmic_error).length > 0 && JSON.stringify(algorithmic_error) !== '{}')
-                  ? JSON.stringify(algorithmic_error, null, 4) 
-                  : defaultAlgorithmicError 
-              }
-                onChange={(event) => setInput(event.target)}
-                variant="outlined"
-              />
+                <TextField
+                  id="algorithmic"
+                  fullWidth
+                  multiline
+                  minRows={5}
+                  defaultValue={
+                    (Object.keys(algorithmic_error).length > 0 && JSON.stringify(algorithmic_error) !== '{}')
+                      ? JSON.stringify(algorithmic_error, null, 4) 
+                      : defaultAlgorithmicError 
+                  }
+                  onChange={(event) => setInput(event.target)}
+                  variant="outlined"
+                />
                 <TextField
                   id="empirical"
                   className="largeTextField"

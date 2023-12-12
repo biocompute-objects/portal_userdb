@@ -2,10 +2,166 @@
 
 ## System Setup
 ### Requirements
-- Node.js
-- Python 3
-- PyEnv (optional but recommended)
+- [Node.js](https://nodejs.org/en)
+- [Python 3](https://www.python.org/downloads/)
+- [PyEnv](https://github.com/pyenv/pyenv) (optional but recommended)
 
+
+## BCO Portal Client deployment  (portal_userdb/client)
+
+- For HTTPS access: 
+
+`git clone https://github.com/biocompute-objects/portal_userdb` 
+
+- For SSH access*(RECCOMENDED)*: 
+
+`git@github.com:biocompute-objects/portal_userdb.git` 
+
+**Then**
+
+`cd portal_userdb/`
+
+**Make sure you are on the desired branch:**
+
+`git switch <BRANCH NAME>` *(for whatever branch you need)*
+
+### Enter the repository, create a environment file, and install the required packages
+
+`cd portal_userdb/client/`
+
+##### For Windows: 
+
+`cd portal_userdb/client/`
+
+**Install Node packages via Node Package Manager (NPM)**
+
+`npm install`
+
+**Set up the environment file**
+
+`cp .env.example .env`
+
+Then you will have to add values for the following:
+
+	REACT_APP_USERDB_URL=http://localhost:8080/users/
+	REACT_APP_BCOAPI_URL=http://127.0.0.1:8000/api/
+	REACT_APP_GOOGLE_CLIENT_ID=******************************************
+	REACT_APP_ORCID_URL=https://sandbox.orcid.org
+	REACT_APP_ORCID_CLIENT_ID==******************************************
+	REACT_APP_ORCID_CLIENT_SECRET==******************************************
+	REACT_APP_SERVER_URL=http://localhost:3000
+
+### **Start service**
+
+`npm run start`
+
+This will open `http://localhost:3000/` in your default webbrowser if everything went according to plan. If not, see the [troubleshooting tips](troubleshooting.md).
+
+This terminal will be serving the React frontend.
+
+## BCO Portal Server deployment  (portal_userdb/server)
+
+**Open a new terminal and retrun to the project root**
+
+`cd PATH/TO/PROJECT/portal_userdb`
+
+### Enter the server directory, create a virtual environment, and install the required packages
+
+##### For Mac/Linux:
+
+`cd server`
+
+`pyenv local 3.10.6` *(optional)*
+
+`python3 -m venv env`
+
+`source env/bin/activate`
+
+`pip3.9 install -r requirements.txt`
+
+##### For Windows:
+
+`cd server`
+
+`python -m venv env`
+
+`source env/Scripts/activate`
+
+`pip install -r requirements.txt`
+
+
+#### Generate the secrets file
+----
+
+- Copy the `.secrets.example` to `.secrets`
+
+	`cp .secrets.example .secrets`
+
+- On linux (or MAC) generate a 32-bytes long PSK key using the openssl command for the `DJANO_KEY`:
+
+`openssl rand -base64 32`
+
+- On Windows, generate a 32-bytes long PSK key using the PowerShell command for the `DJANGO_KEY`:
+   
+`[Convert]::ToBase64String((1..32 | ForEach-Object { Get-Random -Minimum 0 -Maximum 256 }) -as [byte[]])`
+
+
+- Update the `.secrets` file with the required keys: 
+
+```
+[GOOGLE_KEYS]
+DJANGO_GOOGLE_OAUTH2_CLIENT_ID=<your-client-id-here>
+DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET=<your-client-secret-here>
+
+[DJANGO_KEYS]
+SECRET_KEY=<your-Django-secret-key--here>
+
+[ORCID_KEYS]
+DJANGO_ORCID_OAUTH2_CLIENT_URL=http://localhost:3000
+DJANGO_ORCID_OAUTH2_CLIENT_ID=<your-orcid-id-here>
+DJANGO_ORCID_OAUTH2_CLIENT_SECRET=<your-orcid-secret-here>
+DJANGO_ORCID_OAUTH2_URL=https://sandbox.orcid.org
+
+[SERVER]
+SERVER_VERSION=23.12.12
+SERVER_URL=http://localhost:3000
+DATABASE=db.sqlite3
+```
+
+#### Set up DB
+---
+##### Option #1: Use existing DB
+
+`cp admin/db.sqlite3 .`
+
+`python3 manage.py migrate`
+
+````
+superusername: bco_api_user
+password: testing123
+````
+
+---
+##### Option #2: Create a new DB with test data
+Create a DB:
+
+`python3 manage.py migrate`
+
+Load the DB with test data:
+
+`python manage.py loaddata tests/fixtures/testing_data.json`
+
+---
+#### Run Server
+`python3 manage.py runserver 8080`
+
+Make sure API is accessible via web browser. EX: 
+````
+http://localhost:8080/users/admin/ 
+````
+If it worked you should be able to see the API Documentation site at:
+
+`http://localhost:8080/users/docs/`
 
 ## BCO_API
 
@@ -22,9 +178,9 @@ Make sure you are on the desired branch (Check for latest branch):
 
 Enter the repository, create a virtual environment, and install the required packages
 
-`pyenv local 3.9.4`
+`pyenv local 3.10.6`
 
-`python3.9 -m venv env`
+`python3 -m venv env`
 
 `source env/bin/activate`
 
@@ -125,18 +281,18 @@ password: testing123
 
 **Make Migrations**
 
-`python3.9 manage.py migrate`
+`python3 manage.py migrate`
 
 ---
 ##### Option #2: Create a new DB
 
 **Make Migrations**
 
-`python3.9 manage.py migrate`
+`python3 manage.py migrate`
 
 **Create a super user for the API:**
 
-`python3.9 manage.py createsuperuser`
+`python3 manage.py createsuperuser`
 
 Then follow the prompts
 
@@ -147,7 +303,7 @@ Then follow the prompts
 
 **Start the server**
 
-`python3.9 manage.py runserver 8000`
+`python3 manage.py runserver 8000`
 
 
 **Make sure API is accessible via web browser.**
@@ -158,145 +314,8 @@ EX: http://localhost:8000/api/admin/
 
 *If it worked you should be able to login using the SuperUser credentials you created above*
 
-## BCO Portal Server deployment  (portal_userdb/server)
-
-- For HTTPS access: 
-
-`git clone https://github.com/biocompute-objects/portal_userdb` 
-
-- For SSH access*(RECCOMENDED)*: 
-
-`git@github.com:biocompute-objects/portal_userdb.git` 
-
-**Then**
-
-`cd portal_userdb/`
-
-**Make sure you are on the desired branch:**
-
-`git switch <whatever branch you need>` *(or whatever branch you need)*
-
-### Enter the repository, create a virtual environment, and install the required packages
-
-##### For Mac/Linux:
-
-`cd client`
-
-`pyenv local 3.9.4` *(optional)*
-
-`python3.9 -m venv env`
-
-`source env/bin/activate`
-
-`pip3.9 install -r requirements.txt`
-
-##### For Windows:
-
-`cd client`
-
-`python -m venv env`
-
-`source env/Scripts/activate`
-
-`pip install -r requirements.txt`
-
-
-#### Modify the Config file
-`vim portaluserdb/settings.py`
-
-**Allow all hosts?**
-````
-29:    ALLOWED_HOSTS=['*']
-152:  CORS_ORIGIN_ALL_ALL = True
-````
-
-#### Generate the secrets file
-----
-
-- Copy the `.secrets.example` to `.secrets`
-
-- On linux (or MAC) generate a 32-bytes long PSK key using the openssl command for the `DJANO_KEY`:
-
-`openssl rand -base64 32`
-
-- On Windows, generate a 32-bytes long PSK key using the PowerShell command for the `DJANGO_KEY`:
-   
-`[Convert]::ToBase64String((1..32 | ForEach-Object { Get-Random -Minimum 0 -Maximum 256 }) -as [byte[]])`
-
-
-- Update the `.secrets` file with the required keys: 
-
-```
-[GOOGLE_KEYS]
-DJANGO_GOOGLE_OAUTH2_CLIENT_ID=<your-client-id-here>
-DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET=<your-client-secret-here>
-
-[DJANGO_KEY]
-SECRET_KEY=<your-Django-secret-key--here>
-```
-
-#### Set up DB
----
-##### Option #1: Use existing DB
-
-`cp admin/db.sqlite3 .`
-
-`python3.9 manage.py migrate`
-
-````
-superusername: bco_api_user
-password: testing123
-````
-
----
-##### Option #2: Create a new DB
-Create a super user for the API:
-
-`python3.9 manage.py migrate`
-
-`python3.9 manage.py createsuperuser`
-
----
-#### Run Server
-`python3.9 manage.py runserver 8080`
-
-Make sure API is accessible via web browser. EX: 
-````
-https://localhost:8080/users/admin/ 
-````
-If it worked you should be able to login using the SuperUser credentials you created above
-
-`[YOU WEB HOST HERE]/users/admin/`
-
-## BCO Portal Client deployment  (portal_userdb/client)
-
-`cd /client/`
-
-##### For Windows: 
-
-`cd client/`
-
-**Install packages**
-
-`npm install`
-
-**Set up the environment file**
-
-`cp .env.example .env`
-
-Then you will have to add values for the following:
-
-	REACT_APP_USERDB_URL=http://localhost:8080/users/
-	REACT_APP_BCOAPI_URL=http://127.0.0.1:8000/api/
-	REACT_APP_GOOGLE_CLIENT_ID=404409424650-a1hh4j6m9r3998v16siia2lum9un21ip.apps.googleusercontent.com
-
-**Start service**
-
-`npm run start`
-
 **Log in with the superuser credentials you created or imported**
 
 If you copied over the existing dbs you should be able to log in with any of the crednetials listed in `/portal_userdb/server/admin/users.tsv`
 
 Otherwise you will have to register a new user. 
-

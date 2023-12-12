@@ -7,7 +7,7 @@
             "user": 1,
             "content_type": 8,
             "object_id": "8ec450f5-2c6a-4f81-ab5a-64099e32128d",
-            "object_repr": "bco_api_user at https://test.portal.biochemistry.gwu.edu",
+            "object_repr": "bco_api_user at http://127.0.0.1:8000",
             "action_flag": 3,
             "change_message": ""
         }
@@ -46,7 +46,7 @@
             "user": 1,
             "content_type": 8,
             "object_id": "3a3b6637-3a98-42ba-a1df-8a29e1b1113d",
-            "object_repr": "CharlesHadleyKing at https://test.portal.biochemistry.gwu.edu",
+            "object_repr": "CharlesHadleyKing at http://127.0.0.1:8000",
             "action_flag": 3,
             "change_message": ""
         }
@@ -505,7 +505,7 @@
         "model": "auth.user",
         "pk": 4,
         "fields": {
-            "password": "pbkdf2_sha256$390000$Fnpy5IrNP3AS6lIvijd2Sp$Wrl7gOquDZ3lZl69rQgbEcFqg1V2gnUIqdOw55WL54M=",
+            "password": "pbkdf2_sha256$390000$rIcwdj5K9CBTExODPSRbuB$QYGNgZZeFBQ3XpD79FBlLm03svr2/lY911HIWds2kR0=",
             "last_login": null,
             "is_superuser": false,
             "username": "testertest",
@@ -608,14 +608,25 @@
         }
     },
     {
+        "model": "django_rest_passwordreset.resetpasswordtoken",
+        "pk": 4,
+        "fields": {
+            "user": 1,
+            "created_at": "2023-10-10T16:48:35.340Z",
+            "key": "9e1ecb3343f5a5ecf6d99bca2516aabc2cb08efb7a5b6329",
+            "ip_address": "127.0.0.1",
+            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+        }
+    },
+    {
         "model": "bcodb.bcodb",
         "pk": "8be48b95-86ed-439a-a2eb-e60f2dddba1e",
         "fields": {
-            "bcodb_username": "bco_publisher",
-            "hostname": "test.portal.biochemistry.gwu.edu",
+            "bcodb_username": "bco_api_user",
+            "hostname": "127.0.0.1:8000",
             "human_readable_hostname": "BCO Server (Default)",
-            "public_hostname": "https://test.portal.biochemistry.gwu.edu",
-            "token": "2f2a599026581c158a07f968c56292c77f4be875",
+            "public_hostname": "http://127.0.0.1:8000",
+            "token": "bd97d8cbec1fc7234e11e80957496aefc20c6395",
             "owner": "80ee9548-274f-426b-bf80-046c9210e33b",
             "user_permissions": [
                 "Can add BCOs with prefix BCO",
@@ -642,9 +653,9 @@
         "pk": "93a87430-3a58-439c-a9b1-19947b88ba23",
         "fields": {
             "bcodb_username": "jdoe58",
-            "hostname": "test.portal.biochemistry.gwu.edu",
+            "hostname": "127.0.0.1:8000",
             "human_readable_hostname": "BCO Server (Default)",
-            "public_hostname": "https://test.portal.biochemistry.gwu.edu",
+            "public_hostname": "http://127.0.0.1:8000",
             "token": "3f5504d88a5085d0452b19350fb6f82ae7097dd0",
             "owner": "500033e4-80d2-4970-82a5-b27a34b3b0a6",
             "user_permissions": [
@@ -673,9 +684,9 @@
         "pk": "99de7923-1669-45e4-82cd-ba263884a0f9",
         "fields": {
             "bcodb_username": "hivelab37",
-            "hostname": "test.portal.biochemistry.gwu.edu",
+            "hostname": "127.0.0.1:8000",
             "human_readable_hostname": "BCO Server (Default)",
-            "public_hostname": "https://test.portal.biochemistry.gwu.edu",
+            "public_hostname": "http://127.0.0.1:8000",
             "token": "0bd55c955fcbfc269f6dc8f61ea107674cafdecb",
             "owner": "070d62f9-df7d-4cdb-8c6c-6bbbe1ab7234",
             "user_permissions": [
@@ -704,9 +715,9 @@
         "pk": "dcadb7dd-1bce-4698-9ddd-1b2a50ea9cc2",
         "fields": {
             "bcodb_username": "test50",
-            "hostname": "test.portal.biochemistry.gwu.edu",
+            "hostname": "127.0.0.1:8000",
             "human_readable_hostname": "BCO Server (Default)",
-            "public_hostname": "https://test.portal.biochemistry.gwu.edu",
+            "public_hostname": "http://127.0.0.1:8000",
             "token": "c400a6076a2dfe7e9906ab86c6ad4574d1d60e03",
             "owner": "e535dcdf-d2fe-4131-a0c3-5d8ac11f0838",
             "user_permissions": [
@@ -749,12 +760,34 @@
     },
     {
         "model": "users.profile",
+        "pk": "12d15503-51b2-421f-bed7-ff5bdb0c2fc4",
+        "fields": {
+            "username": "hadleyking",
+            "affiliation": "",
+            "email": "imabossbrother@gmail.com",
+            "orcid": "",
+            "public": false
+        }
+    },
+    {
+        "model": "users.profile",
         "pk": "500033e4-80d2-4970-82a5-b27a34b3b0a6",
         "fields": {
             "username": "johndoe",
             "affiliation": "",
             "email": "jdoe@testing.com",
             "orcid": "",
+            "public": false
+        }
+    },
+    {
+        "model": "users.profile",
+        "pk": "550cb8fe-2351-4ce5-9853-83db84e5602e",
+        "fields": {
+            "username": "CharlesHadleyKing",
+            "affiliation": "",
+            "email": "charles.hadley.king@gmail.com",
+            "orcid": " ",
             "public": false
         }
     },

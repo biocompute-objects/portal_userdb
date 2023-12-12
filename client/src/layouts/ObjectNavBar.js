@@ -191,61 +191,61 @@ const ObjectNavBar = () => {
           {((global.window.location.pathname === "/builder") && (
             <SelectBCODBAndPrefix />
           )
-           ? (
-            <>
-              {(bcoPrefix === null) ? (
-                <>
-                  <Formik
-                    initialValues={{database: "", prefix: ""}}
-                    onSubmit={(values) => {
-                      console.log(values.database)
-                    }}
-                  >
-                    {() => (
-                      (prefixList.length === 0 ) ? (
-                        <Form>
-                          <label htmlFor="email" style={{ display: "block" }}>Select BCODB</label>
-                          <Field
-                            as='select'
-                            name='database'
-                            onChange={handleBcodb}
-                          >
-                            <option value="" key=""></option>
-                            {bcodbs.map((database, index) => (
-                              <option value={database.public_hostname} key={index}>{database.hostname}</option>
-                            ))}
-                          </Field>
-                        </Form>
-                      ) : (
-                        <Form>
-                          <label htmlFor="email" style={{ display: "block" }}>Select Prefix</label>
-                          {/* {console.log(values)} */}
-                          <Field
-                            as='select'
-                            name='database'
-                            onChange={handlePrefix}
-                          >
-                            <option value="" key=""></option>
-                            {prefixList.map((prefix, index) => (
-                              <option value={prefix} key={index}>{prefix}</option>
-                            ))}
-                          </Field>
-                        </Form>
-                      )
-                    )}
-                  </Formik>
-                </>
-              ) : (
-                <TextField
-                  value={`BCO prefix: ${bcoPrefix}`}
-                  variant="outlined"
-                  disabled
-                  size="small"
-                  className="button-confirm"
-                />)
-              }
-            </>
-          ) : (<></>))}
+            ? (
+              <>
+                {(bcoPrefix === null) ? (
+                  <>
+                    <Formik
+                      initialValues={{database: "", prefix: ""}}
+                      onSubmit={(values) => {
+                        console.log(values.database)
+                      }}
+                    >
+                      {() => (
+                        (prefixList.length === 0 ) ? (
+                          <Form>
+                            <label htmlFor="email" style={{ display: "block" }}>Select BCODB</label>
+                            <Field
+                              as='select'
+                              name='database'
+                              onChange={handleBcodb}
+                            >
+                              <option value="" key=""></option>
+                              {bcodbs.map((database, index) => (
+                                <option value={database.public_hostname} key={index}>{database.hostname}</option>
+                              ))}
+                            </Field>
+                          </Form>
+                        ) : (
+                          <Form>
+                            <label htmlFor="email" style={{ display: "block" }}>Select Prefix</label>
+                            {/* {console.log(values)} */}
+                            <Field
+                              as='select'
+                              name='database'
+                              onChange={handlePrefix}
+                            >
+                              <option value="" key=""></option>
+                              {prefixList.map((prefix, index) => (
+                                <option value={prefix} key={index}>{prefix}</option>
+                              ))}
+                            </Field>
+                          </Form>
+                        )
+                      )}
+                    </Formik>
+                  </>
+                ) : (
+                  <TextField
+                    value={`BCO prefix: ${bcoPrefix}`}
+                    variant="outlined"
+                    disabled
+                    size="small"
+                    className="button-confirm"
+                  />)
+                }
+              </>
+            ) : (<></>))}
           <div className="grow" />
 
           

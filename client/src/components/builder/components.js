@@ -43,6 +43,7 @@ export const Uri = ({uri_element}) => {
         <MyTextField name={`${uri_element}["sha1_checksum"]`} label="SHA1 Checksum"/>
       </Grid>
     </>
+
   )
 
 }
@@ -86,21 +87,6 @@ export const Contribution = ({ contributor, contributorPath }) => {
     </Card>
   )
 }
-// export const Contribution = ({contributor, contributorPath}) => {
-//   return (
-//     <Card>
-//       <MyTextField name={`${contributorPath}.name`} type="input" placeholder="Name" label='Name' isRequired />
-//       <MyTextField name={`${contributorPath}.affiliation`} type="input" placeholder="Affiliation" label='Affiliation' />
-//       <MyTextField name={`${contributorPath}.email`} type="input" placeholder="Email" label='Email' />
-//       <MultiSelector
-//         name={`${contributorPath}.contribution`}
-//         list={contributor.contribution}
-//         label='Contribution'
-//         isRequired
-//       />
-//     </Card>
-//   )
-// }
 
 export const Reviewer = ({reviewer, reviewerPath}) => {
   return (

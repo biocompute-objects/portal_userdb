@@ -212,10 +212,10 @@ const NavBar = () => {
             ) : (
               <>
                 <IconButton 
-                component={Link} 
-                to='/login' 
-                aria-label='log in' 
-                className="nav-link"
+                  component={Link} 
+                  to='/login' 
+                  aria-label='log in' 
+                  className="nav-link"
                 // color='inherit'
                 >
                   <Typography variant='h6' component='h6'>

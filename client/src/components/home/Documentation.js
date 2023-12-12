@@ -26,7 +26,7 @@ export default function Documentation() {
       <CardActionArea onClick={() => global.window.open(apiLink)}>
         <CardContent>
           <Typography className="home-subtitle">
-          <img src={api} height={25} alt="MediaWiki logo" />
+            <img src={api} height={25} alt="MediaWiki logo" />
             API
             <br />
           </Typography>

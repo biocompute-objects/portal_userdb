@@ -41,7 +41,7 @@ const HomePage = () => {
             <Container className="home-margintop" maxWidth={false}>
               <Box>
                 <Grid classes={classes.colored} container justifyContent="space-around" spacing={3}>
-                  <Grid item xs={12} sm={12} lg={12} xl={12}>
+                  <Grid item lg={12} sm={12} xl={12} xs={12}>
                     <Intro />
                   </Grid>
                   <Grid item lg={4} sm={6} xl={4} xs={12}>

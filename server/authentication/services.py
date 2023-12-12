@@ -1,4 +1,7 @@
-# authentication/services.py
+#!/usr/bin/env python3
+"""Authentication Services
+Service functions for operations with the authentication app
+"""
 
 import jwt
 import json
@@ -10,51 +13,120 @@ from rest_framework import status, exceptions
 from rest_framework.response import Response
 from rest_framework_jwt.settings import api_settings
 from bcodb.models import BcoDb
-from bcodb.services import BcoDbSerializer, update_bcodbs
 from users.models import Profile
 from users.services import UserSerializer, ProfileSerializer
 from users.selectors import profile_from_username
-from rest_framework_jwt.utils import unix_epoch
+from rest_framework_jwt.utils import check_payload, check_user, unix_epoch
+from rest_framework_jwt.authentication import BaseAuthentication
+from django.contrib.auth.models import User
+from bcodb.services import update_bcodbs
+from rest_framework import serializers
 
-def authenticate_orcid(iss_oauth, token):
+class BcoDbSerializer(serializers.ModelSerializer):
+    """Serializer for BCODB objects"""
+    class Meta:
+        model = BcoDb
+        fields = (
+            "hostname",
+            "bcodb_username",
+            "human_readable_hostname",
+            "public_hostname",
+            "token",
+            "owner",
+            "user_permissions",
+            "group_permissions",
+            "account_creation",
+            "account_expiration",
+            "last_update",
+            "recent_status",
+            "recent_attempt",
+        )
+
+class CustomJSONWebTokenAuthentication(BaseAuthentication):
+    """Class for custom authentication
+    """
+
+    def authenticate(self, request):
+        if "Authorization" in request.headers:
+            kind, token = request.headers['Authorization'].split(' ')
+            try:
+                unverified_payload = jwt.decode(
+                    token, None, False, options={"verify_signature": False}
+                )
+                if unverified_payload['iss'] == 'https://orcid.org' or unverified_payload['iss'] == 'https://sandbox.orcid.org':
+                    user = authenticate_orcid(unverified_payload, token)
+                    try:
+                        return (user, token)
+                    except UnboundLocalError as exp:
+                        raise exceptions.AuthenticationFailed(
+                            "Authentication failed. Token issuer not found.",
+                            "Please contact the site admin"
+                        )
+                
+                if unverified_payload['iss'] in [
+                    'http://localhost:8080',
+                    'https://test.portal.biochemistry.gwu.edu',
+                    'https://biocomputeobject.org'
+                ]:
+                    user = self.authenticate_portal(unverified_payload, token)
+                    try:
+                        return (user, token)
+                    except UnboundLocalError as exp:
+                        raise exceptions.AuthenticationFailed(
+                            "Authentication failed. Token issuer not found.",
+                            "Please contact the site admin"
+                        )
+            except Exception as exp:
+                raise exceptions.AuthenticationFailed(exp)
+        else:
+            pass
+        pass
+
+    def authenticate_portal(self, payload: dict, token:str)-> User:
+        """Authenticate Portal
+        Custom function to authenticate BCO Portal credentials.
+        """
+        payload = check_payload(token=token)
+        user = check_user(payload=payload)
+
+        return user
+
+def authenticate_orcid(payload:dict, token:str):
     """Authenticate ORCID
     
     Custom function to authenticate ORCID credentials.
     """
-
-    orcid_jwks = {
-        jwk['kid']: json.dumps(jwk)
-        for jwk in requests.get(iss_oauth).json()['keys']
-    }
-    orcid_jwk = next(iter(orcid_jwks.values()))
-    orcid_key = jwt.algorithms.RSAAlgorithm.from_jwk(orcid_jwk)
-
+    try:
+        orcid_jwks = {
+            jwk['kid']: json.dumps(jwk)
+            for jwk in requests.get(payload['iss']+'/oauth/jwks').json()['keys']
+        }
+        orcid_jwk = next(iter(orcid_jwks.values()))
+        orcid_key = jwt.algorithms.RSAAlgorithm.from_jwk(orcid_jwk)    
+    except Exception as exp:
+        print('exp:', exp)
+        raise exceptions.AuthenticationFailed(exp)
+    
     try:
         verified_payload = jwt.decode(token, key=orcid_key, algorithms=['RS256'], audience=['APP-88DEA42BRILGEHKC', 'APP-ZQZ0BL62NV9SBWAX'])
     except Exception as exp:
         print('exp:', exp)
         raise exceptions.AuthenticationFailed(exp)
-    return verified_payload
-    
-    # try:
-    #     user = User.objects.get(username=Authentication.objects.get(auth_service__icontains=payload['sub']).username)
-    # except (Authentication.DoesNotExist, User.DoesNotExist):
-    #     return None
-    # return user
+    user = User.objects.get(
+        username=Profile.objects.get(orcid__icontains=verified_payload['sub'])
+    )
 
+    return user
 
-def orcid_auth_code(code: str, path: str)-> Response:
-    """ORCID Authorization Code
-
-    Verifies the ORCID authentication.
+def orcid_auth_code(code: str)-> Response:
     """
-
+    """
     data = {
         "client_id": settings.ORCID_CLIENT,
         "client_secret": settings.ORCID_SECRET,
         "grant_type": "authorization_code",
         "code": code,
-        "redirect_uri": settings.CLIENT + path
+        "redirect_uri": settings.CLIENT + "/login"
     }
     headers = {
         "Accept": "application/json",
@@ -63,7 +135,6 @@ def orcid_auth_code(code: str, path: str)-> Response:
     response = requests.post(settings.ORCID_URL + "/oauth/token", data=data, headers=headers)
 
     return response.json()
-
 
 def google_authentication(request):
     """Google Authentication"""

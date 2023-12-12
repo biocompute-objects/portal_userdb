@@ -36,13 +36,11 @@ export const  ExtensionDomain = ({onSave}) => {
       .catch((error) => {
         console.log("ERROR: ", error)
       });
-    dispatch(updateModified())
     setNewSchema("");
   };
 
   const removeRows = (index) => {
     dispatch(deleteExtensionDomain({index}))
-    dispatch(updateModified())
   };
 
   return (
@@ -83,7 +81,7 @@ export const  ExtensionDomain = ({onSave}) => {
             disabled={!newSchema}
             onClick={() => addExtension()}>
             <AddCircleIcon style={{ fontSize: 24}} />
-              {/* Add Extension */}
+            {/* Add Extension */}
           </IconButton>
         </Grid>
       </CardContent>

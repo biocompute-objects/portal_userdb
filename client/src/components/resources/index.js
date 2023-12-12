@@ -67,16 +67,16 @@ function DocView() {
                   {/* <Grid item lg={3} sm={6} xl={4} xs={12}>
                     <Tsc />
                   </Grid> */}
-                  <Grid item xs={12} sm={12} lg={12} xl={12}>
-                    <Citations />
-                  </Grid>
+          <Grid item xs={12} sm={12} lg={12} xl={12}>
+            <Citations />
+          </Grid>
 
-                </Grid>
+          {/* </Grid> */}
 
-              </Grid>
-            </Container>
-          </Paper>
-        );
-      }
+        </Grid>
+      </Container>
+    </Paper>
+  );
+}
 
 export default DocView;

@@ -69,5 +69,5 @@ export default function ObjectLayout ()  {
       </div>
     </div>
   );
-  
-  }  
+}
+

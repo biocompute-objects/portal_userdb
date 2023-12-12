@@ -102,38 +102,6 @@ export default function ObjectSideBar ({domain, setDomain}) {
         ))}
         
       </Grid>
-      {/* <Grid item className='object-buttons'>
-        <SaveDraftButton updateDraft={updateDraft} allowUpdate={allowUpdate} />
-        <Button
-                variant="contained"
-                color="primary"
-                onClick={publishDraft}
-                disabled={!allowPublish}
-              >Publish BCO</Button> */}
-              
-        {/* {
-          (global.window.location.pathname === "/builder" && prefix !== null) ? (
-            <div >
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={updateDraft}
-                disabled={allowUpdate}
-              >Save Draft BCO</Button>
-              <div>
-                <br/>
-              </div>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={publishDraft}
-                disabled={!allowPublish}
-              >Publish BCO</Button>
-              
-            </div>
-          ) : (<></>)
-        } */}
-      {/* </Grid> */}
     </Card>
   )
 }

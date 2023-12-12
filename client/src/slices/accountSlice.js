@@ -178,6 +178,7 @@ export const orcidLogIn = createAsyncThunk(
     try {
       const authentication = await AuthService.orcidLogIn(code);
       // thunkAPI.dispatch(setMessage(authentication.data.message));
+      console.log(authentication)
       return authentication
     } catch (error) {
       const message =
@@ -191,46 +192,6 @@ export const orcidLogIn = createAsyncThunk(
     }
   }
 )
-
-export const orcidAdd = createAsyncThunk(
-  "auth/orcidAdd",
-  async (code, thunkAPI) => {
-    try {
-      const authentication = await AuthService.orcidAdd(code);
-      thunkAPI.dispatch(setMessage("ORCID added to user profile"));
-      return authentication
-    } catch (error) {
-      const message =
-      (error.response &&
-        error.response.data &&
-        error.response.data.message) ||
-      error.message ||
-      error.toString();
-      thunkAPI.dispatch(setMessage(message));
-      return thunkAPI.rejectWithValue();
-    }
-  }
-);
-
-export const orcidRemove = createAsyncThunk(
-  "auth/orcidRemove",
-  async (thunkAPI) => {
-    try {
-      const remove = await AuthService.orcidRemove();
-      return remove
-    } catch (error) {
-      const message =
-      (error.response &&
-        error.response.data &&
-        error.response.data.message) ||
-      error.message ||
-      error.toString();
-      thunkAPI.dispatch(setMessage(message));
-      return thunkAPI.rejectWithValue();
-    }
-
-  }
-);
 
 export const login = createAsyncThunk(
   "auth/login",
@@ -260,9 +221,11 @@ export const logout = createAsyncThunk("auth/logout", async (thunkAPI) => {
 export const authenticateBcoDb = createAsyncThunk(
   "bcodb/addServer",
   async ({ token, hostname }, thunkAPI) => {
+    console.log(token, hostname);
     try {
       const bcodbResponse = await AuthService.authenticateBcoDb(token, hostname);
       const userDbResponse = await AuthService.addBcoDb(bcodbResponse)
+      console.log(userDbResponse)
       thunkAPI.dispatch(setMessage(userDbResponse.data.message));
       return userDbResponse.data ;
     } catch (error) {
@@ -285,26 +248,6 @@ export const removeBcoDb = createAsyncThunk(
       const response = await AuthService.removeBcoDb(database);
       thunkAPI.dispatch(setMessage(response.data.message));
       return response.data;
-    } catch (error) {
-      const message =
-      (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      thunkAPI.dispatch(setMessage(message));
-      return thunkAPI.rejectWithValue();
-    }
-  }
-);
-
-export const resetToken = createAsyncThunk(
-  "bcodb/resetToken",
-  async ({ public_hostname, token }, thunkAPI) => {
-    try {
-      const response = await AuthService.resetToken(public_hostname, token);
-      thunkAPI.dispatch(setMessage("Token reset successfull."));
-      return response.data
     } catch (error) {
       const message =
       (error.response &&
@@ -387,20 +330,6 @@ export const accountSlice = createSlice({
         state.isLoggedIn = false;
         state.user = null;
       })
-      .addCase(orcidAdd.fulfilled, (state, action) => {
-        state.user = action.payload.user;
-      })
-      .addCase(orcidAdd.rejected, (state, action) => {
-        console.log(action.payload)
-        // state.user = action.payload.user;
-      })
-      .addCase(orcidRemove.fulfilled, (state, action) => {
-        state.user = action.payload.user;
-      })
-      .addCase(orcidRemove.rejected, (state, action) => {
-        console.log(action.payload)
-        // state.user = action.payload.user;
-      })
       .addCase(googleLogin.fulfilled, (state, action) => {
         state.isLoggedIn = true;
         state.user = action.payload.user;
@@ -438,9 +367,6 @@ export const accountSlice = createSlice({
       .addCase(groupInfo.fulfilled, (state, action) => {
         state.user.bcodbs[action.payload[1]].groups_info = action.payload[0]
       }) 
-      .addCase(resetToken.fulfilled, (state, action) => {
-        state.user = action.payload.user;
-      })
   },
 });
 

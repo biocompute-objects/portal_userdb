@@ -201,7 +201,7 @@
   width: 250px;
   flex-shrink: 0;
   overflow: none;
-  height: auto;
+  height: 600px;
 }
 
 .object-contents {
@@ -231,17 +231,6 @@
   margin-bottom: 35px;
 }
 
-.sidebar-wrapper {
-  flex: auto;
-}
-
-.button-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  margin-left: 20px; /* Aligns buttons vertically */
-  /* You can adjust margin, padding, or other styles as needed */
-}
 /* Homepage Styles */
 .home-root {
   background-color: rgb(250, 249, 246);
@@ -348,7 +337,7 @@
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  background-color: rgb(37, 92, 181) !important;
+  color: rgb(37, 92, 181) !important;
 } 
 
 .delete-button {

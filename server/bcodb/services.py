@@ -1,38 +1,21 @@
 # bcodb/serializers.py
+"""BCODB Services
+"""
 
 import json
 import requests
 from datetime import datetime
-from django.db.models import query
-from django.utils.timezone import make_aware
-from rest_framework import serializers
-from bcodb.models import BcoDb
-from users.models import Profile
+from bcodb.models import BcoDb, BCO
 from bcodb.selectors import accounts_describe, get_all_bcodbs
-
-
-class BcoDbSerializer(serializers.ModelSerializer):
-    """Serializer for BCODB objects"""
-    class Meta:
-        model = BcoDb
-        fields = (
-            "hostname",
-            "bcodb_username",
-            "human_readable_hostname",
-            "public_hostname",
-            "token",
-            "owner",
-            "user_permissions",
-            "group_permissions",
-            "account_creation",
-            "account_expiration",
-            "last_update",
-            "recent_status",
-            "recent_attempt",
-        )
+from django.db.models import query
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.utils.timezone import make_aware
+from users.models import Profile
 
 def update_bcodbs(profile: Profile) -> query.QuerySet:
     """Updates the information for a BcoDb object"""
+
     bcodbs = get_all_bcodbs(profile)
     now = make_aware(datetime.utcnow())
     
@@ -59,18 +42,7 @@ def update_bcodbs(profile: Profile) -> query.QuerySet:
     updated_bcodbs = BcoDb.objects.filter(owner=profile)
     return updated_bcodbs
 
-def create_bcodb(data: dict) -> BcoDb:
-    """Create BcoDb
-    Serialize data for BcoDb object and saves.
-    """
-
-    bcodb_serializer = BcoDbSerializer(data=data)
-    bcodb_serializer.is_valid(raise_exception=True)
-    bcodb_serializer.save()
-
-    return bcodb_serializer.data
-
-def add_authentication(auth_object: dict, bcodb: BcoDb):
+def add_authentication(token: str, auth_object: dict, bcodb: BcoDb):
     """Add Authentication
     Adds an authentication object to the BCODB object.
     """
@@ -79,7 +51,7 @@ def add_authentication(auth_object: dict, bcodb: BcoDb):
             url=bcodb.public_hostname + "/api/auth/add/",
             data=json.dumps(auth_object),
             headers= {
-                "Authorization": "Token " + bcodb.token,
+                "Authorization": "Bearer " + token,
                 "Content-type": "application/json; charset=UTF-8",
             }
         )
@@ -88,7 +60,7 @@ def add_authentication(auth_object: dict, bcodb: BcoDb):
     except Exception as err:
         print(err)
 
-def remove_authentication(auth_object: dict, bcodb: BcoDb):
+def remove_authentication(token: str, auth_object: dict, bcodb: BcoDb):
     """Remove Authentication
     Removes an authentication object to the BCODB object.
     """
@@ -97,7 +69,7 @@ def remove_authentication(auth_object: dict, bcodb: BcoDb):
             url=bcodb.public_hostname + "/api/auth/remove/",
             data=json.dumps(auth_object),
             headers= {
-                "Authorization": "Token " + bcodb.token,
+                "Authorization": "Bearer " + token,
                 "Content-type": "application/json; charset=UTF-8",
             }
         )
@@ -106,20 +78,23 @@ def remove_authentication(auth_object: dict, bcodb: BcoDb):
     except Exception as err:
         print(err)
 
-def reset_token(public_hostname: str, token: str) -> BcoDb:
-    """Reset BCODB Token"""
+def delete_temp_draft(user: User, bco_id: str) -> dict:
 
     try:
-        bco_api_response = requests.post(
-            url=public_hostname + "/api/auth/reset_token/",
-            data={},
-            headers= {
-                "Authorization": "Token " + token,
-                "Content-type": "application/json; charset=UTF-8",
-            },
-        )
-        BcoDb.objects.filter(token=token).update(token=bco_api_response.json()['token'])
-        
-        return bco_api_response.json()
-    except:
-        return bco_api_response.json()
+        bco = BCO.objects.get(id=bco_id)
+    except BCO.DoesNotExist:
+        return "not_found"
+    except ValidationError: 
+        return "bad_uuid"
+    
+    object_id = bco.id
+    
+    if bco.owner == None:
+        bco.delete()
+        return object_id
+    
+    if bco.owner != user:
+        return "not_authorized"
+    
+    bco.delete()
+    return object_id
