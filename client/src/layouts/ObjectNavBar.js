@@ -27,6 +27,7 @@ import { useDispatch } from "react-redux";
 import { Field, Formik, Form } from "formik";
 import { getPrefixList } from "../slices/prefixSlice";
 import { setPrefix } from "../slices/bcoSlice";
+import SelectBCODBAndPrefix from "./SelectBCODBandPrefix";
 
 const ObjectNavBar = () => {
   const dispatch = useDispatch();
@@ -187,61 +188,64 @@ const ObjectNavBar = () => {
             </Typography>
           </Tooltip>
           <div className="grow" />
-          {((global.window.location.pathname === "/builder") ? (
-            <>
-              {(bcoPrefix === null) ? (
-                <>
-                  <Formik
-                    initialValues={{database: "", prefix: ""}}
-                    onSubmit={(values) => {
-                      console.log(values.database)
-                    }}
-                  >
-                    {() => (
-                      (prefixList.length === 0 ) ? (
-                        <Form>
-                          <label htmlFor="email" style={{ display: "block" }}>Select BCODB</label>
-                          <Field
-                            as='select'
-                            name='database'
-                            onChange={handleBcodb}
-                          >
-                            <option value="" key=""></option>
-                            {bcodbs.map((database, index) => (
-                              <option value={database.public_hostname} key={index}>{database.hostname}</option>
-                            ))}
-                          </Field>
-                        </Form>
-                      ) : (
-                        <Form>
-                          <label htmlFor="email" style={{ display: "block" }}>Select Prefix</label>
-                          {/* {console.log(values)} */}
-                          <Field
-                            as='select'
-                            name='database'
-                            onChange={handlePrefix}
-                          >
-                            <option value="" key=""></option>
-                            {prefixList.map((prefix, index) => (
-                              <option value={prefix} key={index}>{prefix}</option>
-                            ))}
-                          </Field>
-                        </Form>
-                      )
-                    )}
-                  </Formik>
-                </>
-              ) : (
-                <TextField
-                  value={`BCO prefix: ${bcoPrefix}`}
-                  variant="outlined"
-                  disabled
-                  size="small"
-                  className="button-confirm"
-                />)
-              }
-            </>
-          ) : (<></>))}
+          {((global.window.location.pathname === "/builder") && (
+            <SelectBCODBAndPrefix />
+          )
+            ? (
+              <>
+                {(bcoPrefix === null) ? (
+                  <>
+                    <Formik
+                      initialValues={{database: "", prefix: ""}}
+                      onSubmit={(values) => {
+                        console.log(values.database)
+                      }}
+                    >
+                      {() => (
+                        (prefixList.length === 0 ) ? (
+                          <Form>
+                            <label htmlFor="email" style={{ display: "block" }}>Select BCODB</label>
+                            <Field
+                              as='select'
+                              name='database'
+                              onChange={handleBcodb}
+                            >
+                              <option value="" key=""></option>
+                              {bcodbs.map((database, index) => (
+                                <option value={database.public_hostname} key={index}>{database.hostname}</option>
+                              ))}
+                            </Field>
+                          </Form>
+                        ) : (
+                          <Form>
+                            <label htmlFor="email" style={{ display: "block" }}>Select Prefix</label>
+                            {/* {console.log(values)} */}
+                            <Field
+                              as='select'
+                              name='database'
+                              onChange={handlePrefix}
+                            >
+                              <option value="" key=""></option>
+                              {prefixList.map((prefix, index) => (
+                                <option value={prefix} key={index}>{prefix}</option>
+                              ))}
+                            </Field>
+                          </Form>
+                        )
+                      )}
+                    </Formik>
+                  </>
+                ) : (
+                  <TextField
+                    value={`BCO prefix: ${bcoPrefix}`}
+                    variant="outlined"
+                    disabled
+                    size="small"
+                    className="button-confirm"
+                  />)
+                }
+              </>
+            ) : (<></>))}
           <div className="grow" />
 
           
@@ -256,25 +260,25 @@ const ObjectNavBar = () => {
               <><HelpDropDown /></>
             </Tooltip>
             {auth.user ? (
-              
-              <Tooltip title="Profile Page">
-                <IconButton
-                  component={Link} to='/profile'
-                  edge='end'
-                  aria-label='account of current user'
-                  aria-haspopup='true'
-                  color='inherit'
-                >
-                  <div className="image-container">
-                    {
-                      (auth.user.imageUrl)
-                        ? (<img src={auth.user.imageUrl} alt="user profile"/>)
-                        : (<div>{auth.user.userinfo.username}</div>)
-                    }
-                  </div>
-                </IconButton>
-              </Tooltip>
-              
+              <>
+                <Tooltip title="Profile Page">
+                  <><IconButton
+                    component={Link} to='/profile'
+                    edge='end'
+                    aria-label='account of current user'
+                    aria-haspopup='true'
+                    color='inherit'
+                  >
+                    <div className="image-container">
+                      {
+                        (auth.user.imageUrl)
+                          ? (<img src={auth.user.imageUrl} alt="user profile"/>)
+                          : (<div>{auth.user.userinfo.username}</div>)
+                      }
+                    </div>
+                  </IconButton></>
+                </Tooltip>
+              </>
             ) : (
               <>
                 <IconButton component={Link} to='/login' aria-label='log in' color='inherit'>

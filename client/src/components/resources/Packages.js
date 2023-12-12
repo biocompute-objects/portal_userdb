@@ -43,31 +43,31 @@ export default function Packages() {
   const cranBCOLink = "https://cran.r-project.org/web/packages/biocompute/index.html";
 
   return (
-    <Card className={classes.supportCard} elevation={5}>
-      <Typography className={classes.title}>
+    <Card className="resources-supportcard resources-root" elevation={5}>
+      <Typography className="resources-title">
         Software Packages
         <br />
       </Typography>
       <CardActionArea onClick={() => window.open(cranBCOLink)}>
         <CardContent>
-          <Typography className={classes.subtitle}>
+          <Typography className="resources-subtitle">
             <img src={cranLogo} height={25} alt="CRAN logo" />
             CRAN biocompute
             <br />
           </Typography>
-          <Typography className={classes.bullet}>
+          <Typography className="resources-bullet">
             Tools to create, validate, and export BioCompute Objects
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActionArea onClick={() => window.open(bcotoolLink)}>
         <CardContent>
-          <Typography className={classes.subtitle}>
+          <Typography className="resources-subtitle">
             <img src={gitLogo} height={25} alt="BCO logo" />
             BCO Tool
             <br />
           </Typography>
-          <Typography className={classes.bullet}>
+          <Typography className="resources-bullet">
             Command line tool to create, validate, and export BioCompute Objects
           </Typography>
         </CardContent>

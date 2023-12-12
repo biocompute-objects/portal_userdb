@@ -11,7 +11,7 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
 import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
 
-export default function HelpDropDown() {
+export default function APP() {
   return (
     <Dropdown>
       <MenuButton

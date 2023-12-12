@@ -6,21 +6,21 @@ import {
   LargeTextField,
   Selector
 } from "./specialFeilds"
-import { Grid } from "@material-ui/core";
-import { Button, Card } from "@material-ui/core";
+// import { Grid } from "@material-ui/core";
+import { Button, Card, Grid, CardContent} from "@material-ui/core";
 import { useFormikContext } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { updateBcoStatus } from "../../slices/bcoSlice";
 
-export const removeEmptyValues = (myData, excludedKeys = []) => {
+export const removeEmptyValues = (myData) => {
   const obj = JSON.parse(JSON.stringify(myData))
   for (const key in obj) {
     if (typeof obj[key] === "object" && obj[key] !== null) {
-      obj[key] = removeEmptyValues(obj[key], excludedKeys);
-      if (Object.keys(obj[key]).length === 0 && !excludedKeys.includes(key)) {
+      obj[key] = removeEmptyValues(obj[key]);
+      if (Object.keys(obj[key]).length === 0) {
         delete obj[key];
       }
-    } else if (!obj[key] && !excludedKeys.includes(key)) {
+    } else if (!obj[key]) {
       delete obj[key];
     }
   }
@@ -60,18 +60,30 @@ export const Next = () => {
   )
 }
 
-export const Contribution = ({contributor, contributorPath}) => {
+export const Contribution = ({ contributor, contributorPath }) => {
   return (
-    <Card >
-      <MyTextField name={`${contributorPath}.name`} type="input" placeholder="Name" label='Name' isRequired />
-      <MyTextField name={`${contributorPath}.affiliation`} type="input" placeholder="Affiliation" label='Affiliation' />
-      <MyTextField name={`${contributorPath}.email`} type="input" placeholder="Email" label='Email' />
-      <MultiSelector
-        name={`${contributorPath}.contribution`}
-        list={contributor.contribution}
-        label='Contribution'
-        isRequired
-      />
+    <Card>
+      <CardContent>
+        <Grid container spacing={1}>
+          <Grid item xs={3}>
+            <MyTextField name={`${contributorPath}.name`} type="input" placeholder="Name" label='Name' isRequired />
+          </Grid>
+          <Grid item xs={3}>
+            <MyTextField name={`${contributorPath}.affiliation`} type="input" placeholder="Affiliation" label='Affiliation' />
+          </Grid>
+          <Grid item xs={2}>
+            <MyTextField name={`${contributorPath}.email`} type="input" placeholder="Email" label='Email' />
+          </Grid>
+          <Grid item xs={2}>
+            <MultiSelector
+              name={`${contributorPath}.contribution`}
+              list={contributor.contribution}
+              label='Contribution'
+              isRequired
+            />
+          </Grid>
+        </Grid>
+      </CardContent>
     </Card>
   )
 }

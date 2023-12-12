@@ -1,13 +1,12 @@
 import React from "react";
 import {Card, Typography, CardContent, Grid, Button, CardHeader} from "@material-ui/core";
-
 import { Formik, Form, FieldArray } from "formik";
-
 import { useSelector, useDispatch } from "react-redux"
-import { updateParametricDomain } from "../../slices/bcoSlice"
-
+import { updateParametricDomain, updateModified } from "../../slices/bcoSlice"
 import { MyTextField } from "./specialFeilds"
 import { FormObserver, Next } from "./components";
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import Tooltip from "@mui/material/Tooltip";
 
 export const  ParametricDomain = ({onSave}) => {
     
@@ -15,6 +14,7 @@ export const  ParametricDomain = ({onSave}) => {
   const parametric_domain = useSelector(state => state.bco.data.parametric_domain)
 
   return (
+    
     <Card>         
       <Formik
         initialValues={
@@ -35,7 +35,16 @@ export const  ParametricDomain = ({onSave}) => {
             <Form>
               <FormObserver />
               <CardHeader
-                title="Parametric Domain"
+                title={
+                  <span className="bold-title">
+                    Parametric Domain
+                    <Tooltip title="Explanation of Parametric Domain">
+                      <Button size="xs" href='https://wiki.biocomputeobject.org/index.php?title=Parametric-domain'>
+                        <HelpOutlineIcon />
+                      </Button>
+                    </Tooltip>
+                  </span>
+                }
                 action={<Next/>}
               />
               <CardContent>

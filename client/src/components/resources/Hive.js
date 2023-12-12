@@ -43,10 +43,10 @@ export default function Hive() {
   const classes = useStyles();
 
   return (
-    <Card className={`${classes.root} ${classes.supportCard}`} elevation={2}>
+    <Card className="resources-supportcard resources-root" elevation={5}>
       <CardContent>
         <CardActionArea onClick={() => window.open(hiveLink)}>
-          <Typography className={classes.title}>
+          <Typography className="resources-title">
             <img src={hive} height={65} alt="HIVE logo" />
             <br />
             <img src={aws} height={35} alt="AWS logo" />

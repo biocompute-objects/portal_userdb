@@ -41,10 +41,10 @@ export default function Galaxy() {
   const galaxyLink = ("https://usegalaxy.org/");
 
   return (
-    <Card className={`${classes.root} ${classes.linkCard}`} elevation={2}>
+    <Card className="resources-supportcard resources-root" elevation={5}>
       <CardContent>
         <CardActionArea onClick={() => window.open(galaxyLink)}>
-          <Typography className={classes.title}>
+          <Typography className="resources-title">
             <img src={hive} height={65} alt="Galaxy logo" />
             <br />
             <img src={aws} height={35} alt="AWS logo" />

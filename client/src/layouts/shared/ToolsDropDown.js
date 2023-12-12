@@ -14,8 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { deriveBco, updateBco, validateBco } from "../../slices/bcoSlice";
 import FactCheckIcon from "@mui/icons-material/FactCheck";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { removeEmptyValues } from "../../components/builder/components";
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 
 export default function ToolsDropDown() {
   const builderPage = (global.window.location.pathname === "/builder")
@@ -32,9 +31,7 @@ export default function ToolsDropDown() {
   const validate = () => {
     console.log("Validate", BCODB_URL, jsonData)
     const bcoURL = BCODB_URL
-    const bcoObject = removeEmptyValues(jsonData, [
-      "input_list", "external_data_endpoints", "environment_variables","value"
-    ])
+    const bcoObject = jsonData
     dispatch(validateBco({bcoURL, bcoObject}))
   }
   

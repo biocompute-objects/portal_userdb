@@ -9,35 +9,8 @@ import { removeBcoDb, groupsPermissions, groupInfo } from "../../slices/accountS
 import AddServer from "./AddServer";
 import { useNavigate } from "react-router-dom";
 
-const useStyles = makeStyles({
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
-  },
-  serverCard: {
-    minWidth: 275,
-    minHeight: "250px",
-    maxWidth: "500px",
-    textAlign: "left",
-    marginBottom: 12,
-    marginTop: 12,
-    marginLeft: 12,
-  },
-  heightened: {
-    minHeight: "250px"
-  },
-  title: {
-    fontSize: "37px",
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
 
 export default function Servers() {
-  const classes = useStyles();
-  const dispatch = useDispatch()
   const currentUser = useSelector((state) => state.account.user);
   const bcodbs = currentUser.bcodbs
   const [open, setOpen] = React.useState(false);
@@ -66,10 +39,10 @@ export default function Servers() {
 
   return (
     <Container elevation={2}>
-      <Typography className={classes.title}>BCO databases</Typography>
+      <Typography className={"Account-Servers-title"}>BCO databases</Typography>
       {
         bcodbs.map((database, index) => (
-          <Card key={index} className={classes.serverCard}>
+          <Card key={index} className={"Account-Servers-server-card"}>
             <Button
               variant="contained"
               color="secondary"

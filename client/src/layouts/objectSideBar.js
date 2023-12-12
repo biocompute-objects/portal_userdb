@@ -4,6 +4,7 @@ import DataObjectIcon from "@mui/icons-material/DataObject";
 import { useDispatch, useSelector } from "react-redux";
 import { updateDraftBco, createDraftBco, publishDraftBco } from "../slices/bcoSlice";
 import "../App.css"
+import SaveDraftButton from "./SaveDraftButton";
 
 const data = [
   {
@@ -100,30 +101,6 @@ export default function ObjectSideBar ({domain, setDomain}) {
           </ListItem>
         ))}
         
-      </Grid>
-      <Grid item className='object-buttons'>
-        {
-          (global.window.location.pathname === "/builder" && prefix !== null) ? (
-            <div >
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={updateDraft}
-                disabled={allowUpdate}
-              >Save Draft BCO</Button>
-              <div>
-                <br/>
-              </div>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={publishDraft}
-                disabled={!allowPublish}
-              >Publish BCO</Button>
-              
-            </div>
-          ) : (<></>)
-        }
       </Grid>
     </Card>
   )

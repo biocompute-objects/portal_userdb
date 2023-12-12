@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import * as Yup from "yup";
-import {Card, CardContent, CardHeader, Typography, Grid, Button } from "@material-ui/core";
+import {Card, CardContent, CardHeader, Typography, Grid, Button, TextField } from "@material-ui/core";
 import { Formik, Form, FieldArray } from "formik";
 import { Contribution, FormObserver, Reviewer, Next } from "./components";
 import { useSelector, useDispatch } from "react-redux"
 import { BaisicDateTimePicker, MyTextField } from "./specialFeilds";
 import { updateProvenanceDomain, updateModified } from "../../slices/bcoSlice";
 import "../../App.css";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Tooltip from "@mui/material/Tooltip";
+import { isRejected } from "@reduxjs/toolkit";
 
 export const  ProvenanceDomain = ({onSave} ) => {
   const dispatch = useDispatch();
@@ -20,14 +22,13 @@ export const  ProvenanceDomain = ({onSave} ) => {
   const [obsolete, setObsolete] = useState("obsolete_after" in provenanceDomain)
   const [embargo, setEmbargo] = useState("embargo" in provenanceDomain)
   const contributorSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
+    name: Yup.string().required('Name is required'),
     affiliation: Yup.string(),
-    email: Yup.string().email("Invalid email format"),
-    contribution: Yup.array().min(1, "At least one contribution is required").required()
+    email: Yup.string().email('Invalid email format'),
   });
   const reviewerSchema = Yup.object().shape({
-    status: Yup.string().required("Status is required"),
-    reviewer: contributorSchema.required("Reviewer name is required"),
+    status: Yup.string().required('Status is required'),
+    reviewer: contributorSchema.required('Reviewer name is required'),
   });
 
   return (
@@ -208,7 +209,7 @@ export const  ProvenanceDomain = ({onSave} ) => {
                         <Typography variant="h6">Contributors</Typography>
                       </Grid> 
                     </Grid>
-                    <Grid container spacing={2} alignItems="center">
+                    <Grid container spacing={2} alignItems="flex">
                       <FieldArray
                         name='contributors'
                         render={arrayHelpers => (
@@ -217,11 +218,11 @@ export const  ProvenanceDomain = ({onSave} ) => {
                               <Grid item xs={12} key={index}>
                                 <Grid container alignItems="center" spacing={2}>
                                   <Grid item xs={10}></Grid>
-                                  <CardContent>
-                                    <Contribution contributor={contributor} contributorPath={`contributors[${index}]`} />
-                                  </CardContent>
-                                </Grid>
-                                <Grid item xs={2}>
+                                    <CardContent>
+                                      <Contribution contributor={contributor} contributorPath={`contributors[${index}]`} />
+                                    </CardContent>
+                                  </Grid>
+                                  <Grid item xs={2}>
                                   <Button
                                     className="delete-button"
                                     type="button"
@@ -248,37 +249,37 @@ export const  ProvenanceDomain = ({onSave} ) => {
                         )}
                       />
                     </Grid>
-                  </Grid>
-                  <Grid container spacing={2}>
-                    <Grid item md={12} align='left' >
-                      <Typography variant="h6">Review</Typography>
-                    </Grid> 
-                  </Grid>
-                  <Grid container spacing={2}>
-                    <FieldArray
-                      name="review"
-                      render={arrayHelpers => (
-                        <Grid item xs>
-                          {values.review.map((reviewer, index) => (
-                            <CardContent key={index}>
-                              <Reviewer reviewer={reviewer} reviewerPath={`review[${index}]`}/>
-                              <Button
-                                variant="outlined"
-                                color="secondary"
-                                onClick={()=> {arrayHelpers.remove(index)}}
-                              >Remove Review</Button>
-                            </CardContent>
-                          ))}
-                          <Button
-                            variant="outlined"
-                            color="primary"
-                            onClick={()=> {arrayHelpers.push({status:"unreviewed",reviewer_comment:"",date:"",reviewer: {name:"",affiliation: "",email:"",contribution:["curatedBy"],orcid:""}})}}
-                          >Add Review</Button>
-                        </Grid> 
-                      )
-                      }
-                    />
-                  </Grid>
+                    </Grid>
+                    <Grid container spacing={2}>
+                      <Grid item md={12} align='left' >
+                        <Typography variant="h6">Review</Typography>
+                      </Grid> 
+                    </Grid>
+                    <Grid container spacing={2}>
+                      <FieldArray
+                        name="review"
+                        render={arrayHelpers => (
+                          <Grid item xs>
+                            {values.review.map((reviewer, index) => (
+                              <CardContent key={index}>
+                                <Reviewer reviewer={reviewer} reviewerPath={`review[${index}]`}/>
+                                <Button
+                                  variant="outlined"
+                                  color="secondary"
+                                  onClick={()=> {arrayHelpers.remove(index)}}
+                                >Remove Review</Button>
+                              </CardContent>
+                            ))}
+                            <Button
+                              variant="outlined"
+                              color="primary"
+                              onClick={()=> {arrayHelpers.push({status:"unreviewed",reviewer_comment:"",date:"",reviewer: {name:"",affiliation: "",email:"",contribution:["curatedBy"],orcid:""}})}}
+                            >Add Review</Button>
+                          </Grid> 
+                        )
+                        }
+                      />
+                    </Grid>
                   {/* </Grid> */}
                 </CardContent>
               </Form>
@@ -289,3 +290,4 @@ export const  ProvenanceDomain = ({onSave} ) => {
     </>
   )
 }
+
