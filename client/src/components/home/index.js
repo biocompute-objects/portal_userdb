@@ -1,7 +1,7 @@
 // src
 
 import React from "react";
-import { Box, Container, Grid, Typography, makeStyles } from "@material-ui/core";
+import { Box, Container, Grid, Typography } from "@material-ui/core";
 import Docs from "./Documentation";
 import Workshop from "./Workshop";
 // import Tsc from "./Tsc";
@@ -15,32 +15,16 @@ import NewsBar from "./NewsBar";
 import Specification from "./Specification";
 import Intro from "./Intro"
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    minHeight: "100%",
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3)
-  },
-  marginTopped: {
-    marginTop: "50px"
-  },
-  whiteBackground: {
-    backgroundColor: "#ffffff"
-  }
-}));
-
 const HomePage = () => {
-  const classes = useStyles();
 
   return (
-    <Container>
+    <Container className="home-root">
       <Container maxWidth={false}>
         <Grid container justifyContent="center" spacing={2}>
-          <Grid item xs={12} sm={12} lg={9} xl={12}>
-            <Container className={classes.marginTopped} maxWidth={false}>
-              <Box className={classes.whiteBackground}>
-                <Grid classes={classes.colored} container justifyContent="space-around" spacing={3}>
+          <Grid item xs={12} sm={9} lg={9} xl={9} >
+            <Container className="home-margintop" maxWidth={false}>
+              <Box>
+                <Grid container justifyContent="space-around" spacing={3}>
                   <Grid item lg={12} sm={12} xl={12} xs={12}>
                     <Intro />
                   </Grid>
@@ -72,11 +56,12 @@ const HomePage = () => {
             </Container>
           </Grid>
           <Grid item xs={false} sm={4} lg={3} xl={2}>
-            <Box className={classes.whiteBackground}>
+            <Box className="home-margintop">
               <Typography align="center" variant={"h3"}>
                 News and Events
               </Typography>
               <FdaBox />
+              <br />
               <NewsBar />
             </Box>
           </Grid>
