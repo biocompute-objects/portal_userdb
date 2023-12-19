@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 
 export default function Servers() {
+  const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.account.user);
   const bcodbs = currentUser.bcodbs
   const [open, setOpen] = React.useState(false);
