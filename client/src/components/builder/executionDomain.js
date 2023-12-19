@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import {Card, Typography, CardContent, Grid, Button, TextField, CardHeader} from "@material-ui/core";
-
 import { Formik, Form, FieldArray } from "formik";
-
+import { updateExecutionDomain, updateModified } from "../../slices/bcoSlice"
 import { useSelector, useDispatch } from "react-redux"
-import { updateExecutionDomain } from "../../slices/bcoSlice"
-
 import { MyTextField } from "./specialFeilds"
 import { FormObserver, Next, Uri } from "./components"
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import Tooltip from "@mui/material/Tooltip";
 
 export const ExecutionDomain = ({onSave}) => {
   const dispatch = useDispatch();
@@ -56,7 +55,16 @@ export const ExecutionDomain = ({onSave}) => {
               <Form>
                 <FormObserver />
                 <CardHeader
-                  title="Execution Domain"
+                  title={
+                    <span className="bold-title">
+                      Execution Domain
+                      <Tooltip title="Explanation of Execution Domain">
+                        <Button size="xs" href='https://wiki.biocomputeobject.org/index.php?title=Execution-domain'>
+                          <HelpOutlineIcon />
+                        </Button>
+                      </Tooltip>
+                    </span>
+                  }
                   action={<Next />}
                 />
 

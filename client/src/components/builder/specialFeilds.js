@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { useField, useFormikContext} from "formik";
 import { Box, MenuItem, TextField } from "@material-ui/core";
-import dayjs, { Dayjs } from "dayjs";
 import { Chip, FormControl, InputLabel, OutlinedInput, Select } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import Checkbox from '@mui/material/Checkbox';
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 export const MyTextField = ({placeholder,label, isFullWidth, isRequired, type, isDisabled,...props}) => {
   const [field, meta] = useField(props);
@@ -78,10 +89,10 @@ export const BaisicDateTimePicker = ({placeholder, label, isFullWidth, isRequire
         {...field}
         disabled={isDisabled} selected={(field.value && new Date(field.value)) || null}
         onChange={(val) => {
-            if (val.isValid()) {
-              setFieldValue(field.name, val.toISOString());
-            }
+          if (val.isValid()) {
+            setFieldValue(field.name, val.toISOString());
           }
+        }
         }
       />
     </LocalizationProvider>
