@@ -5,46 +5,18 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  makeStyles,
   Typography
 } from "@material-ui/core";
 
-
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)"
-  },
-  linkCard: {
-    minHeight: "300px",
-    textAlign: "center"
-  },
-  supportCard: {
-    textAlign: "center",
-    marginBottom: 12
-  },
-  title: {
-    fontSize: "33px",
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
-
 export default function CGC() {
-  const classes = useStyles();
   const logo = require("../../images/cgc.png");
   const cgcLink = "https://www.cancergenomicscloud.org/";
 
   return (
-    <Card className={`${classes.root} ${classes.supportCard}`} elevation={5}>
-      <CardActionArea onClick={() => window.open(cgcLink)}>
+    <Card className="resources-root resources-supportcard"  elevation={5}>
+      <CardActionArea onClick={() => global.window.open(cgcLink)}>
         <CardContent>
-          <Typography className={classes.title}>
+          <Typography className="resources-title">
             <img src={logo} height={36} alt="CGC logo" />
           </Typography>
           <Typography>
