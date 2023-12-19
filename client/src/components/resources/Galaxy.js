@@ -5,46 +5,20 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  makeStyles,
   Typography
 } from "@material-ui/core";
 
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
-  },
-  linkCard: {
-    minHeight: "250px",
-    textAlign: "center"
-  },
-  heightened: {
-    minHeight: "250px"
-  },
-  title: {
-    fontSize: "37px",
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
-
 export default function Galaxy() {
-  const classes = useStyles();
 
   const hive = require("../../images/galaxy.png");
   const aws = require("../../images/powered-by-aws.png");
   const galaxyLink = ("https://usegalaxy.org/");
 
   return (
-    <Card className={`${classes.root} ${classes.linkCard}`} elevation={2}>
+    <Card className="resources-supportcard resources-root" elevation={5}>
       <CardContent>
-        <CardActionArea onClick={() => window.open(galaxyLink)}>
-          <Typography className={classes.title}>
+        <CardActionArea onClick={() => global.window.open(galaxyLink)}>
+          <Typography className="resources-title">
             <img src={hive} height={65} alt="Galaxy logo" />
             <br />
             <img src={aws} height={35} alt="AWS logo" />
