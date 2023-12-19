@@ -13,6 +13,7 @@
   /* display: "inline-block";
   margin: "0 2px";
   transform: "scale(0.8)";
+
   font: 26px; */
 
   color: black;
@@ -22,7 +23,6 @@
   display: inline-block !important;
   vertical-align: middle !important;
 }
-
 
 .About-linkCard {
   min-height: 300px;
@@ -41,6 +41,7 @@
   min-width: 275 !important;
   text-align: center !important;
 }
+
 
 /* about pages */
 .member-image {
@@ -110,6 +111,39 @@
   background-color: inherit; /* Change to the desired background color on hover */
 }
 
+/*----------------------------------------------------------------------------------------------*/
+/* Account page- Servers.js CSS Components */
+
+.Account-Servers-bullet {
+  display: inline-block;
+  margin: 0 2px;
+  transform: scale(0.8);
+}
+
+.Account-Servers-server-card {
+  min-width: 275px;
+  min-height: 250px;
+  max-width: 500px;
+  text-align: left;
+  margin-bottom: 12px;
+  margin-top: 12px;
+  margin-left: 12px;
+}
+
+.Account-Servers-heightened {
+  min-height: 250px;
+}
+
+.Account-Servers-title {
+  font-size: 37px;
+}
+
+.Account-Servers-pos {
+  margin-bottom: 12px;
+}
+
+
+
 
 /* Outlet styles */
 .outlet-root {
@@ -171,10 +205,11 @@
 }
 
 .object-contents {
-  flex: 1;
+  flex:auto;
   display: flex;
   flex-direction: column;
   overflow: auto;
+  width: fit-content;
 }
 
 .button-confirm {
@@ -194,4 +229,137 @@
 
 .object-domain {
   margin-bottom: 35px;
+}
+
+/* Homepage Styles */
+.home-root {
+  background-color: rgb(250, 249, 246);
+  min-height: 100%;
+  margin-top: auto;
+  /* padding-bottom: 3;
+  padding-top: 3; */
+  margin-left: auto;
+  min-width: 275;
+}
+
+.home-bullet {
+  display: inline-block;
+  margin: 0 2px;
+  transform: scale(0.8);
+}
+
+.home-centered {
+  min-Width: 275;
+  text-align: center;
+  margin-Top: 0;
+}
+
+.home-heightened {
+  min-height: 250px;
+}
+
+.home-intro-title {
+  font-size: 28px !important;
+  font-weight: bold !important;
+}
+
+.home-position {
+  margin-bottom: 12;
+}
+
+.home-margintop{
+  margin-top: 50px;
+}
+
+.home-colorBackground {
+  background-color: rgb(186, 209, 234);
+}
+
+.home-linkcard {
+  min-height: 470px;
+  min-width: 275;
+  text-align: center;
+  margin-top: 5;
+}
+
+.home-supportcard {
+  text-align: center;
+  margin-bottom: 10;
+  min-height: 460px;
+  min-width: 275;
+}
+
+.home-subtitle {
+  font-size: 24px !important;
+}
+
+/* prefix Styles */
+.resources-root {
+  background-color: rgb(250, 249, 246);
+  margin-top: auto;
+  /* padding-bottom: 3;
+  padding-top: 3; */
+  margin-left: auto;
+  min-width: 275;
+}
+
+.resources-supportcard {
+  text-align: center;
+  margin-bottom: 8;
+}
+
+.resources-title {
+  font-size: 28px !important;
+  font-weight: bold !important;
+}
+
+.resources-linkcard {
+  min-height: auto;
+  text-align: center;
+}
+
+.resources-subtitle {
+  font-size: 25px !important;
+  font-weight:600 !important;
+}
+
+.resources-bullet {
+  display: inline-block;
+  margin: 0 2px;
+  transform: scale(0.8);
+}
+
+/* builder Styles */
+.add-button {
+  /* border-radius: 60% !important;
+  width:20px !important;
+  height: 60px !important; */
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  color: rgb(37, 92, 181) !important;
+} 
+
+.delete-button {
+  color: var(--main-red-color) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.bold-title {
+  font-weight: bold;
+}
+
+.required-field {
+  /* color: rgb(227, 55, 55) !important; */
+  color: var(--main-red-color) !important;
+}
+
+
+/* text field */
+.large_textfield {
+  border-style: inherit;
+  width: max-content;
+  grid-auto-rows: auto;
 }
