@@ -1,4 +1,46 @@
 /* App.css */
+/* Define a CSS variable for red color */
+:root {
+  /* --main-red-color: rgb(227, 55, 55); */
+  --main-red-color: rgb(210, 31, 60) !important;
+  --main-blue-color: #0477bf !important;
+  --main-cardBackground-color: #D8E9FD !important
+}
+
+/* About page- BCOnexus.js CSS Components */
+
+.About-bullet {
+  /* display: "inline-block";
+  margin: "0 2px";
+  transform: "scale(0.8)";
+  font: 26px; */
+
+  color: black;
+  font-size: 22px !important;
+  font-family: 'Roboto', 'Helvetica', Arial, sans-serif;
+  margin: 10px 2px !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+
+
+.About-linkCard {
+  min-height: 300px;
+  min-width: 275px;
+  text-align: center;
+  background-color:var(--main-cardBackground-color)
+}
+.About-title {
+  font-size: 33px !important;
+  font-family: 'Roboto', 'Helvetica', Arial, sans-serif;
+  margin: 10px 2px !important;
+  font-weight: bold !important;
+}
+
+.About-centerCard {
+  min-width: 275 !important;
+  text-align: center !important;
+}
 
 /* about pages */
 .member-image {
