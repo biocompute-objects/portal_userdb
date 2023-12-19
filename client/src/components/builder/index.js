@@ -43,8 +43,8 @@ export default function BuilderColorCode () {
       <div
         role="tabpanel"
         hidden={domain !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
+        id={`vertical-tabpanel-${index}`}
+        aria-labelledby={`vertical-tab-${index}`}
         {...other}
       >
         {domain === index && (
@@ -85,21 +85,17 @@ export default function BuilderColorCode () {
   useEffect(()=> {
     const etag = hash(bco)
     dispatch(updateETag(etag))
-    const queryString = global.window.location.search.substring(1)
-    
-    if (validURL(queryString) === true) {
-      dispatch(getDraftBco(queryString))
+    const object_id = global.window.location.search.substring(1)
+    if (validURL(object_id) === true) {
+      dispatch(getDraftBco(object_id))
         .unwrap()
         .then(() => {
           // console.log(bcoStatus)
         })
         .catch((error) => {
           console.log("Error", error);
+          global.window.close()
         });
-    }
-    if (isUUID(queryString)) {
-      console.log("UUID", queryString);
-      dispatch(getTempDraftBco(queryString))
     }
   }, [])
   
@@ -114,7 +110,7 @@ export default function BuilderColorCode () {
     <Grid container spacing={2}>
       <NotificationBox />
       <Grid item className="object-contents">
-        <Card>
+        <Card spacing={2}>
           <CardContent>
             <Typography>
                   Object ID: {bco.object_id}
@@ -133,7 +129,7 @@ export default function BuilderColorCode () {
               ? (<>
                 <CardHeader title="BCO Errors"/>
                 <CardContent>
-                  <ReactJson src={bcoError}/>
+                  <ReactJson src={bcoError[0]}/>
                 </CardContent>
               </>)
               : (<></>)
