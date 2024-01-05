@@ -256,9 +256,8 @@ const ObjectNavBar = () => {
               <><HelpDropDown /></>
             </Tooltip>
             {auth.user ? (
-              
               <Tooltip title="Profile Page">
-                <IconButton
+                <><IconButton
                   component={Link} to='/profile'
                   edge='end'
                   aria-label='account of current user'
@@ -272,9 +271,8 @@ const ObjectNavBar = () => {
                         : (<div>{auth.user.userinfo.username}</div>)
                     }
                   </div>
-                </IconButton>
+                </IconButton></>
               </Tooltip>
-              
             ) : (
               <>
                 <IconButton component={Link} to='/login' aria-label='log in' color='inherit'>

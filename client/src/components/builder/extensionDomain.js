@@ -1,9 +1,13 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux"
-import { Card, CardContent, TextField, Typography, Grid, Button, CardHeader } from "@material-ui/core";
-import { addExtensionDomain, getExtension, deleteExtensionDomain } from "../../slices/bcoSlice"
+import { Card, CardContent, TextField, Typography, Grid, Button, Paper, CardHeader, IconButton } from "@material-ui/core";
+import { addExtensionDomain, getExtension, deleteExtensionDomain, updateModified } from "../../slices/bcoSlice"
 import { Extension } from "./extension";
-import "../../App.css";
+import { Next } from "./components";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import Tooltip from "@mui/material/Tooltip";
 
 export const  ExtensionDomain = ({onSave}) => {
   const dispatch = useDispatch();
@@ -42,7 +46,16 @@ export const  ExtensionDomain = ({onSave}) => {
   return (
     <Card className="object-domain">
       <CardHeader
-        title="Extension Domain"
+        title={
+          <span className="bold-title">
+            Extension Domain
+            <Tooltip title="Explanation of Extension Domain">
+              <Button size="small" href='https://wiki.biocomputeobject.org/index.php?title=Extension-domain'>
+                <HelpOutlineIcon />
+              </Button>
+            </Tooltip>
+          </span>
+        }
         action={
           <Button
             onClick={() => onSave()}
@@ -52,7 +65,7 @@ export const  ExtensionDomain = ({onSave}) => {
           >Next</Button>}
       />
       <CardContent>
-        <Grid>
+        <Grid justifyContent="center" alignItems="center">
           <Typography>
               Top add an extension enter a valid URL for the extension schema
               below and hit the &apos;ADD EXTENSION&apos; button.
@@ -62,13 +75,12 @@ export const  ExtensionDomain = ({onSave}) => {
             onChange={(e) => setNewSchema(e.target.value)}
             value={newSchema}
           />
-          <Button
-            variant="contained"
+          <IconButton
+            className="add-button"
             disabled={!newSchema}
-            onClick={() => addExtension()}
-          >
-              Add Extension
-          </Button>
+            onClick={() => addExtension()}>
+            <AddCircleIcon style={{ fontSize: 24}} />
+          </IconButton>
         </Grid>
       </CardContent>
       { (extensionDomain.length > 0)
@@ -82,13 +94,13 @@ export const  ExtensionDomain = ({onSave}) => {
                 allExtensions={extensionDomain}
               />
               <Button
-                variant="contained"
-                color="secondary"
+                className="delete-button"
                 disableElevation
                 fullWidth
-                onClick={() => removeRows(index)}
-              >
-                Remove
+                onClick={() => removeRows(index)}>
+                <RemoveCircleIcon fontSize="23" />
+
+                {/* Remove */}
               </Button>
             </CardContent>)
         }))

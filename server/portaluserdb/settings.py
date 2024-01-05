@@ -12,8 +12,29 @@ from django.core.management.utils import get_random_secret_key
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-secrets = configparser.ConfigParser()
-secrets.read(BASE_DIR + '/.secrets')
+secrets = {
+    "GOOGLE_KEYS":{
+        "DJANGO_GOOGLE_OAUTH2_CLIENT_ID": os.environ.get('DJANGO_GOOGLE_OAUTH2_CLIENT_ID'),
+        "DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET": os.environ.get('DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET')
+    },
+    "DJANGO_KEYS": {
+        "SECRET_KEY": os.environ.get('SECRET_KEY')
+    },
+    "ORCID_KEYS": {
+        "DJANGO_ORCID_OAUTH2_CLIENT_URL": os.environ.get('DJANGO_ORCID_OAUTH2_CLIENT_URL'),
+        "DJANGO_ORCID_OAUTH2_CLIENT_ID": os.environ.get('DJANGO_ORCID_OAUTH2_CLIENT_ID'),
+        "DJANGO_ORCID_OAUTH2_CLIENT_SECRET": os.environ.get('DJANGO_ORCID_OAUTH2_CLIENT_SECRET'),
+        "DJANGO_ORCID_OAUTH2_URL": os.environ.get('DJANGO_ORCID_OAUTH2_URL'),
+    },
+    "SERVER":{
+        "SERVER_VERSION": os.environ.get('SERVER_VERSION'),
+        "SERVER_URL": os.environ.get('SERVER_URL'),
+        "DATABASE": os.environ.get('DATABASE')
+    }
+}
+if secrets['DJANGO_KEYS']['SECRET_KEY'] == None:
+    secrets = configparser.ConfigParser()
+    secrets.read(BASE_DIR + '/.secrets')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -64,7 +85,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "bcodb.apps.BcodbConfig",
     "users.apps.UsersConfig",
-    "prefix.apps.PrefixConfig",
+    "prefix.apps.PrefixConfig"
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -86,9 +107,9 @@ MIDDLEWARE = [
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
-        ##this ensures requests made to the backend must be authenticated to be processed
     ),
     "DEFAULT_AUTHENTICATION_CLASSES": (
+        # "authentication.services.CustomJSONWebTokenAuthentication",
         "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.BasicAuthentication",
@@ -123,7 +144,7 @@ WSGI_APPLICATION = "portaluserdb.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR + "/db.sqlite3",
+        "NAME": secrets["SERVER"]["DATABASE"]
     }
 }
 

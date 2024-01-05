@@ -4,35 +4,9 @@ import React from "react";
 import {
   Card,
   CardActionArea,
-  CardActions,
   CardContent,
-  makeStyles,
   Typography
 } from "@material-ui/core";
-
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
-  },
-  supportCard: {
-    minHeight: "250px",
-    textAlign: "center"
-  },
-  heightened: {
-    minHeight: "250px"
-  },
-  title: {
-    fontSize: "37px",
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
 
 const hive = require("../../images/hive.png");
 const aws = require("../../images/powered-by-aws.png");
@@ -40,13 +14,12 @@ const aws = require("../../images/powered-by-aws.png");
 const hiveLink = "https://hive.aws.biochemistry.gwu.edu/dna.cgi?cmd=main";
 
 export default function Hive() {
-  const classes = useStyles();
 
   return (
-    <Card className={`${classes.root} ${classes.supportCard}`} elevation={2}>
+    <Card className="resources-supportcard resources-root" elevation={5}>
       <CardContent>
-        <CardActionArea onClick={() => window.open(hiveLink)}>
-          <Typography className={classes.title}>
+        <CardActionArea onClick={() => global.window.open(hiveLink)}>
+          <Typography className="resources-title">
             <img src={hive} height={65} alt="HIVE logo" />
             <br />
             <img src={aws} height={35} alt="AWS logo" />

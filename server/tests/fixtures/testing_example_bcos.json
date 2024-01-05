@@ -1,0 +1,322 @@
+[
+    {
+        "spec_version": "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
+        "etag": "d30506507181a065132aee0908d57dfb398cd8ff4266b5260f25a77e02e27f6c",
+        "object_id": "",
+        "usability_domain": [
+            "The workflow starts with selecting ACE2 as the search term. RNA-seq-like LINCS L1000 Signatures [1] which mimick or reverse the the expression of ACE2 were visualized. Drugs which down-regulate the expression of ACE2 were identified from the RNA-seq-like LINCS L1000 Chemical Perturbagens [1]. To visualize the level of expression across scored drugs, a bar plot was created. \n\n1. Evangelista, J. E. et al. SigCom LINCS: data and metadata search engine for a million gene expression signatures. Nucleic Acids Research vol. 50 W697–W709 (2022). doi:10.1093/nar/gkac328"
+        ],
+        "provenance_domain": {
+            "embargo": {},
+            "name": "Playbook",
+            "version": "1.0",
+            "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+            "derived_from": "NA",
+            "contributors": [
+                {
+                    "name": "BioCompute Object",
+                    "orcid": "0009-0000-3989-4505",
+                    "contribution": [
+                        "authoredBy"
+                    ]
+                }
+            ],
+            "review": [],
+            "created": "2023-11-27T22:24:27.023000",
+            "modified": "2023-11-27T22:24:27.023000"
+        },
+        "description_domain": {
+            "keywords": [
+                "Type",
+                "Cardinality"
+            ],
+            "platform": [
+                "Debian GNU/Linux 11"
+            ],
+            "pipeline_steps": [
+                {
+                    "name": "Gene Input",
+                    "description": "Start with a Gene",
+                    "step_number": 1,
+                    "prerequisite": [],
+                    "input_list": [],
+                    "output_list": [
+                        {
+                            "uri": "#/0/process/output",
+                            "access_time": "2023-11-27T22:24:27.023000"
+                        }
+                    ]
+                },
+                {
+                    "name": "LINCS L1000 Reverse Search",
+                    "description": "Identify RNA-seq-like LINCS L1000 Signatures which reverse the expression of the gene.",
+                    "step_number": 2,
+                    "prerequisite": [
+                        {
+                            "name": "Output of step 1",
+                            "uri": {
+                                "uri": "#/0/process/output",
+                                "access_time": "2023-11-27T22:24:27.023000"
+                            }
+                        }
+                    ],
+                    "input_list": [
+                        {
+                            "uri": "#/0/process/output",
+                            "access_time": "2023-11-27T22:24:27.023000"
+                        }
+                    ],
+                    "output_list": [
+                        {
+                            "uri": "#/1/process/output",
+                            "access_time": "2023-11-27T22:24:27.023000"
+                        }
+                    ]
+                },
+                {
+                    "name": "Extract Down Regulating Perturbagens",
+                    "description": "Identify RNA-seq-like LINCS L1000 Chemical Perturbagen Signatures which reverse the expression of the gene.",
+                    "step_number": 3,
+                    "prerequisite": [
+                        {
+                            "name": "Output of step 2",
+                            "uri": {
+                                "uri": "#/1/process/output",
+                                "access_time": "2023-11-27T22:24:27.023000"
+                            }
+                        }
+                    ],
+                    "input_list": [
+                        {
+                            "uri": "#/1/process/output",
+                            "access_time": "2023-11-27T22:24:27.023000"
+                        }
+                    ],
+                    "output_list": [
+                        {
+                            "uri": "#/2/process/output",
+                            "access_time": "2023-11-27T22:24:27.023000"
+                        }
+                    ]
+                },
+                {
+                    "name": "Barplot from Scored Drugs",
+                    "description": "Construct Barplot with Scored Drugs",
+                    "step_number": 4,
+                    "prerequisite": [
+                        {
+                            "name": "Output of step 3",
+                            "uri": {
+                                "uri": "#/2/process/output",
+                                "access_time": "2023-11-27T22:24:27.023000"
+                            }
+                        }
+                    ],
+                    "input_list": [
+                        {
+                            "uri": "#/2/process/output",
+                            "access_time": "2023-11-27T22:24:27.023000"
+                        }
+                    ],
+                    "output_list": [
+                        {
+                            "uri": "#/3/process/output",
+                            "access_time": "2023-11-27T22:24:27.023000"
+                        }
+                    ]
+                }
+            ]
+        },
+        "parametric_domain": [
+            {
+                "step": "1",
+                "param": "stdin",
+                "value": "ACE2"
+            },
+            {
+                "step": "2",
+                "param": "stdin",
+                "value": ""
+            },
+            {
+                "step": "3",
+                "param": "stdin",
+                "value": ""
+            },
+            {
+                "step": "4",
+                "param": "stdin",
+                "value": ""
+            }
+        ],
+        "execution_domain": {
+            "external_data_endpoints": [],
+            "software_prerequisites": [
+                {
+                    "name": "Docker",
+                    "version": "20.10.21",
+                    "uri": {
+                        "access_time": "2023-11-27T22:24:27.023000",
+                        "uri": "https://docs.docker.com/get-docker/"
+                    }
+                }
+            ],
+            "environment_variables": {},
+            "script_driver": "shell",
+            "script": [
+                {
+                    "uri": {
+                        "uri": "https://github.com/nih-cfde/playbook-partnership/tree/dev/cli/playbook-partnership-executor.sh",
+                        "filename": "playbook-partnership-executor.sh"
+                    }
+                }
+            ]
+        },
+        "io_domain": {
+            "input_subdomain": [
+                {
+                    "uri": {
+                        "uri": "http://localhost:3006/api/db/fpl/77b72108-9b31-1b41-27b3-a8d8acfb0531"
+                    }
+                }
+            ],
+            "output_subdomain": [
+                {
+                    "uri": {
+                        "uri": "http://localhost:3006/api/db/fpl/77b72108-9b31-1b41-27b3-a8d8acfb0531/output"
+                    },
+                    "mediatype": "application/json"
+                }
+            ]
+        }
+    },
+    {
+        "spec_version": "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
+        "etag": "55efd8bbf2b1786284181afbc235300d4683e998f735a6433eb7305e8fdc3b5f",
+        "object_id": "",
+        "usability_domain": [
+            "The workflow starts with selecting ACE2 as the search term. Gene expression in tumors for ACE2 were queried from the Open Pediatric Cancer Atlas API [1]. \n\n1.  Shapiro, J. A. et al. OpenPBTA: The Open Pediatric Brain Tumor Atlas. Cell Genomics 100340 (2023) doi:10.1016/j.xgen.2023.100340. doi:10.1016/j.xgen.2023.100340"
+        ],
+        "provenance_domain": {
+            "embargo": {},
+            "name": "Playbook",
+            "version": "1.0",
+            "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+            "derived_from": "NA",
+            "contributors": [
+                {
+                    "name": "BioCompute Object",
+                    "orcid": "0009-0000-3989-4505",
+                    "contribution": [
+                        "authoredBy"
+                    ]
+                }
+            ],
+            "review": [],
+            "created": "2023-11-21T18:59:06.560000",
+            "modified": "2023-11-21T18:59:06.560000"
+        },
+        "description_domain": {
+            "keywords": [
+                "Type",
+                "Cardinality"
+            ],
+            "platform": [
+                "Debian GNU/Linux 11"
+            ],
+            "pipeline_steps": [
+                {
+                    "name": "Gene Input",
+                    "description": "Start with a Gene",
+                    "step_number": 1,
+                    "prerequisite": [],
+                    "input_list": [],
+                    "output_list": [
+                        {
+                            "uri": "#/0/process/output",
+                            "access_time": "2023-11-21T18:59:06.561000"
+                        }
+                    ]
+                },
+                {
+                    "name": "Query KF Gene Expression in Tumor",
+                    "description": "Use KF API to obtain tumors expressing the given gene",
+                    "step_number": 2,
+                    "prerequisite": [
+                        {
+                            "name": "Output of step 1",
+                            "uri": {
+                                "uri": "#/0/process/output",
+                                "access_time": "2023-11-21T18:59:06.561000"
+                            }
+                        }
+                    ],
+                    "input_list": [
+                        {
+                            "uri": "#/0/process/output",
+                            "access_time": "2023-11-21T18:59:06.561000"
+                        }
+                    ],
+                    "output_list": [
+                        {
+                            "uri": "#/1/process/output",
+                            "access_time": "2023-11-21T18:59:06.561000"
+                        }
+                    ]
+                }
+            ]
+        },
+        "parametric_domain": [
+            {
+                "step": "1",
+                "param": "stdin",
+                "value": "ACE2"
+            },
+            {
+                "step": "2",
+                "param": "stdin",
+                "value": ""
+            }
+        ],
+        "execution_domain": {
+            "external_data_endpoints": [],
+            "software_prerequisites": [
+                {
+                    "name": "Docker",
+                    "version": "20.10.21",
+                    "uri": {
+                        "access_time": "2023-11-21T18:59:06.561000",
+                        "uri": "https://docs.docker.com/get-docker/"
+                    }
+                }
+            ],
+            "environment_variables": {},
+            "script_driver": "shell",
+            "script": [
+                {
+                    "uri": {
+                        "uri": "https://github.com/nih-cfde/playbook-partnership/tree/dev/cli/playbook-partnership-executor.sh",
+                        "filename": "playbook-partnership-executor.sh"
+                    }
+                }
+            ]
+        },
+        "io_domain": {
+            "input_subdomain": [
+                {
+                    "uri": {
+                        "uri": "http://localhost:3006/api/db/fpl/6d58eb56-28da-622f-6317-e960e7340e9b"
+                    }
+                }
+            ],
+            "output_subdomain": [
+                {
+                    "uri": {
+                        "uri": "http://localhost:3006/api/db/fpl/6d58eb56-28da-622f-6317-e960e7340e9b/output"
+                    },
+                    "mediatype": "application/json"
+                }
+            ]
+        }
+    }
+]

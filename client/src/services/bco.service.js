@@ -2,6 +2,8 @@
 
 import axios from "axios";
 
+const USERS_URL = process.env.REACT_APP_USERDB_URL;
+
 const getExtension = async (schemaUrl) => {
   const secureUrl = schemaUrl.replace("http://", "https://")
   const response = await axios.get(secureUrl);
@@ -15,6 +17,18 @@ const getDraftBco = async (object_id) => {
       "Content-Type": "application/json"
     }
   })
+  return response;
+}
+
+const getTempDraftBco = async (queryString) => {
+  const response = await axios.post(`${USERS_URL}bcodb/draft_bco/get`, {
+    "bco_id": queryString
+  }, {
+    headers: {
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      "Content-Type": "application/json"
+    }
+  });
   return response;
 }
 
@@ -109,6 +123,7 @@ const modifyGroup = async ({bcodb, request}) => {
 const BcoService = {
   getExtension,
   getDraftBco,
+  getTempDraftBco,
   getPubBco,
   createDraftBco,
   updateDraftBco,

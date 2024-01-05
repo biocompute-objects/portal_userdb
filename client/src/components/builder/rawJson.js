@@ -29,7 +29,11 @@ export const RawJson = ({onSave}) => {
   return (
     <Card>
       <CardHeader 
-        title="Raw JSON View"
+        title={
+          <span className="bold-title">
+          RAW JSON View
+          </span>
+        }
         action={        
           <Button 
             disabled={jsonErrors !== "" || !writing}

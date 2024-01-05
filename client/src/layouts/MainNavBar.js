@@ -68,7 +68,7 @@ const NavBar = () => {
     >
       <MenuItem component={Link} to='/'>
         <IconButton aria-label='go home' color='inherit'>
-          <Badge overlap="rectangular" badgeContent={0} color='secondary'>
+          <Badge className="white-icon hover-background" overlap="rectangular" badgeContent={0}>
             <HomeIcon />
           </Badge>
         </IconButton>
@@ -181,8 +181,8 @@ const NavBar = () => {
             <Tooltip title="Help">
               <><HelpDropDown /></>
             </Tooltip>
-            <Tooltip title="About BCO">
-              <IconButton component={Link} to='/about' aria-label='show 0 new notifications' color='inherit'>
+            <Tooltip title="About Us">
+              <IconButton component={Link} to='/about' aria-label='show 0 new notifications' className="nav-link">
                 <Badge overlap="rectangular" badgeContent={0} color='secondary'>
                   <InfoOutlinedIcon />
                 </Badge>
@@ -210,7 +210,12 @@ const NavBar = () => {
               </>
             ) : (
               <>
-                <IconButton component={Link} to='/login' aria-label='log in' color='inherit'>
+                <IconButton 
+                  component={Link} 
+                  to='/login' 
+                  aria-label='log in' 
+                  className="nav-link"
+                >
                   <Typography variant='h6' component='h6'>
                     Log in
                   </Typography>
@@ -225,7 +230,7 @@ const NavBar = () => {
               aria-controls={mobileMenuId}
               aria-haspopup='true'
               onClick={handleMobileMenuOpen}
-              color='inherit'
+              className="nav-link"
             >
               <MoreIcon />
             </IconButton>
