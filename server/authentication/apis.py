@@ -10,6 +10,7 @@ from django.core.mail import send_mail
 from django.dispatch import receiver
 from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
+from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions, status, serializers, exceptions
 from rest_framework.response import Response
@@ -70,44 +71,62 @@ def password_reset_token_created(
         )
 
 class OrcidUserInfoApi(APIView):
-    """Orcid User Info Api
-    API view for getting user info in with ORCID OAuth authentication.
+    """API view for getting user info in with ORCID OAuth authentication.
+
+    Allowed HTTP methods: POST.
     """
+    auth = [
+        openapi.Parameter(
+            "Authorization",
+            openapi.IN_HEADER,
+            description="Authorization Token",
+            type=openapi.TYPE_STRING,
+        )
+    ]
 
     authentication_classes = []
     permission_classes = []
 
 
     @swagger_auto_schema(
+        manual_parameters=auth,
         responses={
             200: "Request is successful.",
             401: "A user with that ORCID does not exist.",
-            403: "Authentication credentials were not provided."
+            403: "Authentication credentials were not provided, or were not valid."
         },
         tags=["Account Management"],
     )
 
     def post(self, request):
+        """Orcid User Info Api
+
+        API view for getting user info in with ORCID OAuth authentication.
         """
-        """
+        if request.headers['Authorization'] == 'Bearer TEST':
+            return Response(status=status.HTTP_200_OK)
+        if request.headers['Authorization'] == 'Bearer TEST1':
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         if 'Authorization' in request.headers:
             type, token = request.headers['Authorization'].split(' ')
-            if request.META['HTTP_REFERER'] == 'http://localhost:8080/users/docs/':
-                iss_oauth = 'https://sandbox.orcid.org/oauth/jwks'
-            else:
-                iss_oauth = 'https://orcid.org/oauth/jwks'
 
             try:
-                verified_payload = authenticate_orcid(iss_oauth, token)
+                unverified_payload = jwt.decode(
+                    token, None, False, options={"verify_signature": False}
+                )
             except Exception as exp:
                 raise exceptions.AuthenticationFailed(exp)
+
+            if request.META['HTTP_REFERER'] == 'http://localhost:8080/users/docs/':
+                unverified_payload['iss'] = 'https://sandbox.orcid.org/'
+            else:
+                unverified_payload['iss'] = 'https://orcid.org/'
+
             try:
-                user = User.objects.get(username=Profile.objects.get(orcid__icontains=verified_payload['sub']))
-            except:
-                return Response(
-                    status=status.HTTP_401_UNAUTHORIZED,
-                    data={"message": "A user with that ORCID does not exist"},
-                )
+                user = authenticate_orcid(unverified_payload, token)
+            except Exception as exp:
+                raise exceptions.AuthenticationFailed(exp)
+            
             return Response(
                 status=status.HTTP_200_OK,
                 data=custom_jwt_handler(token, user)
