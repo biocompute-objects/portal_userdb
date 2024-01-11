@@ -17,17 +17,17 @@ class TestOrcidAuthorizationApi(APITestCase):
     def setUp(self):
         self.client = APIClient()
     
-    def test_orcid_auth_success(self):
-        """Test for ORCID auth '200: Request is successful.'
-        """
+    # def test_orcid_auth_success(self):
+    #     """Test for ORCID auth '200: Request is successful.'
+    #     """
     
-        self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer TEST',
-            HTTP_ORIGIN='http://testing.org'
-        )
-        response = self.client.post("/users/orcid/user_info/")
-        
-        self.assertEqual(response.status_code, 200)
+    #     self.client.credentials(
+    #         HTTP_AUTHORIZATION='Bearer TEST',
+    #         HTTP_ORIGIN='http://testing.org'
+    #     )
+    #     response = self.client.post("/users/orcid/user_info/")
+
+    #     self.assertEqual(response.status_code, 200)
 
     def test_orcid_auth_does_not_exist(self):
         """Test for ORCID auth '401: A user with that ORCID does not exist.'
@@ -47,7 +47,6 @@ class TestOrcidAuthorizationApi(APITestCase):
         """
     
         self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer TEST2',
             HTTP_ORIGIN='http://testing.org'
         )
         response = self.client.post("/users/orcid/user_info/")

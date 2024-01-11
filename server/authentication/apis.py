@@ -86,9 +86,7 @@ class OrcidUserInfoApi(APIView):
         )
     ]
 
-    authentication_classes = []
-    permission_classes = []
-
+    permission_classes = [permissions.AllowAny]
 
     @swagger_auto_schema(
         manual_parameters=auth,
@@ -107,11 +105,6 @@ class OrcidUserInfoApi(APIView):
         """
 
         if 'Authorization' in request.headers:
-            if request.headers['Authorization'] == 'Bearer TEST':
-                return Response(status=status.HTTP_200_OK)
-            if request.headers['Authorization'] == 'Bearer TEST1':
-                return Response(status=status.HTTP_401_UNAUTHORIZED)
-        
             type, token = request.headers['Authorization'].split(' ')
 
             try:
@@ -141,12 +134,18 @@ class OrcidUserInfoApi(APIView):
         )
 
 class OrcidLoginApi(APIView):
-    """Orcid Login Api
-    API view for logging in with ORCID OAuth authentication.
-    """
     permission_classes = (permissions.AllowAny,)
+    auth = [
+        openapi.Parameter(
+            "Authorization",
+            openapi.IN_HEADER,
+            description="Authorization Token",
+            type=openapi.TYPE_STRING,
+        )
+    ]
 
     @swagger_auto_schema(
+        manual_parameters = auth,
         responses={
             200: "Login is successful.",
             401: "Unathorized.",
@@ -154,7 +153,9 @@ class OrcidLoginApi(APIView):
         tags=["Account Management"],
     )
     def get(self, request):
-        """
+        """Orcid Login Api
+
+        API view for logging in with ORCID OAuth authentication.
         """
 
         auth_code = self.request.GET['code']
@@ -179,15 +180,17 @@ class OrcidLoginApi(APIView):
         )
 
 class OrcidAddApi(APIView):
-    """Add Orcid API 
-    This API view allows for a user to add an ORCID for OAuth authentication. The
-    request should include a valid JWT token in the authorization header.
-
-    Returns the updated user information in the response body.
-    """
-    
+    auth = [
+        openapi.Parameter(
+            "Authorization",
+            openapi.IN_HEADER,
+            description="Authorization Token",
+            type=openapi.TYPE_STRING,
+        )
+    ]
 
     @swagger_auto_schema(
+        manual_parameters = auth,
         responses={
             200: "Add ORCID successful.",
             401: "Unathorized.",
@@ -196,6 +199,13 @@ class OrcidAddApi(APIView):
         tags=["Account Management"],
     )
     def post(self, request):
+        """Add Orcid API 
+    
+        This API view allows for a user to add an ORCID for OAuth authentication. The
+        request should include a valid JWT token in the authorization header.
+
+        Returns the updated user information in the response body.
+        """
         auth_code = self.request.GET['code']
         orcid_auth = orcid_auth_code(auth_code, path='/profile')
         if "access_token" not in orcid_auth:
@@ -228,23 +238,33 @@ class OrcidAddApi(APIView):
         )
 
 class OrcidRemoveApi(APIView):
-    """Remove Orcid API
-    This API view allows for a user to remove an ORCID for OAuth authentication. The
-    request should include a valid JWT token in the authorization header.
+    permission_classes=[permissions.IsAuthenticated]
+    auth = [
+        openapi.Parameter(
+            "Authorization",
+            openapi.IN_HEADER,
+            description="Authorization Token",
+            type=openapi.TYPE_STRING,
+        )
+    ]
 
-    Returns the updated user information in the response body.
-    """
-    
     @swagger_auto_schema(
+        manual_parameters = auth,
         responses={
-            200: "Add ORCID successful.",
+            200: "Remove ORCID successful.",
             401: "Unathorized.",
-            500: "Error"
+            403: "Bad request"
         },
         tags=["Account Management"],
     )
     def post(self, request):
-        """"""
+        """Remove Orcid API
+
+        This API view allows for a user to remove an ORCID for OAuth authentication. The
+        request should include a valid JWT token in the authorization header.
+
+        Returns the updated user information in the response body.
+        """
         user = request.user
         profile = profile_from_username(user.username)
         token = request.headers["Authorization"].removeprefix("Bearer ")
