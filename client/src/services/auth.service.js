@@ -58,6 +58,33 @@ const orcidLogIn = async (code) => {
   return response.data;
 }
 
+const orcidAdd = async (code) => {
+  const response = await axios.post(`${USERS_URL}orcid/add/?code=${code}`, {},
+    {
+      headers: {
+        "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        "Content-Type": "application/json"
+      }})
+  if (response.data.token) {
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+    localStorage.setItem("token", JSON.stringify(response.data.token));
+  }
+  return response.data;
+}
+
+const orcidRemove = async () => {
+  const response = await axios.post(`${USERS_URL}orcid/remove/`, {},{
+    headers: {
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      "Content-Type": "application/json"
+    }})
+  if (response.data.token) {
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+    localStorage.setItem("token", JSON.stringify(response.data.token));
+  }
+  return response.data;
+}
+
 const logout = () => {
   localStorage.removeItem("user");
   localStorage.removeItem("token");
@@ -227,6 +254,8 @@ const groupInfo = async (group_permissions, token, public_hostname) => {
 const authService = {
   register,
   login,
+  orcidAdd,
+  orcidRemove,
   logout,
   account,
   changePassword,

@@ -118,15 +118,18 @@ def authenticate_orcid(payload:dict, token:str):
 
     return user
 
-def orcid_auth_code(code: str)-> Response:
+def orcid_auth_code(code: str, path: str)-> Response:
+    """ORCID Authorization Code
+
+    Verifies the ORCID authentication.
     """
-    """
+
     data = {
         "client_id": settings.ORCID_CLIENT,
         "client_secret": settings.ORCID_SECRET,
         "grant_type": "authorization_code",
         "code": code,
-        "redirect_uri": settings.CLIENT + "/login"
+        "redirect_uri": settings.CLIENT + path
     }
     headers = {
         "Accept": "application/json",

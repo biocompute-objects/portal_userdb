@@ -191,7 +191,47 @@ export const orcidLogIn = createAsyncThunk(
       return thunkAPI.rejectWithValue();
     }
   }
-)
+);
+
+export const orcidAdd = createAsyncThunk(
+  "auth/orcidAdd",
+  async (code, thunkAPI) => {
+    try {
+      const authentication = await AuthService.orcidAdd(code);
+      thunkAPI.dispatch(setMessage("ORCID added to user profile"));
+      return authentication
+    } catch (error) {
+      const message =
+      (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
+      error.message ||
+      error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
+export const orcidRemove = createAsyncThunk(
+  "auth/orcidRemove",
+  async (thunkAPI) => {
+    try {
+      const remove = await AuthService.orcidRemove();
+      return remove
+    } catch (error) {
+      const message =
+      (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
+      error.message ||
+      error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+
+  }
+);
 
 export const login = createAsyncThunk(
   "auth/login",
