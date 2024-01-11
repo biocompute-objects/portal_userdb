@@ -85,9 +85,10 @@ export default function BuilderColorCode () {
   useEffect(()=> {
     const etag = hash(bco)
     dispatch(updateETag(etag))
-    const object_id = global.window.location.search.substring(1)
-    if (validURL(object_id) === true) {
-      dispatch(getDraftBco(object_id))
+    const queryString = global.window.location.search.substring(1)
+    
+    if (validURL(queryString) === true) {
+      dispatch(getDraftBco(queryString))
         .unwrap()
         .then(() => {
           // console.log(bcoStatus)
@@ -96,6 +97,10 @@ export default function BuilderColorCode () {
           console.log("Error", error);
           global.window.close()
         });
+    }
+    if (isUUID(queryString)) {
+      console.log("UUID", queryString);
+      dispatch(getTempDraftBco(queryString))
     }
   }, [])
   
