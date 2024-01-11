@@ -103,11 +103,13 @@ class OrcidUserInfoApi(APIView):
 
         API view for getting user info in with ORCID OAuth authentication.
         """
-        if request.headers['Authorization'] == 'Bearer TEST':
-            return Response(status=status.HTTP_200_OK)
-        if request.headers['Authorization'] == 'Bearer TEST1':
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
         if 'Authorization' in request.headers:
+            if request.headers['Authorization'] == 'Bearer TEST':
+                return Response(status=status.HTTP_200_OK)
+            if request.headers['Authorization'] == 'Bearer TEST1':
+                return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
             type, token = request.headers['Authorization'].split(' ')
 
             try:
