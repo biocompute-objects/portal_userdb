@@ -25,12 +25,12 @@ export default function AccountPage() {
 
   return (
     <Container title='Account Page'>
-      <NotificationBox />
       <PasswordReset 
         open={open}
         setOpen={setOpen}
       />
       <Card>
+        <NotificationBox />
         <Button
           variant="outlined"
           onClick={()=> setOpen(true)}
