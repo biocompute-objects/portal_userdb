@@ -252,11 +252,26 @@ export const login = createAsyncThunk(
   }
 );
 
-export const logout = createAsyncThunk("auth/logout", async (thunkAPI) => {
-  const logout = await AuthService.logout();
-  thunkAPI.dispatch(setMessage("Log out successfull"));
-  return logout
-});
+export const logout = createAsyncThunk(
+  "auth/logout", 
+  async (thunkAPI) => {
+    try {
+      const logout = await AuthService.logout();
+      thunkAPI.dispatch(setMessage("Log out successfull"));
+      return logout
+    } catch (error) {
+      const message =
+      (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
+        error.message ||
+        error.toString();
+      console.log(message)
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
 
 export const authenticateBcoDb = createAsyncThunk(
   "bcodb/addServer",

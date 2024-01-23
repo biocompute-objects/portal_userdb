@@ -85,28 +85,37 @@ const orcidRemove = async () => {
   return response.data;
 }
 
-const logout = () => {
+const logout = async () => {
+  const response = await axios.post(USERS_URL + "auth/logout/", {
+    "token": JSON.parse(localStorage.getItem("token"))
+  }, {
+    headers: {
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      "Content-Type": "application/json"
+    }
+  })
+  
   localStorage.removeItem("user");
   localStorage.removeItem("token");
   global.window.location.reload();
+  return response
 };
 
 const account = async (data) => {
-  const response = await axios
-    .post(USERS_URL + "update_user/", {
-      "username": data.username,
-      "first_name": data.first_name,
-      "last_name": data.last_name,
-      "email": data.email,
-      "affiliation": data.affiliation,
-      "orcid": data.orcid,
-      "public": data.public,
-    }, {
-      headers: {
-        "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-        "Content-Type": "application/json"
-      }
-    });
+  const response = await axios.post(USERS_URL + "update_user/", {
+    "username": data.username,
+    "first_name": data.first_name,
+    "last_name": data.last_name,
+    "email": data.email,
+    "affiliation": data.affiliation,
+    "orcid": data.orcid,
+    "public": data.public,
+  }, {
+    headers: {
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      "Content-Type": "application/json"
+    }
+  });
   if (response.data.token) {
     localStorage.setItem("user", JSON.stringify(response.data.user));
   }
