@@ -1,12 +1,13 @@
 from django.urls import path, include
 from rest_framework_jwt.views import (
     ObtainJSONWebTokenView,
-    refresh_jwt_token,
-    verify_jwt_token,
+    RefreshJSONWebTokenView,
+    VerifyJSONWebTokenView,
 )
 from authentication.apis import (
     GoogleLoginApi,
     GoogleRegisterApi,
+    LogOutApi,
     OrcidLoginApi,
     OrcidUserInfoApi,
     OrcidAddApi,
@@ -15,9 +16,10 @@ from authentication.apis import (
 from users.apis import UserCreateApi
 
 urlpatterns = [
-    path("auth/refresh/", refresh_jwt_token),
-    path("auth/verify/", verify_jwt_token),
+    path("auth/refresh/", RefreshJSONWebTokenView.as_view()),
+    path("auth/verify/", VerifyJSONWebTokenView.as_view()),
     path("auth/login/", ObtainJSONWebTokenView.as_view()),
+    path("auth/logout/", LogOutApi.as_view({"post": "create"})),
     path("auth/register/", UserCreateApi.as_view()),
     path("google/login/", GoogleLoginApi.as_view()),
     path("google/register/", GoogleRegisterApi.as_view()),
