@@ -18,6 +18,11 @@ from rest_framework import permissions, status, serializers, exceptions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_jwt.settings import api_settings
+from rest_framework_jwt.blacklist.models import BlacklistedToken
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import ModelViewSet
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework_jwt.blacklist.serializers import BlacklistTokenSerializer
 from authentication.services import custom_jwt_handler, google_authentication, orcid_auth_code, authenticate_orcid
 from users.models import Profile
 from users.services import user_create
@@ -73,10 +78,6 @@ def password_reset_token_created(
         )
 
 class OrcidUserInfoApi(APIView):
-    """API view for getting user info in with ORCID OAuth authentication.
-
-    Allowed HTTP methods: POST.
-    """
     auth = [
         openapi.Parameter(
             "Authorization",
@@ -282,7 +283,7 @@ class OrcidRemoveApi(APIView):
         )
 
 class GoogleUsername(serializers.CharField):
-    """
+    """Google Username Serializer
     Custom serializer field for Google username that removes whitespace from
     the input value.
     """
@@ -291,7 +292,8 @@ class GoogleUsername(serializers.CharField):
         return super().convert(username)
 
 class GoogleInputSerializer(serializers.Serializer):
-    """
+    """Google Input Serializer
+    
     Serializer class for Google authentication input data, including email,
     first name, last name, and username.
     """
@@ -328,17 +330,17 @@ class GoogleRegisterApi(APIView):
     @swagger_auto_schema(
         responses={
             200: "Account creation is successful.",
-            409: "Account has already been authenticated or requested.",
+            409: "A user with that email address already exists.",
         },
         tags=["Account Management"],
     )
 
     def post(self, request):
-        """
-        Remove whitespace from username input
-        Validate input data using the GoogleInputSerializer
-        Check if user with the same email already exists
-        Create a new user with the validated user data
+        """Google Register
+
+        API view for registering a user with Google OAuth authentication.
+        Handle POST requests for user registration with Google OAuth
+        authentication.
         """
         user_data = request.data['data']
         user_data['username'] = user_data['username'].replace(" ","")
@@ -365,9 +367,7 @@ class GoogleRegisterApi(APIView):
             )
 
 class GoogleLoginApi(APIView):
-    """
-    API view for logging in with Google OAuth authentication.
-    """
+
     permission_classes = (permissions.AllowAny,)
 
     @swagger_auto_schema(
@@ -379,7 +379,11 @@ class GoogleLoginApi(APIView):
     )
 
     def post(self, request):
-        """Post"""
+        """Google Login
+        
+        API view for logging in with Google OAuth authentication.
+        """
+        
         google_response = google_authentication(request)
         if type(google_response) == Response:
             return google_response
@@ -403,3 +407,29 @@ class GoogleLoginApi(APIView):
             status=status.HTTP_401_UNAUTHORIZED,
             data={"message": "That account does not exist"},
         )
+
+class LogOutApi(ModelViewSet):
+
+    queryset = BlacklistedToken.objects.all()
+    serializer_class = BlacklistTokenSerializer
+    permission_classes = (IsAuthenticated, )
+
+    @swagger_auto_schema(
+        responses={
+            200: "Logout is successful.",
+            401: "A user with that ORCID does not exist.",
+            403: "Authentication credentials were not provided."
+        },
+        tags=["Account Management"],
+    )
+
+    def create(self, request, *args, **kwargs):
+        """Logout API
+        Adds submited token to the list of blackli
+        """
+        if 'token' not in request.data:
+            request.data.update({
+                'token': JSONWebTokenAuthentication.get_token_from_request(request)
+            })
+
+        return super(LogOutApi, self).create(request, *args, **kwargs)
