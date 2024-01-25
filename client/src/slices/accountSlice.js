@@ -241,10 +241,9 @@ export const login = createAsyncThunk(
       return { data };
     } catch (error) {
       const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-          error.response.data.non_field_errors[0] || error.message ||
+        (error &&
+          error.message) ||
+          error.non_field_errors[0] ||
         error.toString();
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
