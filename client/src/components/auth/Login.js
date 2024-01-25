@@ -87,7 +87,7 @@ const Login = () => {
         navigate("/");
         global.window.location.reload();
       })
-      .catch(() => {
+      .catch((error) => {
         setLoading(false);
       });
   };
