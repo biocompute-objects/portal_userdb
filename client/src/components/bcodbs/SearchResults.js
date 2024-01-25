@@ -289,7 +289,8 @@ export default function EnhancedTable({bcodbInfo}) {
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
+              // onSelectAllClick={handleSelectAllClick}
+              // disabled
               onRequestSort={handleRequestSort}
               rowCount={results.length}
             />
@@ -303,7 +304,8 @@ export default function EnhancedTable({bcodbInfo}) {
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.object_id)}
+                      // onClick={(event) => handleClick(event, row.object_id)}
+                      // disabled
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
