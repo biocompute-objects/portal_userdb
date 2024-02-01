@@ -148,6 +148,10 @@ class AddTempDraftBcoAPI(APIView):
             "contents": openapi.Schema(
                 type=openapi.TYPE_OBJECT,
                 description="The BCO contents in JSON",
+            ),
+            "origin": openapi.Schema(
+                type=openapi.TYPE_STRING,
+                description="The request origin of the temp BCO."
             )
         }
     )
@@ -172,7 +176,7 @@ class AddTempDraftBcoAPI(APIView):
             data_to_serialize = {
                 "owner" : user,
                 "contents": request.data["contents"],
-                "origin": request.headers['Origin']
+                "origin": request.data["origin"]
             }
         except KeyError as error:
             return Response(
