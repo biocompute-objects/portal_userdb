@@ -264,7 +264,14 @@ export default function EnhancedTable({bcodbInfo}) {
       global.window.open(`${location}/viewer?${object_id}`, "_blank", "noopener,noreferrer")
     }
     if (state === "DRAFT") {
-      global.window.open(`${location}/builder?${object_id}`, "_blank", "noopener,noreferrer")
+      dispatch(getDraftBco(object_id))
+        .unwrap()
+        .catch((error) => {
+          console.log(error)
+        })
+        .then(() => {
+          global.window.open(`${location}/builder?${object_id}`)
+        })
     }
   }
 
@@ -282,7 +289,8 @@ export default function EnhancedTable({bcodbInfo}) {
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
+              // onSelectAllClick={handleSelectAllClick}
+              // disabled
               onRequestSort={handleRequestSort}
               rowCount={results.length}
             />
@@ -296,7 +304,8 @@ export default function EnhancedTable({bcodbInfo}) {
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.object_id)}
+                      // onClick={(event) => handleClick(event, row.object_id)}
+                      // disabled
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}

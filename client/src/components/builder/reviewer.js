@@ -1,8 +1,6 @@
-import { useField } from "formik";
-import {Button, Card, CardContent, Select, Grid} from "@material-ui/core";
-import { MyTextField, BaisicDateTimePicker, LargeTextField, Selector } from "./specialFeilds";
-import { MenuItem } from "@mui/material";
-import OutlinedInput from "@mui/material/OutlinedInput";
+import React from "react";
+import { Card } from "@material-ui/core";
+import { BaisicDateTimePicker, LargeTextField, Selector } from "./specialFeilds";
 import { Contribution } from "./contibutor";
 
 export const Reviewer = ({reviewer, reviewerPath}) => {

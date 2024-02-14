@@ -1,7 +1,7 @@
 // src
 
 import React from "react";
-import { Box, Container, Grid, Typography, makeStyles } from "@material-ui/core";
+import { Box, Container, Grid } from "@material-ui/core";
 import Docs from "./Documentation";
 import Workshop from "./Workshop";
 // import Tsc from "./Tsc";
@@ -11,36 +11,23 @@ import BioComputeResources from "./BioComputeResources";
 // import Hive from "./Hive";
 import Builder from "./Builder";
 import FdaBox from "./FdaBox";
-import NewsBar from "./NewsBar";
 import Specification from "./Specification";
 import Intro from "./Intro"
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    minHeight: "100%",
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3)
-  },
-  marginTopped: {
-    marginTop: "50px"
-  },
-  whiteBackground: {
-    backgroundColor: "#ffffff"
-  }
-}));
-
 const HomePage = () => {
-  const classes = useStyles();
-
   return (
-    <Container>
+    <Container className="home-root">
       <Container maxWidth={false}>
         <Grid container justifyContent="center" spacing={2}>
-          <Grid item xs={12} sm={12} lg={9} xl={12}>
-            <Container className={classes.marginTopped} maxWidth={false}>
-              <Box className={classes.whiteBackground}>
-                <Grid classes={classes.colored} container justifyContent="space-around" spacing={3}>
+          <Grid item xs={12} sm={12} lg={12} xl={12} >
+            <Container className="home-margintop" maxWidth={false}>
+              <Box>
+                <Grid container justifyContent="space-around" spacing={3}>
+                  <Grid item lg={12} sm={12} xl={12} xs={12}>
+                    <FdaBox />
+                  </Grid>
+                </Grid>
+                <Grid container justifyContent="space-around" spacing={3}>
                   <Grid item lg={12} sm={12} xl={12} xs={12}>
                     <Intro />
                   </Grid>
@@ -70,15 +57,6 @@ const HomePage = () => {
                 </Grid>
               </Grid>
             </Container>
-          </Grid>
-          <Grid item xs={false} sm={4} lg={3} xl={2}>
-            <Box className={classes.whiteBackground}>
-              <Typography align="center" variant={"h3"}>
-                News and Events
-              </Typography>
-              <FdaBox />
-              <NewsBar />
-            </Box>
           </Grid>
         </Grid>
       </Container>

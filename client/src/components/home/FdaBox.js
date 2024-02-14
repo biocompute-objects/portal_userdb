@@ -5,40 +5,20 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  makeStyles,
   Typography
 } from "@material-ui/core";
 
-const useStyles = makeStyles({
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
-  },
-  linkCard: {
-    minWidth: 275,
-    textAlign: "center"
-  },
-  title: {
-    fontSize: "33px",
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
-
 export default function FdaBar() {
-  const classes = useStyles();
   const fdaLink = "https://www.federalregister.gov/documents/2020/07/22/2020-15771/electronic-submissions-data-standards-support-for-the-international-institute-of-electrical-and";
 
   return (
-    <Card className={classes.linkCard}>
-      <CardActionArea onClick={() => window.open(fdaLink)}>
-        <CardContent className={classes.linkCard}>
-          <Typography className={classes.title}>
+    <Card className="home-notice">
+      <CardActionArea onClick={() => global.window.open(fdaLink)}>
+        <CardContent >
+          <Typography className="home-intro-title">
             FDA Notice on BioCompute
           </Typography>
-          <Typography className={classes.bullet}>
+          <Typography className="home-bullet">
             Electronic Submissions; Data Standards;
             Support for the International Institute of Electrical and Electronics Engineers Bioinformatics
             Computations and Analyses Standard for Bioinformatic Workflows.

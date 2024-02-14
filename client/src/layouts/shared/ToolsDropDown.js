@@ -32,7 +32,9 @@ export default function ToolsDropDown() {
   const validate = () => {
     console.log("Validate", BCODB_URL, jsonData)
     const bcoURL = BCODB_URL
-    const bcoObject = removeEmptyValues(jsonData, ["input_list"])
+    const bcoObject = removeEmptyValues(jsonData, [
+      "input_list", "external_data_endpoints", "environment_variables","value"
+    ])
     dispatch(validateBco({bcoURL, bcoObject}))
   }
   

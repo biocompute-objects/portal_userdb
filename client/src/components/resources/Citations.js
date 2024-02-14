@@ -4,49 +4,21 @@ import React from "react";
 import {
   Card,
   CardContent,
-  makeStyles,
   Typography
 } from "@material-ui/core";
 
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)"
-  },
-  linkCard: {
-    minHeight: "300px",
-    textAlign: "center"
-  },
-  supportCard: {
-    textAlign: "Left",
-    marginBottom: 12,
-    marginLeft: 12
-  },
-  title: {
-    fontSize: "33px",
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
-
 export default function Citations() {
-  const classes = useStyles();
   const logo = require("../../images/logo.png");
 
   return (
-    <Card className={`${classes.root} ${classes.supportCard}`} elevation={5}>
+    <Card className="resources-root resources-supportcard" elevation={5}>
       <CardContent>
-        <Typography className={classes.title}>
+        <Typography className="resources-title">
           <img src={logo} height={36} alt="BCO logo" />
           BCO Citations
           <br />
         </Typography>
-        <div className={classes.supportCard}>
+        <div className="resources-supportcard">
           <ol>
             <li>
               <div vocab="http://schema.org" typeof="ScholarlyArticle">

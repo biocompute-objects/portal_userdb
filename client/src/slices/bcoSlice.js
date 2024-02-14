@@ -136,6 +136,16 @@ const bcoSlice = createSlice({
       .addCase(getDraftBco.rejected, (state) => {
         state.status = "failed"
       })
+      .addCase(getTempDraftBco.pending, (state) => {
+        state.status = "loading"
+      })
+      .addCase(getTempDraftBco.fulfilled, (state, action) => {
+        state.status = "succeeded"
+        state.data = action.payload
+      })
+      .addCase(getTempDraftBco.rejected, (state) => {
+        state.status = "failed"
+      })
       .addCase(getPubBco.pending, (state) => {
         state.status = "loading"
       })
@@ -294,9 +304,9 @@ export const getExtension = createAsyncThunk(
 
 export const getDraftBco = createAsyncThunk(
   "getDraft",
-  async (object_id, thunkAPI) => {
+  async (queryString, thunkAPI) => {
     try {
-      const response = await BcoService.getDraftBco(object_id);
+      const response = await BcoService.getDraftBco(queryString);
       return response.data;
     } catch(error) {
       const message =
@@ -304,6 +314,23 @@ export const getDraftBco = createAsyncThunk(
           error.response.data &&
           error.response.data.message) ||
         error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+    }
+    return thunkAPI.rejectWithValue();
+  }
+)
+
+export const getTempDraftBco = createAsyncThunk(
+  "getTempDraftBco",
+  async (queryString, thunkAPI) => {
+    try {
+      const response = await BcoService.getTempDraftBco(queryString);
+      return response.data;
+    } catch(error) {
+      const message =
+        (error.response &&
+          error.response.data) ||
         error.toString();
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();

@@ -20,6 +20,7 @@ import NotificationBox from "../NotificationBox";
 import {
   getDraftBco,
   updateETag,
+  getTempDraftBco,
 } from "../../slices/bcoSlice";
 
 export default function BuilderColorCode () {
@@ -42,8 +43,8 @@ export default function BuilderColorCode () {
       <div
         role="tabpanel"
         hidden={domain !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
+        id={`vertical-tabpanel-${index}`}
+        aria-labelledby={`vertical-tab-${index}`}
         {...other}
       >
         {domain === index && (
@@ -67,6 +68,10 @@ export default function BuilderColorCode () {
       setDomain(domain+1)
     }
   }
+  const isUUID = (str) => {
+    const uuidPattern = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+    return uuidPattern.test(str);
+  };
 
   function validURL(url) {
     try {
@@ -80,18 +85,23 @@ export default function BuilderColorCode () {
   useEffect(()=> {
     const etag = hash(bco)
     dispatch(updateETag(etag))
-    const object_id = global.window.location.search.substring(1)
-    if (validURL(object_id) === true) {
-      dispatch(getDraftBco(object_id))
+    const queryString = global.window.location.search.substring(1)
+    
+    if (validURL(queryString) === true) {
+      dispatch(getDraftBco(queryString))
         .unwrap()
         .then(() => {
           // console.log(bcoStatus)
         })
         .catch((error) => {
           console.log("Error", error);
+          global.window.close()
         });
     }
-
+    if (isUUID(queryString)) {
+      console.log("UUID", queryString);
+      dispatch(getTempDraftBco(queryString))
+    }
   }, [])
   
   useEffect(() => {
@@ -105,7 +115,7 @@ export default function BuilderColorCode () {
     <Grid container spacing={2}>
       <NotificationBox />
       <Grid item className="object-contents">
-        <Card>
+        <Card spacing={2}>
           <CardContent>
             <Typography>
                   Object ID: {bco.object_id}
@@ -124,7 +134,7 @@ export default function BuilderColorCode () {
               ? (<>
                 <CardHeader title="BCO Errors"/>
                 <CardContent>
-                  <ReactJson src={bcoError}/>
+                  <ReactJson src={bcoError[0]}/>
                 </CardContent>
               </>)
               : (<></>)

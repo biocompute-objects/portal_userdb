@@ -191,7 +191,47 @@ export const orcidLogIn = createAsyncThunk(
       return thunkAPI.rejectWithValue();
     }
   }
-)
+);
+
+export const orcidAdd = createAsyncThunk(
+  "auth/orcidAdd",
+  async (code, thunkAPI) => {
+    try {
+      const authentication = await AuthService.orcidAdd(code);
+      thunkAPI.dispatch(setMessage("ORCID added to user profile"));
+      return authentication
+    } catch (error) {
+      const message =
+      (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
+      error.message ||
+      error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
+export const orcidRemove = createAsyncThunk(
+  "auth/orcidRemove",
+  async (thunkAPI) => {
+    try {
+      const remove = await AuthService.orcidRemove();
+      return remove
+    } catch (error) {
+      const message =
+      (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
+      error.message ||
+      error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+
+  }
+);
 
 export const login = createAsyncThunk(
   "auth/login",
@@ -201,10 +241,9 @@ export const login = createAsyncThunk(
       return { data };
     } catch (error) {
       const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-          error.response.data.non_field_errors[0] || error.message ||
+        (error &&
+          error.message) ||
+          error.non_field_errors[0] ||
         error.toString();
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
@@ -212,11 +251,26 @@ export const login = createAsyncThunk(
   }
 );
 
-export const logout = createAsyncThunk("auth/logout", async (thunkAPI) => {
-  const logout = await AuthService.logout();
-  thunkAPI.dispatch(setMessage("Log out successfull"));
-  return logout
-});
+export const logout = createAsyncThunk(
+  "auth/logout", 
+  async (thunkAPI) => {
+    try {
+      const logout = await AuthService.logout();
+      thunkAPI.dispatch(setMessage("Log out successfull"));
+      return logout
+    } catch (error) {
+      const message =
+      (error.response &&
+        error.response.data &&
+        error.response.data.message) ||
+        error.message ||
+        error.toString();
+      console.log(message)
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
 
 export const authenticateBcoDb = createAsyncThunk(
   "bcodb/addServer",

@@ -622,29 +622,51 @@
         "model": "bcodb.bcodb",
         "pk": "8be48b95-86ed-439a-a2eb-e60f2dddba1e",
         "fields": {
-            "bcodb_username": "bco_publisher",
+            "bcodb_username": "bco_api_user",
             "hostname": "127.0.0.1:8000",
             "human_readable_hostname": "BCO Server (Default)",
             "public_hostname": "http://127.0.0.1:8000",
-            "token": "2f2a599026581c158a07f968c56292c77f4be875",
+            "token": "07801a1a4cdbf1945e22ac8439f1db27fe813f7a",
             "owner": "80ee9548-274f-426b-bf80-046c9210e33b",
             "user_permissions": [
+                "Can add BCOs with prefix OTHER",
+                "Can add BCOs with prefix TEST",
+                "Can change BCOs with prefix OTHER",
+                "Can change BCOs with prefix TEST",
+                "Can delete BCOs with prefix OTHER",
+                "Can delete BCOs with prefix TEST",
+                "Can draft BCOs with prefix OTHER",
+                "Can draft BCOs with prefix TEST",
+                "Can publish BCOs with prefix OTHER",
+                "Can publish BCOs with prefix TEST",
+                "Can view BCOs with prefix OTHER",
+                "Can view BCOs with prefix TEST",
                 "Can add BCOs with prefix BCO",
                 "Can change BCOs with prefix BCO",
                 "Can delete BCOs with prefix BCO",
                 "Can draft BCOs with prefix BCO",
+                "Can view BCOs with prefix BCO",
                 "Can publish BCOs with prefix BCO",
-                "Can view BCOs with prefix BCO"
+                "Can add prefix",
+                "Can change prefix",
+                "Can delete prefix",
+                "Can view prefix"
             ],
             "group_permissions": [
                 "bco_drafter",
-                "bco_publisher"
+                "bco_publisher",
+                "prefix_admins",
+                "bco_api_user",
+                "test_drafter",
+                "test_publisher",
+                "other_drafter",
+                "other_publisher"
             ],
-            "account_creation": "2022-05-10T20:35:14.506Z",
+            "account_creation": "2022-05-10T20:35:53Z",
             "account_expiration": "",
-            "last_update": "2023-10-09T13:58:01.473Z",
-            "recent_status": "403",
-            "recent_attempt": "2023-10-11T15:39:36.020983+00:00",
+            "last_update": "2023-12-19T15:35:47.071Z",
+            "recent_status": "200",
+            "recent_attempt": "2023-12-19T15:35:47.071765+00:00",
             "created": null
         }
     },
@@ -820,6 +842,603 @@
             "username": "bco_api_user",
             "registration_date": "2023-08-30T15:50:08.739Z",
             "registration_certificate": "5ab5e87cdb35407e98b7662cca2ae20b"
+        }
+    },
+    {
+        "model": "bcodb.bco",
+        "pk": "0dc206f8-7d14-41bc-93f6-15f0eaf8feb0",
+        "fields": {
+            "contents": {
+                "spec_version": "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
+                "etag": "d30506507181a065132aee0908d57dfb398cd8ff4266b5260f25a77e02e27f6c",
+                "object_id": "http://localhost:3000/builder?0dc206f8-7d14-41bc-93f6-15f0eaf8feb0",
+                "usability_domain": [
+                    "The workflow starts with selecting ACE2 as the search term. RNA-seq-like LINCS L1000 Signatures [1] which mimick or reverse the the expression of ACE2 were visualized. Drugs which down-regulate the expression of ACE2 were identified from the RNA-seq-like LINCS L1000 Chemical Perturbagens [1]. To visualize the level of expression across scored drugs, a bar plot was created. \n\n1. Evangelista, J. E. et al. SigCom LINCS: data and metadata search engine for a million gene expression signatures. Nucleic Acids Research vol. 50 W697–W709 (2022). doi:10.1093/nar/gkac328"
+                ],
+                "provenance_domain": {
+                    "embargo": {},
+                    "name": "Playbook",
+                    "version": "1.0",
+                    "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+                    "derived_from": "NA",
+                    "contributors": [
+                        {
+                            "name": "BioCompute Object",
+                            "orcid": "0009-0000-3989-4505",
+                            "contribution": [
+                                "authoredBy"
+                            ]
+                        }
+                    ],
+                    "review": [],
+                    "created": "2023-11-27T22:24:27.023000",
+                    "modified": "2023-11-27T22:24:27.023000"
+                },
+                "description_domain": {
+                    "keywords": [
+                        "Type",
+                        "Cardinality"
+                    ],
+                    "platform": [
+                        "Debian GNU/Linux 11"
+                    ],
+                    "pipeline_steps": [
+                        {
+                            "name": "Gene Input",
+                            "description": "Start with a Gene",
+                            "step_number": 1,
+                            "prerequisite": [],
+                            "input_list": [],
+                            "output_list": [
+                                {
+                                    "uri": "#/0/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "LINCS L1000 Reverse Search",
+                            "description": "Identify RNA-seq-like LINCS L1000 Signatures which reverse the expression of the gene.",
+                            "step_number": 2,
+                            "prerequisite": [
+                                {
+                                    "name": "Output of step 1",
+                                    "uri": {
+                                        "uri": "#/0/process/output",
+                                        "access_time": "2023-11-27T22:24:27.023000"
+                                    }
+                                }
+                            ],
+                            "input_list": [
+                                {
+                                    "uri": "#/0/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ],
+                            "output_list": [
+                                {
+                                    "uri": "#/1/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Extract Down Regulating Perturbagens",
+                            "description": "Identify RNA-seq-like LINCS L1000 Chemical Perturbagen Signatures which reverse the expression of the gene.",
+                            "step_number": 3,
+                            "prerequisite": [
+                                {
+                                    "name": "Output of step 2",
+                                    "uri": {
+                                        "uri": "#/1/process/output",
+                                        "access_time": "2023-11-27T22:24:27.023000"
+                                    }
+                                }
+                            ],
+                            "input_list": [
+                                {
+                                    "uri": "#/1/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ],
+                            "output_list": [
+                                {
+                                    "uri": "#/2/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Barplot from Scored Drugs",
+                            "description": "Construct Barplot with Scored Drugs",
+                            "step_number": 4,
+                            "prerequisite": [
+                                {
+                                    "name": "Output of step 3",
+                                    "uri": {
+                                        "uri": "#/2/process/output",
+                                        "access_time": "2023-11-27T22:24:27.023000"
+                                    }
+                                }
+                            ],
+                            "input_list": [
+                                {
+                                    "uri": "#/2/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ],
+                            "output_list": [
+                                {
+                                    "uri": "#/3/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "parametric_domain": [
+                    {
+                        "step": "1",
+                        "param": "stdin",
+                        "value": "ACE2"
+                    },
+                    {
+                        "step": "2",
+                        "param": "stdin",
+                        "value": ""
+                    },
+                    {
+                        "step": "3",
+                        "param": "stdin",
+                        "value": ""
+                    },
+                    {
+                        "step": "4",
+                        "param": "stdin",
+                        "value": ""
+                    }
+                ],
+                "execution_domain": {
+                    "external_data_endpoints": [],
+                    "software_prerequisites": [
+                        {
+                            "name": "Docker",
+                            "version": "20.10.21",
+                            "uri": {
+                                "access_time": "2023-11-27T22:24:27.023000",
+                                "uri": "https://docs.docker.com/get-docker/"
+                            }
+                        }
+                    ],
+                    "environment_variables": {},
+                    "script_driver": "shell",
+                    "script": [
+                        {
+                            "uri": {
+                                "uri": "https://github.com/nih-cfde/playbook-partnership/tree/dev/cli/playbook-partnership-executor.sh",
+                                "filename": "playbook-partnership-executor.sh"
+                            }
+                        }
+                    ]
+                },
+                "io_domain": {
+                    "input_subdomain": [
+                        {
+                            "uri": {
+                                "uri": "http://localhost:3006/api/db/fpl/77b72108-9b31-1b41-27b3-a8d8acfb0531"
+                            }
+                        }
+                    ],
+                    "output_subdomain": [
+                        {
+                            "uri": {
+                                "uri": "http://localhost:3006/api/db/fpl/77b72108-9b31-1b41-27b3-a8d8acfb0531/output"
+                            },
+                            "mediatype": "application/json"
+                        }
+                    ]
+                }
+            },
+            "owner": "bco_api_user",
+            "origin": "http://localhost:8080"
+        }
+    },
+    {
+        "model": "bcodb.bco",
+        "pk": "14cc841a-8d4d-4073-ae52-05a0ccfb3f2e",
+        "fields": {
+            "contents": {
+                "spec_version": "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
+                "etag": "d30506507181a065132aee0908d57dfb398cd8ff4266b5260f25a77e02e27f6c",
+                "object_id": "http://localhost:3000/builder?14cc841a-8d4d-4073-ae52-05a0ccfb3f2e",
+                "usability_domain": [
+                    "The workflow starts with selecting ACE2 as the search term. RNA-seq-like LINCS L1000 Signatures [1] which mimick or reverse the the expression of ACE2 were visualized. Drugs which down-regulate the expression of ACE2 were identified from the RNA-seq-like LINCS L1000 Chemical Perturbagens [1]. To visualize the level of expression across scored drugs, a bar plot was created. \n\n1. Evangelista, J. E. et al. SigCom LINCS: data and metadata search engine for a million gene expression signatures. Nucleic Acids Research vol. 50 W697–W709 (2022). doi:10.1093/nar/gkac328"
+                ],
+                "provenance_domain": {
+                    "embargo": {},
+                    "name": "Playbook",
+                    "version": "1.0",
+                    "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+                    "derived_from": "NA",
+                    "contributors": [
+                        {
+                            "name": "BioCompute Object",
+                            "orcid": "0009-0000-3989-4505",
+                            "contribution": [
+                                "authoredBy"
+                            ]
+                        }
+                    ],
+                    "review": [],
+                    "created": "2023-11-27T22:24:27.023000",
+                    "modified": "2023-11-27T22:24:27.023000"
+                },
+                "description_domain": {
+                    "keywords": [
+                        "Type",
+                        "Cardinality"
+                    ],
+                    "platform": [
+                        "Debian GNU/Linux 11"
+                    ],
+                    "pipeline_steps": [
+                        {
+                            "name": "Gene Input",
+                            "description": "Start with a Gene",
+                            "step_number": 1,
+                            "prerequisite": [],
+                            "input_list": [],
+                            "output_list": [
+                                {
+                                    "uri": "#/0/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "LINCS L1000 Reverse Search",
+                            "description": "Identify RNA-seq-like LINCS L1000 Signatures which reverse the expression of the gene.",
+                            "step_number": 2,
+                            "prerequisite": [
+                                {
+                                    "name": "Output of step 1",
+                                    "uri": {
+                                        "uri": "#/0/process/output",
+                                        "access_time": "2023-11-27T22:24:27.023000"
+                                    }
+                                }
+                            ],
+                            "input_list": [
+                                {
+                                    "uri": "#/0/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ],
+                            "output_list": [
+                                {
+                                    "uri": "#/1/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Extract Down Regulating Perturbagens",
+                            "description": "Identify RNA-seq-like LINCS L1000 Chemical Perturbagen Signatures which reverse the expression of the gene.",
+                            "step_number": 3,
+                            "prerequisite": [
+                                {
+                                    "name": "Output of step 2",
+                                    "uri": {
+                                        "uri": "#/1/process/output",
+                                        "access_time": "2023-11-27T22:24:27.023000"
+                                    }
+                                }
+                            ],
+                            "input_list": [
+                                {
+                                    "uri": "#/1/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ],
+                            "output_list": [
+                                {
+                                    "uri": "#/2/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Barplot from Scored Drugs",
+                            "description": "Construct Barplot with Scored Drugs",
+                            "step_number": 4,
+                            "prerequisite": [
+                                {
+                                    "name": "Output of step 3",
+                                    "uri": {
+                                        "uri": "#/2/process/output",
+                                        "access_time": "2023-11-27T22:24:27.023000"
+                                    }
+                                }
+                            ],
+                            "input_list": [
+                                {
+                                    "uri": "#/2/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ],
+                            "output_list": [
+                                {
+                                    "uri": "#/3/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "parametric_domain": [
+                    {
+                        "step": "1",
+                        "param": "stdin",
+                        "value": "ACE2"
+                    },
+                    {
+                        "step": "2",
+                        "param": "stdin",
+                        "value": ""
+                    },
+                    {
+                        "step": "3",
+                        "param": "stdin",
+                        "value": ""
+                    },
+                    {
+                        "step": "4",
+                        "param": "stdin",
+                        "value": ""
+                    }
+                ],
+                "execution_domain": {
+                    "external_data_endpoints": [],
+                    "software_prerequisites": [
+                        {
+                            "name": "Docker",
+                            "version": "20.10.21",
+                            "uri": {
+                                "access_time": "2023-11-27T22:24:27.023000",
+                                "uri": "https://docs.docker.com/get-docker/"
+                            }
+                        }
+                    ],
+                    "environment_variables": {},
+                    "script_driver": "shell",
+                    "script": [
+                        {
+                            "uri": {
+                                "uri": "https://github.com/nih-cfde/playbook-partnership/tree/dev/cli/playbook-partnership-executor.sh",
+                                "filename": "playbook-partnership-executor.sh"
+                            }
+                        }
+                    ]
+                },
+                "io_domain": {
+                    "input_subdomain": [
+                        {
+                            "uri": {
+                                "uri": "http://localhost:3006/api/db/fpl/77b72108-9b31-1b41-27b3-a8d8acfb0531"
+                            }
+                        }
+                    ],
+                    "output_subdomain": [
+                        {
+                            "uri": {
+                                "uri": "http://localhost:3006/api/db/fpl/77b72108-9b31-1b41-27b3-a8d8acfb0531/output"
+                            },
+                            "mediatype": "application/json"
+                        }
+                    ]
+                }
+            },
+            "owner": null,
+            "origin": "http://localhost:8080"
+        }
+    },
+    {
+        "model": "bcodb.bco",
+        "pk": "9d46f219-a9dc-45ee-9cef-b06ade42b595",
+        "fields": {
+            "contents": {
+                "spec_version": "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
+                "etag": "d30506507181a065132aee0908d57dfb398cd8ff4266b5260f25a77e02e27f6c",
+                "object_id": "http://localhost:3000/builder?9d46f219-a9dc-45ee-9cef-b06ade42b595",
+                "usability_domain": [
+                    "The workflow starts with selecting ACE2 as the search term. RNA-seq-like LINCS L1000 Signatures [1] which mimick or reverse the the expression of ACE2 were visualized. Drugs which down-regulate the expression of ACE2 were identified from the RNA-seq-like LINCS L1000 Chemical Perturbagens [1]. To visualize the level of expression across scored drugs, a bar plot was created. \n\n1. Evangelista, J. E. et al. SigCom LINCS: data and metadata search engine for a million gene expression signatures. Nucleic Acids Research vol. 50 W697–W709 (2022). doi:10.1093/nar/gkac328"
+                ],
+                "provenance_domain": {
+                    "embargo": {},
+                    "name": "Playbook",
+                    "version": "1.0",
+                    "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+                    "derived_from": "NA",
+                    "contributors": [
+                        {
+                            "name": "BioCompute Object",
+                            "orcid": "0009-0000-3989-4505",
+                            "contribution": [
+                                "authoredBy"
+                            ]
+                        }
+                    ],
+                    "review": [],
+                    "created": "2023-11-27T22:24:27.023000",
+                    "modified": "2023-11-27T22:24:27.023000"
+                },
+                "description_domain": {
+                    "keywords": [
+                        "Type",
+                        "Cardinality"
+                    ],
+                    "platform": [
+                        "Debian GNU/Linux 11"
+                    ],
+                    "pipeline_steps": [
+                        {
+                            "name": "Gene Input",
+                            "description": "Start with a Gene",
+                            "step_number": 1,
+                            "prerequisite": [],
+                            "input_list": [],
+                            "output_list": [
+                                {
+                                    "uri": "#/0/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "LINCS L1000 Reverse Search",
+                            "description": "Identify RNA-seq-like LINCS L1000 Signatures which reverse the expression of the gene.",
+                            "step_number": 2,
+                            "prerequisite": [
+                                {
+                                    "name": "Output of step 1",
+                                    "uri": {
+                                        "uri": "#/0/process/output",
+                                        "access_time": "2023-11-27T22:24:27.023000"
+                                    }
+                                }
+                            ],
+                            "input_list": [
+                                {
+                                    "uri": "#/0/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ],
+                            "output_list": [
+                                {
+                                    "uri": "#/1/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Extract Down Regulating Perturbagens",
+                            "description": "Identify RNA-seq-like LINCS L1000 Chemical Perturbagen Signatures which reverse the expression of the gene.",
+                            "step_number": 3,
+                            "prerequisite": [
+                                {
+                                    "name": "Output of step 2",
+                                    "uri": {
+                                        "uri": "#/1/process/output",
+                                        "access_time": "2023-11-27T22:24:27.023000"
+                                    }
+                                }
+                            ],
+                            "input_list": [
+                                {
+                                    "uri": "#/1/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ],
+                            "output_list": [
+                                {
+                                    "uri": "#/2/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Barplot from Scored Drugs",
+                            "description": "Construct Barplot with Scored Drugs",
+                            "step_number": 4,
+                            "prerequisite": [
+                                {
+                                    "name": "Output of step 3",
+                                    "uri": {
+                                        "uri": "#/2/process/output",
+                                        "access_time": "2023-11-27T22:24:27.023000"
+                                    }
+                                }
+                            ],
+                            "input_list": [
+                                {
+                                    "uri": "#/2/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ],
+                            "output_list": [
+                                {
+                                    "uri": "#/3/process/output",
+                                    "access_time": "2023-11-27T22:24:27.023000"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "parametric_domain": [
+                    {
+                        "step": "1",
+                        "param": "stdin",
+                        "value": "ACE2"
+                    },
+                    {
+                        "step": "2",
+                        "param": "stdin",
+                        "value": ""
+                    },
+                    {
+                        "step": "3",
+                        "param": "stdin",
+                        "value": ""
+                    },
+                    {
+                        "step": "4",
+                        "param": "stdin",
+                        "value": ""
+                    }
+                ],
+                "execution_domain": {
+                    "external_data_endpoints": [],
+                    "software_prerequisites": [
+                        {
+                            "name": "Docker",
+                            "version": "20.10.21",
+                            "uri": {
+                                "access_time": "2023-11-27T22:24:27.023000",
+                                "uri": "https://docs.docker.com/get-docker/"
+                            }
+                        }
+                    ],
+                    "environment_variables": {},
+                    "script_driver": "shell",
+                    "script": [
+                        {
+                            "uri": {
+                                "uri": "https://github.com/nih-cfde/playbook-partnership/tree/dev/cli/playbook-partnership-executor.sh",
+                                "filename": "playbook-partnership-executor.sh"
+                            }
+                        }
+                    ]
+                },
+                "io_domain": {
+                    "input_subdomain": [
+                        {
+                            "uri": {
+                                "uri": "http://localhost:3006/api/db/fpl/77b72108-9b31-1b41-27b3-a8d8acfb0531"
+                            }
+                        }
+                    ],
+                    "output_subdomain": [
+                        {
+                            "uri": {
+                                "uri": "http://localhost:3006/api/db/fpl/77b72108-9b31-1b41-27b3-a8d8acfb0531/output"
+                            },
+                            "mediatype": "application/json"
+                        }
+                    ]
+                }
+            },
+            "owner": "bco_api_user",
+            "origin": "http://localhost:8080"
         }
     }
 ]
