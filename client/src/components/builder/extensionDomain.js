@@ -4,28 +4,17 @@ import { Card, CardContent, TextField, Typography, Grid, Button, Paper, CardHead
 import { addExtensionDomain, getExtension, deleteExtensionDomain, updateModified } from "../../slices/bcoSlice"
 import { Extension } from "./extension";
 import { Next } from "./components";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Tooltip from "@mui/material/Tooltip";
 
 export const  ExtensionDomain = ({onSave}) => {
   const dispatch = useDispatch();
-  const extensionDomain = useSelector(state => state.bco.data.extension_domain)
+  const bco = useSelector(state => state.bco.data)
+  let has_extension = "extension_domain" in bco
+  const extensionDomain = has_extension ? bco.extension_domain : [];
   const [newSchema, setNewSchema] = React.useState("")
-
-  const errorSchema = {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "type": "object",
-    "properties": {
-      "message": {
-        "type": "string"
-      }
-    },
-    "required": [
-      "message"
-    ]
-  }
 
   const addExtension = async () => {
     dispatch(getExtension({newSchema}))

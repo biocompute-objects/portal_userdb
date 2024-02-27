@@ -103,9 +103,9 @@ export default function BuilderColorCode () {
       dispatch(getTempDraftBco(queryString))
     }
   }, [])
-  
+
   useEffect(() => {
-    if (validURL(bco["object_id"]) === true) {
+    if (validURL(bco["object_id"]) === true && bco["object_id"].indexOf("?") === -1) {
       navigate(`/builder?${bco["object_id"]}`);
     }
   }, [bco])
@@ -134,7 +134,7 @@ export default function BuilderColorCode () {
               ? (<>
                 <CardHeader title="BCO Errors"/>
                 <CardContent>
-                  <ReactJson src={bcoError[0]}/>
+                  <ReactJson src={bcoError}/>
                 </CardContent>
               </>)
               : (<></>)
