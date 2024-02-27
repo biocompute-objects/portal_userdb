@@ -12,4 +12,6 @@ The [`SERVER`](server/README.md) directory contains the UserDB application. It u
 - [Local deployment for devleopment](docs/localDeployment.md)
 - [Production deployment](docs/productionDeployment.md)
 - [Docker deployment](docs/dockerDeployment.md) [WIP]
+- [FAQ and trouble shooting](docs/faq.md)
+
 
