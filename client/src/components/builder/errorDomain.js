@@ -6,17 +6,18 @@ import { updateBcoStatus, updateErrorDomain, updateModified } from "../../slices
 import { FormObserver } from "./components";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Tooltip from "@mui/material/Tooltip";
-import { colors } from "@mui/joy";
 
 export const ErrorDomain = ({onSave}) => {
   const dispatch = useDispatch()
-  const error_domain = useSelector(state => state.bco.data.error_domain)
+  const bco = useSelector(state => state.bco.data);
+  let has_error = "error_domain" in bco; 
+  const errorDomain = has_error ? bco.error_domain : {};
   const [writing, setWriting] = useState(false);
-  let has_empirical = "empirical_error" in error_domain;
-  let has_algorithmic = "algorithmic_error" in error_domain;
+  let has_empirical = "empirical_error" in errorDomain;
+  let has_algorithmic = "algorithmic_error" in errorDomain;
   const [jsonErrors, setJsonErrors] = useState("");
-  const [algorithmic_error, setAlgo] = useState(has_algorithmic ? error_domain.algorithmic_error : {})
-  const [empirical_error, setEmp ] = useState(has_empirical ? error_domain.empirical_error : {})
+  const [algorithmic_error, setAlgo] = useState(has_algorithmic ? errorDomain.algorithmic_error : {})
+  const [empirical_error, setEmp ] = useState(has_empirical ? errorDomain.empirical_error : {})
 
   const setInput = (target) => {
     setWriting(true)
@@ -38,18 +39,12 @@ export const ErrorDomain = ({onSave}) => {
   };
 
   const defaultAlgorithmicError = `{
-    "algorithmic_error": { 
-      "false_positive_mutation_calls": "<0.00005", 
-      "false_discovery": "0.005"
-    }
+    "algorithmic_error": {}
   }`;
 
   const defaultEmpiricalError = `{
-    "empirical_error": {
-      "false_negative_alignment_hits": "<0.0010", 
-      "false_discovery": "<0.05"
-    }
-  }`
+    "empirical_error": {}
+  }`;
 
   return (
     <Card className="object-domain">
