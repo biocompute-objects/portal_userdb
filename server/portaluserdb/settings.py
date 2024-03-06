@@ -60,6 +60,8 @@ if secrets['GOOGLE_KEYS']['DJANGO_GOOGLE_OAUTH2_CLIENT_ID']:
 if secrets['GOOGLE_KEYS']['DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET']:
     GOOGLE_SECRET = secrets['GOOGLE_KEYS']['DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET']
 
+EMAIL_BACKEND = secrets['SERVER']['EMAIL_BACKEND']
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -87,8 +89,6 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "prefix.apps.PrefixConfig"
 ]
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # allows password reset for a user that does not have a usable password (Default: True)
 DJANGO_REST_MULTITOKENAUTH_REQUIRE_USABLE_PASSWORD = False
