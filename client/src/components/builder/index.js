@@ -16,7 +16,7 @@ import { useOutletContext, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux"
 import objectHash from "object-hash";
 import NotificationBox from "../NotificationBox";
-
+import { validURL, isUUID } from "./components";
 import {
   getDraftBco,
   updateETag,
@@ -68,19 +68,6 @@ export default function BuilderColorCode () {
       setDomain(domain+1)
     }
   }
-  const isUUID = (str) => {
-    const uuidPattern = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
-    return uuidPattern.test(str);
-  };
-
-  function validURL(url) {
-    try {
-      new URL(url);
-      return true;
-    } catch (err) {
-      return false;
-    }
-  }
   
   useEffect(()=> {
     const etag = hash(bco)
@@ -90,16 +77,12 @@ export default function BuilderColorCode () {
     if (validURL(queryString) === true) {
       dispatch(getDraftBco(queryString))
         .unwrap()
-        .then(() => {
-          // console.log(bcoStatus)
-        })
         .catch((error) => {
           console.log("Error", error);
           global.window.close()
         });
     }
     if (isUUID(queryString)) {
-      console.log("UUID", queryString);
       dispatch(getTempDraftBco(queryString))
     }
   }, [])
