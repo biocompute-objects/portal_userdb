@@ -338,6 +338,23 @@ export const getTempDraftBco = createAsyncThunk(
   }
 )
 
+export const deleteTempDraftBco = createAsyncThunk(
+  "deleteTempDraftBco",
+  async (queryString, thunkAPI) => {
+    try {
+      const response = await BcoService.deleteTempDraftBco(queryString);
+      return response.data;
+    } catch(error) {
+      const message =
+        (error.response &&
+          error.response.data) ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
+
 export const getPubBco = createAsyncThunk(
   "getPub",
   async (object_id, thunkAPI) => {

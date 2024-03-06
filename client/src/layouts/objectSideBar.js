@@ -2,7 +2,8 @@ import React from "react";
 import { Button, Card, Container, Grid, ListItem, ListItemText } from "@material-ui/core";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import { useDispatch, useSelector } from "react-redux";
-import { updateDraftBco, createDraftBco, publishDraftBco } from "../slices/bcoSlice";
+import { updateDraftBco, createDraftBco, publishDraftBco, deleteTempDraftBco } from "../slices/bcoSlice";
+import { validURL, isUUID } from "../components/builder/components";
 import "../App.css"
 
 const data = [
@@ -74,13 +75,27 @@ export default function ObjectSideBar ({domain, setDomain}) {
   };
 
   const updateDraft = () => {
-    console.log("Update", BCODB_URL, bco)
     const bcoURL = BCODB_URL
     const bcoObject = bco
-    if (bco.object_id === "") {
-      dispatch(createDraftBco({bcoURL, bcoObject, prefix}))
-    } else {
-      dispatch(updateDraftBco({bcoURL, bcoObject}))
+    const queryString = bco.object_id.split("?")[1]
+    console.log("Update", BCODB_URL, queryString)
+    {
+      (bco.object_id === "" ) ? (
+        dispatch(createDraftBco({bcoURL, bcoObject, prefix}))
+      ):(
+        (isUUID(queryString) ? (
+          dispatch(createDraftBco({bcoURL, bcoObject, prefix}))
+            .unwrap()
+            .then(
+              dispatch(deleteTempDraftBco(queryString))
+            )
+            .catch((error) => {
+              console.log("Error", error);
+            })
+        ):(
+          dispatch(updateDraftBco({bcoURL, bcoObject}))
+        ))
+      )
     }
   }
 
