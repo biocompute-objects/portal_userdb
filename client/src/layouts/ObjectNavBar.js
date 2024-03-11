@@ -27,7 +27,7 @@ import { useDispatch } from "react-redux";
 import { Field, Formik, Form } from "formik";
 import { getPrefixList } from "../slices/prefixSlice";
 import { setPrefix } from "../slices/bcoSlice";
-import SelectBCODBAndPrefix from "../components/builder/SelectBCODBandPrefix";
+// import SelectBCODBAndPrefix from "../components/builder/SelectBCODBandPrefix";
 
 const ObjectNavBar = () => {
   const dispatch = useDispatch();
@@ -188,7 +188,7 @@ const ObjectNavBar = () => {
             </Typography>
           </Tooltip>
           <div className="grow" />
-          {((global.window.location.pathname === "/builder") && (
+          {/* {((global.window.location.pathname === "/builder") && (
             <SelectBCODBAndPrefix />
           )
             ? (
@@ -220,7 +220,7 @@ const ObjectNavBar = () => {
                           <Form>
                             <label htmlFor="email" style={{ display: "block" }}>Select Prefix</label>
                             {/* {console.log(values)} */}
-                            <Field
+                            {/* <Field
                               as='select'
                               name='database'
                               onChange={handlePrefix}
@@ -245,7 +245,7 @@ const ObjectNavBar = () => {
                   />)
                 }
               </>
-          ) : (<></>))}
+          ) : (<></>))} */} 
           <div className="grow" />
 
           

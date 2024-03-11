@@ -10,19 +10,20 @@ const SelectBCODBAndPrefix = () => {
   const bcoPrefix = useSelector((state) => state.bco.prefix);
   const prefixList = useSelector((state) => state.prefix.data);
   const account = useSelector((state) => state.account);
-  const bcodbs = account && account.user ? account.user.bcodbs :[];
+  const bcodbs = account && account.user ? account.user.bcodbs : [];
 
   const handleBcodb = (event) => {
     const selectedBCODB = event.target.value;
     dispatch(getPrefixList(selectedBCODB));
     dispatch(setPrefix(null)); // Reset Prefix selection when BCODB changes
+    dispatch(setPrefix(selectedBCODB)); // Set the selected BCODB to bcoPrefix
   };
 
   const handlePrefix = (event) => {
     dispatch(setPrefix(event.target.value));
   };
 
-  const isBCODBSelected = bcoPrefix !== null;
+  const isBCODBSelected = !!bcoPrefix; // Check if bcoPrefix is truthy
 
   return (
     <div>
@@ -44,7 +45,6 @@ const SelectBCODBAndPrefix = () => {
             >
               <option value="" key=""></option>
               {bcodbs &&
-                Array.isArray(bcodbs) &&
                 bcodbs.map((database, index) => (
                   <option
                     value={database.public_hostname}
@@ -55,7 +55,24 @@ const SelectBCODBAndPrefix = () => {
                 ))}
             </Field>
 
-            <label htmlFor="prefix" style={{ display: "block", opacity: isBCODBSelected ? 1 : 0.5 }}>
+            {/* Display selected BCODB */}
+            {bcoPrefix && (
+              <TextField
+                value={`BCO prefix: ${bcoPrefix}`}
+                variant="outlined"
+                disabled
+                size="small"
+                className="button-confirm"
+              />
+            )}
+
+            <label
+              htmlFor="prefix"
+              style={{
+                display: "block",
+                opacity: isBCODBSelected ? 1 : 0.5,
+              }}
+            >
               Select Prefix
             </label>
             <Field
@@ -74,21 +91,12 @@ const SelectBCODBAndPrefix = () => {
           </Form>
         )}
       </Formik>
-
-      {bcoPrefix !== null && (
-        <TextField
-          value={`BCO prefix: ${bcoPrefix}`}
-          variant="outlined"
-          disabled
-          size="small"
-          className="button-confirm"
-        />
-      )}
     </div>
   );
 };
 
 export default SelectBCODBAndPrefix;
+
 
 
 // const SelectBCODBAndPrefix = () => {

@@ -41,6 +41,16 @@ const Memberinfo = {
               "image": "/Teams/Wang.jpg",
               "imageText": "Tianyi Wang image",
               "url": "https://www.linkedin.com/in/tianyi-wang-3432429a"
+    },
+        {
+            "name": "Chinweoke Okonkwo",
+            "position": "Research Assistant",
+            "department": "",
+            "institution": "",
+            "location": "",
+            "image": "/Teams/Okonkwo.jpg",
+            "imageText": "Chinweoke Okonkwo image",
+            "url": "https://www.linkedin.com/in/chinweokeokonkwo/"
     }
   ]
   },
@@ -67,6 +77,16 @@ const Memberinfo = {
               "imageText": "Vahan Simonyan image",
               "url": "https://www.linkedin.com/in/vahan-simonyan-a6a65723"
     },
+        {
+            "name": "Mark Walderhaug",
+            "position": "Associate Office Director for Risk Assessment",
+            "department": "",
+            "institution": "Food and Drug Administration",
+            "location": "Silver Spring, MD",
+            "image": "/Teams/anonymous.png",
+            "imageText": "Mark Walderhaug image",
+            "url": "https://www.linkedin.com/in/mark-walderhaug-8a256011"
+    },
           {
               "name": "Anton Golikov",
               "position": "",
@@ -76,26 +96,6 @@ const Memberinfo = {
               "image": "/Teams/Golikov.jpg",
               "imageText": "Anton Golikov image",
               "url": "https://www.linkedin.com/in/anton-golikov-919471104"
-    },
-          {
-              "name": "Konstantinos Krampis",
-              "position": "",
-              "department": "",
-              "institution": "Hunter College",
-              "location": "New York, NY",
-              "image": "/Teams/Krampis.jpg",
-              "imageText": "Ntino Krampis image",
-              "url": "https://www.hunter.cuny.edu/belfer/faculty/dr.-konstantinos-krampis"
-    },
-          {
-              "name": "Michael Crusoe",
-              "position": "",
-              "department": "",
-              "institution": "Common Workflow Language",
-              "location": "Berlin, Germany",
-              "image": "/Teams/Crusoe.jpg",
-              "imageText": "Michael Crusoe image",
-              "url": "https://atlarge-research.com/mrcrusoe/"
     },
           {
               "name": "Luis V Santana-Quintero",
@@ -187,7 +187,17 @@ const Memberinfo = {
   "former_other": {
       "heading": "Other Members",
       "people": [
-          {
+        {
+            "name": "Michael Crusoe",
+            "position": "",
+            "department": "",
+            "institution": "Common Workflow Language",
+            "location": "Berlin, Germany",
+            "image": "/Teams/Crusoe.jpg",
+            "imageText": "Michael Crusoe image",
+            "url": "https://atlarge-research.com/mrcrusoe/"
+  },
+        {
               "name": "Ogan Abaan",
               "position": "",
               "department": "",
