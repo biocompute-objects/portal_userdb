@@ -343,7 +343,7 @@ export const getPubBco = createAsyncThunk(
   async (object_id, thunkAPI) => {
     try {
       const response = await BcoService.getPubBco(object_id);
-      return response.data[0];
+      return response.data;
     } catch(error) {
       const message =
         (error.response &&

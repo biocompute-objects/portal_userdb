@@ -83,9 +83,10 @@ class UserCreateApi(APIView):
             properties={
                 "username": openapi.Schema(
                     type=openapi.TYPE_STRING,
+                    description="User name.",
                     default="test"
                 ),
-                "email": openapi.Schema(type=openapi.TYPE_STRING,),
+                "email": openapi.Schema(type=openapi.TYPE_STRING,default="test@test.test"),
                 "password": openapi.Schema(type=openapi.TYPE_STRING,),
                 "profile": openapi.Schema(
                     type=openapi.TYPE_OBJECT,
@@ -96,7 +97,7 @@ class UserCreateApi(APIView):
                         ),
                         "affiliation": openapi.Schema(
                             type=openapi.TYPE_STRING,
-                            default="George Wasington University"
+                            default="George Washington University"
                         ),
                         "orcid": openapi.Schema(
                             type=openapi.TYPE_STRING,
