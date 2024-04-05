@@ -81,7 +81,7 @@ export const prefixSlice = createSlice({
       })
       .addCase(getPrefixList.fulfilled, (state, action) => {
         for (let i = 0; i < action.payload.length; i++) {
-          if (action.payload[i].includes("draft_")) {
+          if (action.payload[i].includes("add_")) {
             const prefix = action.payload[i].split("_")[1]
             if (!(state.data.indexOf(prefix) > -1)) {
               state.data.push(prefix)

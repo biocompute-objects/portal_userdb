@@ -31,7 +31,7 @@ const registerPrefix = async (values) => {
 }
 
 const prefixList = async (bcodb) => {
-  const response = await axios.post(`${bcodb}/api/prefixes/token/`, {
+  const response = await axios.post(`${bcodb}/api/prefixes/user/`, {
   }, {
     headers: {
       "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
