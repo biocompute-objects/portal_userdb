@@ -14,12 +14,10 @@ import { ExtensionDomain } from "./extensionDomain";
 import { RawJson } from "./rawJson";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux"
-import objectHash from "object-hash";
 import NotificationBox from "../NotificationBox";
 
 import {
   getDraftBco,
-  updateETag,
   getTempDraftBco,
 } from "../../slices/bcoSlice";
 
@@ -29,14 +27,7 @@ export default function BuilderColorCode () {
   const bco = useSelector(state => state.bco.data);
   const bcoError = useSelector(state => state.bco.error);
   const {domain, setDomain} = useOutletContext()
-  const hash = (bco) => objectHash(bco,{ excludeKeys: function(key) {
-    if (( key === "object_id" ) || (key === "etag") || (key === "spec_version")) {
-      return true;
-    }
-    return false;
-  }
-  })
-
+  
   function TabPanel(props) {
     const { children, domain, index, ...other } = props;
     return (
@@ -83,8 +74,6 @@ export default function BuilderColorCode () {
   }
   
   useEffect(()=> {
-    const etag = hash(bco)
-    dispatch(updateETag(etag))
     const queryString = global.window.location.search.substring(1)
     
     if (validURL(queryString) === true) {

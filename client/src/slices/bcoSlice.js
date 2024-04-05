@@ -87,9 +87,6 @@ const bcoSlice = createSlice({
     setPrefix: (state, action) => {
       state["prefix"] = action.payload
     },
-    updateETag: (state, action) => {
-      state["data"]["etag"] = action.payload
-    },
     updateBco: (state, action) => {
       state["data"] = action.payload
     }
@@ -158,7 +155,7 @@ const bcoSlice = createSlice({
         state.status = "failed"
       })
       .addCase(createDraftBco.fulfilled, (state, action) => {
-        state.data.object_id = action.payload[0].object_id
+        state.data.object_id = action.payload
         state.error = null
         state.status = "idle"
       })
@@ -197,8 +194,12 @@ export const createDraftBco = createAsyncThunk(
     try {
       const owner_group = `${prefix.toLowerCase()}_drafter`
       const response = await BcoService.createDraftBco(bcoURL, bcoObject, prefix, owner_group);
-      thunkAPI.dispatch(setMessage(response[0].message))
-      return response;
+      const responseObject = response[0];
+      const urlKey = Object.keys(responseObject)[0]; // Extracts the key (URL)
+      const message = responseObject[urlKey].message; // Extracts the message
+
+      thunkAPI.dispatch(setMessage(message))
+      return urlKey;
     } catch(error) {
       const message =
           (error.response &&
@@ -395,6 +396,5 @@ export const {
   deleteExtensionDomain,
   updateExecutionDomain,
   setPrefix,
-  updateETag,
   updateBco,
 } = bcoSlice.actions;
