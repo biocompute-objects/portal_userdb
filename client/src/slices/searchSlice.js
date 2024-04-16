@@ -33,7 +33,7 @@ export const searchSlice = createSlice({
       })
       .addCase(searchBcodb.fulfilled, (state, action) => {
         console.log(action.payload[0])
-        state.results = action.payload[0];
+        state.results = action.payload;
         state.status = "fulfilled";
       })
       .addCase(searchBcodb.pending, (state) => {
@@ -52,7 +52,7 @@ export const searchBcodb = createAsyncThunk(
     try {
       console.log("slice", publicHostname, quickSearch)
       const results = await AuthService.searchBcodbAPI({publicHostname, quickSearch})
-      thunkAPI.dispatch(setMessage(`Search (${quickSearch}) returned ${results.data[0].length} BCOs`));
+      thunkAPI.dispatch(setMessage(`Search (${quickSearch}) returned ${results.data.length} BCOs`));
       return results.data
     } catch (error) {
       const message =

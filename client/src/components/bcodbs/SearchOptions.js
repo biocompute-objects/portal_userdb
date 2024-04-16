@@ -19,7 +19,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
-import QuickSearch from "../quickSearch";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;

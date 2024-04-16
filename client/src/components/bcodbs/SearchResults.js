@@ -207,7 +207,7 @@ export default function EnhancedTable({bcodbInfo}) {
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(20);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -353,7 +353,7 @@ export default function EnhancedTable({bcodbInfo}) {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[20, 100, 250]}
           component="div"
           count={results.length}
           rowsPerPage={rowsPerPage}
