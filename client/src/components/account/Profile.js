@@ -87,7 +87,7 @@ const Profile = () => {
                     <MyTextField name='email' label='Email address' isRequired/>
                   </Grid>
                   <Grid item>
-                    <MyTextField name='public' label='public account'/>
+                    <MyTextField name='public' type="checkbox" label='public account'/>
                   </Grid>
                   <Grid item>
                     <MyTextField name='affiliation' label='Affiliation'/>
