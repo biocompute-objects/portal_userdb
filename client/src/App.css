@@ -143,7 +143,15 @@
 }
 
 
+.custom-container {
+  margin: 5%;
+  padding-top: 0; /* Ensure the container starts at the top of the page */
+}
 
+.custom-table-container {
+  overflow-x: auto; /* Makes the table scrollable horizontally */
+  display: block;  /* Allows the table container to respect the width constraints */
+}
 
 /* Outlet styles */
 .outlet-root {

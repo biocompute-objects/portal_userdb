@@ -5,10 +5,10 @@ import { setMessage } from "./messageSlice";
 
 export const searchPrefix = createAsyncThunk(
   "searchPrefix",
-  async ({data}, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
       const response = await prefixService.searchPrefix(data);
-      thunkAPI.dispatch(setMessage(`Search returned ${response.data.length} prefixes`));
+      // thunkAPI.dispatch(setMessage(`Search returned ${response.data.length} prefixes`));
       return response.data
     } catch (error) {
       const message =

@@ -1,6 +1,6 @@
 // src./components/prefix/prefixRegister.js
 
-import React from "react";
+import React, { useState } from "react";
 import * as Yup from "yup";
 import { Button, Card, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from "@material-ui/core"; 
 import { Field, Form, Formik } from "formik";
@@ -8,14 +8,23 @@ import { useDispatch } from "react-redux";
 import { registerPrefix } from "../../slices/prefixSlice";
 import { LargeTextField, MyTextField } from "../builder/specialFeilds";
 
-export default function PrefixRegister({addPrefix, setAddPrefix}) {
+export default function PrefixRegister({isLoggedIn}) {
   const dispatch = useDispatch();
+  const [addPrefix, setAddPrefix] = useState(false);
+  
   const handleClose =() => {
     setAddPrefix(false);
   };
 
   return (
-    <Card>
+    <div>
+      <Button
+        variant="contained"
+        color="primary"
+        disabled={!isLoggedIn}
+        onClick={() => setAddPrefix(true)}
+      >Register new prefix</Button>
+      
       <Dialog open={(addPrefix === true)}>
         <DialogTitle id="register-prefix">
           <Typography variant="h5">
@@ -26,7 +35,7 @@ export default function PrefixRegister({addPrefix, setAddPrefix}) {
           <Formik
             initialValues={{
               prefix:"",
-              public: "false",
+              public: "true",
               description: ""
             }}
             validationSchema={Yup.object().shape({
@@ -43,7 +52,6 @@ export default function PrefixRegister({addPrefix, setAddPrefix}) {
             })}
             onSubmit={(values, {setSubmitting, resetForm}) => {
               setSubmitting(true);
-              console.log(values)
               dispatch(registerPrefix({values}))
               setAddPrefix(false);              
               resetForm();
@@ -76,6 +84,6 @@ export default function PrefixRegister({addPrefix, setAddPrefix}) {
           </Button>
         </DialogActions>
       </Dialog>
-    </Card>
+    </div>
   )
 }

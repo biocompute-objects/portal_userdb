@@ -41,11 +41,11 @@ export default function PrefixSearch({setAddPrefix}) {
                 };
                 dispatch(searchPrefix({data}))
               } else {
-                const data = {
-                  radio: values.radio,
-                  search: values.search
-                };
-                dispatch(searchPrefix({data}))
+                const data = [
+                  values.radio,
+                  values.search
+                ];
+                dispatch(searchPrefix(data))
               }
               resetForm()
               setSubmitting(false);
