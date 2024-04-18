@@ -4,7 +4,9 @@ import { Button, Dialog, DialogActions, DialogTitle, IconButton, Table, TableBod
 import { Formik, Form, Field, FieldArray } from "formik";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { prefixInfo } from "../../slices/prefixSlice";
+import { prefixInfo, prefixModify } from "../../slices/prefixSlice";
+import { DialogContent, DialogContentText, TextField } from "@material-ui/core";
+import { Container } from "react-bootstrap";
 
 function formatPermissionsForTable(userPermissions, prefixName) {
   const allPermissions = ["view_" + prefixName, "add_" + prefixName, "change_" + prefixName, "delete_" + prefixName, "publish_" + prefixName];
@@ -22,51 +24,33 @@ export default function PrefixModify({ prefix }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.account.user);
   const [modifyPrefix, setModifyPrefix] = useState(false);
-  const [userSearch, setUserSearch] = useState(false); 
-  const [rows, setRows] = useState([]);
-  const formikRef = useRef();
-  const publicPrefix = prefix.public;
-  const prefixName = prefix.prefix;
+  const [prefixDetail, setPrefixDetail] = useState({
+    name:prefix.prefix,
+    public: prefix.public,
+    description: "",
+    userPerms: []
+  })
   
+  const prefixName = prefix.prefix
+  const bcodb = user.bcodbs.find(bcodb => bcodb.public_hostname === prefix.public_hostname);
+  const public_hostname = bcodb.public_hostname 
+
   const handleOpenPermissions = () => {
     setModifyPrefix(true);
-    if (!publicPrefix) {
-      const bcodb = user.bcodbs.find(bcodb => bcodb.public_hostname === prefix.public_hostname);
-      dispatch(prefixInfo({ bcodb, prefixName }))
-        .unwrap()
-        .then((response) => {
-          const formattedRows = formatPermissionsForTable(response.data.user_permissions, prefixName);
-          setRows(formattedRows);
-          formikRef.current.setValues({ rows: formattedRows });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
+    dispatch(prefixInfo({ public_hostname, prefixName }))
+      .unwrap()
+      .then((response) => {
+        const userPermissionsData = response.data.user_permissions || {};
+        const formattedRows = formatPermissionsForTable(userPermissionsData, prefixName);
+        setPrefixDetail({ ...prefixDetail, 
+          userPerms: formattedRows, 
+          description: response.data.fields.description});
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
-  const handleAddUser = () => {
-    setUserSearch(true)
-    // const emptyUserPermissions = {
-    //   username: "Testing",
-    //   view: false,
-    //   add: false,
-    //   change: false,
-    //   delete: false,
-    //   publish: false
-    // }
-    // const currentItems = formikRef.current.values.rows 
-    // currentItems.push(emptyUserPermissions)
-  };
-
-  const handleSubmit = (values) => {
-    console.log("Form Values:", values);
-    handleClosePermissions();
-  };
-
-  const handleCloseUser = () => {
-    setUserSearch(false);
-  };
 
   const handleClosePermissions = () => {
     setModifyPrefix(false);
@@ -74,74 +58,110 @@ export default function PrefixModify({ prefix }) {
 
   return (
     <div>
-      <Dialog open={userSearch}>
-        <DialogTitle>Search User</DialogTitle>
-        <DialogActions>
-          <Button onClick={()=>{console.log('submit')}} color="primary">Submit</Button>
-          <Button onClick={handleCloseUser} color="secondary">Cancel</Button>
-        </DialogActions>
-      </Dialog>
 
-      <Button onClick={handleOpenPermissions}>Modify Permissions</Button>
+      <Button onClick={handleOpenPermissions}>Modify Prefix</Button>
       
       <Dialog open={modifyPrefix} fullWidth maxWidth="md">
         <DialogTitle>Modify {prefix.prefix} Prefix</DialogTitle>
         <Formik
-          innerRef={formikRef}
-          initialValues={{ rows }}
-          onSubmit={handleSubmit}
+          enableReinitialize={true}
+          initialValues={prefixDetail}
+          onSubmit={(values, {setSubmitting}) => {
+            setSubmitting(true);
+            console.log("Form:", values )
+            dispatch(prefixModify(values))
+            setSubmitting(false);
+            handleClosePermissions();
+          }}
         >
           {formik => (
             <Form>
-              <FieldArray name="rows">
-                {({ insert, remove, push }) => (
-                  <div>
-                    <IconButton onClick={() => handleAddUser()}>
+              <Container>
+                <Typography>
+                  &ensp;Name:&ensp;
+                  <Field name="name"/>&ensp;
+                  <FormControlLabel
+                    control={<Field as={Checkbox} name="public" checked={formik.values.public} />}
+                    label="public"
+                  />
+                </Typography>
+                <Typography>
+                &ensp;Prefix&ensp;Description:&ensp;<Field name="description"/>
+                </Typography>
+                {/* <IconButton onClick={() => handleAddUser()}>
                       <AddIcon />Add User
-                    </IconButton>
-                    <TableContainer>
-                      <Table>
-                        <TableHead>
-                          <TableRow>
-                            <TableCell>User Name</TableCell>
-                            <TableCell >View</TableCell>
-                            <TableCell >Add</TableCell>
-                            <TableCell >Change</TableCell>
-                            <TableCell >Delete</TableCell>
-                            <TableCell >Publish</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {formik.values.rows.map((row, index) => (
-                            <TableRow key={index}>
-                              <TableCell component="th" scope="row">
-                                <Typography>
+                    </IconButton> */}
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>User Name</TableCell>
+                        <TableCell >View</TableCell>
+                        <TableCell >Add</TableCell>
+                        <TableCell >Change</TableCell>
+                        <TableCell >Delete</TableCell>
+                        <TableCell >Publish</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    {(formik.values.public) ?(
+                      <TableBody>
+                        <TableRow>
+                          <TableCell component="th" scope="row">
+                            <Typography>ALL&ensp;USERS</Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Field as={Checkbox}  checked={true} />
+                          </TableCell>
+                          <TableCell>
+                            <Field as={Checkbox}  checked={true} />
+                          </TableCell>
+                          <TableCell>
+                            <Field as={Checkbox}  checked={true} />
+                          </TableCell>
+                          <TableCell>
+                            <Field as={Checkbox}  checked={true} />
+                          </TableCell>
+                          <TableCell>
+                            <Field as={Checkbox}  checked={true} />
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    ):(
+                      <FieldArray name="userPerms">
+                        {({ remove }) => (
+                            
+                          <TableBody>
+                            {formik.values.userPerms.map((row, index) => (
+                              <TableRow key={index}>
+                                <TableCell component="th" scope="row">
                                   <IconButton onClick={() => remove(index)} edge="end" aria-label="delete">
-                                    <DeleteIcon />
-                                  </IconButton>&ensp;&ensp;
-                                  {row.username}
-                                </Typography>
-                              </TableCell>
-                              {["view", "add", "change", "delete", "publish"].map(permission => (
-                                <TableCell key={permission}>
-                                  <FormControlLabel
-                                    control={<Field as={Checkbox} name={`rows[${index}].${permission}`} checked={formik.values.rows[index][permission]} />}
-                                    label=""
-                                  />
+                                    <DeleteIcon />&ensp;
+                                    <Typography>{row.username}</Typography>
+                                  </IconButton>
                                 </TableCell>
-                              ))}
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </div>
-                )}
-              </FieldArray>
-              <DialogActions>
-                <Button type="submit" color="primary">Submit</Button>
-                <Button onClick={handleClosePermissions} color="secondary">Cancel</Button>
-              </DialogActions>
+                                {["view", "add", "change", "delete", "publish"].map(permission => (
+                                  <TableCell key={permission}>
+                                    <FormControlLabel
+                                      control={<Field as={Checkbox} type="checkbox" name={`userPerms[${index}].${permission}`} />}
+                                      label=""
+                                    />
+                                  </TableCell>
+                                ))}
+                              </TableRow>
+                            ))}
+                            
+                          </TableBody>
+                        )}
+                      </FieldArray>
+                    )}
+                  </Table>
+                </TableContainer>
+
+                <DialogActions>
+                  <Button type="submit" color="primary">Submit</Button>
+                  <Button onClick={handleClosePermissions} color="secondary">Cancel</Button>
+                </DialogActions>
+              </Container>
             </Form>
           )}
         </Formik>

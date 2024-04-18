@@ -39,8 +39,8 @@ const prefixList = async (bcodb) => {
   return response;
 };
 
-const prefixInfo = async (bcodb, prefixName) => {
-  const response = await axios.post("http://localhost:8000/api/prefixes/info/", [
+const prefixInfo = async (public_hostname, prefixName) => {
+  const response = await axios.post(`${public_hostname}/api/prefixes/info/`, [
     prefixName
   ], {
     headers: {
@@ -50,6 +50,8 @@ const prefixInfo = async (bcodb, prefixName) => {
   })
   return response
 }
+
+// const prefixModify = async ()
 
 const prefixService = {
   searchPrefixRegistry,

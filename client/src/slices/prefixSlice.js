@@ -64,9 +64,9 @@ export const getPrefixList = createAsyncThunk(
 
 export const prefixInfo = createAsyncThunk(
   "prefixInfo",
-  async ({bcodb, prefixName}, thunkAPI) => {
+  async ({public_hostname, prefixName}, thunkAPI) => {
     try {
-      const response = await prefixService.prefixInfo(bcodb, prefixName);
+      const response = await prefixService.prefixInfo(public_hostname, prefixName);
       return response.data[0][prefixName];
     } catch(error) {
       console.log(error)
@@ -82,6 +82,24 @@ export const prefixInfo = createAsyncThunk(
   }
 )
 
+export const prefixModify = createAsyncThunk(
+  "prefixModify",
+  async ({values}, thunkAPI) => {
+    try {
+      console.log(values)
+    } catch(error) {
+      console.log(error)
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
 export const prefixSlice = createSlice({
   name: "prefix",
   initialState: {
@@ -91,6 +109,10 @@ export const prefixSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(prefixInfo.fulfilled, (state, action) => {
+        
+        state.status = "fulfilled";
+      })
       .addCase(searchPrefixRegistry.fulfilled, (state, action) => {
         state.data = action.payload
         state.status = "fulfilled";
