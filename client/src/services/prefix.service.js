@@ -3,7 +3,7 @@ import axios from "axios";
 const USERS_URL = process.env.REACT_APP_USERDB_URL;
 const BCODB_URL = process.env.REACT_APP_BCOAPI_URL;
 
-const searchPrefix = async (data) => {
+const searchPrefixRegistry = async (data) => {
   const response = await axios.get(`${USERS_URL}prefix/search/?name=${data[1]}&type=${data[0]}`, {
     headers: {
       "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
@@ -37,13 +37,25 @@ const prefixList = async (bcodb) => {
     }
   })
   return response;
+};
+
+const prefixInfo = async (bcodb, prefixName) => {
+  const response = await axios.post("http://localhost:8000/api/prefixes/info/", [
+    prefixName
+  ], {
+    headers: {
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      "Content-Type": "application/json"
+    }
+  })
+  return response
 }
 
-
 const prefixService = {
-  searchPrefix,
+  searchPrefixRegistry,
   registerPrefix,
   prefixList,
+  prefixInfo,
 };
 
 export default prefixService;

@@ -9,7 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { searchPrefix } from "../../slices/prefixSlice";
+import { searchPrefixRegistry } from "../../slices/prefixSlice";
 import { Typography } from "@material-ui/core";
 import { Container } from "react-bootstrap";
 import PrefixRegister from "./prefixRegister";
@@ -25,7 +25,7 @@ export default function PrefixRegistry() {
   const rows = useSelector((state) => state.prefix.data);
 
   useEffect(() => {
-    dispatch(searchPrefix(["all", "None"]));
+    dispatch(searchPrefixRegistry(["all", "None"]));
   }, [dispatch]);
 
   return (

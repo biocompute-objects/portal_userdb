@@ -3,11 +3,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import prefixService from "../services/prefix.service";
 import { setMessage } from "./messageSlice";
 
-export const searchPrefix = createAsyncThunk(
-  "searchPrefix",
+export const searchPrefixRegistry = createAsyncThunk(
+  "searchPrefixRegistry",
   async (data, thunkAPI) => {
     try {
-      const response = await prefixService.searchPrefix(data);
+      const response = await prefixService.searchPrefixRegistry(data);
       // thunkAPI.dispatch(setMessage(`Search returned ${response.data.length} prefixes`));
       return response.data
     } catch (error) {
@@ -62,6 +62,26 @@ export const getPrefixList = createAsyncThunk(
   } 
 )
 
+export const prefixInfo = createAsyncThunk(
+  "prefixInfo",
+  async ({bcodb, prefixName}, thunkAPI) => {
+    try {
+      const response = await prefixService.prefixInfo(bcodb, prefixName);
+      return response.data[0][prefixName];
+    } catch(error) {
+      console.log(error)
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
+
 export const prefixSlice = createSlice({
   name: "prefix",
   initialState: {
@@ -71,11 +91,11 @@ export const prefixSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(searchPrefix.fulfilled, (state, action) => {
+      .addCase(searchPrefixRegistry.fulfilled, (state, action) => {
         state.data = action.payload
         state.status = "fulfilled";
       })
-      .addCase(searchPrefix.rejected, (state, action) => {
+      .addCase(searchPrefixRegistry.rejected, (state, action) => {
         state.error = action.error.message
         state.status = "failed";
       })
