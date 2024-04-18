@@ -11,7 +11,7 @@ import {
 const hive = require("../../images/hive.png");
 const aws = require("../../images/powered-by-aws.png");
 
-const hiveLink = "hive.biochemistry.gwu.edu/dna.cgi?cmd=main";
+const hiveLink = "https://hive.biochemistry.gwu.edu/dna.cgi?cmd=main";
 
 export default function Hive() {
 
