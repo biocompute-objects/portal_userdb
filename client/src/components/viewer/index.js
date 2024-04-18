@@ -19,9 +19,10 @@ import "../../App.css"
 import { useOutletContext } from "react-router-dom";
 
 export default function BcoViewer () {
-  const {domain, setDomain} = useOutletContext()
+  const {domain, setDomain} = useOutletContext();
   const dispatch = useDispatch();
   const bco = useSelector(state => state.bco.data)
+  const prov = useSelector(state => state.bco.data.provenance_domain)
   function validURL(url) {
     try {
       new URL(url);
@@ -48,6 +49,7 @@ export default function BcoViewer () {
 
   function TabPanel(props) {
     const { children, domain, index, ...other } = props;
+    
     return (
       <div
         role="tabpanel"
@@ -85,6 +87,9 @@ export default function BcoViewer () {
               <Typography>
                   ETag: {bco.etag}
               </Typography>
+            </CardContent>
+            <CardContent>
+            <Typography className="bold-title">BCO Name: {prov.name}</Typography>
             </CardContent>
           </Card>
           <br/>
