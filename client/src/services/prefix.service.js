@@ -51,13 +51,26 @@ const prefixInfo = async (public_hostname, prefixName) => {
   return response
 }
 
-// const prefixModify = async ()
+const prefixModify = async (returnData, public_hostname) => {
+  console.log("Service", returnData, public_hostname)
+  const response = await axios.post(`${public_hostname}/api/prefixes/modify/`, [
+    returnData
+  ], {
+    headers: {
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      "Content-Type": "application/json"
+    }
+  })
+  console.log(response)
+  return response;
+}
 
 const prefixService = {
   searchPrefixRegistry,
   registerPrefix,
   prefixList,
   prefixInfo,
+  prefixModify,
 };
 
 export default prefixService;

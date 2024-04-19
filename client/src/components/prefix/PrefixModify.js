@@ -20,6 +20,27 @@ function formatPermissionsForTable(userPermissions, prefixName) {
   });
 }
 
+function reverseFormatPermissions(formattedUsers, prefixName) {
+  const allPermissions = ["view", "add", "change", "delete", "publish"]; // Base permissions without the prefix
+  let userPermissions = {};
+
+  formattedUsers.forEach(user => {
+    // Initialize the permissions array for each user
+    userPermissions[user.username] = [];
+
+    // Loop through each base permission and check if it's true
+    allPermissions.forEach(permission => {
+      if (user[permission]) { // If the permission is set to true in the form data
+        // Reconstruct the permission with prefix and add to the user's permissions array
+        userPermissions[user.username].push(permission + "_" + prefixName);
+      }
+    });
+  });
+
+  return userPermissions;
+}
+
+
 export default function PrefixModify({ prefix }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.account.user);
@@ -51,7 +72,6 @@ export default function PrefixModify({ prefix }) {
       });
   };
 
-
   const handleClosePermissions = () => {
     setModifyPrefix(false);
   };
@@ -68,10 +88,15 @@ export default function PrefixModify({ prefix }) {
           initialValues={prefixDetail}
           onSubmit={(values, {setSubmitting}) => {
             setSubmitting(true);
-            console.log("Form:", values )
-            dispatch(prefixModify(values))
+            const returnData = {
+              "prefix": prefixName,
+              "description": values.description,
+              "user_permissions": reverseFormatPermissions(values.userPerms, prefixName),
+              "public": values.public
+            }
+            dispatch(prefixModify({returnData, public_hostname}))
             setSubmitting(false);
-            handleClosePermissions();
+            // handleClosePermissions();
           }}
         >
           {formik => (
@@ -88,9 +113,6 @@ export default function PrefixModify({ prefix }) {
                 <Typography>
                 &ensp;Prefix&ensp;Description:&ensp;<Field name="description"/>
                 </Typography>
-                {/* <IconButton onClick={() => handleAddUser()}>
-                      <AddIcon />Add User
-                    </IconButton> */}
                 <TableContainer>
                   <Table>
                     <TableHead>
@@ -129,7 +151,6 @@ export default function PrefixModify({ prefix }) {
                     ):(
                       <FieldArray name="userPerms">
                         {({ remove }) => (
-                            
                           <TableBody>
                             {formik.values.userPerms.map((row, index) => (
                               <TableRow key={index}>
@@ -149,7 +170,6 @@ export default function PrefixModify({ prefix }) {
                                 ))}
                               </TableRow>
                             ))}
-                            
                           </TableBody>
                         )}
                       </FieldArray>
@@ -158,6 +178,10 @@ export default function PrefixModify({ prefix }) {
                 </TableContainer>
 
                 <DialogActions>
+                  <IconButton onClick={() => {}} className="left-button">
+                    Add user to prefix
+                    <AddIcon />
+                  </IconButton>
                   <Button type="submit" color="primary">Submit</Button>
                   <Button onClick={handleClosePermissions} color="secondary">Cancel</Button>
                 </DialogActions>
