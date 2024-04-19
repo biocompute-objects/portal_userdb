@@ -22,7 +22,6 @@ export default function Hive() {
           <Typography className="resources-title">
             <img src={hive} height={65} alt="HIVE logo" />
             <br />
-            <img src={aws} height={35} alt="AWS logo" />
           </Typography>
           <Typography>
               The High-throughput Integrated Virtual Environment (HIVE) for
