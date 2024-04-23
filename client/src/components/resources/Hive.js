@@ -11,7 +11,7 @@ import {
 const hive = require("../../images/hive.png");
 const aws = require("../../images/powered-by-aws.png");
 
-const hiveLink = "https://hive.aws.biochemistry.gwu.edu/dna.cgi?cmd=main";
+const hiveLink = "https://hive.biochemistry.gwu.edu/dna.cgi?cmd=main";
 
 export default function Hive() {
 
@@ -22,7 +22,6 @@ export default function Hive() {
           <Typography className="resources-title">
             <img src={hive} height={65} alt="HIVE logo" />
             <br />
-            <img src={aws} height={35} alt="AWS logo" />
           </Typography>
           <Typography>
               The High-throughput Integrated Virtual Environment (HIVE) for

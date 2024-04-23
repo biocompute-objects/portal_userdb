@@ -33,7 +33,7 @@ export default function QuickSearch () {
 
   return (
     <Input
-      className="white-icon"
+      className="nav-link"
       id="bcodb"
       value={quickSearch}
       variant="outlined" 

@@ -93,9 +93,11 @@
 }
 
 .nav-link {
+  input {color: white};
   text-decoration: none;
-  color: inherit; /* Inherits the color from its parent */
-  /* Add any additional styling you want */
+  color: white;
+  background-color: primary;
+
 }
 
 .hover-background {
