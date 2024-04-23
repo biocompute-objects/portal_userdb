@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Dialog, DialogActions, DialogTitle, IconButton, Table, TableBody, TableContainer, TableCell, TableHead, TableRow, Typography, Checkbox, FormControlLabel } from "@mui/material";
 import { Formik, Form, Field, FieldArray } from "formik";
@@ -53,24 +53,29 @@ export default function PrefixModify({ prefix }) {
   })
   
   const prefixName = prefix.prefix
-  const bcodb = user.bcodbs.find(bcodb => bcodb.public_hostname === prefix.public_hostname);
-  const public_hostname = bcodb.public_hostname 
 
-  const handleOpenPermissions = () => {
-    setModifyPrefix(true);
-    dispatch(prefixInfo({ public_hostname, prefixName }))
-      .unwrap()
-      .then((response) => {
-        const userPermissionsData = response.data.user_permissions || {};
-        const formattedRows = formatPermissionsForTable(userPermissionsData, prefixName);
-        setPrefixDetail({ ...prefixDetail, 
-          userPerms: formattedRows, 
-          description: response.data.fields.description});
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+  const handleOpenPermissions = useCallback(() => {
+    const bcodb = user.bcodbs.find(bcodb => bcodb?.public_hostname === prefix.public_hostname);
+    if (bcodb) {
+      setModifyPrefix(true);
+      const public_hostname = bcodb.public_hostname;
+      dispatch(prefixInfo({ public_hostname, prefixName: prefix.prefix }))
+        .unwrap()
+        .then(response => {
+          const responseData = response[0]
+          const userPermissionsData = responseData.user_permissions || {};
+          const formattedRows = formatPermissionsForTable(userPermissionsData, prefix.prefix);
+          setPrefixDetail(prev => ({
+            ...prev,
+            userPerms: formattedRows,
+            description: responseData.data.fields.description
+          }));
+        })
+        .catch(error => console.error(error));
+    } else {
+      console.error("No matching bcodb found or user.bcodbs is undefined.");
+    }
+  }, [dispatch, user.bcodbs, prefix.prefix, prefix.public_hostname]);
 
   const handleClosePermissions = () => {
     setModifyPrefix(false);
@@ -94,9 +99,13 @@ export default function PrefixModify({ prefix }) {
               "user_permissions": reverseFormatPermissions(values.userPerms, prefixName),
               "public": values.public
             }
-            dispatch(prefixModify({returnData, public_hostname}))
+            const public_hostname = user.bcodbs.find(bcodb => bcodb?.public_hostname === prefix.public_hostname)?.public_hostname;
+            console.log(public_hostname, user.bcodbs)
+            if (public_hostname) {
+              dispatch(prefixModify({ returnData, public_hostname }));
+            }
             setSubmitting(false);
-            // handleClosePermissions();
+            handleClosePermissions();
           }}
         >
           {formik => (
@@ -132,19 +141,19 @@ export default function PrefixModify({ prefix }) {
                             <Typography>ALL&ensp;USERS</Typography>
                           </TableCell>
                           <TableCell>
-                            <Field as={Checkbox}  checked={true} />
+                            <Field as={Checkbox}  checked={true} disabled/>
                           </TableCell>
                           <TableCell>
-                            <Field as={Checkbox}  checked={true} />
+                            <Field as={Checkbox}  checked={true} disabled/>
                           </TableCell>
                           <TableCell>
-                            <Field as={Checkbox}  checked={true} />
+                            <Field as={Checkbox}  checked={true} disabled/>
                           </TableCell>
                           <TableCell>
-                            <Field as={Checkbox}  checked={true} />
+                            <Field as={Checkbox}  checked={true} disabled/>
                           </TableCell>
                           <TableCell>
-                            <Field as={Checkbox}  checked={true} />
+                            <Field as={Checkbox}  checked={true} disabled/>
                           </TableCell>
                         </TableRow>
                       </TableBody>

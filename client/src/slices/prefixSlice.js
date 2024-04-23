@@ -67,7 +67,7 @@ export const prefixInfo = createAsyncThunk(
   async ({public_hostname, prefixName}, thunkAPI) => {
     try {
       const response = await prefixService.prefixInfo(public_hostname, prefixName);
-      return response.data[0][prefixName];
+      return response.data;
     } catch(error) {
       console.log(error)
       const message =
@@ -86,15 +86,12 @@ export const prefixModify = createAsyncThunk(
   "prefixModify",
   async ({returnData, public_hostname}, thunkAPI) => {
     try {
-      console.log("slice", returnData, public_hostname)
       const response = await prefixService.prefixModify(returnData, public_hostname);
+      thunkAPI.dispatch(setMessage(response.data[0].message));
       return response;
     } catch(error) {
-      console.log(error)
       const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
+        (error.response.data[0].message) ||
         error.message ||
         error.toString();
       thunkAPI.dispatch(setMessage(message));
