@@ -79,6 +79,7 @@ class AddBcodbApi(APIView):
             data = request.data
         now = datetime.utcnow()
         profile = profile_from_username(request.user.username)
+        # import pdb; pdb.set_trace()
         input_fileter = {
             "hostname": data["hostname"],
             "bcodb_username": data["username"],

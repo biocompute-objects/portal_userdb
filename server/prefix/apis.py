@@ -11,7 +11,7 @@ from rest_framework.views import APIView
 from bcodb.selectors import find_bcodb
 from users.selectors import profile_from_username
 from prefix.selectors import all_prefix, user_prefix, search_prefix
-from prefix.services import create_prefix_bcodb, register_prefix
+from prefix.services import create_prefix_bcodb
 
 class SearchPrefixAPI(APIView):
     """Search Prefix DB"""
@@ -76,8 +76,32 @@ class SearchPrefixAPI(APIView):
         )
 
 class RegisterPrefixAPI(APIView):
-    @transaction.atomic
     @swagger_auto_schema(
+        request_body = openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            title="Register Prefix",
+            description="Register prefix",
+            required=["prefix", "public", "description", "public_hostname"],
+            properties={
+                "prefix": openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                    description="Prefix name. Must be 3-5 chars",
+                    default="ARGOS"
+                ),
+                "public":openapi.Schema(
+                     type=openapi.TYPE_BOOLEAN,
+                     default=True,
+                ),
+                "description": openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                    default="Testing prefix registering"
+                ),
+                "public_hostname":openapi.Schema(
+                     type=openapi.TYPE_STRING,
+                     default="http://127.0.0.1:8000"
+                ),
+            }
+        ),
         responses={
             200: "Prefix registration is successful.",
             401: "Unathorized.",
@@ -91,15 +115,20 @@ class RegisterPrefixAPI(APIView):
         
         Post for registering a BCO prefix
         """
-
-        prefix = request.data['prefix'].upper()
+        data = request.data
+        username = request.user.username
+        data["username"] = username
+        prefix = data['prefix'].upper()
         if len(search_prefix(prefix)) > 0:
             return Response(
                 data={"message": f"The Prefix provided, {prefix}, is not available."},
                 status=status.HTTP_409_CONFLICT
             )
-        url = request.data['bcodb'].removesuffix('/api/')
-        bcodb = find_bcodb(profile=profile_from_username(request.user.username), public_hostname=url)
+
+        bcodb = find_bcodb(
+            profile=profile_from_username(request.user.username), 
+            public_hostname=request.data["public_hostname"]
+        )
         if bcodb == 'DoesNotExist':
             return Response(
                 data={"message": f"The user deos not have a BCODB account."},
@@ -118,8 +147,8 @@ class RegisterPrefixAPI(APIView):
 
         if bco_api_response.status_code == 409:
             return Response(data={'message': message}, status=status.HTTP_409_CONFLICT)
-        registration = register_prefix(request.user, prefix)
-        if registration == True:
+        
+        if bco_api_response.status_code == 201:
             return Response(data=message, status=status.HTTP_200_OK)
         else:
             return Response(data={'message':[message, f'The prefix {prefix} was not able to be written to the user db' ]}, status=status.HTTP_207_MULTI_STATUS)
