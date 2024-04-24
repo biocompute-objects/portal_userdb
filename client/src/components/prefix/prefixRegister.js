@@ -2,14 +2,16 @@
 
 import React, { useState } from "react";
 import * as Yup from "yup";
-import { Button, Card, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from "@material-ui/core"; 
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import { Field, Form, Formik } from "formik";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerPrefix } from "../../slices/prefixSlice";
 import { LargeTextField, MyTextField } from "../builder/specialFeilds";
 
+
 export default function PrefixRegister({isLoggedIn}) {
   const dispatch = useDispatch();
+  const bcodbs = useSelector((state) => state.account.user.bcodbs);
   const [addPrefix, setAddPrefix] = useState(false);
   
   const handleClose =() => {
@@ -26,63 +28,63 @@ export default function PrefixRegister({isLoggedIn}) {
       >Register new prefix</Button>
       
       <Dialog open={(addPrefix === true)}>
-        <DialogTitle id="register-prefix">
-          <Typography variant="h5">
-        Register a new BCO Prefix
-          </Typography>
-        </DialogTitle>
-        <DialogContent>
-          <Formik
-            initialValues={{
-              prefix:"",
-              public: "true",
-              description: ""
-            }}
-            validationSchema={Yup.object().shape({
-              prefix: Yup.string()
-                .test(
-                  "len",
-                  "The prefix must be between 3 and 5 characters.",
-                  (val) =>
-                    val &&
-                    val.toString().length >= 3 &&
-                    val.toString().length <= 5
-                )
-                .required("This field is required!")
-            })}
-            onSubmit={(values, {setSubmitting, resetForm}) => {
-              setSubmitting(true);
-              dispatch(registerPrefix({values}))
-              setAddPrefix(false);              
-              resetForm();
-              setSubmitting(false);
-            }}
-          >
-            {({values, isSubmitting}) => (
-              <Form>
+        <DialogTitle id="register-prefix">Register a new BCO Prefix</DialogTitle>
+        <Formik
+          validateOnBlur={true}
+          validateOnChange={true}
+          initialValues={{
+            prefix:"",
+            public: "true",
+            description: "",
+            bcodb: bcodbs.length > 0 ? bcodbs[0].id : "",
+          }}
+          validationSchema={Yup.object().shape({
+            prefix: Yup.string()
+              .min(3, "The prefix must be at least 3 characters.")
+              .max(5, "The prefix can be no more than 5 characters.")
+              .required("This field is required!"),
+            description: Yup.string()
+              .required("This field is required!"),
+            public_hostname: Yup.string()
+              .url("Invalid URL format")
+              .required("Website is required"),
+          })}
+          onSubmit={(values, {setSubmitting, resetForm}) => {
+            setSubmitting(true);
+            dispatch(registerPrefix({values}))
+            setAddPrefix(false);              
+            resetForm();
+            setSubmitting(false);
+          }}
+        >
+          {({values, isValid, isSubmitting}) => (
+            <Form>
+                
+              <DialogContent>
                 <MyTextField name="prefix" placeholder="BCODB Prefix" />
                 <br/>Public prefix:&nbsp;&nbsp;
                 <Field type='radio' name='public' value='true' />
                 &nbsp;&nbsp;Private prefix:&nbsp;&nbsp;
                 <Field type='radio' name='public' value='false' />
                 <LargeTextField name='description' placeholder='Prefix description'/>
-                <Button
-                  disabled={isSubmitting}
-                  type="submit"
-                  color="primary"
-                  variant="outlined"
-                >
-                  Submit
+                <Field as="select" name="public_hostname">
+                  <option value="">Select a BCODB</option>
+                  {bcodbs.map(bcodb => (
+                    <option key={bcodb.hostname} value={bcodb.public_hostname}>
+                      {bcodb.human_readable_hostname}
+                    </option>
+                  ))}
+                </Field>
+              </DialogContent>  
+              <DialogActions>
+                <Button type="submit" disabled={!isValid} color="primary">Submit</Button>
+                <Button onClick={handleClose} color="primary">
+              Cancel
                 </Button>
-              </Form>
-            )}
-          </Formik>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-        Cancel
-          </Button>
-        </DialogActions>
+              </DialogActions>
+            </Form>
+          )}
+        </Formik>
       </Dialog>
     </div>
   )

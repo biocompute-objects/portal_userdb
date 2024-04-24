@@ -1,12 +1,27 @@
 import React, { useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Dialog, DialogActions, DialogTitle, IconButton, Table, TableBody, TableContainer, TableCell, TableHead, TableRow, Typography, Checkbox, FormControlLabel } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  FormControlLabel,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import { Formik, Form, Field, FieldArray } from "formik";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { prefixInfo, prefixModify } from "../../slices/prefixSlice";
-import { DialogContent, DialogContentText, TextField } from "@material-ui/core";
-import { Container } from "react-bootstrap";
+import { setMessage } from "../../slices/messageSlice";
 
 function formatPermissionsForTable(userPermissions, prefixName) {
   const allPermissions = ["view_" + prefixName, "add_" + prefixName, "change_" + prefixName, "delete_" + prefixName, "publish_" + prefixName];
@@ -39,7 +54,6 @@ function reverseFormatPermissions(formattedUsers, prefixName) {
 
   return userPermissions;
 }
-
 
 export default function PrefixModify({ prefix }) {
   const dispatch = useDispatch();
@@ -74,6 +88,7 @@ export default function PrefixModify({ prefix }) {
         .catch(error => console.error(error));
     } else {
       console.error("No matching bcodb found or user.bcodbs is undefined.");
+      dispatch(setMessage("No matching bcodb found or user.bcodbs is undefined."))
     }
   }, [dispatch, user.bcodbs, prefix.prefix, prefix.public_hostname]);
 

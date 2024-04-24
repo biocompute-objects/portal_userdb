@@ -12,7 +12,7 @@ import Paper from "@mui/material/Paper";
 import { searchPrefixRegistry } from "../../slices/prefixSlice";
 import { Typography } from "@material-ui/core";
 import { Container } from "react-bootstrap";
-import PrefixRegister from "./prefixRegister";
+import PrefixRegister from "./PrefixRegister";
 import "../../App.css"
 import PrefixModify from "./PrefixModify";
 

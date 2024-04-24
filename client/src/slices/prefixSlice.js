@@ -28,7 +28,7 @@ export const registerPrefix= createAsyncThunk(
   async ({values}, thunkAPI) => {
     try {
       const response = await prefixService.registerPrefix(values);
-      thunkAPI.dispatch(setMessage(response.data["message"]));
+      thunkAPI.dispatch(setMessage(response.data));
       return response.data
     } catch (error) {
       const message =

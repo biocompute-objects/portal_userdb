@@ -18,7 +18,7 @@ const registerPrefix = async (values) => {
     prefix: values.prefix,
     public: values.public,
     description: values.description,
-    bcodb: BCODB_URL
+    public_hostname: values.public_hostname
   }, {
     headers: {
       "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
