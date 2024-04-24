@@ -155,6 +155,7 @@ const bcoSlice = createSlice({
         state.status = "failed"
       })
       .addCase(createDraftBco.fulfilled, (state, action) => {
+        console.log(action.payload)
         state.data.object_id = action.payload
         state.error = null
         state.status = "idle"
@@ -195,11 +196,11 @@ export const createDraftBco = createAsyncThunk(
       const owner_group = `${prefix.toLowerCase()}_drafter`
       const response = await BcoService.createDraftBco(bcoURL, bcoObject, prefix, owner_group);
       const responseObject = response[0];
-      const urlKey = Object.keys(responseObject)[0]; // Extracts the key (URL)
-      const message = responseObject[urlKey].message; // Extracts the message
+      console.log(responseObject)
+      const message = responseObject.message; // Extracts the message
 
       thunkAPI.dispatch(setMessage(message))
-      return urlKey;
+      return responseObject.identifier;
     } catch(error) {
       const message =
           (error.response &&
