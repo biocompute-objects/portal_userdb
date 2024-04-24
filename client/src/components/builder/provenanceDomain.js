@@ -94,7 +94,7 @@ export const  ProvenanceDomain = ({onSave} ) => {
                     <span className="bold-title">
                       Provenance Domain
                       <Tooltip title="Explanation of Provenance Domain">
-                        <Button size="xs" href='https://wiki.biocomputeobject.org/index.php?title=Provenance-domain'>
+                        <Button size="small" href='https://wiki.biocomputeobject.org/index.php?title=Provenance-domain'>
                           <HelpOutlineIcon />
                         </Button>
                       </Tooltip>

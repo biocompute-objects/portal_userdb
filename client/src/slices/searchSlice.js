@@ -46,11 +46,25 @@ export const searchSlice = createSlice({
   }
 })
 
+export const searchBcodbUser = createAsyncThunk(
+  "searchBcodbUser",
+  async ({username, public_hostname}, thunkAPI) => {
+    try {
+      const response = await AuthService.searchBcodbUser({username, public_hostname});
+      return response.data
+    } catch (error) {
+      const message = `${username} not found on ${public_hostname}`
+            
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
+
 export const searchBcodb = createAsyncThunk(
   "bcodb/searchBcodb",
   async ({publicHostname, quickSearch}, thunkAPI) => {
     try {
-      console.log("slice", publicHostname, quickSearch)
       const results = await AuthService.searchBcodbAPI({publicHostname, quickSearch})
       thunkAPI.dispatch(setMessage(`Search (${quickSearch}) returned ${results.data.length} BCOs`));
       return results.data

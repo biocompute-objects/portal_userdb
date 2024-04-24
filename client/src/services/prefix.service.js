@@ -52,7 +52,6 @@ const prefixInfo = async (public_hostname, prefixName) => {
 }
 
 const prefixModify = async (returnData, public_hostname) => {
-  console.log("Service", returnData, public_hostname)
   const response = await axios.post(`${public_hostname}/api/prefixes/modify/`, [
     returnData
   ], {
@@ -61,7 +60,6 @@ const prefixModify = async (returnData, public_hostname) => {
       "Content-Type": "application/json"
     }
   })
-  console.log(response)
   return response;
 }
 

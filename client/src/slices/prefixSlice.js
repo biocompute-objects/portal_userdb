@@ -88,7 +88,7 @@ export const prefixModify = createAsyncThunk(
     try {
       const response = await prefixService.prefixModify(returnData, public_hostname);
       thunkAPI.dispatch(setMessage(response.data[0].message));
-      return response;
+      return response.data;
     } catch(error) {
       const message =
         (error.response.data[0].message) ||
@@ -108,7 +108,7 @@ export const prefixSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(prefixInfo.fulfilled, (state, action) => {
+      .addCase(prefixInfo.fulfilled, (state) => {
         state.status = "fulfilled";
       })
       .addCase(searchPrefixRegistry.fulfilled, (state, action) => {

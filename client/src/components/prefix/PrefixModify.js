@@ -22,6 +22,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { prefixInfo, prefixModify } from "../../slices/prefixSlice";
 import { setMessage } from "../../slices/messageSlice";
+import UserSearch from "./UserSearch.js";
 
 function formatPermissionsForTable(userPermissions, prefixName) {
   const allPermissions = ["view_" + prefixName, "add_" + prefixName, "change_" + prefixName, "delete_" + prefixName, "publish_" + prefixName];
@@ -59,6 +60,7 @@ export default function PrefixModify({ prefix }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.account.user);
   const [modifyPrefix, setModifyPrefix] = useState(false);
+  const [openAddUser, setOpenAddUser] = useState(false);
   const [prefixDetail, setPrefixDetail] = useState({
     name:prefix.prefix,
     public: prefix.public,
@@ -77,12 +79,12 @@ export default function PrefixModify({ prefix }) {
         .unwrap()
         .then(response => {
           const responseData = response[0]
-          const userPermissionsData = responseData.user_permissions || {};
+          const userPermissionsData = responseData.data.user_permissions || {};
           const formattedRows = formatPermissionsForTable(userPermissionsData, prefix.prefix);
           setPrefixDetail(prev => ({
             ...prev,
             userPerms: formattedRows,
-            description: responseData.data.fields.description
+            description: responseData.data.description
           }));
         })
         .catch(error => console.error(error));
@@ -98,9 +100,14 @@ export default function PrefixModify({ prefix }) {
 
   return (
     <div>
-
       <Button onClick={handleOpenPermissions}>Modify Prefix</Button>
-      
+      <UserSearch
+        openAddUser={openAddUser}
+        setOpenAddUser={setOpenAddUser}
+        public_hostname={prefix.public_hostname}
+        prefixDetail={prefixDetail}
+        setPrefixDetail={setPrefixDetail}
+      />
       <Dialog open={modifyPrefix} fullWidth maxWidth="md">
         <DialogTitle>Modify {prefix.prefix} Prefix</DialogTitle>
         <Formik
@@ -115,7 +122,6 @@ export default function PrefixModify({ prefix }) {
               "public": values.public
             }
             const public_hostname = user.bcodbs.find(bcodb => bcodb?.public_hostname === prefix.public_hostname)?.public_hostname;
-            console.log(public_hostname, user.bcodbs)
             if (public_hostname) {
               dispatch(prefixModify({ returnData, public_hostname }));
             }
@@ -202,7 +208,7 @@ export default function PrefixModify({ prefix }) {
                 </TableContainer>
 
                 <DialogActions>
-                  <IconButton onClick={() => {}} className="left-button">
+                  <IconButton onClick={() => setOpenAddUser(true)} className="left-button">
                     Add user to prefix
                     <AddIcon />
                   </IconButton>
