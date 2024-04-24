@@ -6,6 +6,8 @@ import {
   Container,
   Dialog,
   DialogActions,
+  DialogContent,
+  DialogContentText,
   DialogTitle,
   FormControlLabel,
   IconButton,
@@ -15,14 +17,15 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
 import { Formik, Form, Field, FieldArray } from "formik";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { prefixInfo, prefixModify } from "../../slices/prefixSlice";
+import { searchBcodbUser } from "../../slices/searchSlice";
 import { setMessage } from "../../slices/messageSlice";
-import UserSearch from "./UserSearch.js";
 
 function formatPermissionsForTable(userPermissions, prefixName) {
   const allPermissions = ["view_" + prefixName, "add_" + prefixName, "change_" + prefixName, "delete_" + prefixName, "publish_" + prefixName];
@@ -61,6 +64,7 @@ export default function PrefixModify({ prefix }) {
   const user = useSelector((state) => state.account.user);
   const [modifyPrefix, setModifyPrefix] = useState(false);
   const [openAddUser, setOpenAddUser] = useState(false);
+  const [username, setUsername] = useState("");
   const [prefixDetail, setPrefixDetail] = useState({
     name:prefix.prefix,
     public: prefix.public,
@@ -69,6 +73,41 @@ export default function PrefixModify({ prefix }) {
   })
   
   const prefixName = prefix.prefix
+
+  const checkUsernameExists = (usernameToCheck) => {
+    return prefixDetail.userPerms.some(userPerm => userPerm.username === usernameToCheck);
+  };
+
+  const handleSeachUser = () => {
+    const public_hostname =  prefix.public_hostname
+    const newUserPerms = {
+      username: username,
+      view: false,
+      add: false,
+      change: false,
+      delete: false,
+      publish: false
+    }
+    if (checkUsernameExists(username)) {
+      dispatch(setMessage(`${username} is already in the user permission list`));
+      setUsername(""); 
+    } else{
+      dispatch(searchBcodbUser({username, public_hostname}))
+        .unwrap()
+        .then(response => {
+          console.log(response)
+          setPrefixDetail(prevDetail => ({
+            ...prevDetail,
+            userPerms: [...prevDetail.userPerms, newUserPerms]
+          }));
+          setUsername(""); 
+          setOpenAddUser(false);
+        })
+        .catch((error) => {
+          console.error(error)
+        });
+    }
+  };
 
   const handleOpenPermissions = useCallback(() => {
     const bcodb = user.bcodbs.find(bcodb => bcodb?.public_hostname === prefix.public_hostname);
@@ -101,13 +140,28 @@ export default function PrefixModify({ prefix }) {
   return (
     <div>
       <Button onClick={handleOpenPermissions}>Modify Prefix</Button>
-      <UserSearch
-        openAddUser={openAddUser}
-        setOpenAddUser={setOpenAddUser}
-        public_hostname={prefix.public_hostname}
-        prefixDetail={prefixDetail}
-        setPrefixDetail={setPrefixDetail}
-      />
+
+      <Dialog open={openAddUser}>
+        <DialogTitle>Search User</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Search for a username in the BCO DB
+          </DialogContentText>
+          <br/>
+          <TextField
+            label="user name"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <Button
+            onClick={handleSeachUser}
+          >Search</Button>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => {setOpenAddUser(false)}} color="secondary">Cancel</Button>
+        </DialogActions>
+      </Dialog>
+    
       <Dialog open={modifyPrefix} fullWidth maxWidth="md">
         <DialogTitle>Modify {prefix.prefix} Prefix</DialogTitle>
         <Formik
@@ -206,7 +260,6 @@ export default function PrefixModify({ prefix }) {
                     )}
                   </Table>
                 </TableContainer>
-
                 <DialogActions>
                   <IconButton onClick={() => setOpenAddUser(true)} className="left-button">
                     Add user to prefix
