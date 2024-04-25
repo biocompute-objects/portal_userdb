@@ -11,7 +11,9 @@ import { LargeTextField, MyTextField } from "../builder/specialFeilds";
 
 export default function PrefixRegister({isLoggedIn}) {
   const dispatch = useDispatch();
-  const bcodbs = useSelector((state) => state.account.user.bcodbs);
+  const bcodbs = isLoggedIn
+    ? useSelector((state) => state.account.user.bcodbs)
+    : [];
   const [addPrefix, setAddPrefix] = useState(false);
   
   const handleClose =() => {

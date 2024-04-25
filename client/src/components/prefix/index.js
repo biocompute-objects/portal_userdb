@@ -41,7 +41,7 @@ export default function PrefixRegistry() {
                 <TableCell>Prefix</TableCell>
                 <TableCell align="right">Owner</TableCell>
                 <TableCell align="right">Registration Date</TableCell>
-                <TableCell align="right">Admin Privileges</TableCell>
+                <TableCell align="right">Modify Privileges</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
