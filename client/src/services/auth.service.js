@@ -5,6 +5,13 @@ import axios from "axios";
 const USERS_URL = process.env.REACT_APP_USERDB_URL;
 const BCODB_URL = process.env.REACT_APP_BCOAPI_URL;
 
+function getCsrfToken() {
+  const csrfToken = document.cookie.split('; ')
+      .find(row => row.startsWith('csrftoken='))
+      ?.split('=')[1];
+  return csrfToken;
+}
+
 const register = (username, email, password) => {
   return axios.post(USERS_URL + "auth/register/", {
     "username": username,
@@ -32,15 +39,28 @@ const login = async (username, password) => {
 };
 
 const googleLogin = async (idToken) => {
-  const response = await axios.post(USERS_URL + "google/login/", {
-    id_token: idToken
-  });
-  if (response.data.token) {
-    localStorage.setItem("user", JSON.stringify(response.data.user));
-    localStorage.setItem("token", JSON.stringify(response.data.token));
+  const csrfToken = getCsrfToken(); // Fetch the CSRF token
+  const headers = {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrfToken // Include the CSRF token in the request header
+  };
+
+  try {
+      const response = await axios.post(USERS_URL + "google/login/", {
+          id_token: idToken
+      }, { headers });
+
+      if (response.data.token) {
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+          localStorage.setItem("token", JSON.stringify(response.data.token));
+      }
+      return response.data;
+  } catch (error) {
+      console.error("Login failed:", error.response || error.message);
+      throw error;
   }
-  return response.data;
 };
+
 
 const googleRegister = async (data) => {
   const response = await axios.post(USERS_URL + "google/register/", {
