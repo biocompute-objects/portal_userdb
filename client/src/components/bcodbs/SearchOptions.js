@@ -20,6 +20,9 @@ import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 
+const bcodbUrl = process.env.REACT_APP_BCOAPI_URL
+const publicHostname = bcodbUrl.replace("/api/", "")
+
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -75,7 +78,7 @@ export default function SearchOptions ({setBcodbInfo}) {
               if (values.index === "None") {
                 const data = {
                   token: "627626823549f787c3ec763ff687169206626149",
-                  public_hostname: "https://biocomputeobject.org",
+                  public_hostname: publicHostname,
                   search: values.search,
                   action: "bco_id"
                 }
