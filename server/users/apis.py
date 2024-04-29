@@ -38,7 +38,6 @@ class ChangePasswordApi(APIView):
         new_password = serializers.CharField(required=True)
 
     def get_object(self, queryset=None):
-        import pdb; pdb.set_trace()
         obj = self.request.user
         return obj
 
@@ -119,6 +118,7 @@ class UserCreateApi(APIView):
         user_serializer = UserSerializerWithToken(data=request.data)
         user_serializer.is_valid(raise_exception=True)
         profile_serializer = ProfileSerializer(data=request.data)
+        import pdb; pdb.set_trace()
         if profile_serializer.is_valid()and len(User.objects.filter(email=request.data['email'])) == 0:
             user_serializer.save()
             profile_serializer.save()

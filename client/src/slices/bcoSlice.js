@@ -177,7 +177,7 @@ const bcoSlice = createSlice({
           state.error = null
         } else {
           state.status = "invalid"
-          state.error = action.payload
+          state.error = action.payload[0].data.error_detail
         }
       })
       .addCase(getExtension.fulfilled, (state, action) => {
