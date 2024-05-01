@@ -51,7 +51,6 @@ class BcoDbSerializer(serializers.ModelSerializer):
             "token",
             "owner",
             "user_permissions",
-            "group_permissions",
             "account_creation",
             "account_expiration",
             "last_update",
@@ -63,6 +62,7 @@ class AddBcodbApi(APIView):
     """Add BcoDb object"""
 
     @swagger_auto_schema(
+        operation_id="users_bcodb_draft_bco_add",
         responses={
             200: "BCODB creation is successful.",
             409: "Conflict.",
@@ -79,7 +79,6 @@ class AddBcodbApi(APIView):
             data = request.data
         now = datetime.utcnow()
         profile = profile_from_username(request.user.username)
-        # import pdb; pdb.set_trace()
         input_fileter = {
             "hostname": data["hostname"],
             "bcodb_username": data["username"],
@@ -87,10 +86,8 @@ class AddBcodbApi(APIView):
             "public_hostname": data["public_hostname"],
             "token": data["token"],
             "owner": profile.id,
-            "user_permissions": data["other_info"]["permissions"]["user"],
-            "group_permissions": data["other_info"]["permissions"]["groups"],
-            "account_creation": data["other_info"]["account_creation"],
-            "account_expiration": data["other_info"]["account_expiration"],
+            "user_permissions": data["permissions"],
+            "account_creation": data["account_creation"],
             "last_update": now.isoformat(),
             "recent_status": "200",
             "recent_attempt": now.isoformat(),
