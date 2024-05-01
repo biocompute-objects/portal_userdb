@@ -69,7 +69,6 @@ const Login = () => {
       .unwrap()
       .then(() => {
         navigate("/");
-        global.window.location.reload();
       })
       .catch(() => {
         setLoading(false);

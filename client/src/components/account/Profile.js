@@ -87,10 +87,10 @@ const Profile = () => {
                     <MyTextField name='email' label='Email address' isRequired/>
                   </Grid>
                   <Grid item>
-                    <MyTextField name='public' type="checkbox" label='public account'/>
+                    <MyTextField name='affiliation' label='Affiliation'/>
                   </Grid>
                   <Grid item>
-                    <MyTextField name='affiliation' label='Affiliation'/>
+                    <MyTextField name='public' type="checkbox" label='public account'/>
                   </Grid>
                   <Grid item>
                     { (values.orcid.length > 3)

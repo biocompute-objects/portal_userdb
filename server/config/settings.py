@@ -205,6 +205,7 @@ CORS_ORIGIN_WHITELIST = (
     "https://test.portal.biochemistry.gwu.edu",
     "https://biocomputeobject.org",
     "https://www.biocomputeobject.org",
+    "https://accounts.google.com",
 )
 
 CSRF_TRUSTED_ORIGINS = ['https://*.biochemistry.gwu.edu','https://*.127.0.0.1']
