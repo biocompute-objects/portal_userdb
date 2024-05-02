@@ -17,6 +17,8 @@ import {
 import { getPubBco } from "../../slices/bcoSlice";
 import "../../App.css"
 import { useOutletContext } from "react-router-dom";
+import NotificationBox from "../NotificationBox";
+import { useLocation } from "react-router-dom";
 
 export default function BcoViewer () {
   const {domain, setDomain} = useOutletContext()
@@ -33,8 +35,8 @@ export default function BcoViewer () {
 
   useEffect(() => {
     const object_id = global.window.location.search.substring(1)
-    console.log("index", object_id)
     if (validURL(object_id) === true) {
+      
       dispatch(getPubBco(object_id))
         .unwrap()
         .then(() => {
@@ -72,6 +74,7 @@ export default function BcoViewer () {
 
   return (  
     <>
+      <NotificationBox />
       <Grid container spacing={2}>
         <Grid item xs={12} md>
           <Card>

@@ -1,7 +1,8 @@
 import React from "react";
-import { Button, Card, Container, Grid, ListItem, ListItemText } from "@material-ui/core";
+import { Button, Card, Grid, ListItem, ListItemText } from "@material-ui/core";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { updateDraftBco, createDraftBco, publishDraftBco } from "../slices/bcoSlice";
 import "../App.css"
 
@@ -50,6 +51,7 @@ const data = [
 
 export default function ObjectSideBar ({domain, setDomain}) {
   const dispatch = useDispatch()
+  const navigate = useNavigate();
   const bco = useSelector(state => state.bco.data);
   const prefix = useSelector(state => state.bco.prefix);
   const bcoStatus = useSelector(state => state.bco.status);
@@ -70,7 +72,15 @@ export default function ObjectSideBar ({domain, setDomain}) {
   const publishDraft = () => {
     const bcoURL = BCODB_URL;
     const bcoObject = bco;
-    dispatch(publishDraftBco({bcoURL, bcoObject, prefix}));
+    dispatch(publishDraftBco({bcoURL, bcoObject, prefix}))
+      .unwrap()
+      .then((response) => {
+        navigate(`/viewer?${response[0].identifier}`)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
   };
 
   const updateDraft = () => {

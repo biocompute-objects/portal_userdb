@@ -245,7 +245,7 @@ export const publishDraftBco = createAsyncThunk(
       const message =
           (error.response &&
             error.response.data &&
-            error.response.data.message) ||
+            error.response.data[0].message) ||
           error.message ||
           error.toString();
       thunkAPI.dispatch(setMessage(message));
@@ -347,10 +347,9 @@ export const getPubBco = createAsyncThunk(
       const response = await BcoService.getPubBco(object_id);
       return response.data;
     } catch(error) {
+      console.log(error.response.data.message)
       const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
+        (error.response.data.message) ||
         error.message ||
         error.toString();
       thunkAPI.dispatch(setMessage(message));

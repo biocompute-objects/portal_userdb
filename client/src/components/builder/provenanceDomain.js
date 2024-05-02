@@ -44,7 +44,7 @@ export const  ProvenanceDomain = ({onSave} ) => {
               "license": provenanceDomain["license"],
               "created": provenanceDomain["created"],
               "modified": provenanceDomain["modified"],
-              "derived_from": is_derived ? provenanceDomain["derived_from"] : [], 
+              "derived_from": is_derived ? provenanceDomain["derived_from"] : "", 
               "obsolete_after": has_obsolete ? provenanceDomain["obsolete_after"] : [],
               "contributors": provenanceDomain["contributors"],
               "review": has_review ? provenanceDomain["review"] : [],
