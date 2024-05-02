@@ -48,11 +48,11 @@ export default function Servers() {
               color="secondary"
               onClick={dialogeOpen}
             >Remove Database</Button>
-            <Button
+            {/* <Button
               variant="outlined"
               onClick={() => handleGroups(index)}
               disabled={database.recent_status !== "200"}
-            >Groups/Permissions</Button>
+            >Groups/Permissions</Button> */}
             <CardHeader title={database.human_readable_hostname}/>
             
             <CardContent>
