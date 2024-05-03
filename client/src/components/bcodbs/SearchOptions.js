@@ -21,6 +21,7 @@ import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 
 const bcodbUrl = process.env.REACT_APP_BCOAPI_URL
+const BCOAPI_TOKEN = process.env.REACT_APP_BCOAPI_TOKEN
 const publicHostname = bcodbUrl.replace("/api/", "")
 
 const ExpandMore = styled((props) => {
@@ -77,7 +78,7 @@ export default function SearchOptions ({setBcodbInfo}) {
             onSubmit={(values, {setSubmitting}) => {
               if (values.index === "None") {
                 const data = {
-                  token: "627626823549f787c3ec763ff687169206626149",
+                  token: BCOAPI_TOKEN,
                   public_hostname: publicHostname,
                   search: values.search,
                   action: "bco_id"

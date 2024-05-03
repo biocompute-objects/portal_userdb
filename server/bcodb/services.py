@@ -10,37 +10,43 @@ from bcodb.selectors import accounts_describe, get_all_bcodbs
 from django.db.models import query
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.utils.timezone import make_aware
+from django.utils import timezone
+from requests.exceptions import RequestException
 from users.models import Profile
 
 def update_bcodbs(profile: Profile) -> query.QuerySet:
     """Updates the information for a BcoDb object"""
 
     bcodbs = get_all_bcodbs(profile)
-    now = make_aware(datetime.utcnow())
+    now = timezone.now()  # Use Django's timezone.now() to get a timezone-aware datetime object
     
     for db in bcodbs:
-        bco_api_response = accounts_describe(db.public_hostname, db.token)
         try:
+            bco_api_response = accounts_describe(db.public_hostname, db.token)
+            # Using .json() to parse JSON response directly
             update = bco_api_response.json()
             BcoDb.objects.filter(id=db.id).update(
-                token = update['token'],
-                user_permissions = update['other_info']['permissions']['user'],
-                group_permissions = update['other_info']['permissions']['groups'],
-                account_expiration =  update['other_info']['account_expiration'],
-                last_update = now.isoformat(),
-                recent_status = bco_api_response.status_code,
-                recent_attempt = now.isoformat()
+                token=update['token'],
+                user_permissions=update['permissions'],
+                account_expiration=update.get('account_expiration', None),
+                last_update=now,
+                recent_status=bco_api_response.status_code,
+                recent_attempt=now
             )
-
-        except:
+            print(BcoDb.objects.filter(id=db.id)[0])
+        except json.JSONDecodeError as e:
+            print(f"JSON Decode Error: {e}")
+        except RequestException as e:
+            print(f"Request failed: {e}")
+            # Update the DB with just the status and attempt timestamp if request fails
             BcoDb.objects.filter(id=db.id).update(
-                recent_status = bco_api_response.status_code,
-                recent_attempt = now.isoformat()
+                recent_status=bco_api_response.status_code if bco_api_response else 'Failed',
+                recent_attempt=now
             )
 
     updated_bcodbs = BcoDb.objects.filter(owner=profile)
     return updated_bcodbs
+
 
 def add_authentication(auth_object: dict, bcodb: BcoDb):
     """Add Authentication
