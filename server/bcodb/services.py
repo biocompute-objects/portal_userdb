@@ -36,6 +36,13 @@ def update_bcodbs(profile: Profile) -> query.QuerySet:
             print(BcoDb.objects.filter(id=db.id)[0])
         except json.JSONDecodeError as e:
             print(f"JSON Decode Error: {e}")
+        except KeyError as e:
+            print(f"Request failed: {e}")
+            # Update the DB with just the status and attempt timestamp if request fails
+            BcoDb.objects.filter(id=db.id).update(
+                recent_status=bco_api_response.status_code if bco_api_response else 'Failed',
+                recent_attempt=now
+            )
         except RequestException as e:
             print(f"Request failed: {e}")
             # Update the DB with just the status and attempt timestamp if request fails
