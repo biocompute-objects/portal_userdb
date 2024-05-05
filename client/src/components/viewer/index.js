@@ -18,7 +18,6 @@ import { getPubBco } from "../../slices/bcoSlice";
 import "../../App.css"
 import { useOutletContext } from "react-router-dom";
 import NotificationBox from "../NotificationBox";
-import { useLocation } from "react-router-dom";
 
 export default function BcoViewer () {
   const {domain, setDomain} = useOutletContext()
