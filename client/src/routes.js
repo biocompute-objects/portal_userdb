@@ -4,15 +4,15 @@ import { useSelector } from "react-redux";
 import MainLayout from "./layouts/MainLayout";
 import ObjectViewLayout from "./layouts/ObjectViewLayout";
 import BuilderColorCode from "./components/builder";
-import About from "./components/about";
-import HomePage from "./components/home"
+import About from "./components/About.js";
+import HomePage from "./components/Home.js"
 import GroupsPage from "./components/account/bcodbGroups";
 import Login from "./components/auth/Login";
 import PasswordReset from "./components/auth/PasswordReset";
 import Register from "./components/auth/Register";
 import AccountPage from "./components/account";
 import BcoDbs from "./components/bcodbs";
-import Resources from "./components/resources";
+import Resources from "./components/Resources.js";
 import Prefix from "./components/prefix";
 import BcoViewer from "./components/viewer";
 
