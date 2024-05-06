@@ -3,7 +3,7 @@
 import React from "react";
 import {
   Button, Card, CardContent, CardHeader, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, makeStyles, TextField, Typography
-} from "@material-ui/core"
+} from "@mui/material"
 import { useSelector, useDispatch } from "react-redux";
 import { removeBcoDb, groupsPermissions, groupInfo } from "../../slices/accountSlice";
 import AddServer from "./AddServer";

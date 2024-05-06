@@ -7,7 +7,7 @@ import {
   CardActionArea,
   CardContent,
   Typography
-} from "@material-ui/core";
+} from "@mui/material";
 
 export default function FullWidthBox({link, title, content, image, imageAlt, cssClass}) {
 
