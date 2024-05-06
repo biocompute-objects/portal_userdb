@@ -31,8 +31,8 @@ export default function Router() {
         { path: "register", element: <Register /> },
         { path: "resources", element: <Resources /> },
         { path: "bcodbs", element: <BcoDbs />},
-        { path: "prefix_registry", element: <Prefix />},
-        { path: "prefix", element: <Navigate to="/prefix_registry" replace />},
+        { path: "prefix", element: <Prefix />},
+        // { path: "prefix", element: <Navigate to="/prefix_registry" replace />},
         { path: "about", element: <About />},
         { path: "password/confirm", element: <PasswordReset />},
       ]

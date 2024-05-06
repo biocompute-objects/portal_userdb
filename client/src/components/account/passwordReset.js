@@ -1,7 +1,7 @@
 import React from "react";
 import { 
   Button, Card, Dialog, DialogActions, DialogContent, DialogTitle
-} from "@material-ui/core";
+} from "@mui/material";
 import { useDispatch } from "react-redux";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";

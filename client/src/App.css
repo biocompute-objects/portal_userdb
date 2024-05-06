@@ -323,6 +323,10 @@
   font-weight: bold !important;
 }
 
+.resources-citation {
+  text-align: justify;
+}
+
 .resources-linkcard {
   min-height: auto;
   text-align: center;

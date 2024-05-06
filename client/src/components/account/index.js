@@ -1,7 +1,7 @@
 // src/components/account/index.js
 
 import React, { useEffect } from "react";
-import { Button, Card, Container } from "@material-ui/core";
+import { Button, Card, Container } from "@mui/material";
 import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, userInfo } from "../../slices/accountSlice";

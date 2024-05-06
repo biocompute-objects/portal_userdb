@@ -1,7 +1,7 @@
 // src/components/Home.js
 
 import React from "react";
-import { Container, Grid } from "@material-ui/core";
+import { Container, Grid } from "@mui/material";
 import FullWidthBox from "./FullWidthBox";
 import ThirdBox from "./ThirdBox";
 import logo from "../images/logo.png";
@@ -41,8 +41,7 @@ const HomePage = () => {
                     content="Search the BioCompute DB and view objects in the database.
                     
                     The BCODB page allows searching and viewing BioCompute Objects from 
-                    any DB instance that a user has signed up for. The Public DB is accessable
-                    without an account or providing credentials."
+                    any DB instance that a user has signed up for."
                     image={logo}
                     imageAlt="BCO logo"
                   />
@@ -53,9 +52,7 @@ const HomePage = () => {
                     title="BioCompute Builder"
                     image={logo}
                     content="Use the BioCompute Builder or view objects in the database.
-                    The BioCompute Builder is a platform-free, form-based editor. The
-                    builder walks a user through building a BCO through text boxes,
-                    indicating which entries are required to adhere to the IEEE standard."
+                    The BioCompute Builder is a platform-free, form-based editor."
                   />
                 </Grid>
                 <Grid item lg={4} sm={6} xl={4} xs={12}>
@@ -103,7 +100,7 @@ const HomePage = () => {
                   <ThirdBox
                     link="/resources"
                     title="Cloud-based tools for BioCompute"
-                    content="See our resources page for additional tools and services"
+                    content="See our resources page for additional tools and services."
                     cssClass=""
                     image={cloudlogo}
                   />
