@@ -275,6 +275,19 @@ const removeBcoDb = async (database) => {
   return response;
 }
 
+const resetToken = async (public_hostname, token) => {
+  console.log("Service", public_hostname, token)
+  const response = await axios.post(`${USERS_URL}bcodb/reset_token/`, {
+    public_hostname, token
+  },{
+    headers: {
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      "Content-Type": "application/json"
+    }
+  });
+  return response;
+}
+
 const groupInfo = async (group_permissions, token, public_hostname) => {
   const response = await axios.post(`${public_hostname}/api/groups/group_info/`, {
     POST_api_groups_info: {
@@ -310,6 +323,7 @@ const authService = {
   registerBcoDb,
   addBcoDb,
   removeBcoDb,
+  resetToken,
   groupInfo,
 };
 

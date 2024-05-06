@@ -7,7 +7,7 @@ from authentication.selectors import get_temp_draft
 from authentication.services import CustomJSONWebTokenAuthentication, custom_jwt_handler
 from bcodb.models import BcoDb, BCO
 from bcodb.selectors import get_bcodb
-from bcodb.services import delete_temp_draft
+from bcodb.services import delete_temp_draft, reset_token
 from datetime import datetime
 from django.db import transaction
 from django.conf import settings
@@ -303,3 +303,41 @@ class DeleteTempDraftBco(APIView):
                 "object_id": object_id
             }
         )
+
+class ResetBcodbTokenApi(APIView):
+    """Reset a BCODB API token"""
+
+    @swagger_auto_schema(
+        operation_id="users_bcodb_reset_token",
+        request_body= openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        title="Reset Token",
+        description="Will reset the BCODB token",
+        required=["token", "public_hostname"],
+        properties={
+            "token": openapi.Schema(
+                type=openapi.TYPE_STRING,
+                description="The BCODB token to be reset."
+            ),
+            "public_hostname": openapi.Schema(
+                type=openapi.TYPE_STRING,
+                description="The BCODB public hostname (URL)."
+            )
+        }
+    ),
+        responses={
+            200: "BCODB token reset is successful.",
+            409: "Conflict.",
+        },
+        tags=["BCODB Management"],
+    )
+
+    # @transaction.atomic
+    def post(self, request):
+        """"""
+        public_hostname, token = request.data['public_hostname'], request.data['token']
+        reset_token(public_hostname, token)
+        user_info = custom_jwt_handler(
+            request._auth, user_from_username(request.user.username)
+        )
+        return Response(status=status.HTTP_200_OK, data=user_info)
