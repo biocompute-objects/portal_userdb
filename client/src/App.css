@@ -97,7 +97,6 @@
   text-decoration: none;
   color: white;
   background-color: primary;
-
 }
 
 .hover-background {
@@ -370,6 +369,9 @@
   color: var(--main-red-color) !important;
 }
 
+.table-card {
+  padding: 2%;
+}
 
 /* text field */
 .large_textfield {
