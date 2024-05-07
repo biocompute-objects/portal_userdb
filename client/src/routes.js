@@ -4,15 +4,14 @@ import { useSelector } from "react-redux";
 import MainLayout from "./layouts/MainLayout";
 import ObjectViewLayout from "./layouts/ObjectViewLayout";
 import BuilderColorCode from "./components/builder";
-import About from "./components/About.js";
-import HomePage from "./components/Home.js"
-import GroupsPage from "./components/account/bcodbGroups";
+import About from "./pages/About.js";
+import HomePage from "./pages/Home.js"
 import Login from "./components/auth/Login";
 import PasswordReset from "./components/auth/PasswordReset";
 import Register from "./components/auth/Register";
 import AccountPage from "./components/account";
 import BcoDbs from "./components/bcodbs";
-import Resources from "./components/Resources.js";
+import Resources from "./pages/Resources.js";
 import Prefix from "./components/prefix";
 import BcoViewer from "./components/viewer";
 
@@ -26,13 +25,11 @@ export default function Router() {
       children: [
         { path: "/", element: <HomePage /> },
         { path: "profile", element: isLoggedIn ? <AccountPage /> : <Navigate to="/login" replace />},
-        { path: "profile/bcodb/:id", element: isLoggedIn ? <GroupsPage /> : <Navigate to="/login" replace />},
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
         { path: "resources", element: <Resources /> },
         { path: "bcodbs", element: <BcoDbs />},
         { path: "prefix", element: <Prefix />},
-        // { path: "prefix", element: <Navigate to="/prefix_registry" replace />},
         { path: "about", element: <About />},
         { path: "password/confirm", element: <PasswordReset />},
       ]

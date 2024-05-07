@@ -1,8 +1,8 @@
 
 import React from "react";
 import { Container, Grid } from "@mui/material";
-import FullWidthBox from "./FullWidthBox";
-import ThirdBox from "./ThirdBox";
+import FullWidthBox from "../components/FullWidthBox";
+import ThirdBox from "../components/ThirdBox";
 import logoWithName from "../images/biocompute.png";
 
 export default function About() {

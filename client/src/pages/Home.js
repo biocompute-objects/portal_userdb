@@ -2,8 +2,8 @@
 
 import React from "react";
 import { Container, Grid } from "@mui/material";
-import FullWidthBox from "./FullWidthBox";
-import ThirdBox from "./ThirdBox";
+import FullWidthBox from "../components/FullWidthBox";
+import ThirdBox from "../components/ThirdBox";
 import logo from "../images/logo.png";
 import ieee from "../images/ieee.jpg";
 import workshoppic from "../images/workshop.jpg"
@@ -66,6 +66,7 @@ const HomePage = () => {
                 </Grid>
               </Grid>
             </Container>
+            <br/>
             <Container maxWidth={false}>
               <Grid container justifyContent="center" spacing={3}>
                 <Grid item xs={12} sm={12} lg={12} xl={12} >
@@ -110,6 +111,7 @@ const HomePage = () => {
           </Grid>
         </Grid>
       </Container>
+      <br/><br/>
     </Container>
   )
 }
