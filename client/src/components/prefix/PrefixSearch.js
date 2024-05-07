@@ -7,7 +7,7 @@ import {
   Card,
   CardContent,
   Grid,
-} from "@material-ui/core";
+} from "@mui/material";
 import { Field, Form, Formik  } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { searchPrefixRegistry } from "../../slices/prefixSlice";

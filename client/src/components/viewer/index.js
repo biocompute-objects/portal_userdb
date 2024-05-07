@@ -7,7 +7,7 @@ import {
   Container,
   Grid,
   Typography
-} from "@material-ui/core";
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import {

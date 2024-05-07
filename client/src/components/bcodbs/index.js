@@ -1,7 +1,7 @@
 // src/components/bcodbs/index.js
 
 import React, { useState } from "react";
-import { Container, Typography } from "@material-ui/core";
+import { Container, Typography } from "@mui/material";
 import SearchOptions from "./SearchOptions";
 import SearchResults from "./SearchResults";
 import NotifcationBox from "../NotificationBox";

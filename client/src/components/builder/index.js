@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Card, CardContent, CardHeader, Container, Grid, Typography } from "@material-ui/core";
+import { Card, CardContent, CardHeader, Container, Grid, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import ReactJson from "react-json-view"
 import { DescriptionDomain } from "./descriptionDomain";

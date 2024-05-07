@@ -6,7 +6,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { register, googleRegister } from "../../slices/accountSlice";
 import { clearMessage } from "../../slices/messageSlice";
 import { MyTextField } from "../builder/specialFeilds";
-import { Button, Container, Grid, Typography } from "@material-ui/core";
+import { Button, Container, Grid, Typography } from "@mui/material";
 import { GoogleLogin } from "react-google-login";
 import NotificationBox from "../NotificationBox";
 

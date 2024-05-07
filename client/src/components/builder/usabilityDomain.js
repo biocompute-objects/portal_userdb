@@ -5,7 +5,7 @@ import {
   Grid,
   CardContent,
   CardHeader
-} from "@material-ui/core";
+} from "@mui/material";
 import {
   Formik,
   Form,
