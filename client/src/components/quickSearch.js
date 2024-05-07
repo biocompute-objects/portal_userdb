@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input} from "@mui/material";
+import { Input} from "@material-ui/core";
 import { searchBcodb } from "../slices/searchSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -36,9 +36,8 @@ export default function QuickSearch () {
       className="nav-link"
       id="bcodb"
       value={quickSearch}
-      variant="outlined" 
       startAdornment={
-        <InputAdornment position="end">
+        <InputAdornment position="start">
           <SearchIcon className="white-icon"/>
         </InputAdornment>
       }

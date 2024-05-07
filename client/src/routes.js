@@ -10,7 +10,7 @@ import Login from "./components/auth/Login";
 import PasswordReset from "./components/auth/PasswordReset";
 import Register from "./components/auth/Register";
 import AccountPage from "./components/account";
-import BcoDbs from "./components/bcodbs";
+import BcoDbs from "./pages/Bcodbs.js";
 import Resources from "./pages/Resources.js";
 import Prefix from "./components/prefix";
 import BcoViewer from "./components/viewer";

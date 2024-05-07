@@ -32,7 +32,6 @@ export const searchSlice = createSlice({
         state.status = "failed";
       })
       .addCase(searchBcodb.fulfilled, (state, action) => {
-        console.log(action.payload[0])
         state.results = action.payload;
         state.status = "fulfilled";
       })
@@ -86,7 +85,6 @@ export const advSeachBcodb = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const results = await AuthService.advSearchBcodbAPI(data);
-      thunkAPI.dispatch(setMessage(`Search returned ${results.data.length} BCOs`));
       thunkAPI.dispatch(setSearch(data));
       return results.data
     } catch (error) {
