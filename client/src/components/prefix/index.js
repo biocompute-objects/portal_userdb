@@ -10,7 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { searchPrefixRegistry } from "../../slices/prefixSlice";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import { Container } from "react-bootstrap";
 import PrefixRegister from "./PrefixRegister";
 import "../../App.css"

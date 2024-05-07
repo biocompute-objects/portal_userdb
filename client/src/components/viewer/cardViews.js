@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, CardHeader, Grid, TextField, Typography } from "@material-ui/core";
+import { Box, Card, CardContent, CardHeader, Grid, TextField, Typography } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 import ReactJson from "react-json-view"

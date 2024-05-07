@@ -7,7 +7,7 @@ import { Formik, Form } from "formik";
 import { GoogleLogin } from "react-google-login";
 import * as Yup from "yup";
 import { MyTextField } from "../builder/specialFeilds";
-import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField, Typography } from "@material-ui/core";
+import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { forgotPassword, login, googleLogin, orcidLogIn } from "../../slices/accountSlice";
 import NotificationBox from "../NotificationBox";
