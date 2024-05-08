@@ -190,7 +190,7 @@ export default function BcoDbs () {
       id: "score",
       numeric: false,
       disablePadding: true,
-      label: "BCO Score",
+      label: "BCO Score (BETA)",
     },
     {
       id: "access_count",

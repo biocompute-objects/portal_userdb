@@ -1,5 +1,14 @@
 import React, { useEffect } from "react";
-import { Card, CardContent, CardHeader, Container, Grid, Typography } from "@mui/material";
+import { 
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  Grid,
+  Stack,
+  Typography
+
+} from "@mui/material";
 import PropTypes from "prop-types";
 import ReactJson from "react-json-view"
 import { DescriptionDomain } from "./descriptionDomain";
@@ -103,8 +112,8 @@ export default function BuilderColorCode () {
 
     <Grid container spacing={2}>
       <NotificationBox />
-      <Grid container className="object-contents">
-        <Card spacing={2}>
+      <Stack className="object-contents" direction="column">
+        <Card className="object-doamin" spacing={2}>
           <CardContent>
             <Typography>
                   Object ID: {bco.object_id}
@@ -160,7 +169,7 @@ export default function BuilderColorCode () {
         <TabPanel domain={domain} index={9}>
           <TreeView onSave={onSave}/>
         </TabPanel>
-      </Grid>
+      </Stack>
     </Grid>
   )
 }
