@@ -103,7 +103,7 @@ export default function BuilderColorCode () {
 
     <Grid container spacing={2}>
       <NotificationBox />
-      <Grid item className="object-contents">
+      <Grid container className="object-contents">
         <Card spacing={2}>
           <CardContent>
             <Typography>
