@@ -317,20 +317,18 @@ export const TreeView = () => {
 }
 
 export const ErrorView = () => {
-  const ErrDom = useSelector(state => state.bco.data.error_domain)
+  const ErrDom = useSelector(state => state.bco.data.error_domain || {"empirical_error": {}, "algorithmic_error": {}});
+  
   return (
     <Card>
       <CardHeader title="Error Domain"/>
-      {ErrDom["empirical_error"] ? (
-        <CardContent>
-          <Typography>
-            <pre><code>
-              {JSON.stringify(ErrDom, null, 2)}
-            </code></pre>
-          </Typography>
-        </CardContent>
-      ) : (<Card></Card>)}
-      
+      <CardContent>
+        <Typography>
+          <pre><code>
+            {JSON.stringify(ErrDom, null, 2)}
+          </code></pre>
+        </Typography>
+      </CardContent>      
     </Card>
   )
 };

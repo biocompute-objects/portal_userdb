@@ -35,7 +35,7 @@ export const ExecutionDomain = ({onSave}) => {
 
   return (
     <>
-      <Card>
+      <Card className="object-domain">
         <Formik
           initialValues={
             execution_domain

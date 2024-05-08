@@ -24,13 +24,12 @@ export default function ToolsDropDown() {
   const dispatch = useDispatch();
   const jsonData = useSelector((state) => state.bco.data);
 
-  const  handleDerive = (jsonData) => {
+  const  handleDerive = () => {
     navigate("/builder")
     dispatch(deriveBco(jsonData))
   };
 
   const validate = () => {
-    console.log("Validate", BCODB_URL, jsonData)
     const bcoURL = BCODB_URL
     const bcoObject = removeEmptyValues(jsonData, [
       "input_list", "external_data_endpoints", "environment_variables","value"

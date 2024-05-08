@@ -89,35 +89,34 @@ const bcoSlice = createSlice({
     },
     updateBco: (state, action) => {
       state["data"] = action.payload
-    }
-  },
-  
-  deriveBco: (state, action) => {
-    const derive = action.payload
-    state["data"] = {
-      object_id: "",
-      spec_version: "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
-      etag: "",
-      provenance_domain: {
-        name: derive.provenance_domain.name,
-        version: "",
-        license: "",
-        derived_from: derive.object_id,
-        created: new Date().toISOString().split(".")[0],
-        modified: new Date().toISOString(),
-        contributors: derive.provenance_domain.contributors,
-        review: derive.provenance_domain.review
-      },
-      usability_domain: derive.usability_domain,
-      description_domain: derive.description_domain,
-      parametric_domain:derive.parametric_domain,
-      io_domain: derive.io_domain,
-      execution_domain: derive.execution_domain,
-      extension_domain: derive.extension_domain,
     },
-    state["prefix"] = null,
-    state["status"] = "idle",
-    state["error"] = null
+    deriveBco: (state, action) => {
+      const derive = action.payload
+      state["data"] = {
+        object_id: "",
+        spec_version: "https://w3id.org/ieee/ieee-2791-schema/2791object.json",
+        etag: "",
+        provenance_domain: {
+          name: derive.provenance_domain.name,
+          version: "",
+          license: "",
+          derived_from: derive.object_id,
+          created: new Date().toISOString().split(".")[0],
+          modified: new Date().toISOString(),
+          contributors: derive.provenance_domain.contributors,
+          review: derive.provenance_domain.review
+        },
+        usability_domain: derive.usability_domain,
+        description_domain: derive.description_domain,
+        parametric_domain:derive.parametric_domain,
+        io_domain: derive.io_domain,
+        execution_domain: derive.execution_domain,
+        extension_domain: derive.extension_domain,
+      },
+      state["prefix"] = null,
+      state["status"] = "idle",
+      state["error"] = null
+    }
   },
   extraReducers(builder) {
     builder
@@ -177,8 +176,11 @@ const bcoSlice = createSlice({
           state.error = null
         } else {
           state.status = "invalid"
-          state.error = action.payload[0].data.error_detail
+          state.error = action.payload[0].data
         }
+      })
+      .addCase(validateBco.rejected, (state, action) => {
+        state.status = "invalid"
       })
       .addCase(getExtension.fulfilled, (state, action) => {
         console.log(action.payload)
@@ -219,7 +221,7 @@ export const updateDraftBco = createAsyncThunk(
   async ({bcoURL, bcoObject}, thunkAPI) => {
     try {
       const response = await BcoService.updateDraftBco(bcoURL, bcoObject);
-      thunkAPI.dispatch(setMessage(response.data.message))
+      thunkAPI.dispatch(setMessage(response.data[0].message))
       return response.data;
     } catch(error) {
       const message =
@@ -263,7 +265,8 @@ export const validateBco = createAsyncThunk(
         return response.data
       }
       if (response.status === 200) {
-        thunkAPI.dispatch(setMessage("BCO is valid"))
+        thunkAPI.dispatch(setMessage(
+          `BCO is valid and has a score of ${response.data[0].data.score}`))
         return 200;
       } 
     } catch(error) {
