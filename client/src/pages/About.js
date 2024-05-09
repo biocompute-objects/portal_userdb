@@ -1,13 +1,14 @@
 
 import React from "react";
-import { Container, Grid } from "@mui/material";
+import { Card, CardHeader, Container, Grid } from "@mui/material";
 import FullWidthBox from "../components/FullWidthBox";
 import ThirdBox from "../components/ThirdBox";
 import logoWithName from "../images/biocompute.png";
+import "../App.css";
 
 export default function About() {
   return (
-    <Container className="home-root">
+    <Card className="about-main">
       <FullWidthBox
         link=""
         title="Our Mission"
@@ -18,7 +19,6 @@ export default function About() {
         image={logoWithName}
         imageAlt="BioCompute logo and name"
       />
-      <br/>
       <FullWidthBox
         link=""
         title="Our Story"
@@ -34,6 +34,19 @@ export default function About() {
             and maintained), the HIVE website, and the Research Objects discussion of BioCompute."
         image=""
       />
+      <CardHeader title="Funding Sources"/>
+      <FullWidthBox
+        link="https://smhs.gwu.edu/news/gw-led-consortium-receives-22m-grant-fund-biocompute-object-specification-project"
+        title=""
+        content="FDA BAA-19-00123"
+        image=""
+      />
+      <FullWidthBox
+        link="https://commonfund.nih.gov/dataecosystem"
+        title=""
+        content="Common Fund Data Ecosystem (CFDE) OT2 OD032092"
+        image=""
+      />
       <Grid container justifyContent="center" spacing={2}>
         <Container className="home-margintop" maxWidth={false}>
           {/* <FullWidthBox
@@ -45,5 +58,5 @@ export default function About() {
         </Container>
       </Grid>
 
-    </Container>)
+    </Card>)
 }
