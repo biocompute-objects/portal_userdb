@@ -107,7 +107,7 @@ export const ExecutionDomain = ({onSave}) => {
                                   variant="outlined"
                                   color='primary'
                                   size='small'
-                                  onClick={() => arrayHelpers.push({ filename: "", uri: "", access_time: "", sha1_checksum:""})}
+                                  onClick={() => arrayHelpers.push({uri:{ filename: "", uri: "", access_time: "", sha1_checksum:""}})}
                                 >Add</Button>
                               </Grid>
                             </div>
