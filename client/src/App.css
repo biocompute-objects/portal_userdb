@@ -44,6 +44,10 @@
 
 
 /* about pages */
+.about-main {
+  margin: 2%;
+}
+
 .member-image {
   width: 150px;
   height: 150px;
