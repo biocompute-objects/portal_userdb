@@ -188,6 +188,11 @@ const bcoSlice = createSlice({
       .addCase(getExtension.rejected, (state, action) => {
         console.log(action)
       })
+      .addCase(publishDraftBco.rejected, (state, action) => {
+        console.log(action.payload)
+        state.error = action.payload[0].data
+        state.status = "invalid"
+      })
   }
 })
 
@@ -251,7 +256,7 @@ export const publishDraftBco = createAsyncThunk(
           error.message ||
           error.toString();
       thunkAPI.dispatch(setMessage(message));
-      return thunkAPI.rejectWithValue();
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 )

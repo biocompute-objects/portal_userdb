@@ -4,6 +4,7 @@ import DataObjectIcon from "@mui/icons-material/DataObject";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { updateDraftBco, createDraftBco, publishDraftBco } from "../slices/bcoSlice";
+import { removeEmptyValues } from "../components/builder/components";
 import "../App.css"
 
 const data = [
@@ -71,7 +72,9 @@ export default function ObjectSideBar ({domain, setDomain}) {
 
   const publishDraft = () => {
     const bcoURL = BCODB_URL;
-    const bcoObject = bco;
+    const bcoObject = removeEmptyValues(bco, [
+      "input_list", "external_data_endpoints", "environment_variables", "error_domain", "value"
+    ])
     dispatch(publishDraftBco({bcoURL, bcoObject, prefix}))
       .unwrap()
       .then((response) => {
@@ -86,7 +89,9 @@ export default function ObjectSideBar ({domain, setDomain}) {
   const updateDraft = () => {
     console.log("Update", BCODB_URL, bco)
     const bcoURL = BCODB_URL
-    const bcoObject = bco
+    const bcoObject = removeEmptyValues(bco, [
+      "input_list", "external_data_endpoints", "environment_variables", "error_domain", "value"
+    ])
     if (bco.object_id === "") {
       dispatch(createDraftBco({bcoURL, bcoObject, prefix}))
     } else {
