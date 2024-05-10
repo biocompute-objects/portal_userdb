@@ -24,8 +24,11 @@ import { RawJson } from "./rawJson";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux"
 import NotificationBox from "../NotificationBox";
+import biocomputing from "../../images/biocomputing.gif"
+import ThirdBox from "../ThirdBox";
 
 import {
+  bcoStatus,
   getDraftBco,
   getTempDraftBco,
 } from "../../slices/bcoSlice";
@@ -34,6 +37,7 @@ export default function BuilderColorCode () {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const bco = useSelector(state => state.bco.data);
+  const bcoStatus = useSelector(state => state.bco.status);
   const bcoError = useSelector(state => state.bco.error);
   const {domain, setDomain} = useOutletContext()
   
@@ -87,14 +91,6 @@ export default function BuilderColorCode () {
     
     if (validURL(queryString) === true) {
       dispatch(getDraftBco(queryString))
-        .unwrap()
-        .then(() => {
-          // console.log(bcoStatus)
-        })
-        .catch((error) => {
-          console.log("Error", error);
-          global.window.close()
-        });
     }
     if (isUUID(queryString)) {
       console.log("UUID", queryString);
@@ -139,36 +135,59 @@ export default function BuilderColorCode () {
           }
         </Card>
         <br/>
-        <TabPanel  domain={domain} index={0}>
-          <ProvenanceDomain onSave={onSave}/>
-        </TabPanel>
-        <TabPanel domain={domain} index={1}>
-          <UsabilityDomain onSave={onSave}/>
-        </TabPanel>
-        <TabPanel domain={domain} index={2}>
-          <DescriptionDomain onSave={onSave}/>
-        </TabPanel>
-        <TabPanel domain={domain} index={3}>
-          <ExtensionDomain onSave={onSave}/>
-        </TabPanel>
-        <TabPanel domain={domain} index={4}>
-          <ParametricDomain onSave={onSave}/>
-        </TabPanel>
-        <TabPanel domain={domain} index={5}>
-          <IODomain onSave={onSave}/>
-        </TabPanel>
-        <TabPanel domain={domain} index={6}>
-          <ExecutionDomain onSave={onSave}/>
-        </TabPanel>
-        <TabPanel domain={domain} index={7}>
-          <ErrorDomain onSave={onSave}/>
-        </TabPanel>
-        <TabPanel domain={domain} index={8}>
-          <RawJson onSave={onSave}/>
-        </TabPanel>
-        <TabPanel domain={domain} index={9}>
-          <TreeView onSave={onSave}/>
-        </TabPanel>
+        {
+          bcoStatus === "idle" ?(<>
+            <TabPanel  domain={domain} index={0}>
+              <ProvenanceDomain onSave={onSave}/>
+            </TabPanel>
+            <TabPanel domain={domain} index={1}>
+              <UsabilityDomain onSave={onSave}/>
+            </TabPanel>
+            <TabPanel domain={domain} index={2}>
+              <DescriptionDomain onSave={onSave}/>
+            </TabPanel>
+            <TabPanel domain={domain} index={3}>
+              <ExtensionDomain onSave={onSave}/>
+            </TabPanel>
+            <TabPanel domain={domain} index={4}>
+              <ParametricDomain onSave={onSave}/>
+            </TabPanel>
+            <TabPanel domain={domain} index={5}>
+              <IODomain onSave={onSave}/>
+            </TabPanel>
+            <TabPanel domain={domain} index={6}>
+              <ExecutionDomain onSave={onSave}/>
+            </TabPanel>
+            <TabPanel domain={domain} index={7}>
+              <ErrorDomain onSave={onSave}/>
+            </TabPanel>
+            <TabPanel domain={domain} index={8}>
+              <RawJson onSave={onSave}/>
+            </TabPanel>
+            <TabPanel domain={domain} index={9}>
+              <TreeView onSave={onSave}/>
+            </TabPanel></>
+          ) :( 
+            <Card>
+              {bcoStatus === "loading" ?(
+                <CardContent>
+                  <ThirdBox
+                    title="Loading"
+                    image={biocomputing}
+                    imageAlt="loading..."
+                  />
+                </CardContent>
+              ) :(
+                <CardContent>
+                  <ThirdBox
+                    title="Failed to get BCO"
+                    content={JSON.stringify(bcoError)}
+                  />
+                    
+                </CardContent>
+              )}
+            </Card>
+          )}
       </Stack>
     </Grid>
   )
