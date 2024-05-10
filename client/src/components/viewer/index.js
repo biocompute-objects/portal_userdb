@@ -18,11 +18,17 @@ import { getPubBco } from "../../slices/bcoSlice";
 import "../../App.css"
 import { useOutletContext } from "react-router-dom";
 import NotificationBox from "../NotificationBox";
+import biocomputing from "../../images/biocomputing.gif"
+import ThirdBox from "../ThirdBox";
 
 export default function BcoViewer () {
+  // const biocomputing =  "../../images/biocomputing.gif";
   const {domain, setDomain} = useOutletContext()
   const dispatch = useDispatch();
   const bco = useSelector(state => state.bco.data)
+  const bcoStatus =  useSelector(state => state.bco.status)
+  const bcoError = useSelector(state => state.bco.error || "");
+
   function validURL(url) {
     try {
       new URL(url);
@@ -50,6 +56,7 @@ export default function BcoViewer () {
   function TabPanel(props) {
     const { children, domain, index, ...other } = props;
     return (
+      
       <div
         role="tabpanel"
         hidden={domain !== index}
@@ -90,36 +97,49 @@ export default function BcoViewer () {
             </CardContent>
           </Card>
           <br/>
-          <TabPanel domain={domain} index={0}>
-            <ProvenanceView/>
-          </TabPanel>
-          <TabPanel domain={domain} index={1}>
-            <UsabilityView/>
-          </TabPanel>
-          <TabPanel domain={domain} index={2}>
-            <DescriptionView/>
-          </TabPanel>
-          <TabPanel domain={domain} index={3}>
-            <ExtensionView/>
-          </TabPanel>
-          <TabPanel domain={domain} index={4}>
-            <ParametricView/>
-          </TabPanel>
-          <TabPanel domain={domain} index={5}>
-            <IoView/>
-          </TabPanel>
-          <TabPanel domain={domain} index={6}>
-            <ExecutionView/>
-          </TabPanel>
-          <TabPanel domain={domain} index={7}>
-            <ErrorView/>
-          </TabPanel>
-          <TabPanel domain={domain} index={8}>
-            <RawJson/>
-          </TabPanel>
-          <TabPanel domain={domain} index={9}>
-            <TreeView/>
-          </TabPanel>
+          {
+            bcoStatus === "idle" ?(
+              <><TabPanel domain={domain} index={0}>
+                <ProvenanceView />
+              </TabPanel><TabPanel domain={domain} index={1}>
+                <UsabilityView />
+              </TabPanel><TabPanel domain={domain} index={2}>
+                <DescriptionView />
+              </TabPanel><TabPanel domain={domain} index={3}>
+                <ExtensionView />
+              </TabPanel><TabPanel domain={domain} index={4}>
+                <ParametricView />
+              </TabPanel><TabPanel domain={domain} index={5}>
+                <IoView />
+              </TabPanel><TabPanel domain={domain} index={6}>
+                <ExecutionView />
+              </TabPanel><TabPanel domain={domain} index={7}>
+                <ErrorView />
+              </TabPanel><TabPanel domain={domain} index={8}>
+                <RawJson />
+              </TabPanel><TabPanel domain={domain} index={9}>
+                <TreeView />
+              </TabPanel></>
+            ) :( 
+              <Card>
+                {bcoStatus === "loading" ?(
+                  <CardContent>
+                    <ThirdBox
+                      title="Loading"
+                      image={biocomputing}
+                      imageAlt="loading..."
+                    />
+                  </CardContent>
+                ) :(
+                  <CardContent>
+                    <ThirdBox
+                      title="Failed to get BCO"
+                      content={JSON.stringify(bcoError)}
+                    />
+                  </CardContent>
+                )}
+              </Card>
+            )}
         </Grid>
       </Grid>
     </>
