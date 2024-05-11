@@ -36,15 +36,16 @@ const bcoSlice = createSlice({
     },
     prefix: null,
     status: "idle",
+    writingStatus: "idle",
     error: null
   },
   reducers: { // list of functions action
-    updateBcoStatus: (state, action) => {
+    writingBco: (state, action) => {
       if (action.payload === true) {
-        state["status"] = "writing"
+        state["writingStatus"] = "writing"
       }
       if (action.payload === false) {
-        state["status"] = "idle"
+        state["writingStatus"] = "idle"
       }
     },
     updateProvenanceDomain: (state, action) => {
@@ -122,15 +123,20 @@ const bcoSlice = createSlice({
     builder
       .addCase(getDraftBco.pending, (state) => {
         state.status = "loading"
+        console.log("draft loading")
       })
       .addCase(getDraftBco.fulfilled, (state, action) => {
         state.status = "succeeded"
         state.status = "idle"
         state.data = action.payload
         state.prefix = action.payload["object_id"].split("/")[3].split("_")[0]
+        console.log("draft success")
       })
-      .addCase(getDraftBco.rejected, (state) => {
+      .addCase(getDraftBco.rejected, (state, action) => {
+        state.error = action.payload.data
         state.status = "failed"
+        state.error = action.payload
+        console.log("draft failed", action.payload)
       })
       .addCase(getTempDraftBco.pending, (state) => {
         state.status = "loading"
@@ -150,8 +156,9 @@ const bcoSlice = createSlice({
         state.status = "idle"
         state.data = action.payload
       })
-      .addCase(getPubBco.rejected, (state) => {
+      .addCase(getPubBco.rejected, (state, action) => {
         state.status = "failed"
+        state.error = action.payload
       })
       .addCase(createDraftBco.fulfilled, (state, action) => {
         console.log(action.payload)
@@ -189,9 +196,8 @@ const bcoSlice = createSlice({
         console.log(action)
       })
       .addCase(publishDraftBco.rejected, (state, action) => {
-        console.log(action.payload)
         state.error = action.payload[0].data
-        state.status = "invalid"
+        state.status = "failed"
       })
   }
 })
@@ -319,15 +325,16 @@ export const getDraftBco = createAsyncThunk(
       const response = await BcoService.getDraftBco(queryString);
       return response.data;
     } catch(error) {
+      console.log(error.response.data)
       const message =
         (error.response &&
           error.response.data &&
           error.response.data.message) ||
         error.message ||
         error.toString();
-      thunkAPI.dispatch(setMessage(message));
+      // thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue(error.response.data);
     }
-    return thunkAPI.rejectWithValue();
   }
 )
 
@@ -355,13 +362,13 @@ export const getPubBco = createAsyncThunk(
       const response = await BcoService.getPubBco(object_id);
       return response.data;
     } catch(error) {
-      console.log(error.response.data.message)
+      console.log(error.response.data)
       const message =
         (error.response.data.message) ||
         error.message ||
         error.toString();
-      thunkAPI.dispatch(setMessage(message));
-      return thunkAPI.rejectWithValue();
+      // thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 )
@@ -389,7 +396,7 @@ export const modifyGroup = createAsyncThunk(
 export const bcoReducer = bcoSlice.reducer;
 export const bcoStatus = state => state.bco.status
 export const {
-  updateBcoStatus,
+  writingBco,
   updateProvenanceDomain,
   updateUsability,
   addUsability,
