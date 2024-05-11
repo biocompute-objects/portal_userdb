@@ -28,7 +28,6 @@ import biocomputing from "../../images/biocomputing.gif"
 import ThirdBox from "../ThirdBox";
 
 import {
-  bcoStatus,
   getDraftBco,
   getTempDraftBco,
 } from "../../slices/bcoSlice";
