@@ -9,7 +9,7 @@ import {
 import { Button, Card, CardContent, Grid } from "@mui/material";
 import { useFormikContext } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { updateBcoStatus } from "../../slices/bcoSlice";
+import { writingBco } from "../../slices/bcoSlice";
 
 export const removeEmptyValues = (myData, excludedKeys = []) => {
   const obj = JSON.parse(JSON.stringify(myData))
@@ -48,13 +48,13 @@ export const Uri = ({uri_element}) => {
 }
 
 export const Next = () => {
-  const bcoStatus = useSelector((state) => state.bco.status);
+  const writingStatus = useSelector((state) => state.bco.writingStatus);
   return(
     <Button
       type='submit'
       variant="contained"
       color="primary"
-      disabled={(bcoStatus === "idle")}
+      disabled={(writingStatus === "idle")}
     > Next </Button>
   )
 }
@@ -103,7 +103,7 @@ export const FormObserver = () => {
   const dispatch = useDispatch();
   
   useEffect(() => {
-    dispatch(updateBcoStatus(dirty))  
+    dispatch(writingBco(dirty))  
   }, [dirty]);
 
   return null
