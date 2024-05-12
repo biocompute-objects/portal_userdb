@@ -14,25 +14,22 @@ export default function QuickSearch () {
   const dispatch = useDispatch();
   const bcodbUrl = process.env.REACT_APP_BCOAPI_URL
   const account = useSelector((state) => state.account.isLoggedIn);
+  const searchStatus = useSelector(state => state.search.status);
   
   const handleQuickSearch = () => {
+    navigate("/bcodbs")
     if (account.isLoggedIn === true) {
       const publicHostname = account.user.bcodb[0]["public_hostname"]
       dispatch(searchBcodb({publicHostname, quickSearch}))
-        .then(() => {
-          navigate("/bcodbs")
-        })
     } else {
       const publicHostname = bcodbUrl.replace("/api/", "")
       dispatch(searchBcodb({publicHostname, quickSearch}))
-        .then(() => {
-          navigate("/bcodbs")
-        })
     }
   }
 
   return (
     <Input
+      disabled={searchStatus === "loading"}
       className="nav-link"
       id="bcodb"
       value={quickSearch}
