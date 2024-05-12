@@ -34,47 +34,43 @@ export const ExecutionDomain = ({onSave}) => {
   }
 
   return (
-    <>
-      <Card className="object-domain">
-        <Formik
-          initialValues={
-            execution_domain
+    <Card className="object-domain">
+      <Formik
+        initialValues={execution_domain}
+        onSubmit={
+          (formData, {setSubmitting}) => {
+            setSubmitting(true);
+            dispatch(updateExecutionDomain({formData, envars}));
+            setSubmitting(false);
+            dispatch(updateModified())
+            onSave()
           }
-          onSubmit={
-            (formData, {setSubmitting}) => {
-              setSubmitting(true);
-              dispatch(updateExecutionDomain({formData, envars}));
-              setSubmitting(false);
-              dispatch(updateModified())
-              onSave()
-            }
-          }
-        >
-          {
-            ({values, isSubmitting,}) => (
-              <Form>
-                <FormObserver />
-                <CardHeader
-                  title={
-                    <span className="bold-title">
+        }
+      >
+        {
+          ({values, isSubmitting,}) => (
+            <Form>
+              <FormObserver />
+              <CardHeader
+                title={
+                  <span className="bold-title">
                       Execution Domain
-                      <Tooltip title="Explanation of Execution Domain">
-                        <Button size="xs" href='https://wiki.biocomputeobject.org/index.php?title=Execution-domain'>
-                          <HelpOutlineIcon />
-                        </Button>
-                      </Tooltip>
-                    </span>
-                  }
-                  action={<Next />}
-                />
-
+                    <Tooltip title="Explanation of Execution Domain">
+                      <Button size="xs" href='https://wiki.biocomputeobject.org/index.php?title=Execution-domain'>
+                        <HelpOutlineIcon />
+                      </Button>
+                    </Tooltip>
+                  </span>
+                }
+                action={<Next />}
+              />
+              <CardContent>
                 <Grid container spacing={2}>
                   <Grid container spacing={2}>
                     <Grid item xs>
                       <MyTextField name="script_driver" type="input" placeholder="Script Driver"  label="Script Driver" />
                     </Grid>
-                  </Grid>
-                             
+                  </Grid>      
                   <Grid container spacing={2}>
                     <CardContent>   
                       <Grid container spacing={2} justifyContent='flex-start'>
@@ -252,19 +248,11 @@ export const ExecutionDomain = ({onSave}) => {
                     </CardContent>
                   </Grid>
                 </Grid>
-                <div style={{padding: 20}}> 
-                  <Button
-                    disabled={isSubmitting}
-                    type='submit'
-                    variant="contained"
-                    color="primary"
-                  > Next </Button>
-                </div>
-              </Form>
-            )
-          }
-        </Formik>
-      </Card>
-    </>
+              </CardContent>
+            </Form>
+          )
+        }
+      </Formik>
+    </Card>
   )
 }
