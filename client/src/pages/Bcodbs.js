@@ -34,8 +34,9 @@ import { visuallyHidden } from "@mui/utils";
 import NotifcationBox from "../components/NotificationBox";
 import { useDispatch, useSelector } from "react-redux";
 import { advSeachBcodb } from "../slices/searchSlice";
-import { getDraftBco } from "../slices/bcoSlice";
 import "../App.css";
+import ThirdBox from "../components/ThirdBox";
+import biocomputing from "../images/biocomputing.gif"
 
 export default function BcoDbs () {
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ export default function BcoDbs () {
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState("last_update");
   const [ bcodbInfo, setBcodbInfo ] = useState([])
-  const [rowsPerPage, setRowsPerPage] = React.useState(20);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
   const [advancedSearch, setAdvancedSearch] = useState(false)
   
   const location  = process.env.REACT_APP_SERVER_URL
@@ -81,14 +82,7 @@ export default function BcoDbs () {
       global.window.open(`${location}/viewer?${object_id}`, "_blank", "noopener,noreferrer")
     }
     if (state === "DRAFT") {
-      dispatch(getDraftBco(object_id))
-        .unwrap()
-        .catch((error) => {
-          console.log(error)
-        })
-        .then(() => {
-          global.window.open(`${location}/builder?${object_id}`)
-        })
+      global.window.open(`${location}/builder?${object_id}`)
     }
   }
   
@@ -443,46 +437,53 @@ export default function BcoDbs () {
               </Form>
             )}
           </Formik>
-          
         </DialogActions>
       </Dialog>
       <CardHeader title="BioCompute Database Search"/>
       <CardContent>
         <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={"small"}
-          >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              disabled
-              onRequestSort={handleRequestSort}
-              rowCount={results.length}
-            />
-            <TableBody>
-              {stableSort(results, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.object_id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+        {searchStatus === "loading" ? (
+          <ThirdBox
+            title="Loading"
+            image={biocomputing}
+            imageAlt="loading..."
+          />
+        ) : (
+          <TableContainer>
+            <Table
+              sx={{ minWidth: 750 }}
+              aria-labelledby="tableTitle"
+              size={"small"}
+            >
+              <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                disabled
+                onRequestSort={handleRequestSort}
+                rowCount={results.length}
+              />
+              <TableBody>
+                {(searchStatus === "loading") ?(<>loading</>) :(<></>)}
+                {stableSort(results, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const isItemSelected = isSelected(row.object_id);
+                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      //   onClick={(event) => handleClick(event, row.object_id)}
-                      disabled
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.object_id}
-                      selected={isItemSelected}
-                    >
-                      {/* <TableCell padding="checkbox">
+                    return (
+                      <TableRow
+                        hover
+                        //   onClick={(event) => handleClick(event, row.object_id)}
+                        disabled
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row.object_id}
+                        selected={isItemSelected}
+                      >
+                        {/* <TableCell padding="checkbox">
                         <Checkbox
                           color="primary"
                           checked={isItemSelected}
@@ -491,39 +492,40 @@ export default function BcoDbs () {
                           }}
                         />
                       </TableCell> */}
-                      <Tooltip title={row.owner_user} >
-                        <TableCell
-                          id={labelId}
-                          scope="row"
-                          padding="none"
-                        >
-                          <Link
-                            key={row.object_id}
-                            onClick={(event)=>{clickObject(event, row.object_id, row.state)}}
-                          >{row.object_id}</Link>
-                        </TableCell>
-                      </Tooltip>
-                      <TableCell align="left">{row.contents.provenance_domain.name}</TableCell>
-                      <TableCell align="left">{row.prefix}</TableCell>
-                      <TableCell align="left">{row.state}</TableCell>
-                      <TableCell align="left">{row.score}</TableCell>
-                      <TableCell align="left">{row.access_count}</TableCell>
-                      <TableCell align="left">{formatDate(row.last_update)}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: 33 * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                        <Tooltip title={row.owner_user} >
+                          <TableCell
+                            id={labelId}
+                            scope="row"
+                            padding="none"
+                          >
+                            <Link
+                              key={row.object_id}
+                              onClick={(event)=>{clickObject(event, row.object_id, row.state)}}
+                            >{row.object_id}</Link>
+                          </TableCell>
+                        </Tooltip>
+                        <TableCell align="left">{row.contents.provenance_domain.name}</TableCell>
+                        <TableCell align="left">{row.prefix}</TableCell>
+                        <TableCell align="left">{row.state}</TableCell>
+                        <TableCell align="left">{row.score}</TableCell>
+                        <TableCell align="left">{row.access_count}</TableCell>
+                        <TableCell align="left">{formatDate(row.last_update)}</TableCell>
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow
+                    style={{
+                      height: 33 * emptyRows,
+                    }}
+                  >
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
         <TablePagination
           rowsPerPageOptions={[20, 100, 250]}
           component="div"
