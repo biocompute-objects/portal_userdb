@@ -34,9 +34,9 @@ import { visuallyHidden } from "@mui/utils";
 import NotifcationBox from "../components/NotificationBox";
 import { useDispatch, useSelector } from "react-redux";
 import { advSeachBcodb } from "../slices/searchSlice";
-import "../App.css";
 import ThirdBox from "../components/ThirdBox";
 import biocomputing from "../images/biocomputing.gif"
+import "../App.css";
 
 export default function BcoDbs () {
   const dispatch = useDispatch();
