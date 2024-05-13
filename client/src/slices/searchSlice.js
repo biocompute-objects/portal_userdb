@@ -65,7 +65,7 @@ export const searchBcodb = createAsyncThunk(
   async ({publicHostname, quickSearch}, thunkAPI) => {
     try {
       const results = await AuthService.searchBcodbAPI({publicHostname, quickSearch})
-      thunkAPI.dispatch(setMessage(`Search (${quickSearch}) returned ${results.data.length} BCOs`));
+      // thunkAPI.dispatch(setMessage(`Search (${quickSearch}) returned ${results.data.length} BCOs`));
       return results.data
     } catch (error) {
       const message =

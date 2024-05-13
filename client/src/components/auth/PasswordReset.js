@@ -7,7 +7,6 @@ import { MyTextField } from "../builder/specialFeilds";
 import * as Yup from "yup";
 import {resetPassword} from "../../slices/accountSlice";
 import { useNavigate } from "react-router-dom";
-import NotificationBox from "../NotificationBox";
 
 export default function PasswordReset() {
   const dispatch = useDispatch();
@@ -15,7 +14,6 @@ export default function PasswordReset() {
   
   return (
     <Container>
-      <NotificationBox />
       <Card>
         <CardHeader title="Password Reset"/>
         <Box display="flex" flexdirection="column" height="100%" justifyContent="center" >

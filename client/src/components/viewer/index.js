@@ -17,7 +17,6 @@ import {
 import { getPubBco } from "../../slices/bcoSlice";
 import "../../App.css"
 import { useOutletContext } from "react-router-dom";
-import NotificationBox from "../NotificationBox";
 import biocomputing from "../../images/biocomputing.gif"
 import ThirdBox from "../ThirdBox";
 
@@ -80,7 +79,6 @@ export default function BcoViewer () {
 
   return (  
     <>
-      <NotificationBox />
       <Grid container spacing={2}>
         <Grid item xs={12} md>
           <Card>

@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import NotificationBox from "../NotificationBox";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -31,7 +29,6 @@ export default function PrefixRegistry() {
   return (
     <Paper>
       <Typography variant='h4'>BioCompute Object Prefix Registry</Typography>
-      <NotificationBox />
       <PrefixRegister isLoggedIn={isLoggedIn}/>
       <Container className="custom-container">
         <TableContainer component={Paper} className="custom-table-container">

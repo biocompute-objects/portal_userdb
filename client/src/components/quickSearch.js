@@ -9,9 +9,9 @@ import "../App.css";
 
 
 export default function QuickSearch () {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [quickSearch, setQuickSearch] = useState("")
-  const dispatch = useDispatch();
   const bcodbUrl = process.env.REACT_APP_BCOAPI_URL
   const account = useSelector((state) => state.account.isLoggedIn);
   const searchStatus = useSelector(state => state.search.status);

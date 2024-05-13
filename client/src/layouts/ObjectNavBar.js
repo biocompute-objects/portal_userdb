@@ -144,7 +144,7 @@ const ObjectNavBar = () => {
           <p>Contact Us</p>
         </MenuItem>
       </a>
-      {auth.user ? (
+      {isLoggedIn ? (
         <MenuItem component={Link} to='/profile'>
           <IconButton
             aria-label='account of current user'
@@ -255,7 +255,7 @@ const ObjectNavBar = () => {
             <Tooltip title="Help">
               <><HelpDropDown /></>
             </Tooltip>
-            {auth.user ? (
+            {(auth.user && isLoggedIn === true) ? (
               <Tooltip title="Profile Page">
                 <><IconButton
                   component={Link} to='/profile'
