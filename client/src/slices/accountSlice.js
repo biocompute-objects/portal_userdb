@@ -381,6 +381,11 @@ const initialState = user
 export const accountSlice = createSlice({
   name: "account",
   initialState,
+  reducers: {
+    expiredJWT: (state, action) => {
+      state.isLoggedIn = false;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(register.fulfilled, (state) => {
@@ -446,4 +451,6 @@ export const accountSlice = createSlice({
 });
 
 export const accountReducer = accountSlice.reducer
-
+export const {
+  expiredJWT,
+} = accountSlice.actions

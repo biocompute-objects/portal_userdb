@@ -23,7 +23,6 @@ import { ExtensionDomain } from "./extensionDomain";
 import { RawJson } from "./rawJson";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux"
-import NotificationBox from "../NotificationBox";
 import biocomputing from "../../images/biocomputing.gif"
 import ThirdBox from "../ThirdBox";
 
@@ -106,7 +105,6 @@ export default function BuilderColorCode () {
   return (  
 
     <Grid container spacing={2}>
-      <NotificationBox />
       <Stack className="object-contents" direction="column">
         <Card className="object-doamin" spacing={2}>
           <CardContent>

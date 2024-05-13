@@ -24,7 +24,9 @@ import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
 import HelpDropDown from "./shared/HelpDropDown";
 import QuickSearch from "../components/quickSearch";
 import "../App.css"
+
 const NavBar = () => {
+  const isLoggedIn = useSelector((state) => state.account.isLoggedIn);
   const auth = useSelector((state) => state.account);
   const [windowWidth, setWindowWidth] = useState(global.window.innerWidth);
   
@@ -125,7 +127,7 @@ const NavBar = () => {
           <p>Contact Us</p>
         </MenuItem>
       </a>
-      {auth.user ? (
+      {isLoggedIn ? (
         <MenuItem component={Link} to='/profile'>
           <IconButton
             aria-label='account of current user'
@@ -187,7 +189,7 @@ const NavBar = () => {
                 </Badge>
               </IconButton>
             </Tooltip>
-            {auth.user ? (
+            {(auth.user && isLoggedIn === true) ? (
               <>
                 <Tooltip title="Profile Page">
                   <IconButton
