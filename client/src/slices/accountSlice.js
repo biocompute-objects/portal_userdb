@@ -374,6 +374,21 @@ export const permInfo = createAsyncThunk(
   }
 )
 
+export const handleExpiredJWT = createAsyncThunk(
+  "account/handleExpiredJWT",
+  async () => {
+    try {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      // global.window.location.reload()
+      return "Logged out due to expired session"
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+
 const initialState = user
   ? { isLoggedIn: true, user }
   : { isLoggedIn: false, user: null };
@@ -381,13 +396,15 @@ const initialState = user
 export const accountSlice = createSlice({
   name: "account",
   initialState,
-  reducers: {
-    expiredJWT: (state, action) => {
-      state.isLoggedIn = false;
-    }
-  },
   extraReducers: (builder) => {
     builder
+      .addCase(handleExpiredJWT.fulfilled, (state, action) => {
+        state.isLoggedIn = false;
+        console.log(action, state)
+      })
+      .addCase(handleExpiredJWT.rejected, (state, action) => {
+        console.error("Failed to handle expired JWT:", action);
+      })
       .addCase(register.fulfilled, (state) => {
         state.isLoggedIn = false;
       })

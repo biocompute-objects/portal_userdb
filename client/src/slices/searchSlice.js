@@ -68,14 +68,15 @@ export const searchBcodb = createAsyncThunk(
       // thunkAPI.dispatch(setMessage(`Search (${quickSearch}) returned ${results.data.length} BCOs`));
       return results.data
     } catch (error) {
+      console.log(error.response)
       const message =
-            (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
+        (error.response &&
+          error.response.data &&
+          error.response.data.detail) ||
           error.message ||
           error.toString();
       thunkAPI.dispatch(setMessage(message));
-      return thunkAPI.rejectWithValue();
+      return thunkAPI.rejectWithValue(error.response);
     }
   }
 )
