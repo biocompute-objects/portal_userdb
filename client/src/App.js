@@ -15,14 +15,16 @@ function initializeReactGA() {
     page: global.window.location.pathname,
   });
 
-  // Load the script with a version in the query string
   const script = global.document.createElement("script");
   script.src = `https://www.google-analytics.com/ga.js?v=${version}`;
   script.async = true;
   global.document.head.appendChild(script);
 }
 
+
+
 function App() {
+
   initializeReactGA();
   return (
     <BrowserRouter>

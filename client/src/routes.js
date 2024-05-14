@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect }  from "react";
 import { useRoutes, Navigate, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useJwt } from "react-jwt";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import AccountPage from "./components/account";
 import About from "./pages/About.js";
@@ -17,28 +15,45 @@ import PasswordReset from "./components/auth/PasswordReset";
 import Prefix from "./components/prefix";
 import Register from "./components/auth/Register";
 import Resources from "./pages/Resources.js";
+import { jwtDecode } from "jwt-decode";
+import { handleExpiredJWT } from "./slices/accountSlice";
 import { setMessage } from "./slices/messageSlice.js";
-import { expiredJWT } from "./slices/accountSlice.js";
+
+function setupTokenExpirationAlert(expirationTime, onExpireCallback) {
+  const currentTime = Date.now() / 1000; // Convert milliseconds to seconds
+  const timeUntilExpiration = expirationTime - currentTime; // Time until expiration in seconds
+
+  if (timeUntilExpiration > 0) {
+    // Set a timeout to call the onExpireCallback after the calculated delay in milliseconds
+    setTimeout(onExpireCallback, timeUntilExpiration * 1000);
+  } else {
+    // If the token is already expired or the time is negative, call the callback immediately
+    onExpireCallback();
+  }
+}
 
 export default function Router() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const token = localStorage.getItem("token");
   const isLoggedIn = useSelector((state) => state.account.isLoggedIn);
-  const token = localStorage.getItem("token")
-  const { decodedToken, isExpired } = useJwt(token);
-  
-  
-  console.log("isExpired: ", isExpired)
 
   useEffect(() => {
-    if (isExpired === true && isLoggedIn === true) {
-      localStorage.removeItem("user")
-      localStorage.removeItem("token")
-      dispatch(expiredJWT(false))
-      dispatch(setMessage("JW Token Expired. Please log in again"))
-      console.log("isExpired", isExpired, "JW Token Expired. Please log in again")
+    if (token) {
+      const decoded = jwtDecode(token);
+      setupTokenExpirationAlert(decoded.exp, () => {
+        navigate("/login")
+        dispatch(handleExpiredJWT())
+          .unwrap()
+          .then((response) => {
+            console.log(response)
+            dispatch(setMessage("JW Token Expired. Please log in again"))
+          })
+      });
     }
-  }, [isExpired, dispatch])
-
+    
+    return () => clearTimeout(setupTokenExpirationAlert);
+  }, [token, isLoggedIn]);
 
   let element = useRoutes([
     {
