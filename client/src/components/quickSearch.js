@@ -9,32 +9,36 @@ import "../App.css";
 
 
 export default function QuickSearch () {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [quickSearch, setQuickSearch] = useState("")
+  const dispatch = useDispatch();
   const bcodbUrl = process.env.REACT_APP_BCOAPI_URL
-  const account = useSelector((state) => state.account);
-  const searchStatus = useSelector(state => state.search.status);
+  const account = useSelector((state) => state.account.isLoggedIn);
   
   const handleQuickSearch = () => {
-    navigate("/bcodbs")
     if (account.isLoggedIn === true) {
-      const publicHostname = account.user.bcodbs[0]["public_hostname"]
+      const publicHostname = account.user.bcodb[0]["public_hostname"]
       dispatch(searchBcodb({publicHostname, quickSearch}))
+        .then(() => {
+          navigate("/bcodbs")
+        })
     } else {
       const publicHostname = bcodbUrl.replace("/api/", "")
       dispatch(searchBcodb({publicHostname, quickSearch}))
+        .then(() => {
+          navigate("/bcodbs")
+        })
     }
   }
 
   return (
     <Input
-      disabled={searchStatus === "loading"}
-      className="nav-link"
+      className="white-icon"
       id="bcodb"
       value={quickSearch}
+      variant="outlined" 
       startAdornment={
-        <InputAdornment position="start">
+        <InputAdornment position="end">
           <SearchIcon className="white-icon"/>
         </InputAdornment>
       }

@@ -9,7 +9,7 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { ListItemDecorator } from "@mui/joy";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import IconButton from "@mui/joy/IconButton";
-import { Tooltip } from "@mui/material";
+import { Tooltip } from "@material-ui/core";
 import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
 
 export default function APP() {

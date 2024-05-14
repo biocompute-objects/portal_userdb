@@ -6,10 +6,10 @@ import {
   LargeTextField,
   Selector
 } from "./specialFeilds"
-import { Button, Card, CardContent, Grid } from "@mui/material";
+import { Button, Card, CardContent, Grid } from "@material-ui/core";
 import { useFormikContext } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { writingBco } from "../../slices/bcoSlice";
+import { updateBcoStatus } from "../../slices/bcoSlice";
 
 export const removeEmptyValues = (myData, excludedKeys = []) => {
   const obj = JSON.parse(JSON.stringify(myData))
@@ -62,13 +62,13 @@ export const Uri = ({uri_element}) => {
 }
 
 export const Next = () => {
-  const writingStatus = useSelector((state) => state.bco.writingStatus);
+  const bcoStatus = useSelector((state) => state.bco.status);
   return(
     <Button
       type='submit'
       variant="contained"
       color="primary"
-      disabled={(writingStatus === "idle")}
+      disabled={(bcoStatus === "idle")}
     > Next </Button>
   )
 }
@@ -117,7 +117,7 @@ export const FormObserver = () => {
   const dispatch = useDispatch();
   
   useEffect(() => {
-    dispatch(writingBco(dirty))  
+    dispatch(updateBcoStatus(dirty))  
   }, [dirty]);
 
   return null

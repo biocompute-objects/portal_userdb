@@ -7,10 +7,10 @@ import {
   Card,
   CardContent,
   Grid,
-} from "@mui/material";
+} from "@material-ui/core";
 import { Field, Form, Formik  } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { searchPrefixRegistry } from "../../slices/prefixSlice";
+import { searchPrefix } from "../../slices/prefixSlice";
 import { MyTextField } from "../builder/specialFeilds";
 
 
@@ -39,13 +39,13 @@ export default function PrefixSearch({setAddPrefix}) {
                   radio: values.radio,
                   search: "None"
                 };
-                dispatch(searchPrefixRegistry({data}))
+                dispatch(searchPrefix({data}))
               } else {
-                const data = [
-                  values.radio,
-                  values.search
-                ];
-                dispatch(searchPrefixRegistry(data))
+                const data = {
+                  radio: values.radio,
+                  search: values.search
+                };
+                dispatch(searchPrefix({data}))
               }
               resetForm()
               setSubmitting(false);

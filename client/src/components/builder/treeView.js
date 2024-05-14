@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, CardContent, CardHeader, Grid, Paper, Typography } from "@mui/material";
+import { Button, Card, CardContent, CardHeader, Grid, Paper, Typography } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import ReactJson from "react-json-view"
 import { updateBco, updateModified } from "../../slices/bcoSlice";

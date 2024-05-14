@@ -22,7 +22,7 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import DocDropDown from "./shared/DocDropDown";
 import ToolsDropDown from "./shared/ToolsDropDown";
 import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
-import { Box, TextField } from "@mui/material";
+import { Box, TextField } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { Field, Formik, Form } from "formik";
 import { getPrefixList } from "../slices/prefixSlice";
@@ -144,7 +144,7 @@ const ObjectNavBar = () => {
           <p>Contact Us</p>
         </MenuItem>
       </a>
-      {isLoggedIn ? (
+      {auth.user ? (
         <MenuItem component={Link} to='/profile'>
           <IconButton
             aria-label='account of current user'
@@ -255,7 +255,7 @@ const ObjectNavBar = () => {
             <Tooltip title="Help">
               <><HelpDropDown /></>
             </Tooltip>
-            {(auth.user && isLoggedIn === true) ? (
+            {auth.user ? (
               <Tooltip title="Profile Page">
                 <><IconButton
                   component={Link} to='/profile'

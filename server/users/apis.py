@@ -38,6 +38,7 @@ class ChangePasswordApi(APIView):
         new_password = serializers.CharField(required=True)
 
     def get_object(self, queryset=None):
+        import pdb; pdb.set_trace()
         obj = self.request.user
         return obj
 
@@ -82,10 +83,9 @@ class UserCreateApi(APIView):
             properties={
                 "username": openapi.Schema(
                     type=openapi.TYPE_STRING,
-                    description="User name.",
                     default="test"
                 ),
-                "email": openapi.Schema(type=openapi.TYPE_STRING,default="test@test.test"),
+                "email": openapi.Schema(type=openapi.TYPE_STRING,),
                 "password": openapi.Schema(type=openapi.TYPE_STRING,),
                 "profile": openapi.Schema(
                     type=openapi.TYPE_OBJECT,
@@ -96,7 +96,7 @@ class UserCreateApi(APIView):
                         ),
                         "affiliation": openapi.Schema(
                             type=openapi.TYPE_STRING,
-                            default="George Washington University"
+                            default="George Wasington University"
                         ),
                         "orcid": openapi.Schema(
                             type=openapi.TYPE_STRING,

@@ -505,7 +505,7 @@
         "model": "auth.user",
         "pk": 4,
         "fields": {
-            "password": "pbkdf2_sha256$390000$rIcwdj5K9CBTExODPSRbuB$QYGNgZZeFBQ3XpD79FBlLm03svr2/lY911HIWds2kR0=",
+            "password": "pbkdf2_sha256$390000$Fnpy5IrNP3AS6lIvijd2Sp$Wrl7gOquDZ3lZl69rQgbEcFqg1V2gnUIqdOw55WL54M=",
             "last_login": null,
             "is_superuser": false,
             "username": "testertest",
@@ -608,25 +608,14 @@
         }
     },
     {
-        "model": "django_rest_passwordreset.resetpasswordtoken",
-        "pk": 4,
-        "fields": {
-            "user": 1,
-            "created_at": "2023-10-10T16:48:35.340Z",
-            "key": "9e1ecb3343f5a5ecf6d99bca2516aabc2cb08efb7a5b6329",
-            "ip_address": "127.0.0.1",
-            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
-        }
-    },
-    {
         "model": "bcodb.bcodb",
         "pk": "8be48b95-86ed-439a-a2eb-e60f2dddba1e",
         "fields": {
-            "bcodb_username": "bco_api_user",
-            "hostname": "127.0.0.1:8000",
+            "bcodb_username": "bco_publisher",
+            "hostname": "test.portal.biochemistry.gwu.edu",
             "human_readable_hostname": "BCO Server (Default)",
             "public_hostname": "https://test.portal.biochemistry.gwu.edu",
-            "token": "bd97d8cbec1fc7234e11e80957496aefc20c6395",
+            "token": "2f2a599026581c158a07f968c56292c77f4be875",
             "owner": "80ee9548-274f-426b-bf80-046c9210e33b",
             "user_permissions": [
                 "Can add BCOs with prefix BCO",
@@ -635,6 +624,10 @@
                 "Can draft BCOs with prefix BCO",
                 "Can publish BCOs with prefix BCO",
                 "Can view BCOs with prefix BCO"
+            ],
+            "group_permissions": [
+                "bco_drafter",
+                "bco_publisher"
             ],
             "account_creation": "2022-05-10T20:35:14.506Z",
             "account_expiration": "",
@@ -649,7 +642,7 @@
         "pk": "93a87430-3a58-439c-a9b1-19947b88ba23",
         "fields": {
             "bcodb_username": "jdoe58",
-            "hostname": "127.0.0.1:8000",
+            "hostname": "test.portal.biochemistry.gwu.edu",
             "human_readable_hostname": "BCO Server (Default)",
             "public_hostname": "https://test.portal.biochemistry.gwu.edu",
             "token": "3f5504d88a5085d0452b19350fb6f82ae7097dd0",
@@ -661,6 +654,11 @@
                 "Can draft BCOs with prefix BCO",
                 "Can view BCOs with prefix BCO",
                 "Can publish BCOs with prefix BCO"
+            ],
+            "group_permissions": [
+                "bco_drafter",
+                "bco_publisher",
+                "jdoe58"
             ],
             "account_creation": "2022-05-10T20:54:44.793Z",
             "account_expiration": "",
@@ -675,7 +673,7 @@
         "pk": "99de7923-1669-45e4-82cd-ba263884a0f9",
         "fields": {
             "bcodb_username": "hivelab37",
-            "hostname": "127.0.0.1:8000",
+            "hostname": "test.portal.biochemistry.gwu.edu",
             "human_readable_hostname": "BCO Server (Default)",
             "public_hostname": "https://test.portal.biochemistry.gwu.edu",
             "token": "0bd55c955fcbfc269f6dc8f61ea107674cafdecb",
@@ -687,6 +685,11 @@
                 "Can draft BCOs with prefix BCO",
                 "Can view BCOs with prefix BCO",
                 "Can publish BCOs with prefix BCO"
+            ],
+            "group_permissions": [
+                "bco_drafter",
+                "bco_publisher",
+                "hivelab37"
             ],
             "account_creation": "2022-05-10T20:53:42.499Z",
             "account_expiration": "",
@@ -701,7 +704,7 @@
         "pk": "dcadb7dd-1bce-4698-9ddd-1b2a50ea9cc2",
         "fields": {
             "bcodb_username": "test50",
-            "hostname": "127.0.0.1:8000",
+            "hostname": "test.portal.biochemistry.gwu.edu",
             "human_readable_hostname": "BCO Server (Default)",
             "public_hostname": "https://test.portal.biochemistry.gwu.edu",
             "token": "c400a6076a2dfe7e9906ab86c6ad4574d1d60e03",
@@ -718,6 +721,12 @@
                 "Can delete BCOs with prefix TEST",
                 "Can draft BCOs with prefix TEST",
                 "Can view BCOs with prefix TEST"
+            ],
+            "group_permissions": [
+                "bco_drafter",
+                "bco_publisher",
+                "test50",
+                "test_drafter"
             ],
             "account_creation": "2022-05-10T20:50:39.093Z",
             "account_expiration": "",
@@ -740,34 +749,12 @@
     },
     {
         "model": "users.profile",
-        "pk": "12d15503-51b2-421f-bed7-ff5bdb0c2fc4",
-        "fields": {
-            "username": "hadleyking",
-            "affiliation": "",
-            "email": "imabossbrother@gmail.com",
-            "orcid": "",
-            "public": false
-        }
-    },
-    {
-        "model": "users.profile",
         "pk": "500033e4-80d2-4970-82a5-b27a34b3b0a6",
         "fields": {
             "username": "johndoe",
             "affiliation": "",
             "email": "jdoe@testing.com",
             "orcid": "",
-            "public": false
-        }
-    },
-    {
-        "model": "users.profile",
-        "pk": "550cb8fe-2351-4ce5-9853-83db84e5602e",
-        "fields": {
-            "username": "CharlesHadleyKing",
-            "affiliation": "",
-            "email": "charles.hadley.king@gmail.com",
-            "orcid": " ",
             "public": false
         }
     },
@@ -795,46 +782,11 @@
     },
     {
         "model": "prefix.prefix",
-        "pk": "BCO",
+        "pk": "SSDD",
         "fields": {
             "username": "bco_api_user",
-            "public": true,
-            "public_hostname": "https://test.portal.biochemistry.gwu.edu",
             "registration_date": "2023-08-30T15:50:08.739Z",
             "registration_certificate": "5ab5e87cdb35407e98b7662cca2ae20b"
-        }
-    },
-    {
-        "model": "prefix.prefix",
-        "pk": "HIVE",
-        "fields": {
-            "username": "hivelab",
-            "public": true,
-            "public_hostname": "https://test.portal.biochemistry.gwu.edu",
-            "registration_date": "2023-08-30T15:50:08.739Z",
-            "registration_certificate": "lazc=!pr35pau5b2x-x70y3_t++d5^s4cgk=mjo5o3^9zvrzki"
-        }
-    },
-    {
-        "model": "prefix.prefix",
-        "pk": "NOPUB",
-        "fields": {
-            "username": "bco_api_user",
-            "public": false,
-            "public_hostname": "https://test.portal.biochemistry.gwu.edu",
-            "registration_date": "2023-08-30T15:50:08.739Z",
-            "registration_certificate": "b7mj8(w+hz!2p1-8bx9=-3qoi*1gf9&$8*tt3hw$d)bvhl+h1="
-        }
-    },
-    {
-        "model": "prefix.prefix",
-        "pk": "TEST",
-        "fields": {
-            "username": "testertest",
-            "public": true,
-            "public_hostname": "https://test.portal.biochemistry.gwu.edu",
-            "registration_date": "2023-08-30T15:50:08.739Z",
-            "registration_certificate": "dn=d3!lksaaygduo!5s(x3%2pst9jok#yohvqtr+hidi12s0!o"
         }
     }
 ]
