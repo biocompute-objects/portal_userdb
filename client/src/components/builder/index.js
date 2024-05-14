@@ -25,7 +25,6 @@ import { useOutletContext, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux"
 import biocomputing from "../../images/biocomputing.gif"
 import ThirdBox from "../ThirdBox";
-
 import {
   getDraftBco,
   getTempDraftBco,
@@ -70,19 +69,6 @@ export default function BuilderColorCode () {
       setDomain(domain+1)
     }
   }
-  const isUUID = (str) => {
-    const uuidPattern = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
-    return uuidPattern.test(str);
-  };
-
-  function validURL(url) {
-    try {
-      new URL(url);
-      return true;
-    } catch (err) {
-      return false;
-    }
-  }
   
   useEffect(()=> {
     const queryString = global.window.location.search.substring(1)
@@ -91,7 +77,6 @@ export default function BuilderColorCode () {
       dispatch(getDraftBco(queryString))
     }
     if (isUUID(queryString)) {
-      console.log("UUID", queryString);
       dispatch(getTempDraftBco(queryString))
     }
   }, [])

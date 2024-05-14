@@ -32,6 +32,18 @@ const getTempDraftBco = async (queryString) => {
   return response;
 }
 
+const deleteTempDraftBco = async (queryString) => {
+  const response = await axios.post(`${USERS_URL}bcodb/draft_bco/delete`, {
+    "bco_id": queryString
+  }, {
+    headers: {
+      "Authorization": `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      "Content-Type": "application/json"
+    }
+  });
+  return response;
+}
+
 const getPubBco = async (object_id) => {
   const response = await axios.get(object_id, {
     headers: {
@@ -122,6 +134,7 @@ const BcoService = {
   getExtension,
   getDraftBco,
   getTempDraftBco,
+  deleteTempDraftBco,
   getPubBco,
   createDraftBco,
   updateDraftBco,

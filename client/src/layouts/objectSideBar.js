@@ -87,7 +87,6 @@ export default function ObjectSideBar ({domain, setDomain}) {
   };
 
   const updateDraft = () => {
-    console.log("Update", BCODB_URL, bco)
     const bcoURL = BCODB_URL
     const bcoObject = removeEmptyValues(bco, [
       "input_list", "external_data_endpoints", "environment_variables", "error_domain", "value"
