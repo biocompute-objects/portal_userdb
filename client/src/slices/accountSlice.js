@@ -467,7 +467,4 @@ export const accountSlice = createSlice({
   },
 });
 
-export const accountReducer = accountSlice.reducer
-export const {
-  expiredJWT,
-} = accountSlice.actions
+export const accountReducer = accountSlice.reducer;

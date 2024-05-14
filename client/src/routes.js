@@ -2,8 +2,8 @@ import React, { useEffect }  from "react";
 import { useRoutes, Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import AccountPage from "./components/account";
 import About from "./pages/About.js";
+import AccountPage from "./components/account";
 import BcoDbs from "./pages/Bcodbs.js";
 import BcoViewer from "./components/viewer";
 import BuilderColorCode from "./components/builder";
