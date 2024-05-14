@@ -39,14 +39,8 @@ import biocomputing from "../images/biocomputing.gif"
 import "../App.css";
 
 export default function BcoDbs () {
+  
   const dispatch = useDispatch();
-  const searchStatus = useSelector(state => state.search.status)
-  const results = useSelector((state) => state.search.results)
-  let isLoggedIn = useSelector((state) => state.account.isLoggedIn);
-  const bcodbs = (isLoggedIn
-    ? useSelector((state) => state.account.user.bcodbs)
-    : []);
-    
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
@@ -55,6 +49,13 @@ export default function BcoDbs () {
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const [advancedSearch, setAdvancedSearch] = useState(false)
   
+  const searchStatus = useSelector(state => state.search.status)
+  const results = useSelector((state) => state.search.results)
+  const isLoggedIn = useSelector((state) => state.account.isLoggedIn);
+  const bcodbs = (isLoggedIn
+    ? useSelector((state) => state.account.user.bcodbs)
+    : []);
+
   const location  = process.env.REACT_APP_SERVER_URL
   const bcodbUrl = process.env.REACT_APP_BCOAPI_URL
   const BCOAPI_TOKEN = process.env.REACT_APP_BCOAPI_TOKEN
