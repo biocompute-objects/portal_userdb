@@ -7,10 +7,9 @@ import { Formik, Form } from "formik";
 import { GoogleLogin } from "react-google-login";
 import * as Yup from "yup";
 import { MyTextField } from "../builder/specialFeilds";
-import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField, Typography } from "@material-ui/core";
+import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { forgotPassword, login, googleLogin, orcidLogIn } from "../../slices/accountSlice";
-import NotificationBox from "../NotificationBox";
 import { useSearchParams } from "react-router-dom";
 
 const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
@@ -69,7 +68,6 @@ const Login = () => {
       .unwrap()
       .then(() => {
         navigate("/");
-        global.window.location.reload();
       })
       .catch(() => {
         setLoading(false);
@@ -175,7 +173,6 @@ const Login = () => {
             </Form>
           </Formik>
         </Container>
-        <NotificationBox />
         <Dialog open={open}>
           <DialogContent>
             <DialogTitle>Password Reset</DialogTitle>

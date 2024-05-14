@@ -6,7 +6,7 @@ import HandymanIcon from "@mui/icons-material/Handyman";
 import Dropdown from "@mui/joy/Dropdown";
 import { ListItemDecorator } from "@mui/joy";
 import IconButton from "@mui/joy/IconButton";
-import { ListItemText, Tooltip } from "@material-ui/core";
+import { ListItemText, Tooltip } from "@mui/material";
 import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
@@ -24,13 +24,12 @@ export default function ToolsDropDown() {
   const dispatch = useDispatch();
   const jsonData = useSelector((state) => state.bco.data);
 
-  const  handleDerive = (jsonData) => {
+  const  handleDerive = () => {
     navigate("/builder")
     dispatch(deriveBco(jsonData))
   };
 
   const validate = () => {
-    console.log("Validate", BCODB_URL, jsonData)
     const bcoURL = BCODB_URL
     const bcoObject = removeEmptyValues(jsonData, [
       "input_list", "external_data_endpoints", "environment_variables","value"

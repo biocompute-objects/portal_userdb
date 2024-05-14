@@ -1,32 +1,68 @@
-// src/components/prefix/index.js
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { searchPrefixRegistry } from "../../slices/prefixSlice";
+import { Typography } from "@mui/material";
+import { Container } from "react-bootstrap";
+import PrefixRegister from "./PrefixRegister";
+import "../../App.css"
+import PrefixModify from "./PrefixModify";
 
-import React, { useState } from "react";
-import { Container, Typography } from "@material-ui/core";
-import NotificationBox from "../NotificationBox";
-import PrefixResults from "./PrefixResults";
-import PrefixSearch from "./PrefixSearch";
-import PrefixRegister from "./prefixRegister";
-import { useSelector } from "react-redux";
+export default function PrefixRegistry() {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.account.isLoggedIn);
+  const currentUser = isLoggedIn 
+    ? useSelector((state) => state.account.user.userinfo.username) 
+    : "AnonymousUser";
+  const rows = useSelector((state) => state.prefix.data);
 
-export default function BcoDbs () {
-  const prefixes = useSelector(state => state.prefix.data)
-  const [addPrefix, setAddPrefix] = useState(false);
+  useEffect(() => {
+    dispatch(searchPrefixRegistry(["all", "None"]));
+  }, [dispatch]);
+
   return (
-    <Container >
+    <Paper>
       <Typography variant='h4'>BioCompute Object Prefix Registry</Typography>
-      <NotificationBox />
-      <PrefixSearch
-        setAddPrefix={setAddPrefix}
-      />
-      {
-        (prefixes.length > 1)
-          ? (<PrefixResults />)
-          : (<div></div>)
-      }
-      <PrefixRegister
-        addPrefix={addPrefix}
-        setAddPrefix={setAddPrefix}
-      />
-    </Container>
+      <PrefixRegister isLoggedIn={isLoggedIn}/>
+      <Container className="custom-container">
+        <TableContainer component={Paper} className="custom-table-container">
+          <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Prefix</TableCell>
+                <TableCell align="right">Owner</TableCell>
+                <TableCell align="right">Registration Date</TableCell>
+                <TableCell align="right">Modify Privileges</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row, index) => (
+                <TableRow
+                  key={index}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {row.prefix}
+                  </TableCell>
+                  <TableCell align="right">{row.username}</TableCell>
+                  <TableCell align="right">{row.registration_date}</TableCell>
+                  <TableCell align="right">
+                    {row.username === currentUser ? (
+                      <PrefixModify prefix={row} />
+                    ) : "No"}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Container>
+    </Paper>
   );
 }

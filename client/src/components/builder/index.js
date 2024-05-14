@@ -1,5 +1,14 @@
 import React, { useEffect } from "react";
-import { Card, CardContent, CardHeader, Container, Grid, Typography } from "@material-ui/core";
+import { 
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  Grid,
+  Stack,
+  Typography
+
+} from "@mui/material";
 import PropTypes from "prop-types";
 import ReactJson from "react-json-view"
 import { DescriptionDomain } from "./descriptionDomain";
@@ -14,12 +23,10 @@ import { ExtensionDomain } from "./extensionDomain";
 import { RawJson } from "./rawJson";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux"
-import objectHash from "object-hash";
-import NotificationBox from "../NotificationBox";
-import { validURL, isUUID } from "./components";
+import biocomputing from "../../images/biocomputing.gif"
+import ThirdBox from "../ThirdBox";
 import {
   getDraftBco,
-  updateETag,
   getTempDraftBco,
 } from "../../slices/bcoSlice";
 
@@ -27,16 +34,10 @@ export default function BuilderColorCode () {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const bco = useSelector(state => state.bco.data);
+  const bcoStatus = useSelector(state => state.bco.status);
   const bcoError = useSelector(state => state.bco.error);
   const {domain, setDomain} = useOutletContext()
-  const hash = (bco) => objectHash(bco,{ excludeKeys: function(key) {
-    if (( key === "object_id" ) || (key === "etag") || (key === "spec_version")) {
-      return true;
-    }
-    return false;
-  }
-  })
-
+  
   function TabPanel(props) {
     const { children, domain, index, ...other } = props;
     return (
@@ -70,17 +71,10 @@ export default function BuilderColorCode () {
   }
   
   useEffect(()=> {
-    const etag = hash(bco)
-    dispatch(updateETag(etag))
     const queryString = global.window.location.search.substring(1)
     
     if (validURL(queryString) === true) {
       dispatch(getDraftBco(queryString))
-        .unwrap()
-        .catch((error) => {
-          console.log("Error", error);
-          global.window.close()
-        });
     }
     if (isUUID(queryString)) {
       dispatch(getTempDraftBco(queryString))
@@ -96,9 +90,8 @@ export default function BuilderColorCode () {
   return (  
 
     <Grid container spacing={2}>
-      <NotificationBox />
-      <Grid item className="object-contents">
-        <Card spacing={2}>
+      <Stack className="object-contents" direction="column">
+        <Card className="object-doamin" spacing={2}>
           <CardContent>
             <Typography>
                   Object ID: {bco.object_id}
@@ -124,37 +117,60 @@ export default function BuilderColorCode () {
           }
         </Card>
         <br/>
-        <TabPanel  domain={domain} index={0}>
-          <ProvenanceDomain onSave={onSave}/>
-        </TabPanel>
-        <TabPanel domain={domain} index={1}>
-          <UsabilityDomain onSave={onSave}/>
-        </TabPanel>
-        <TabPanel domain={domain} index={2}>
-          <DescriptionDomain onSave={onSave}/>
-        </TabPanel>
-        <TabPanel domain={domain} index={3}>
-          <ExtensionDomain onSave={onSave}/>
-        </TabPanel>
-        <TabPanel domain={domain} index={4}>
-          <ParametricDomain onSave={onSave}/>
-        </TabPanel>
-        <TabPanel domain={domain} index={5}>
-          <IODomain onSave={onSave}/>
-        </TabPanel>
-        <TabPanel domain={domain} index={6}>
-          <ExecutionDomain onSave={onSave}/>
-        </TabPanel>
-        <TabPanel domain={domain} index={7}>
-          <ErrorDomain onSave={onSave}/>
-        </TabPanel>
-        <TabPanel domain={domain} index={8}>
-          <RawJson onSave={onSave}/>
-        </TabPanel>
-        <TabPanel domain={domain} index={9}>
-          <TreeView onSave={onSave}/>
-        </TabPanel>
-      </Grid>
+        {
+          bcoStatus === "idle" ?(<>
+            <TabPanel  domain={domain} index={0}>
+              <ProvenanceDomain onSave={onSave}/>
+            </TabPanel>
+            <TabPanel domain={domain} index={1}>
+              <UsabilityDomain onSave={onSave}/>
+            </TabPanel>
+            <TabPanel domain={domain} index={2}>
+              <DescriptionDomain onSave={onSave}/>
+            </TabPanel>
+            <TabPanel domain={domain} index={3}>
+              <ExtensionDomain onSave={onSave}/>
+            </TabPanel>
+            <TabPanel domain={domain} index={4}>
+              <ParametricDomain onSave={onSave}/>
+            </TabPanel>
+            <TabPanel domain={domain} index={5}>
+              <IODomain onSave={onSave}/>
+            </TabPanel>
+            <TabPanel domain={domain} index={6}>
+              <ExecutionDomain onSave={onSave}/>
+            </TabPanel>
+            <TabPanel domain={domain} index={7}>
+              <ErrorDomain onSave={onSave}/>
+            </TabPanel>
+            <TabPanel domain={domain} index={8}>
+              <RawJson onSave={onSave}/>
+            </TabPanel>
+            <TabPanel domain={domain} index={9}>
+              <TreeView onSave={onSave}/>
+            </TabPanel></>
+          ) :( 
+            <Card>
+              {bcoStatus === "loading" ?(
+                <CardContent>
+                  <ThirdBox
+                    title="Loading"
+                    image={biocomputing}
+                    imageAlt="loading..."
+                  />
+                </CardContent>
+              ) :(
+                <CardContent>
+                  <ThirdBox
+                    title="Failed to get BCO"
+                    content={JSON.stringify(bcoError)}
+                  />
+                    
+                </CardContent>
+              )}
+            </Card>
+          )}
+      </Stack>
     </Grid>
   )
 }

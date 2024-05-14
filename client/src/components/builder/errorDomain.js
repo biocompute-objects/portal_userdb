@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import {Box, Button, Card, CardContent, CardHeader, TextField} from "@material-ui/core";
+import {Box, Button, Card, CardContent, CardHeader, TextField} from "@mui/material";
 import { Formik, Form} from "formik";
 import { useSelector, useDispatch } from "react-redux"
-import { updateBcoStatus, updateErrorDomain, updateModified } from "../../slices/bcoSlice"
+import { writingBco, updateErrorDomain, updateModified } from "../../slices/bcoSlice"
 import { FormObserver } from "./components";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Tooltip from "@mui/material/Tooltip";
@@ -21,7 +21,7 @@ export const ErrorDomain = ({onSave}) => {
 
   const setInput = (target) => {
     setWriting(true)
-    dispatch(updateBcoStatus(true))
+    dispatch(writingBco(true))
     let holder = {};
     try {
       holder = JSON.parse(target.value);
@@ -81,7 +81,7 @@ export const ErrorDomain = ({onSave}) => {
                   onClick={() => {
                     dispatch(updateErrorDomain({empirical_error, algorithmic_error}))
                     dispatch(updateModified())
-                    dispatch(updateBcoStatus(false))
+                    dispatch(writingBco(false))
                     onSave()
                   }}
                 > Next </Button>

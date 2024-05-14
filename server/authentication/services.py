@@ -34,7 +34,6 @@ class BcoDbSerializer(serializers.ModelSerializer):
             "token",
             "owner",
             "user_permissions",
-            "group_permissions",
             "account_creation",
             "account_expiration",
             "last_update",

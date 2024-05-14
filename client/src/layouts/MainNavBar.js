@@ -23,11 +23,12 @@ import AppDropDown from "./shared/AppDropDown";
 import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
 import HelpDropDown from "./shared/HelpDropDown";
 import QuickSearch from "../components/quickSearch";
+import "../App.css"
 
 const NavBar = () => {
+  const isLoggedIn = useSelector((state) => state.account.isLoggedIn);
   const auth = useSelector((state) => state.account);
   const [windowWidth, setWindowWidth] = useState(global.window.innerWidth);
-  
   
   /* Should hold reference to DOM element, set anchorEl when
   menu is clicked open.*/
@@ -99,7 +100,7 @@ const NavBar = () => {
         <p>BCO DB</p>
       </MenuItem>
       <MenuItem component={Link} to='/about'>
-        <IconButton aria-label='About Us' color='inherit'>
+        <IconButton aria-label='About Us' className="white-icon">
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
             <InfoOutlinedIcon />
           </Badge>
@@ -126,7 +127,7 @@ const NavBar = () => {
           <p>Contact Us</p>
         </MenuItem>
       </a>
-      {auth.user ? (
+      {isLoggedIn ? (
         <MenuItem component={Link} to='/profile'>
           <IconButton
             aria-label='account of current user'
@@ -182,13 +183,13 @@ const NavBar = () => {
               <><HelpDropDown /></>
             </Tooltip>
             <Tooltip title="About Us">
-              <IconButton component={Link} to='/about' aria-label='show 0 new notifications' className="nav-link">
-                <Badge overlap="rectangular" badgeContent={0} color='secondary'>
-                  <InfoOutlinedIcon />
+              <IconButton component={Link} to='/about' className="nav-link">
+                <Badge overlap="rectangular" badgeContent={0} >
+                  <InfoOutlinedIcon className="white-icon"/>
                 </Badge>
               </IconButton>
             </Tooltip>
-            {auth.user ? (
+            {(auth.user && isLoggedIn === true) ? (
               <>
                 <Tooltip title="Profile Page">
                   <IconButton
@@ -216,7 +217,7 @@ const NavBar = () => {
                   aria-label='log in' 
                   className="nav-link"
                 >
-                  <Typography variant='h6' component='h6'>
+                  <Typography variant='h6' component='h6' className="white-icon">
                     Log in
                   </Typography>
                 </IconButton>

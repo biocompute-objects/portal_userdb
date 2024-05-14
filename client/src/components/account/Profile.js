@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Card, CardContent, CardHeader, Grid, Typography } from "@material-ui/core";
+import { Button, Card, CardContent, CardHeader, Grid, Typography } from "@mui/material";
 import { Formik, Form, } from "formik";
 import { MyTextField } from "../builder/specialFeilds";
 import { account } from "../../slices/accountSlice";
@@ -87,10 +87,10 @@ const Profile = () => {
                     <MyTextField name='email' label='Email address' isRequired/>
                   </Grid>
                   <Grid item>
-                    <MyTextField name='public' label='public account'/>
+                    <MyTextField name='affiliation' label='Affiliation'/>
                   </Grid>
                   <Grid item>
-                    <MyTextField name='affiliation' label='Affiliation'/>
+                    <MyTextField name='public' type="checkbox" label='public account'/>
                   </Grid>
                   <Grid item>
                     { (values.orcid.length > 3)

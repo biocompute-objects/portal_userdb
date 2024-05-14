@@ -5,7 +5,7 @@ import MenuItem from "@mui/joy/MenuItem";
 import Dropdown from "@mui/joy/Dropdown";
 import { ListItemDecorator } from "@mui/joy";
 import IconButton from "@mui/joy/IconButton";
-import { Tooltip } from "@material-ui/core";
+import { Tooltip } from "@mui/material";
 import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";

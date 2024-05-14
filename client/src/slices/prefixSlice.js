@@ -3,12 +3,12 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import prefixService from "../services/prefix.service";
 import { setMessage } from "./messageSlice";
 
-export const searchPrefix = createAsyncThunk(
-  "searchPrefix",
-  async ({data}, thunkAPI) => {
+export const searchPrefixRegistry = createAsyncThunk(
+  "searchPrefixRegistry",
+  async (data, thunkAPI) => {
     try {
-      const response = await prefixService.searchPrefix(data);
-      thunkAPI.dispatch(setMessage(`Search returned ${response.data.length} prefixes`));
+      const response = await prefixService.searchPrefixRegistry(data);
+      // thunkAPI.dispatch(setMessage(`Search returned ${response.data.length} prefixes`));
       return response.data
     } catch (error) {
       const message =
@@ -28,7 +28,7 @@ export const registerPrefix= createAsyncThunk(
   async ({values}, thunkAPI) => {
     try {
       const response = await prefixService.registerPrefix(values);
-      thunkAPI.dispatch(setMessage(response.data["message"]));
+      thunkAPI.dispatch(setMessage(response.data));
       return response.data
     } catch (error) {
       const message =
@@ -62,6 +62,43 @@ export const getPrefixList = createAsyncThunk(
   } 
 )
 
+export const prefixInfo = createAsyncThunk(
+  "prefixInfo",
+  async ({public_hostname, prefixName}, thunkAPI) => {
+    try {
+      const response = await prefixService.prefixInfo(public_hostname, prefixName);
+      return response.data;
+    } catch(error) {
+      console.log(error)
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
+
+export const prefixModify = createAsyncThunk(
+  "prefixModify",
+  async ({returnData, public_hostname}, thunkAPI) => {
+    try {
+      const response = await prefixService.prefixModify(returnData, public_hostname);
+      thunkAPI.dispatch(setMessage(response.data[0].message));
+      return response.data;
+    } catch(error) {
+      const message =
+        (error.response.data[0].message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
 export const prefixSlice = createSlice({
   name: "prefix",
   initialState: {
@@ -71,17 +108,20 @@ export const prefixSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(searchPrefix.fulfilled, (state, action) => {
+      .addCase(prefixInfo.fulfilled, (state) => {
+        state.status = "fulfilled";
+      })
+      .addCase(searchPrefixRegistry.fulfilled, (state, action) => {
         state.data = action.payload
         state.status = "fulfilled";
       })
-      .addCase(searchPrefix.rejected, (state, action) => {
+      .addCase(searchPrefixRegistry.rejected, (state, action) => {
         state.error = action.error.message
         state.status = "failed";
       })
       .addCase(getPrefixList.fulfilled, (state, action) => {
         for (let i = 0; i < action.payload.length; i++) {
-          if (action.payload[i].includes("draft_")) {
+          if (action.payload[i].includes("add_")) {
             const prefix = action.payload[i].split("_")[1]
             if (!(state.data.indexOf(prefix) > -1)) {
               state.data.push(prefix)

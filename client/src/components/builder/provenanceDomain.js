@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as Yup from "yup";
-import {Card, CardContent, CardHeader, Typography, Grid, Button, TextField } from "@material-ui/core";
+import {Card, CardContent, CardHeader, Typography, Grid, Button, TextField } from "@mui/material";
 import { Formik, Form, FieldArray } from "formik";
 import { Contribution, FormObserver, Reviewer, Next } from "./components";
 import { useSelector, useDispatch } from "react-redux"
@@ -44,7 +44,7 @@ export const  ProvenanceDomain = ({onSave} ) => {
               "license": provenanceDomain["license"],
               "created": provenanceDomain["created"],
               "modified": provenanceDomain["modified"],
-              "derived_from": is_derived ? provenanceDomain["derived_from"] : [], 
+              "derived_from": is_derived ? provenanceDomain["derived_from"] : "", 
               "obsolete_after": has_obsolete ? provenanceDomain["obsolete_after"] : [],
               "contributors": provenanceDomain["contributors"],
               "review": has_review ? provenanceDomain["review"] : [],
@@ -94,7 +94,7 @@ export const  ProvenanceDomain = ({onSave} ) => {
                     <span className="bold-title">
                       Provenance Domain
                       <Tooltip title="Explanation of Provenance Domain">
-                        <Button size="xs" href='https://wiki.biocomputeobject.org/index.php?title=Provenance-domain'>
+                        <Button size="small" href='https://wiki.biocomputeobject.org/index.php?title=Provenance-domain'>
                           <HelpOutlineIcon />
                         </Button>
                       </Tooltip>

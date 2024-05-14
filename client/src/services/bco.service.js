@@ -110,9 +110,7 @@ const publishDraftBco = async (prefix, bcoURL, bcoObject) => {
 }
 
 const validateBco = async (bcoURL, bcoObject) => {
-  const response = await axios.post(`${bcoURL}objects/validate/`, {
-    "POST_validate_bco": [bcoObject]
-  }, {
+  const response = await axios.post(`${bcoURL}objects/validate/`, [bcoObject], {
     headers: {
       "Content-Type": "application/json"
     }

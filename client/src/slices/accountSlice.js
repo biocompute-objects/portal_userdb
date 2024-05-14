@@ -315,6 +315,27 @@ export const removeBcoDb = createAsyncThunk(
   }
 );
 
+export const resetToken = createAsyncThunk(
+  "bcodb/resetToken",
+  async ({ public_hostname, token }, thunkAPI) => {
+    try {
+      console.log(public_hostname, token)
+      const response = await AuthService.resetToken(public_hostname, token);
+      thunkAPI.dispatch(setMessage("Token reset successfull."));
+      return response.data
+    } catch (error) {
+      const message =
+      (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
 export const groupInfo = createAsyncThunk(
   "bcodb/groupInfo",
   async ({group_permissions, token, public_hostname, index}, thunkAPI) => {
@@ -353,6 +374,21 @@ export const permInfo = createAsyncThunk(
   }
 )
 
+export const handleExpiredJWT = createAsyncThunk(
+  "account/handleExpiredJWT",
+  async () => {
+    try {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      // global.window.location.reload()
+      return "Logged out due to expired session"
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+
 const initialState = user
   ? { isLoggedIn: true, user }
   : { isLoggedIn: false, user: null };
@@ -362,6 +398,13 @@ export const accountSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
+      .addCase(handleExpiredJWT.fulfilled, (state, action) => {
+        state.isLoggedIn = false;
+        console.log(action, state)
+      })
+      .addCase(handleExpiredJWT.rejected, (state, action) => {
+        console.error("Failed to handle expired JWT:", action);
+      })
       .addCase(register.fulfilled, (state) => {
         state.isLoggedIn = false;
       })
@@ -420,9 +463,11 @@ export const accountSlice = createSlice({
       })
       .addCase(groupInfo.fulfilled, (state, action) => {
         state.user.bcodbs[action.payload[1]].groups_info = action.payload[0]
-      }) 
+      })
   },
 });
 
 export const accountReducer = accountSlice.reducer
-
+export const {
+  expiredJWT,
+} = accountSlice.actions

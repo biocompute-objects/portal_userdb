@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux"
-import { Card, CardContent, TextField, Typography, Grid, Button, Paper, CardHeader, IconButton } from "@material-ui/core";
+import { Card, CardContent, TextField, Typography, Grid, Button, Paper, CardHeader, IconButton } from "@mui/material";
 import { addExtensionDomain, getExtension, deleteExtensionDomain, updateModified } from "../../slices/bcoSlice"
 import { Extension } from "./extension";
 import { Next } from "./components";

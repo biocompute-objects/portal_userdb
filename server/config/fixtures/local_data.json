@@ -636,10 +636,6 @@
                 "Can publish BCOs with prefix BCO",
                 "Can view BCOs with prefix BCO"
             ],
-            "group_permissions": [
-                "bco_drafter",
-                "bco_publisher"
-            ],
             "account_creation": "2022-05-10T20:35:14.506Z",
             "account_expiration": "",
             "last_update": "2023-10-09T13:58:01.473Z",
@@ -666,11 +662,6 @@
                 "Can view BCOs with prefix BCO",
                 "Can publish BCOs with prefix BCO"
             ],
-            "group_permissions": [
-                "bco_drafter",
-                "bco_publisher",
-                "jdoe58"
-            ],
             "account_creation": "2022-05-10T20:54:44.793Z",
             "account_expiration": "",
             "last_update": "2023-01-13T13:38:30.693Z",
@@ -696,11 +687,6 @@
                 "Can draft BCOs with prefix BCO",
                 "Can view BCOs with prefix BCO",
                 "Can publish BCOs with prefix BCO"
-            ],
-            "group_permissions": [
-                "bco_drafter",
-                "bco_publisher",
-                "hivelab37"
             ],
             "account_creation": "2022-05-10T20:53:42.499Z",
             "account_expiration": "",
@@ -732,12 +718,6 @@
                 "Can delete BCOs with prefix TEST",
                 "Can draft BCOs with prefix TEST",
                 "Can view BCOs with prefix TEST"
-            ],
-            "group_permissions": [
-                "bco_drafter",
-                "bco_publisher",
-                "test50",
-                "test_drafter"
             ],
             "account_creation": "2022-05-10T20:50:39.093Z",
             "account_expiration": "",
@@ -815,11 +795,46 @@
     },
     {
         "model": "prefix.prefix",
-        "pk": "SSDD",
+        "pk": "BCO",
         "fields": {
             "username": "bco_api_user",
+            "public": true,
+            "public_hostname": "http://127.0.0.1:8000",
             "registration_date": "2023-08-30T15:50:08.739Z",
             "registration_certificate": "5ab5e87cdb35407e98b7662cca2ae20b"
+        }
+    },
+    {
+        "model": "prefix.prefix",
+        "pk": "HIVE",
+        "fields": {
+            "username": "hivelab",
+            "public": true,
+            "public_hostname": "http://127.0.0.1:8000",
+            "registration_date": "2023-08-30T15:50:08.739Z",
+            "registration_certificate": "lazc=!pr35pau5b2x-x70y3_t++d5^s4cgk=mjo5o3^9zvrzki"
+        }
+    },
+    {
+        "model": "prefix.prefix",
+        "pk": "NOPUB",
+        "fields": {
+            "username": "bco_api_user",
+            "public": false,
+            "public_hostname": "http://127.0.0.1:8000",
+            "registration_date": "2023-08-30T15:50:08.739Z",
+            "registration_certificate": "b7mj8(w+hz!2p1-8bx9=-3qoi*1gf9&$8*tt3hw$d)bvhl+h1="
+        }
+    },
+    {
+        "model": "prefix.prefix",
+        "pk": "TEST",
+        "fields": {
+            "username": "testertest",
+            "public": true,
+            "public_hostname": "http://127.0.0.1:8000",
+            "registration_date": "2023-08-30T15:50:08.739Z",
+            "registration_certificate": "dn=d3!lksaaygduo!5s(x3%2pst9jok#yohvqtr+hidi12s0!o"
         }
     }
 ]

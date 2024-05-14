@@ -44,6 +44,10 @@
 
 
 /* about pages */
+.about-main {
+  margin: 2%;
+}
+
 .member-image {
   width: 150px;
   height: 150px;
@@ -93,9 +97,10 @@
 }
 
 .nav-link {
+  input {color: white};
   text-decoration: none;
-  color: inherit; /* Inherits the color from its parent */
-  /* Add any additional styling you want */
+  color: white;
+  background-color: primary;
 }
 
 .hover-background {
@@ -143,7 +148,15 @@
 }
 
 
+.custom-container {
+  margin: 5%;
+  padding-top: 0; /* Ensure the container starts at the top of the page */
+}
 
+.custom-table-container {
+  overflow-x: auto; /* Makes the table scrollable horizontally */
+  display: block;  /* Allows the table container to respect the width constraints */
+}
 
 /* Outlet styles */
 .outlet-root {
@@ -276,7 +289,7 @@
 }
 
 .home-linkcard {
-  min-height: 470px;
+  min-height: 350px;
   min-width: 275;
   text-align: center;
   margin-top: 5;
@@ -311,6 +324,10 @@
 .resources-title {
   font-size: 28px !important;
   font-weight: bold !important;
+}
+
+.resources-citation {
+  text-align: left;
 }
 
 .resources-linkcard {
@@ -356,6 +373,9 @@
   color: var(--main-red-color) !important;
 }
 
+.table-card {
+  padding: 2%;
+}
 
 /* text field */
 .large_textfield {
