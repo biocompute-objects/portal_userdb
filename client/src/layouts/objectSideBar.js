@@ -1,10 +1,9 @@
 import React from "react";
-import { Button, Card, Grid, ListItem, ListItemText } from "@mui/material";
+import { Button, Card, Container, Grid, ListItem, ListItemText } from "@material-ui/core";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { updateDraftBco, createDraftBco, publishDraftBco } from "../slices/bcoSlice";
-import { removeEmptyValues } from "../components/builder/components";
+import { updateDraftBco, createDraftBco, publishDraftBco, deleteTempDraftBco } from "../slices/bcoSlice";
+import { validURL, isUUID } from "../components/builder/components";
 import "../App.css"
 
 const data = [
@@ -52,7 +51,6 @@ const data = [
 
 export default function ObjectSideBar ({domain, setDomain}) {
   const dispatch = useDispatch()
-  const navigate = useNavigate();
   const bco = useSelector(state => state.bco.data);
   const prefix = useSelector(state => state.bco.prefix);
   const bcoStatus = useSelector(state => state.bco.status);
@@ -72,29 +70,32 @@ export default function ObjectSideBar ({domain, setDomain}) {
 
   const publishDraft = () => {
     const bcoURL = BCODB_URL;
-    const bcoObject = removeEmptyValues(bco, [
-      "input_list", "external_data_endpoints", "environment_variables", "error_domain", "value"
-    ])
-    dispatch(publishDraftBco({bcoURL, bcoObject, prefix}))
-      .unwrap()
-      .then((response) => {
-        navigate(`/viewer?${response[0].identifier}`)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-
+    const bcoObject = bco;
+    dispatch(publishDraftBco({bcoURL, bcoObject, prefix}));
   };
 
   const updateDraft = () => {
     const bcoURL = BCODB_URL
-    const bcoObject = removeEmptyValues(bco, [
-      "input_list", "external_data_endpoints", "environment_variables", "error_domain", "value"
-    ])
-    if (bco.object_id === "") {
-      dispatch(createDraftBco({bcoURL, bcoObject, prefix}))
-    } else {
-      dispatch(updateDraftBco({bcoURL, bcoObject}))
+    const bcoObject = bco
+    const queryString = bco.object_id.split("?")[1]
+    console.log("Update", BCODB_URL, queryString)
+    {
+      (bco.object_id === "" ) ? (
+        dispatch(createDraftBco({bcoURL, bcoObject, prefix}))
+      ):(
+        (isUUID(queryString) ? (
+          dispatch(createDraftBco({bcoURL, bcoObject, prefix}))
+            .unwrap()
+            .then(
+              dispatch(deleteTempDraftBco(queryString))
+            )
+            .catch((error) => {
+              console.log("Error", error);
+            })
+        ):(
+          dispatch(updateDraftBco({bcoURL, bcoObject}))
+        ))
+      )
     }
   }
 

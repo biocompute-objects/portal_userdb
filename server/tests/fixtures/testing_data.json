@@ -652,6 +652,16 @@
                 "Can delete prefix",
                 "Can view prefix"
             ],
+            "group_permissions": [
+                "bco_drafter",
+                "bco_publisher",
+                "prefix_admins",
+                "bco_api_user",
+                "test_drafter",
+                "test_publisher",
+                "other_drafter",
+                "other_publisher"
+            ],
             "account_creation": "2022-05-10T20:35:53Z",
             "account_expiration": "",
             "last_update": "2023-12-19T15:35:47.071Z",
@@ -678,6 +688,11 @@
                 "Can view BCOs with prefix BCO",
                 "Can publish BCOs with prefix BCO"
             ],
+            "group_permissions": [
+                "bco_drafter",
+                "bco_publisher",
+                "jdoe58"
+            ],
             "account_creation": "2022-05-10T20:54:44.793Z",
             "account_expiration": "",
             "last_update": "2023-01-13T13:38:30.693Z",
@@ -703,6 +718,11 @@
                 "Can draft BCOs with prefix BCO",
                 "Can view BCOs with prefix BCO",
                 "Can publish BCOs with prefix BCO"
+            ],
+            "group_permissions": [
+                "bco_drafter",
+                "bco_publisher",
+                "hivelab37"
             ],
             "account_creation": "2022-05-10T20:53:42.499Z",
             "account_expiration": "",
@@ -735,7 +755,7 @@
                 "Can draft BCOs with prefix TEST",
                 "Can view BCOs with prefix TEST"
             ],
-            "": [
+            "group_permissions": [
                 "bco_drafter",
                 "bco_publisher",
                 "test50",

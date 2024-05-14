@@ -1,12 +1,13 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import { useDispatch } from "react-redux";
-import { Button, Box, Card, CardHeader, Container, Grid, Typography } from "@mui/material";
+import { Button, Box, Card, CardHeader, Container, Grid, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { MyTextField } from "../builder/specialFeilds";
 import * as Yup from "yup";
 import {resetPassword} from "../../slices/accountSlice";
 import { useNavigate } from "react-router-dom";
+import NotificationBox from "../NotificationBox";
 
 export default function PasswordReset() {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ export default function PasswordReset() {
   
   return (
     <Container>
+      <NotificationBox />
       <Card>
         <CardHeader title="Password Reset"/>
         <Box display="flex" flexdirection="column" height="100%" justifyContent="center" >

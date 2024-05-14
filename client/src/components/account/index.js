@@ -1,12 +1,13 @@
 // src/components/account/index.js
 
 import React, { useEffect } from "react";
-import { Button, Card, Container } from "@mui/material";
+import { Button, Card, Container } from "@material-ui/core";
 import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, userInfo } from "../../slices/accountSlice";
 import Profile from "./Profile";
 import Servers from "./Servers";
+import NotificationBox from "../NotificationBox";
 import PasswordReset from "./passwordReset";
 
 export default function AccountPage() {
@@ -29,6 +30,7 @@ export default function AccountPage() {
         setOpen={setOpen}
       />
       <Card>
+        <NotificationBox />
         <Button
           variant="outlined"
           onClick={()=> setOpen(true)}

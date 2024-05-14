@@ -14,6 +14,7 @@ class BcoDb(models.Model):
     token = models.CharField(max_length=255)
     owner = models.ForeignKey(Profile, null=True, blank=True, on_delete=models.SET_NULL)
     user_permissions = models.JSONField(null=True, blank=True)
+    group_permissions = models.JSONField(null=True, blank=True)
     account_creation = models.DateTimeField(null=True, blank=True)
     account_expiration = models.CharField(max_length=255, null=True, blank=True)
     last_update = models.DateTimeField(null=True, blank=True)

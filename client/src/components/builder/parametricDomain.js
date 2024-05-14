@@ -1,5 +1,5 @@
 import React from "react";
-import {Card, Typography, CardContent, Grid, Button, CardHeader} from "@mui/material";
+import {Card, Typography, CardContent, Grid, Button, CardHeader} from "@material-ui/core";
 import { Formik, Form, FieldArray } from "formik";
 import { useSelector, useDispatch } from "react-redux"
 import { updateParametricDomain, updateModified } from "../../slices/bcoSlice"

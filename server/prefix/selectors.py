@@ -9,8 +9,7 @@ return_values = [
         "username",
         "prefix",
         "registration_date",
-        "public",
-        "public_hostname"
+        "registration_certificate",
     ]
 
 def all_prefix()-> dict:

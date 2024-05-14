@@ -1,11 +1,11 @@
-import { Box, Button, Card, CardContent, CardHeader, TextField } from "@mui/material";
+import { Box, Button, Card, CardContent, CardHeader, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateBco, writingBco, updateModified } from "../../slices/bcoSlice";
+import { updateBco, updateBcoStatus, updateModified } from "../../slices/bcoSlice";
 
 export const RawJson = ({onSave}) => {
   const dispatch = useDispatch()
-  dispatch(writingBco(true))
+  dispatch(updateBcoStatus(true))
   const [writing, setWriting] = useState(false);
   const [bco, setBco] = useState(useSelector(state => state.bco.data))
   const [jsonErrors, setJsonErrors] = useState("");
@@ -15,7 +15,7 @@ export const RawJson = ({onSave}) => {
     let holder = {};
     try {
       setWriting(true)
-      dispatch(writingBco(true))
+      dispatch(updateBcoStatus(true))
       holder = JSON.parse(value);
       setJsonErrors("")
       console.log("All Good")

@@ -5,7 +5,7 @@ import MenuItem from "@mui/joy/MenuItem";
 import MenuButton from "@mui/joy/MenuButton";
 import Dropdown from "@mui/joy/Dropdown";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-import { Tooltip } from "@mui/material";
+import { Tooltip } from "@material-ui/core";
 import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
 import ApiOutlinedIcon from "@mui/icons-material/ApiOutlined";
 import WebhookOutlinedIcon from "@mui/icons-material/WebhookOutlined";

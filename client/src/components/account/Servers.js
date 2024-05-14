@@ -1,29 +1,17 @@
 // src/account/Servers.js
 
-import React, { useState } from "react";
+import React from "react";
 import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Grid,
-  TextField,
-  Typography
-} from "@mui/material"
+  Button, Card, CardContent, CardHeader, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, makeStyles, TextField, Typography
+} from "@material-ui/core"
 import { useSelector, useDispatch } from "react-redux";
-import { removeBcoDb, resetToken } from "../../slices/accountSlice";
+import { removeBcoDb, groupsPermissions, groupInfo } from "../../slices/accountSlice";
 import AddServer from "./AddServer";
 import { useNavigate } from "react-router-dom";
 
 export default function Servers() {
   const dispatch = useDispatch()
-  const [currentUser, setCurrentUser] = useState(useSelector((state) => state.account.user));
+  const currentUser = useSelector((state) => state.account.user);
   const bcodbs = currentUser.bcodbs
   const [open, setOpen] = React.useState(false);
   let navigate = useNavigate();
@@ -49,37 +37,25 @@ export default function Servers() {
     setOpen(false);
   };
 
-  const handleTokenReset = (index) => {
-    const { public_hostname, token } = bcodbs[index]
-    dispatch(resetToken({public_hostname, token}))
-      .unwrap()
-      .then((response) => {
-        setCurrentUser(response.user)
-      })
-      .catch((error) =>{
-        console.log(error);
-      })
-  }
-
   return (
     <Container elevation={2}>
       <Typography className={"Account-Servers-title"}>BCO databases</Typography>
       {
         bcodbs.map((database, index) => (
           <Card key={index} className={"Account-Servers-server-card"}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={dialogeOpen}
+            >Remove Database</Button>
+            <Button
+              variant="outlined"
+              onClick={() => handleGroups(index)}
+              disabled={database.recent_status !== "200"}
+            >Groups/Permissions</Button>
             <CardHeader title={database.human_readable_hostname}/>
+            
             <CardContent>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={dialogeOpen}
-              >Remove Database</Button>
-              <Button
-                variant="outlined"
-                onClick={() => handleTokenReset(index)}
-                disabled={database.recent_status !== "200"}
-              >Reset API Token</Button>
-              <br/><br/>
               <Grid
                 container
                 spacing={2}
@@ -97,7 +73,6 @@ export default function Servers() {
                   <TextField
                     type='password'
                     value={database.token}
-                    variant="standard"
                     disabled
                   />
                   <Typography>

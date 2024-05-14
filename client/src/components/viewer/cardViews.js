@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, CardHeader, Grid, TextField, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardHeader, Grid, TextField, Typography } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
 import ReactJson from "react-json-view"
@@ -8,6 +8,7 @@ export const ProvenanceView = () => {
   return (
     <Card>
       <CardHeader title="Provenance Domain" />
+      {console.log(prov)}
       <CardContent>
         <Typography>Name: {prov.name}</Typography>
         <Typography>Version: {prov.version}</Typography>
@@ -149,27 +150,13 @@ export const DescriptionView = () => {
   )
 };
 export const ExtensionView = () => {
-  const extensionDom = useSelector(state => state.bco.data.extension_domain)
-  console.log(extensionDom)
   return (
     <Card>
       <CardHeader title="Extension Domain"/>
-      <CardContent>
-        <TextField
-          color="primary"
-          fullWidth
-          id="outlined-multiline-static"
-          multiline
-          minRows={25}
-          defaultValue={JSON.stringify(extensionDom, null, 4)}
-          variant="outlined"
-          disabled
-        />
-      </CardContent>
+      <CardContent></CardContent>
     </Card>
   )
 };
-
 export const ParametricView = () => {
   const parameters = useSelector(state => state.bco.data.parametric_domain)
   return (
@@ -192,7 +179,6 @@ export const ParametricView = () => {
     </Card>
   )
 };
-
 export const IoView = () => {
   const IoDom = useSelector(state => state.bco.data.io_domain)
   return (
@@ -240,53 +226,12 @@ export const IoView = () => {
     </Card>
   )
 };
-
 export const ExecutionView = () => {
-  const ExDom = useSelector(state => state.bco.data.execution_domain)
-  const envVar = ExDom["environment_variables"]
+  const IoDom = useSelector(state => state.bco.data.io_domain)
   return (
     <Card>
-      <CardHeader title="Execution Domain" />
-      <CardContent>
-        <Typography>Script Driver: {ExDom.script_driver}</Typography>
-        {ExDom["script"]? (
-          ExDom["script"].map((script, script_index) =>(
-            <Typography key={script_index}>
-              Script: {JSON.stringify(script["uri"]["uri"])}
-            </Typography>
-          ))
-        ) : (<Typography />
-        )}
-      </CardContent>
-      <CardHeader subheader="Environment Variables"/>{console.log()}
-      <CardContent>
-        {Object.keys(envVar).map((env,env_index) => (
-          <Typography key={env_index}>
-            {env} : {envVar[env]}
-          </Typography>
-        ))}
-      </CardContent>
-      <CardHeader subheader="Software Prerequisites"/>
-      {ExDom["software_prerequisites"]? (
-        ExDom["software_prerequisites"].map((prereq, prereq_index)=> (
-          <CardContent key={prereq_index}>
-            <Typography>Name: {prereq.name}</Typography>
-            <Typography>Version: {prereq.version}</Typography>
-            <Typography>URI: {prereq.uri.uri}</Typography>
-            <br/>
-          </CardContent>
-        ))
-      )  : (<CardContent></CardContent>)}
-      <CardHeader subheader="External Data Endpoints"/>
-      {ExDom["external_data_endpoints"]? (
-        ExDom["external_data_endpoints"].map((endpoint, endpoint_index)=> (
-          <CardContent key={endpoint_index}>
-            <Typography>Name: {endpoint.name}</Typography>
-            <Typography>URL: {endpoint.url}</Typography>
-            <br/>
-          </CardContent>
-        ))
-      )  : (<CardContent></CardContent>)}
+      <CardHeader title="Execution Domain"/>
+      <CardContent></CardContent>
     </Card>
   )
 };
@@ -296,13 +241,18 @@ export const RawJson = () => {
   return (
     <Card>
       <CardHeader title="Raw JSON View"/>
-      <CardContent>
-        <Typography>
-          <pre><code>
-            {JSON.stringify(bco, null, 2)}
-          </code></pre>
-        </Typography>
-      </CardContent>
+      <CardContent></CardContent>
+      <Box>
+        <TextField
+          color="primary"
+          fullWidth
+          id="outlined-multiline-static"
+          multiline
+          minRows={25}
+          defaultValue={JSON.stringify(bco, null, 4)}
+          variant="outlined"
+        />
+      </Box>
     </Card>
   )
 }
@@ -317,8 +267,7 @@ export const TreeView = () => {
 }
 
 export const ErrorView = () => {
-  const ErrDom = useSelector(state => state.bco.data.error_domain || {"empirical_error": {}, "algorithmic_error": {}});
-  
+  const ErrDom = useSelector(state => state.bco.data.error_domain)
   return (
     <Card>
       <CardHeader title="Error Domain"/>
@@ -328,7 +277,7 @@ export const ErrorView = () => {
             {JSON.stringify(ErrDom, null, 2)}
           </code></pre>
         </Typography>
-      </CardContent>      
+      </CardContent>
     </Card>
   )
 };

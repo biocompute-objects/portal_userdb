@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Card, Typography, CardContent, Grid, Button, TextField, CardHeader} from "@mui/material";
+import {Card, Typography, CardContent, Grid, Button, TextField, CardHeader} from "@material-ui/core";
 import { Formik, Form, FieldArray } from "formik";
 import { updateExecutionDomain, updateModified } from "../../slices/bcoSlice"
 import { useSelector, useDispatch } from "react-redux"
@@ -34,43 +34,47 @@ export const ExecutionDomain = ({onSave}) => {
   }
 
   return (
-    <Card className="object-domain">
-      <Formik
-        initialValues={execution_domain}
-        onSubmit={
-          (formData, {setSubmitting}) => {
-            setSubmitting(true);
-            dispatch(updateExecutionDomain({formData, envars}));
-            setSubmitting(false);
-            dispatch(updateModified())
-            onSave()
+    <>
+      <Card>
+        <Formik
+          initialValues={
+            execution_domain
           }
-        }
-      >
-        {
-          ({values, isSubmitting,}) => (
-            <Form>
-              <FormObserver />
-              <CardHeader
-                title={
-                  <span className="bold-title">
+          onSubmit={
+            (formData, {setSubmitting}) => {
+              setSubmitting(true);
+              dispatch(updateExecutionDomain({formData, envars}));
+              setSubmitting(false);
+              dispatch(updateModified())
+              onSave()
+            }
+          }
+        >
+          {
+            ({values, isSubmitting,}) => (
+              <Form>
+                <FormObserver />
+                <CardHeader
+                  title={
+                    <span className="bold-title">
                       Execution Domain
-                    <Tooltip title="Explanation of Execution Domain">
-                      <Button size="xs" href='https://wiki.biocomputeobject.org/index.php?title=Execution-domain'>
-                        <HelpOutlineIcon />
-                      </Button>
-                    </Tooltip>
-                  </span>
-                }
-                action={<Next />}
-              />
-              <CardContent>
+                      <Tooltip title="Explanation of Execution Domain">
+                        <Button size="xs" href='https://wiki.biocomputeobject.org/index.php?title=Execution-domain'>
+                          <HelpOutlineIcon />
+                        </Button>
+                      </Tooltip>
+                    </span>
+                  }
+                  action={<Next />}
+                />
+
                 <Grid container spacing={2}>
                   <Grid container spacing={2}>
                     <Grid item xs>
                       <MyTextField name="script_driver" type="input" placeholder="Script Driver"  label="Script Driver" />
                     </Grid>
-                  </Grid>      
+                  </Grid>
+                             
                   <Grid container spacing={2}>
                     <CardContent>   
                       <Grid container spacing={2} justifyContent='flex-start'>
@@ -103,7 +107,7 @@ export const ExecutionDomain = ({onSave}) => {
                                   variant="outlined"
                                   color='primary'
                                   size='small'
-                                  onClick={() => arrayHelpers.push({uri:{ filename: "", uri: "", access_time: "", sha1_checksum:""}})}
+                                  onClick={() => arrayHelpers.push({ filename: "", uri: "", access_time: "", sha1_checksum:""})}
                                 >Add</Button>
                               </Grid>
                             </div>
@@ -248,11 +252,19 @@ export const ExecutionDomain = ({onSave}) => {
                     </CardContent>
                   </Grid>
                 </Grid>
-              </CardContent>
-            </Form>
-          )
-        }
-      </Formik>
-    </Card>
+                <div style={{padding: 20}}> 
+                  <Button
+                    disabled={isSubmitting}
+                    type='submit'
+                    variant="contained"
+                    color="primary"
+                  > Next </Button>
+                </div>
+              </Form>
+            )
+          }
+        </Formik>
+      </Card>
+    </>
   )
 }

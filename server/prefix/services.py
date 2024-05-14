@@ -22,36 +22,50 @@ class PrefixSerializer(serializers.ModelSerializer):
 
 def create_prefix_bcodb(bcodb: BcoDb, data: dict) -> Response:
     """Creates prefix on BCODB"""
-    
-    prefix_serializer = PrefixSerializer(data={
-        'username': data["username"],
-        'prefix': data["prefix"],
-        'registration_certificate': uuid4().hex,
-        'registration_date': datetime.now(),
-        'public_hostname': data["public_hostname"]
-    })
-    prefix_serializer.is_valid(raise_exception=True)
-    prefix_data = prefix_serializer.validated_data
+
+    if data["public"] == "false":
+        owner_group = bcodb.bcodb_username
+    else:
+        owner_group = "bco_drafter"
 
     bco_api_response = requests.post(
         url=bcodb.public_hostname + "/api/prefixes/create/",
-        data=json.dumps([
+        data=json.dumps(
             {
-                "prefix": prefix_data["prefix"],
-                "description": data["description"],
-                "certifying_key": prefix_data["registration_certificate"],
-                "public": data["public"]
+                "POST_api_prefixes_create": [
+                    {
+                        "owner_group": owner_group,
+                        "owner_user": bcodb.bcodb_username,
+                        "prefixes": [
+                            {
+                                "description": data["description"],
+                                "prefix": data["prefix"],
+                            }
+                        ],
+                    }
+                ]
             }
-        ]),
+        ),
         headers= {
             "Authorization": "Token " + bcodb.token,
             "Content-type": "application/json; charset=UTF-8",
         },
     )
 
-    if bco_api_response.status_code == 201:
-        prefix_serializer.save()
-        return bco_api_response
     return bco_api_response
 
+def register_prefix(user: User, prefix: str) -> str:
+    """Writes prefix to DB"""
+    
+    prefix_serializer = PrefixSerializer(data={
+        'username': user,
+        'prefix': prefix,
+        'registration_certificate': uuid4().hex,
+        'registration_date': datetime.now(),
+    })
+    message = prefix_serializer.is_valid(raise_exception=True)
+    if message is True:
+        prefix_serializer.save()
+
+    return message
 
