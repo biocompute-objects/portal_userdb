@@ -8,7 +8,7 @@ import {
 import workshoppic from "../../images/workshop.jpg"
 
 export default function Workshop() {
-  const PreworkshopLink = "https://hive.biochemistry.gwu.edu/publications#Multimedia";
+  const PreworkshopLink = "https://hivelab.biochemistry.gwu.edu/publications#Multimedia";
   const UpcomingworkshopLink = "https://wiki.biocomputeobject.org/index.php?title=BioCompute_Spring_Workshop_2024";
 
   return (

@@ -7,7 +7,7 @@ export const ProvenanceView = () => {
   const prov = useSelector(state => state.bco.data.provenance_domain)
   return (
     <Card>
-      <CardHeader title="Provenance Domain" />
+      <CardHeader title={<span style={{fontWeight: 'bold'}}>Provenance Domain</span>} />
       {console.log(prov)}
       <CardContent>
         <Typography>Name: {prov.name}</Typography>
@@ -17,7 +17,7 @@ export const ProvenanceView = () => {
         <Typography>Modified: {prov.modified}</Typography>
       </CardContent>
       <CardContent>
-        <CardHeader subheader="Contributors" />
+        <CardHeader subheader={<span style={{color: "black", textDecoration: "underline"}}>Contributors</span>} />
         {prov.contributors.map((contributor, cont_index)=> (
           <div key={cont_index}>
             <Typography >Name: {contributor.name}</Typography>
@@ -33,7 +33,7 @@ export const ProvenanceView = () => {
         ))}
       </CardContent>
       <CardContent>
-        <CardHeader subheader="Review" />
+        <CardHeader subheader={<span style={{color: "black", textDecoration: "underline"}}>Review</span>} />
         {
           prov.review
             ? (prov.review.map((review, review_index)=>(
@@ -58,7 +58,7 @@ export const UsabilityView = () => {
   const use = useSelector(state => state.bco.data.usability_domain)
   return(
     <Card>
-      <CardHeader title="Usability Domain" />
+      <CardHeader title={<span style={{fontWeight: 'bold'}}>Usability Domain</span>} />
       <CardContent>
         {use.map((text, index) => (
           <Typography key={index}>{text}</Typography>
@@ -72,14 +72,14 @@ export const DescriptionView = () => {
   const desc = useSelector(state => state.bco.data.description_domain)
   return (
     <Card>
-      <CardHeader title="Description Domain"/>
-      <CardHeader subheader="Keywords"/>
+      <CardHeader title={<span style={{fontWeight: 'bold'}}>Description Domain</span>}/>
+      <CardHeader subheader={<span style={{color: "black", textDecoration: "underline"}}>Keywords</span>}/>
       <CardContent>
         {desc.keywords.map((word, key_index)=>(
           <Typography key={key_index}>{word}</Typography>
         ))}
       </CardContent>
-      <CardHeader subheader="External References"/>
+      <CardHeader subheader={<span style={{color: "black", textDecoration: "underline"}}>External References</span>}/>
       <CardContent>
         {desc.xref
           ? (desc.xref.map((xref, x_index)=>(
@@ -95,7 +95,7 @@ export const DescriptionView = () => {
         }
         <Typography>Platform: {desc.platform}</Typography>
       </CardContent>
-      <CardHeader subheader="Pipeline Steps" />
+      <CardHeader subheader={<span style={{color: "black", textDecoration: "underline"}}>Pipeline Steps</span>} />
       <CardContent>
         {desc.pipeline_steps.map((step, step_index)=> (
           <div key={step_index}>
@@ -152,7 +152,7 @@ export const DescriptionView = () => {
 export const ExtensionView = () => {
   return (
     <Card>
-      <CardHeader title="Extension Domain"/>
+      <CardHeader title={<span style={{fontWeight: 'bold'}}>Extension Domain</span>}/>
       <CardContent></CardContent>
     </Card>
   )
@@ -161,7 +161,7 @@ export const ParametricView = () => {
   const parameters = useSelector(state => state.bco.data.parametric_domain)
   return (
     <Card>
-      <CardHeader title="Parametric Domain"/>
+      <CardHeader title={<span style={{fontWeight: 'bold'}}>Parametric Domain</span>}/>
       <CardContent>
         {parameters.length > 0
           ? parameters.map((param, param_index) => (
@@ -183,8 +183,8 @@ export const IoView = () => {
   const IoDom = useSelector(state => state.bco.data.io_domain)
   return (
     <Card>
-      <CardHeader title="IO Domain"/>
-      <CardHeader subheader="Input Subdomain"/>
+      <CardHeader title={<span style={{fontWeight: 'bold'}}>I/O Domain</span>}/>
+      <CardHeader subheader={<span style={{color: "black", textDecoration: "underline"}}>Input Subdomain</span>}/>
       <CardContent>
         {IoDom.input_subdomain.length > 0
           ? (
@@ -203,7 +203,7 @@ export const IoView = () => {
           : <div>no</div>
         }
       </CardContent>
-      <CardHeader subheader="Output Subdomain"/>
+      <CardHeader subheader={<span style={{color: "black", textDecoration: "underline"}}>Output Subdomain</span>}/>
       <CardContent>
         {IoDom.output_subdomain.length > 0
           ? (
@@ -230,7 +230,7 @@ export const ExecutionView = () => {
   const IoDom = useSelector(state => state.bco.data.io_domain)
   return (
     <Card>
-      <CardHeader title="Execution Domain"/>
+      <CardHeader title={<span style={{fontWeight: 'bold'}}>Execution Domain</span>}/>
       <CardContent></CardContent>
     </Card>
   )
@@ -240,7 +240,7 @@ export const RawJson = () => {
   const bco = useSelector(state => state.bco.data)
   return (
     <Card>
-      <CardHeader title="Raw JSON View"/>
+      <CardHeader title={<span style={{fontWeight: 'bold'}}>Raw JSON View</span>}/>
       <CardContent></CardContent>
       <Box>
         <TextField
@@ -270,7 +270,7 @@ export const ErrorView = () => {
   const ErrDom = useSelector(state => state.bco.data.error_domain)
   return (
     <Card>
-      <CardHeader title="Error Domain"/>
+      <CardHeader title={<span style={{fontWeight: 'bold'}}>Error Domain</span>}/>
       <CardContent>
         <Typography>
           <pre><code>

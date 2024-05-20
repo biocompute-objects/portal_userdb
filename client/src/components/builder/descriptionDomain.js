@@ -180,7 +180,7 @@ export const  DescriptionDomain = ({onSave}) => {
                                     color='secondary'
                                     type="button"
                                     onClick={() => arrayHelpers.remove(index)}
-                                  >Remove Eternal Refernce</Button>
+                                  >Remove External Reference</Button>
                                 </Grid>
                               </Grid>
                         

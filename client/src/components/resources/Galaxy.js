@@ -21,7 +21,6 @@ export default function Galaxy() {
           <Typography className="resources-title">
             <img src={hive} height={65} alt="Galaxy logo" />
             <br />
-            <img src={aws} height={35} alt="AWS logo" />
           </Typography>
           <Typography>
               The Galaxy BCO API Extension enables Galaxy users to the export of

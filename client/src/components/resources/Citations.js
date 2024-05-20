@@ -109,7 +109,26 @@ export default function Citations() {
                 .
               </div>
             </li>
-
+            <li>
+              <div vocab="http://schema.org/" typeof="ScholarlyArticle">
+                <span property="author">Keeney JG, Gulzar N, Baker JB, Klempir O, Hannigan GD, Bitton DA, Maritz JM, King CHS 4th, Patel JA, Duncan P, Mazumder R.</span>
+                .
+                <span property="name"> Communicating computational workflows in a regulatory environment</span>
+                .
+                <span property="isPartOf" typeof="PublicationIssue">
+                  <span property="name" typeof="Peridical"> Drug Discov Today</span>
+                  .
+                  <span property="datePublished"> 2024 Mar</span>
+                  ;
+                  <span property="isPartOf" typeof="PublicationVolume"><span property="volumeNumber">103884</span></span>
+                  (
+                  <span property="issueNumber">3</span>
+                  ) PMID:
+                  <a property="sameAs" href="https://pubmed.ncbi.nlm.nih.gov/38219969/" target="_blank" rel="noreferrer">38219969</a>
+                </span>
+                .
+              </div>
+            </li>
           </ol>
         </div>
       </CardContent>
