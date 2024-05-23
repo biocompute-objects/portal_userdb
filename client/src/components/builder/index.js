@@ -133,7 +133,7 @@ export default function BuilderColorCode () {
         </Card>
         <br/>
         {
-          bcoStatus === "idle" ?(<>
+          bcoStatus === "idle" || bcoStatus === "valid" ?(<>
             <TabPanel  domain={domain} index={0}>
               <ProvenanceDomain onSave={onSave}/>
             </TabPanel>
