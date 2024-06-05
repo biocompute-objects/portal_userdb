@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import BcoService from "../services/bco.service";
 import { setMessage } from "../slices/messageSlice";
+import merge from "lodash/merge";
 
 const bcoSlice = createSlice({
   name: "biocompute",
@@ -26,7 +27,7 @@ const bcoSlice = createSlice({
       io_domain: {},
       execution_domain: {
         "script":[],
-        "script_driver": "", // "hive", "cwl-runner", "shell"
+        "script_driver": "",
         "software_prerequisites": [],
         "external_data_endpoints":[],
         "environment_variables": {}
@@ -126,11 +127,10 @@ const bcoSlice = createSlice({
         console.log("draft loading")
       })
       .addCase(getDraftBco.fulfilled, (state, action) => {
-        state.status = "succeeded"
-        state.status = "idle"
-        state.data = action.payload
         state.prefix = action.payload["object_id"].split("/")[3].split("_")[0]
+        merge(state.data, action.payload)
         console.log("draft success")
+        state.status = "idle"
       })
       .addCase(getDraftBco.rejected, (state, action) => {
         state.error = action.payload.data
@@ -323,6 +323,7 @@ export const getDraftBco = createAsyncThunk(
   async (queryString, thunkAPI) => {
     try {
       const response = await BcoService.getDraftBco(queryString);
+      console.log("stuff")
       return response.data;
     } catch(error) {
       console.log(error.response.data)

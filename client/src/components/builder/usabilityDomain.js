@@ -29,7 +29,7 @@ import Tooltip from "@mui/material/Tooltip";
 
 export const  UsabilityDomain = ({onSave}) => {
   const dispatch = useDispatch();
-  const usabilityDomain = useSelector(state => state.bco.data.usability_domain)
+  const usabilityDomain = useSelector(state => state.bco.data?.usability_domain) || [];
   return (
     <Card className="object-domain">
       <Formik
