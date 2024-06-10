@@ -12,3 +12,4 @@ server/db.sqlite3
 server/.coverage
 server/htmlcov*
 *settings.json*
+.env

@@ -9,6 +9,35 @@
 
 /* About page- BCOnexus.js CSS Components */
 
+.About-half-width-box{
+  min-height: 350px; /* Ensure both boxes have a minimum height */
+  /* min-width: 275px; Ensure both boxes have a minimum width */
+  width: 100%; /* Half the width of the container minus spacing */
+  margin: 0 auto; /* Add spacing between the boxes */
+  border: 1px solid #ccc; /* Add a border for visual separation */
+  border-radius: 8px; /* Add border radius for rounded corners */
+  display: flex; /* Use flexbox */
+  justify-content: center !important;
+  align-items: center; /* Center content horizontally */
+  padding: 16px;
+}
+
+.About-half-width-box .content {
+  text-align: left; /* Ensure text alignment is left */
+  width: 100%; /* Ensure it takes full width */
+  white-space: pre-line;
+}
+
+.About-Full-Width-Box{
+  width: 100%;
+  min-width: 275px; 
+  border: 1px solid #ccc; 
+  border-radius: 8px; 
+  display: flex;
+  justify-content: flex-start; 
+  align-items: flex-start;
+} 
+
 .About-bullet {
   /* display: "inline-block";
   margin: "0 2px";
