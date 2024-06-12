@@ -39,11 +39,11 @@ export const ErrorDomain = ({onSave}) => {
   };
 
   const defaultAlgorithmicError = `{
-    "algorithmic_error": {}
+    "algorithmic_error": "null"
   }`;
 
   const defaultEmpiricalError = `{
-    "empirical_error": {}
+    "empirical_error": "null"
   }`;
 
   return (

@@ -37,6 +37,7 @@ const bcoSlice = createSlice({
     },
     prefix: null,
     status: "idle",
+    validation: "unvalidated",
     writingStatus: "idle",
     error: null
   },
@@ -133,7 +134,6 @@ const bcoSlice = createSlice({
         state.status = "idle"
       })
       .addCase(getDraftBco.rejected, (state, action) => {
-        state.error = action.payload.data
         state.status = "failed"
         state.error = action.payload
         console.log("draft failed", action.payload)
@@ -177,17 +177,20 @@ const bcoSlice = createSlice({
         state.status = "idle"
         state.error = null
       })
+      .addCase(validateBco.pending, (state, action) => {
+        state.validation = "pending"
+      })
       .addCase(validateBco.fulfilled, (state, action) => {
         if (action.payload === 200) {
-          state.status = "valid"
+          state.validation = "valid"
           state.error = null
         } else {
-          state.status = "invalid"
+          state.validation = "invalid"
           state.error = action.payload[0].data
         }
       })
       .addCase(validateBco.rejected, (state, action) => {
-        state.status = "invalid"
+        state.validation = "invalid"
       })
       .addCase(getExtension.fulfilled, (state, action) => {
         console.log(action.payload)
@@ -197,7 +200,7 @@ const bcoSlice = createSlice({
       })
       .addCase(publishDraftBco.rejected, (state, action) => {
         state.error = action.payload[0].data
-        state.status = "failed"
+        state.status = "rejected"
       })
   }
 })
@@ -251,6 +254,8 @@ export const publishDraftBco = createAsyncThunk(
   "publishDraft",
   async ({prefix, bcoURL, bcoObject}, thunkAPI) => {
     try {
+      const updateResponse = await BcoService.updateDraftBco(bcoURL, bcoObject)
+      console.log(updateResponse)
       const response = await BcoService.publishDraftBco(prefix, bcoURL, bcoObject);
       thunkAPI.dispatch(setMessage(response.data[0].message))
       return response.data;
