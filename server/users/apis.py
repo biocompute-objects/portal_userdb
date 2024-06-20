@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.core.mail import send_mail  
+from django.core.mail import send_mail
 from django.dispatch import receiver
 from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
@@ -26,13 +26,16 @@ from bcodb.services import add_authentication, remove_authentication
 #     serializer = UserSerializerWithToken.objects.all()
 #     return Reponse(serializer.data)
 
+
 class ChangePasswordApi(APIView):
     """An endpoint for changing password."""
+
     model = User
     permission_classes = (IsAuthenticated,)
 
     class InputSerializer(serializers.Serializer):
         """Serializer for password change endpoint."""
+
         model = User
         old_password = serializers.CharField(required=True)
         new_password = serializers.CharField(required=True)
@@ -48,20 +51,24 @@ class ChangePasswordApi(APIView):
         if serializer.is_valid():
             # Check old password
             if not self.object.check_password(serializer.data.get("old_password")):
-                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {"old_password": ["Wrong password."]},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
             # set_password also hashes the password that the user will get
             self.object.set_password(serializer.data.get("new_password"))
             self.object.save()
             response = {
-                'status': 'success',
-                'code': status.HTTP_200_OK,
-                'message': 'Password updated successfully',
-                'data': []
+                "status": "success",
+                "code": status.HTTP_200_OK,
+                "message": "Password updated successfully",
+                "data": [],
             }
 
             return Response(response)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserCreateApi(APIView):
     """
@@ -71,7 +78,6 @@ class UserCreateApi(APIView):
     """
 
     permission_classes = (permissions.AllowAny,)
-    
 
     @swagger_auto_schema(
         request_body=openapi.Schema(
@@ -81,48 +87,49 @@ class UserCreateApi(APIView):
             description="",
             properties={
                 "username": openapi.Schema(
-                    type=openapi.TYPE_STRING,
-                    description="User name.",
-                    default="test"
+                    type=openapi.TYPE_STRING, description="User name.", default="test"
                 ),
-                "email": openapi.Schema(type=openapi.TYPE_STRING,default="test@test.test"),
-                "password": openapi.Schema(type=openapi.TYPE_STRING,),
+                "email": openapi.Schema(
+                    type=openapi.TYPE_STRING, default="test@test.test"
+                ),
+                "password": openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                ),
                 "profile": openapi.Schema(
                     type=openapi.TYPE_OBJECT,
                     properties={
                         "public": openapi.Schema(
-                            type=openapi.TYPE_BOOLEAN,
-                            default=True
+                            type=openapi.TYPE_BOOLEAN, default=True
                         ),
                         "affiliation": openapi.Schema(
                             type=openapi.TYPE_STRING,
-                            default="George Washington University"
+                            default="George Washington University",
                         ),
-                        "orcid": openapi.Schema(
-                            type=openapi.TYPE_STRING,
-                            default=""
-                        ),
-                    }
-                )
-            }
+                        "orcid": openapi.Schema(type=openapi.TYPE_STRING, default=""),
+                    },
+                ),
+            },
         ),
         responses={
             201: "Registration is successful.",
             400: "Bad request.",
-            409: "Conflict. A user with that emil already exists."
+            409: "Conflict. A user with that emil already exists.",
         },
         tags=["Account Management"],
     )
-
     def post(self, request, format=None):
         user_serializer = UserSerializerWithToken(data=request.data)
         user_serializer.is_valid(raise_exception=True)
         profile_serializer = ProfileSerializer(data=request.data)
-        if profile_serializer.is_valid()and len(User.objects.filter(email=request.data['email'])) == 0:
+        if (
+            profile_serializer.is_valid()
+            and len(User.objects.filter(email=request.data["email"])) == 0
+        ):
             user_serializer.save()
             profile_serializer.save()
             return Response(user_serializer.data, status=status.HTTP_201_CREATED)
         return Response(profile_serializer.errors, status=status.HTTP_409_CONFLICT)
+
 
 class UserSerializerWithToken(serializers.ModelSerializer):
     """
@@ -131,7 +138,7 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
     token = serializers.SerializerMethodField()
     password = serializers.CharField(write_only=True)
-    
+
     def get_token(self, obj):
         """
         need to tell it to pass through the token in this model as that is not
@@ -169,6 +176,7 @@ class UserSerializerWithToken(serializers.ModelSerializer):
         model = User
         fields = ("token", "username", "password", "email")
 
+
 class UserUpdateApi(APIView):
     """API view for updating user profile information.
 
@@ -176,8 +184,7 @@ class UserUpdateApi(APIView):
     """
 
     class ProfileUpdateSerializer(serializers.Serializer):
-        """Serializer class for validating user profile information.
-        """
+        """Serializer class for validating user profile information."""
 
         username = serializers.CharField()
         first_name = serializers.CharField(allow_blank=True)
@@ -196,7 +203,7 @@ class UserUpdateApi(APIView):
 
         Returns the updated user information in the response body.
         """
-        
+
         token = request.headers["Authorization"].removeprefix("Bearer ")
         profile_payload = self.ProfileUpdateSerializer(data=request.data)
         profile_payload.is_valid(raise_exception=True)
@@ -206,18 +213,18 @@ class UserUpdateApi(APIView):
         profile = profile_from_username(username)
         if profile.orcid != data["orcid"]:
             bcodbs = get_all_bcodbs(profile)
-            if data['orcid'] == '':
+            if data["orcid"] == "":
                 auth_obj = {
                     "iss": "https://" + profile.orcid.split("/")[-2],
-                    "sub": profile.orcid.split("/")[-1]
+                    "sub": profile.orcid.split("/")[-1],
                 }
-                print('Remove')
+                print("Remove")
                 for bcodb in bcodbs:
                     remove_authentication(token, auth_obj, bcodb)
             else:
                 auth_obj = {
                     "iss": "https://" + data["orcid"].split("/")[-2],
-                    "sub": data["orcid"].split("/")[-1]
+                    "sub": data["orcid"].split("/")[-1],
                 }
                 for bcodb in bcodbs:
                     add_authentication(token, auth_obj, bcodb)
@@ -225,6 +232,7 @@ class UserUpdateApi(APIView):
         user_info = custom_jwt_handler(token, user)
 
         return Response(status=status.HTTP_200_OK, data=user_info)
+
 
 class UserInfoApi(APIView):
     """Get user info"""
@@ -234,6 +242,7 @@ class UserInfoApi(APIView):
             request._auth, user_from_username(request.user.username)
         )
         return Response(status=status.HTTP_200_OK, data=user_info)
+
 
 class UserRetrieveApi(APIView):
     """

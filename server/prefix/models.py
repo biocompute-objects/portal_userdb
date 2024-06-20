@@ -4,6 +4,7 @@ from django.conf import settings
 
 HOSTNAME = settings.PUBLIC_HOSTNAME
 
+
 class Prefix(models.Model):
     """Prefix Table: core_prefixes
 

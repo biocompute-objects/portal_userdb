@@ -5,5 +5,5 @@ from prefix.apis import SearchPrefixAPI, RegisterPrefixAPI
 
 urlpatterns = [
     path("prefix/register/", RegisterPrefixAPI.as_view()),
-    re_path(r'prefix/search/$', SearchPrefixAPI.as_view()),
+    re_path(r"prefix/search/$", SearchPrefixAPI.as_view()),
 ]

@@ -11,7 +11,7 @@ from authentication.apis import (
     OrcidLoginApi,
     OrcidUserInfoApi,
     OrcidAddApi,
-    OrcidRemoveApi
+    OrcidRemoveApi,
 )
 from users.apis import UserCreateApi
 
@@ -28,5 +28,8 @@ urlpatterns = [
     path("orcid/add/", OrcidAddApi.as_view()),
     path("orcid/remove/", OrcidRemoveApi.as_view()),
     # path("orcid/register/", GoogleRegisterApi.as_view()),
-    path("password_reset/", include('django_rest_passwordreset.urls', namespace='password_reset')),
+    path(
+        "password_reset/",
+        include("django_rest_passwordreset.urls", namespace="password_reset"),
+    ),
 ]

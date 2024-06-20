@@ -15,12 +15,24 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Prefix',
+            name="Prefix",
             fields=[
-                ('prefix', models.CharField(max_length=5, primary_key=True, serialize=False, unique=True)),
-                ('registration_date', models.DateTimeField()),
-                ('registration_certificate', models.CharField(max_length=1000)),
-                ('username', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, to_field='username')),
+                (
+                    "prefix",
+                    models.CharField(
+                        max_length=5, primary_key=True, serialize=False, unique=True
+                    ),
+                ),
+                ("registration_date", models.DateTimeField()),
+                ("registration_certificate", models.CharField(max_length=1000)),
+                (
+                    "username",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                        to_field="username",
+                    ),
+                ),
             ],
         ),
     ]

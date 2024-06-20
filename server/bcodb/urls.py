@@ -12,7 +12,7 @@ from bcodb.apis import (
     AddTempDraftBcoAPI,
     DeleteTempDraftBco,
     GetTempDraftBcoAPI,
-    ResetBcodbTokenApi
+    ResetBcodbTokenApi,
 )
 
 urlpatterns = [
