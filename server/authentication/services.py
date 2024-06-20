@@ -22,8 +22,10 @@ from django.contrib.auth.models import User
 from bcodb.services import update_bcodbs
 from rest_framework import serializers
 
+
 class BcoDbSerializer(serializers.ModelSerializer):
     """Serializer for BCODB objects"""
+
     class Meta:
         model = BcoDb
         fields = (
@@ -41,31 +43,34 @@ class BcoDbSerializer(serializers.ModelSerializer):
             "recent_attempt",
         )
 
+
 class CustomJSONWebTokenAuthentication(BaseAuthentication):
-    """Class for custom authentication
-    """
+    """Class for custom authentication"""
 
     def authenticate(self, request):
         if "Authorization" in request.headers:
-            kind, token = request.headers['Authorization'].split(' ')
+            kind, token = request.headers["Authorization"].split(" ")
             try:
                 unverified_payload = jwt.decode(
                     token, None, False, options={"verify_signature": False}
                 )
-                if unverified_payload['iss'] == 'https://orcid.org' or unverified_payload['iss'] == 'https://sandbox.orcid.org':
+                if (
+                    unverified_payload["iss"] == "https://orcid.org"
+                    or unverified_payload["iss"] == "https://sandbox.orcid.org"
+                ):
                     user = authenticate_orcid(unverified_payload, token)
                     try:
                         return (user, token)
                     except UnboundLocalError as exp:
                         raise exceptions.AuthenticationFailed(
                             "Authentication failed. Token issuer not found.",
-                            "Please contact the site admin"
+                            "Please contact the site admin",
                         )
-                
-                if unverified_payload['iss'] in [
-                    'http://localhost:8080',
-                    'https://test.portal.biochemistry.gwu.edu',
-                    'https://biocomputeobject.org'
+
+                if unverified_payload["iss"] in [
+                    "http://localhost:8080",
+                    "https://test.portal.biochemistry.gwu.edu",
+                    "https://biocomputeobject.org",
                 ]:
                     user = self.authenticate_portal(unverified_payload, token)
                     try:
@@ -73,7 +78,7 @@ class CustomJSONWebTokenAuthentication(BaseAuthentication):
                     except UnboundLocalError as exp:
                         raise exceptions.AuthenticationFailed(
                             "Authentication failed. Token issuer not found.",
-                            "Please contact the site admin"
+                            "Please contact the site admin",
                         )
             except Exception as exp:
                 raise exceptions.AuthenticationFailed(exp)
@@ -81,7 +86,7 @@ class CustomJSONWebTokenAuthentication(BaseAuthentication):
             pass
         pass
 
-    def authenticate_portal(self, payload: dict, token:str)-> User:
+    def authenticate_portal(self, payload: dict, token: str) -> User:
         """Authenticate Portal
         Custom function to authenticate BCO Portal credentials.
         """
@@ -90,34 +95,41 @@ class CustomJSONWebTokenAuthentication(BaseAuthentication):
 
         return user
 
-def authenticate_orcid(payload:dict, token:str):
+
+def authenticate_orcid(payload: dict, token: str):
     """Authenticate ORCID
-    
+
     Custom function to authenticate ORCID credentials.
     """
     try:
         orcid_jwks = {
-            jwk['kid']: json.dumps(jwk)
-            for jwk in requests.get(payload['iss']+'/oauth/jwks').json()['keys']
+            jwk["kid"]: json.dumps(jwk)
+            for jwk in requests.get(payload["iss"] + "/oauth/jwks").json()["keys"]
         }
         orcid_jwk = next(iter(orcid_jwks.values()))
-        orcid_key = jwt.algorithms.RSAAlgorithm.from_jwk(orcid_jwk)    
+        orcid_key = jwt.algorithms.RSAAlgorithm.from_jwk(orcid_jwk)
     except Exception as exp:
-        print('exp:', exp)
+        print("exp:", exp)
         raise exceptions.AuthenticationFailed(exp)
-    
+
     try:
-        verified_payload = jwt.decode(token, key=orcid_key, algorithms=['RS256'], audience=['APP-88DEA42BRILGEHKC', 'APP-ZQZ0BL62NV9SBWAX'])
+        verified_payload = jwt.decode(
+            token,
+            key=orcid_key,
+            algorithms=["RS256"],
+            audience=["APP-88DEA42BRILGEHKC", "APP-ZQZ0BL62NV9SBWAX"],
+        )
     except Exception as exp:
-        print('exp:', exp)
+        print("exp:", exp)
         raise exceptions.AuthenticationFailed(exp)
     user = User.objects.get(
-        username=Profile.objects.get(orcid__icontains=verified_payload['sub'])
+        username=Profile.objects.get(orcid__icontains=verified_payload["sub"])
     )
 
     return user
 
-def orcid_auth_code(code: str, path: str)-> Response:
+
+def orcid_auth_code(code: str, path: str) -> Response:
     """ORCID Authorization Code
 
     Verifies the ORCID authentication.
@@ -128,15 +140,18 @@ def orcid_auth_code(code: str, path: str)-> Response:
         "client_secret": settings.ORCID_SECRET,
         "grant_type": "authorization_code",
         "code": code,
-        "redirect_uri": settings.CLIENT + path
+        "redirect_uri": settings.CLIENT + path,
     }
     headers = {
         "Accept": "application/json",
-        "Content-Type": "application/x-www-form-urlencoded"
+        "Content-Type": "application/x-www-form-urlencoded",
     }
-    response = requests.post(settings.ORCID_URL + "/oauth/token", data=data, headers=headers)
+    response = requests.post(
+        settings.ORCID_URL + "/oauth/token", data=data, headers=headers
+    )
 
     return response.json()
+
 
 def google_authentication(request):
     """Google Authentication"""
@@ -162,6 +177,7 @@ def google_authentication(request):
 
     return response.json()
 
+
 def custom_jwt_create_payload(user):
     """Create custom JWT claims token.
 
@@ -174,37 +190,38 @@ def custom_jwt_create_payload(user):
     issued_at_time = datetime.utcnow()
     expiration_time = issued_at_time + api_settings.JWT_EXPIRATION_DELTA
     payload = {
-        'username': user.get_username(),
-        'email': user.email,
-        'iss': settings.ORIGIN,
-        'iat': unix_epoch(issued_at_time),
-        'exp': expiration_time
+        "username": user.get_username(),
+        "email": user.email,
+        "iss": settings.ORIGIN,
+        "iat": unix_epoch(issued_at_time),
+        "exp": expiration_time,
     }
 
-    if api_settings.JWT_TOKEN_ID != 'off':
-        payload['jti'] = uuid.uuid4()
+    if api_settings.JWT_TOKEN_ID != "off":
+        payload["jti"] = uuid.uuid4()
 
     if api_settings.JWT_PAYLOAD_INCLUDE_USER_ID:
-        payload['user_id'] = user.pk
+        payload["user_id"] = user.pk
 
     # It's common practice to have user object attached to profile objects.
     # If you have some other implementation feel free to create your own
     # `jwt_create_payload` method with custom payload.
-    if hasattr(user, 'profile'):
-        payload['user_profile_id'] = user.profile.pk if user.profile else None,
+    if hasattr(user, "profile"):
+        payload["user_profile_id"] = (user.profile.pk if user.profile else None,)
 
     # Include original issued at time for a brand new token
     # to allow token refresh
     if api_settings.JWT_ALLOW_REFRESH:
-        payload['orig_iat'] = unix_epoch(issued_at_time)
+        payload["orig_iat"] = unix_epoch(issued_at_time)
 
     if api_settings.JWT_AUDIENCE is not None:
-        payload['aud'] = api_settings.JWT_AUDIENCE
+        payload["aud"] = api_settings.JWT_AUDIENCE
 
     if api_settings.JWT_ISSUER is not None:
-        payload['iss'] = api_settings.JWT_ISSUER
+        payload["iss"] = api_settings.JWT_ISSUER
 
     return payload
+
 
 def custom_jwt_handler(token, user=None, request=None, public_key=None):
     """Custom JWT Handler

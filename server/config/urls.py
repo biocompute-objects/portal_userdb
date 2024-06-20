@@ -40,11 +40,11 @@ urlpatterns = [
         "users/redoc/",
         schema_view.with_ui("redoc", cache_timeout=0),
         name="schema-redoc",
-    ), 
+    ),
     path("users/admin/", admin.site.urls),
     path("users/", include("users.urls")),
     path("users/", include("bcodb.urls")),
-    #Legacy path for new account
+    # Legacy path for new account
     path("users/", include("authentication.urls")),
-    path("users/", include("prefix.urls"))
+    path("users/", include("prefix.urls")),
 ]

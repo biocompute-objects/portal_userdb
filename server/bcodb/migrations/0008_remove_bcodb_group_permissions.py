@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('bcodb', '0007_bco'),
+        ("bcodb", "0007_bco"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='bcodb',
-            name='group_permissions',
+            model_name="bcodb",
+            name="group_permissions",
         ),
     ]

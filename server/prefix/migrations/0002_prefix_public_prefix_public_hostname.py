@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('prefix', '0001_initial'),
+        ("prefix", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='prefix',
-            name='public',
+            model_name="prefix",
+            name="public",
             field=models.BooleanField(default=True),
         ),
         migrations.AddField(
-            model_name='prefix',
-            name='public_hostname',
-            field=models.CharField(default='http://localhost:3000', max_length=1000),
+            model_name="prefix",
+            name="public_hostname",
+            field=models.CharField(default="http://localhost:3000", max_length=1000),
         ),
     ]
