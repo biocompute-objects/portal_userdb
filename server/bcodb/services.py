@@ -14,24 +14,27 @@ from django.utils import timezone
 from requests.exceptions import RequestException
 from users.models import Profile
 
+
 def update_bcodbs(profile: Profile) -> query.QuerySet:
     """Updates the information for a BcoDb object"""
 
     bcodbs = get_all_bcodbs(profile)
-    now = timezone.now()  # Use Django's timezone.now() to get a timezone-aware datetime object
-    
+    now = (
+        timezone.now()
+    )  # Use Django's timezone.now() to get a timezone-aware datetime object
+
     for db in bcodbs:
         try:
             bco_api_response = accounts_describe(db.public_hostname, db.token)
             # Using .json() to parse JSON response directly
             update = bco_api_response.json()
             BcoDb.objects.filter(id=db.id).update(
-                token=update['token'],
-                user_permissions=update['permissions'],
-                account_expiration=update.get('account_expiration', None),
+                token=update["token"],
+                user_permissions=update["permissions"],
+                account_expiration=update.get("account_expiration", None),
                 last_update=now,
                 recent_status=bco_api_response.status_code,
-                recent_attempt=now
+                recent_attempt=now,
             )
             print(BcoDb.objects.filter(id=db.id)[0])
         except json.JSONDecodeError as e:
@@ -40,15 +43,19 @@ def update_bcodbs(profile: Profile) -> query.QuerySet:
             print(f"Request failed: {e}")
             # Update the DB with just the status and attempt timestamp if request fails
             BcoDb.objects.filter(id=db.id).update(
-                recent_status=bco_api_response.status_code if bco_api_response else 'Failed',
-                recent_attempt=now
+                recent_status=(
+                    bco_api_response.status_code if bco_api_response else "Failed"
+                ),
+                recent_attempt=now,
             )
         except RequestException as e:
             print(f"Request failed: {e}")
             # Update the DB with just the status and attempt timestamp if request fails
             BcoDb.objects.filter(id=db.id).update(
-                recent_status=bco_api_response.status_code if bco_api_response else 'Failed',
-                recent_attempt=now
+                recent_status=(
+                    bco_api_response.status_code if bco_api_response else "Failed"
+                ),
+                recent_attempt=now,
             )
 
     updated_bcodbs = BcoDb.objects.filter(owner=profile)
@@ -59,19 +66,20 @@ def add_authentication(auth_object: dict, bcodb: BcoDb):
     """Add Authentication
     Adds an authentication object to the BCODB object.
     """
-    try: 
+    try:
         bco_api_response = requests.post(
             url=bcodb.public_hostname + "/api/auth/add/",
             data=json.dumps(auth_object),
-            headers= {
+            headers={
                 "Authorization": "Token " + bcodb.token,
                 "Content-type": "application/json; charset=UTF-8",
-            }
+            },
         )
         return bco_api_response.status_code
 
     except Exception as err:
         print(err)
+
 
 def remove_authentication(auth_object: dict, bcodb: BcoDb):
     """Remove Authentication
@@ -81,15 +89,16 @@ def remove_authentication(auth_object: dict, bcodb: BcoDb):
         bco_api_response = requests.post(
             url=bcodb.public_hostname + "/api/auth/remove/",
             data=json.dumps(auth_object),
-            headers= {
+            headers={
                 "Authorization": "Token " + bcodb.token,
                 "Content-type": "application/json; charset=UTF-8",
-            }
+            },
         )
         return bco_api_response.status_code
-    
+
     except Exception as err:
         print(err)
+
 
 def delete_temp_draft(user: User, bco_id: str) -> dict:
 
@@ -97,20 +106,21 @@ def delete_temp_draft(user: User, bco_id: str) -> dict:
         bco = BCO.objects.get(id=bco_id)
     except BCO.DoesNotExist:
         return "not_found"
-    except ValidationError: 
+    except ValidationError:
         return "bad_uuid"
-    
+
     object_id = bco.id
-    
+
     if bco.owner == None:
         bco.delete()
         return object_id
-    
+
     if bco.owner != user:
         return "not_authorized"
-    
+
     bco.delete()
     return object_id
+
 
 def reset_token(public_hostname: str, token: str) -> BcoDb:
     """Reset BCODB Token"""
@@ -119,13 +129,13 @@ def reset_token(public_hostname: str, token: str) -> BcoDb:
         bco_api_response = requests.post(
             url=public_hostname + "/api/auth/reset_token/",
             data={},
-            headers= {
+            headers={
                 "Authorization": "Token " + token,
                 "Content-type": "application/json; charset=UTF-8",
             },
         )
-        BcoDb.objects.filter(token=token).update(token=bco_api_response.json()['token'])
-        
+        BcoDb.objects.filter(token=token).update(token=bco_api_response.json()["token"])
+
         return bco_api_response.json()
     except:
         return bco_api_response.json()

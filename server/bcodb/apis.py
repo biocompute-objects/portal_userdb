@@ -20,6 +20,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from users.selectors import profile_from_username, user_from_username
 
+
 @api_view(["GET"])
 def getRouts(request):
     routs = [{"GET": "api/bcodb"}, {"POST": "api/users/token"}]
@@ -33,14 +34,18 @@ def getRouts(request):
 #     serialize = BcoDbSerializer(bcodb, many=True)
 #     return Response(serialize.data)
 
+
 class BcoSerializer(serializers.ModelSerializer):
     """Serializer for BCO objects"""
+
     class Meta:
         model = BCO
         fields = ("owner", "contents", "origin")
 
+
 class BcoDbSerializer(serializers.ModelSerializer):
     """Serializer for BCODB objects"""
+
     class Meta:
         model = BcoDb
         fields = (
@@ -58,6 +63,7 @@ class BcoDbSerializer(serializers.ModelSerializer):
             "recent_attempt",
         )
 
+
 class AddBcodbApi(APIView):
     """Add BcoDb object"""
 
@@ -69,7 +75,6 @@ class AddBcodbApi(APIView):
         },
         tags=["BCODB Management"],
     )
-
     @transaction.atomic
     def post(self, request):
         """"""
@@ -102,6 +107,7 @@ class AddBcodbApi(APIView):
 
         return Response(status=status.HTTP_200_OK, data=user_info)
 
+
 class RemoveBcodbApi(APIView):
     """Remove a BCODB from a user account"""
 
@@ -112,17 +118,17 @@ class RemoveBcodbApi(APIView):
         },
         tags=["BCODB Management"],
     )
-
     @transaction.atomic
     def post(self, request):
         """"""
         profile = profile_from_username(request.user.username)
-        db = request.data['database']
-        bcodb = get_bcodb(
-            profile, db['bcodb_username'], db['hostname'], db['token']
-        )
-        if bcodb == 'DoesNotExist':
-            return Response(status=status.HTTP_404_NOT_FOUND, data={'message': 'That BCO DB was not found'})
+        db = request.data["database"]
+        bcodb = get_bcodb(profile, db["bcodb_username"], db["hostname"], db["token"])
+        if bcodb == "DoesNotExist":
+            return Response(
+                status=status.HTTP_404_NOT_FOUND,
+                data={"message": "That BCO DB was not found"},
+            )
         bcodb.delete()
         user_info = custom_jwt_handler(
             request._auth, user_from_username(request.user.username)
@@ -130,13 +136,15 @@ class RemoveBcodbApi(APIView):
 
         return Response(status=status.HTTP_200_OK, data=user_info)
 
+
 class AddTempDraftBcoAPI(APIView):
-    """Saves a temp draft BCO
-    """
-    
-    authentication_classes = [CustomJSONWebTokenAuthentication,]
+    """Saves a temp draft BCO"""
+
+    authentication_classes = [
+        CustomJSONWebTokenAuthentication,
+    ]
     permission_classes = []
-    
+
     schema = openapi.Schema(
         type=openapi.TYPE_OBJECT,
         title="Add Draft BCO",
@@ -149,20 +157,16 @@ class AddTempDraftBcoAPI(APIView):
             ),
             "origin": openapi.Schema(
                 type=openapi.TYPE_STRING,
-                description="The request origin of the temp BCO."
-            )
-        }
-    )
-    
-    @swagger_auto_schema(
-        request_body=schema,
-        responses={
-            200: "BCO temp draft creation is successful.",
-            400: "Bad request."
+                description="The request origin of the temp BCO.",
+            ),
         },
-        tags=["BCODB Management"],
     )
 
+    @swagger_auto_schema(
+        request_body=schema,
+        responses={200: "BCO temp draft creation is successful.", 400: "Bad request."},
+        tags=["BCODB Management"],
+    )
     def post(self, request):
         hostname = settings.PUBLIC_HOSTNAME
         try:
@@ -172,32 +176,34 @@ class AddTempDraftBcoAPI(APIView):
 
         try:
             data_to_serialize = {
-                "owner" : user,
+                "owner": user,
                 "contents": request.data["contents"],
-                "origin": request.data["origin"]
+                "origin": request.data["origin"],
             }
         except KeyError as error:
             return Response(
                 status=status.HTTP_400_BAD_REQUEST,
-                data="Bad request. Unable to serialize submitted data. " \
-                     + f"There is a problem with {error}"
+                data="Bad request. Unable to serialize submitted data. "
+                + f"There is a problem with {error}",
             )
         bco_serializer = BcoSerializer(data=data_to_serialize)
         bco_serializer.is_valid(raise_exception=True)
         bco_pk = bco_serializer.save().id
         object_id = f"{hostname}/builder?{bco_pk}"
         bco = BCO.objects.get(pk=bco_pk)
-        bco.contents['object_id'] = object_id
+        bco.contents["object_id"] = object_id
         bco.save()
         return Response(status=status.HTTP_200_OK, data={"object_id": object_id})
 
+
 class GetTempDraftBcoAPI(APIView):
-    """Retrieves a draft BCO
-    """
-    
-    authentication_classes = [CustomJSONWebTokenAuthentication,]
+    """Retrieves a draft BCO"""
+
+    authentication_classes = [
+        CustomJSONWebTokenAuthentication,
+    ]
     permission_classes = []
-    
+
     schema = openapi.Schema(
         type=openapi.TYPE_OBJECT,
         title="Add Draft BCO",
@@ -208,9 +214,9 @@ class GetTempDraftBcoAPI(APIView):
                 type=openapi.TYPE_STRING,
                 description="The BCO ID",
             )
-        }
+        },
     )
-    
+
     @swagger_auto_schema(
         request_body=schema,
         responses={
@@ -222,33 +228,33 @@ class GetTempDraftBcoAPI(APIView):
         },
         tags=["BCODB Management"],
     )
-
     def post(self, request):
         bco_id = request.data["bco_id"]
         contents = get_temp_draft(user=request.user, bco_id=bco_id)
         if contents == "bad_uuid":
             return Response(
                 status=status.HTTP_400_BAD_REQUEST,
-                data={f"{bco_id} is not a valid UUID"}
+                data={f"{bco_id} is not a valid UUID"},
             )
         if contents == "not_authorized":
             return Response(
-               status=status.HTTP_401_UNAUTHORIZED,
-                data={f"You are not authorized to access object {bco_id}"}
+                status=status.HTTP_401_UNAUTHORIZED,
+                data={f"You are not authorized to access object {bco_id}"},
             )
         if contents == "not_found":
             return Response(
-                status=status.HTTP_404_NOT_FOUND,
-                data={f"Object {bco_id} not found"}
+                status=status.HTTP_404_NOT_FOUND, data={f"Object {bco_id} not found"}
             )
-    
+
         return Response(status=status.HTTP_200_OK, data=contents)
 
+
 class DeleteTempDraftBco(APIView):
-    """Delets a temp draft BCO
-    """
-    
-    authentication_classes = [CustomJSONWebTokenAuthentication,]
+    """Delets a temp draft BCO"""
+
+    authentication_classes = [
+        CustomJSONWebTokenAuthentication,
+    ]
     permission_classes = []
 
     schema = openapi.Schema(
@@ -261,9 +267,9 @@ class DeleteTempDraftBco(APIView):
                 type=openapi.TYPE_STRING,
                 description="The BCO ID",
             )
-        }
+        },
     )
-    
+
     @swagger_auto_schema(
         request_body=schema,
         responses={
@@ -275,56 +281,54 @@ class DeleteTempDraftBco(APIView):
         },
         tags=["BCODB Management"],
     )
-
     def post(self, request):
         bco_id = request.data["bco_id"]
         identifier = delete_temp_draft(user=request.user, bco_id=bco_id)
         if identifier == "bad_uuid":
             return Response(
                 status=status.HTTP_400_BAD_REQUEST,
-                data={f"{bco_id} is not a valid UUID"}
+                data={f"{bco_id} is not a valid UUID"},
             )
         if identifier == "not_authorized":
             return Response(
-               status=status.HTTP_401_UNAUTHORIZED,
-                data={f"You are not authorized to access object {bco_id}"}
+                status=status.HTTP_401_UNAUTHORIZED,
+                data={f"You are not authorized to access object {bco_id}"},
             )
         if identifier == "not_found":
             return Response(
-                status=status.HTTP_404_NOT_FOUND,
-                data={f"Object {bco_id} not found"}
+                status=status.HTTP_404_NOT_FOUND, data={f"Object {bco_id} not found"}
             )
 
         object_id = str(identifier)
         return Response(
             status=status.HTTP_200_OK,
             data={
-                "message":f"Temp draft {object_id} has been deleted",
-                "object_id": object_id
-            }
+                "message": f"Temp draft {object_id} has been deleted",
+                "object_id": object_id,
+            },
         )
+
 
 class ResetBcodbTokenApi(APIView):
     """Reset a BCODB API token"""
 
     @swagger_auto_schema(
         operation_id="users_bcodb_reset_token",
-        request_body= openapi.Schema(
-        type=openapi.TYPE_OBJECT,
-        title="Reset Token",
-        description="Will reset the BCODB token",
-        required=["token", "public_hostname"],
-        properties={
-            "token": openapi.Schema(
-                type=openapi.TYPE_STRING,
-                description="The BCODB token to be reset."
-            ),
-            "public_hostname": openapi.Schema(
-                type=openapi.TYPE_STRING,
-                description="The BCODB public hostname (URL)."
-            )
-        }
-    ),
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            title="Reset Token",
+            description="Will reset the BCODB token",
+            required=["token", "public_hostname"],
+            properties={
+                "token": openapi.Schema(
+                    type=openapi.TYPE_STRING, description="The BCODB token to be reset."
+                ),
+                "public_hostname": openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                    description="The BCODB public hostname (URL).",
+                ),
+            },
+        ),
         responses={
             200: "BCODB token reset is successful.",
             409: "Conflict.",
@@ -335,7 +339,7 @@ class ResetBcodbTokenApi(APIView):
     # @transaction.atomic
     def post(self, request):
         """"""
-        public_hostname, token = request.data['public_hostname'], request.data['token']
+        public_hostname, token = request.data["public_hostname"], request.data["token"]
         reset_token(public_hostname, token)
         user_info = custom_jwt_handler(
             request._auth, user_from_username(request.user.username)

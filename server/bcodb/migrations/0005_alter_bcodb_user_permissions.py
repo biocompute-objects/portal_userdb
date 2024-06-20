@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('bcodb', '0004_alter_bcodb_group_permissions_and_more'),
+        ("bcodb", "0004_alter_bcodb_group_permissions_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='bcodb',
-            name='user_permissions',
+            model_name="bcodb",
+            name="user_permissions",
             field=models.TextField(blank=True, null=True),
         ),
     ]

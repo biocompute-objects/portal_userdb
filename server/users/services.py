@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from users.models import Profile
 
+
 class ProfileSerializer(serializers.ModelSerializer):
     """Profile object serializer"""
 
@@ -17,6 +18,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = "__all__"
+
 
 class UserSerializer(serializers.ModelSerializer):
     """User object serializer"""
@@ -33,22 +35,22 @@ class UserSerializer(serializers.ModelSerializer):
             "last_login",
         )
 
+
 @transaction.atomic
-def user_create(
-    email: str, username: str, passowrd:str=None, **data:dict
-) -> User:
+def user_create(email: str, username: str, passowrd: str = None, **data: dict) -> User:
     """Create a user. Mostly with Google OAuth"""
 
-    data = {'is_staff': False, 'is_superuser': False, **data}
+    data = {"is_staff": False, "is_superuser": False, **data}
     user = User(email=email, username=username, **data)
     profile = Profile(username=user.username, email=user.email)
-    if user.password == '':
+    if user.password == "":
         user.set_unusable_password()
     user.full_clean()
     profile.full_clean()
     user.save()
     profile.save()
     return user
+
 
 @transaction.atomic
 def profile_update(user: User, profile: Profile, data: dict) -> str:

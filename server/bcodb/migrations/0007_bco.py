@@ -10,17 +10,34 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('bcodb', '0006_alter_bcodb_group_permissions_and_more'),
+        ("bcodb", "0006_alter_bcodb_group_permissions_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='BCO',
+            name="BCO",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('contents', models.JSONField(default=dict)),
-                ('origin', models.CharField(blank=True, max_length=255, null=True)),
-                ('owner', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, to_field='username')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                        unique=True,
+                    ),
+                ),
+                ("contents", models.JSONField(default=dict)),
+                ("origin", models.CharField(blank=True, max_length=255, null=True)),
+                (
+                    "owner",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                        to_field="username",
+                    ),
+                ),
             ],
         ),
     ]
