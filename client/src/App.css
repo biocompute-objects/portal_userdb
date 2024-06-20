@@ -7,36 +7,63 @@
   --main-cardBackground-color: #D8E9FD !important
 }
 
+/* image CSS */
+.centered-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.inline-content img {
+  margin-right: 10px; /* Space between image and text */
+}
+
+/* content/text CSS */
+.inline-content {
+  display: flex;
+  align-items: center; /* Align items vertically center */
+}
 /* About page- BCOnexus.js CSS Components */
 
 .About-half-width-box{
-  min-height: 350px; /* Ensure both boxes have a minimum height */
-  /* min-width: 275px; Ensure both boxes have a minimum width */
-  width: 100%; /* Half the width of the container minus spacing */
+  min-height: 650px; /* Ensure both boxes have a minimum height */
+  min-width: 350px;/* min-width: 275px; Ensure both boxes have a minimum width */
+  width: 90%; /* Half the width of the container minus spacing */
   margin: 0 auto; /* Add spacing between the boxes */
   border: 1px solid #ccc; /* Add a border for visual separation */
   border-radius: 8px; /* Add border radius for rounded corners */
   display: flex; /* Use flexbox */
   justify-content: center !important;
   align-items: center; /* Center content horizontally */
+  text-align: left;
   padding: 16px;
 }
 
-.About-half-width-box .content {
-  text-align: left; /* Ensure text alignment is left */
-  width: 100%; /* Ensure it takes full width */
-  white-space: pre-line;
+.centered-title {
+  text-align: center;
 }
 
 .About-Full-Width-Box{
   width: 100%;
   min-width: 275px; 
-  border: 1px solid #ccc; 
-  border-radius: 8px; 
+  border: 1px #ccc; 
+  border-radius: 5%; 
   display: flex;
   justify-content: flex-start; 
   align-items: flex-start;
+  align-content: flex-start;
+  text-align: left;
+  margin-bottom: 50px;
+  margin-top: 20px;
 } 
+
+.about-text {
+  font-family:"lato", sans-serif !important;
+  font-size: x-large !important;
+  margin: left 80px !important;
+  /* color: red; */
+}
 
 .About-bullet {
   /* display: "inline-block";
@@ -74,7 +101,10 @@
 
 /* about pages */
 .about-main {
-  margin: 2%;
+  margin-top: 3%;
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-bottom: 2%;
 }
 
 .member-image {
@@ -303,6 +333,7 @@
 .home-intro-title {
   font-size: 28px !important;
   font-weight: bold !important;
+  text-align: center !important;
 }
 
 .home-position {

@@ -15,9 +15,10 @@ export default function HalfWidthBox({ link, title, content, image, imageAlt, cs
         <CardContent>
           <Typography className="home-intro-title">
             {title}
-          </Typography>
+          </Typography >
+          <br></br>
           {image && <img src={image} height={100} alt={imageAlt} />}
-          <Typography className={cssClass} dangerouslySetInnerHTML={{ __html: content }} />
+          <Typography className="about-text" dangerouslySetInnerHTML={{ __html: content }} />
         </CardContent>
       </CardActionArea>
     </Card>

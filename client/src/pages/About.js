@@ -5,6 +5,7 @@ import FullWidthBox from "../components/FullWidthBox";
 import ThirdBox from "../components/ThirdBox";
 import HalfWidthBox from "../components/HalfWidthBox";
 import logoWithName from "../images/biocompute.png";
+import audiencepic from "../images/audience.png"
 import "../App.css";
 
 export default function About() {
@@ -15,12 +16,11 @@ export default function About() {
         content="
         BioCompute is a standard for workflow communication. It comes with very strong data provenance, researcher attribution, and descriptive metadata features.<br /><br />
         It is common to hear “x software was used” when reading about a computational pipeline. This is not enough to make informed scientific assessments of work, whether in academic publication reviews, regulatory decisions (e.g. at the FDA), internal process review (particularly for trade secrets), or in educational contexts. Poor workflow communication results in significant delays in reviews, or worse, outright rejection.<br /><br />
-        It is not uncommon for a researcher in a group to spend weeks or months developing an analysis that only they understand. If the work is not well documented, no one else in the group may understand the work well enough to explain it or answer questions about it, rendering it unusable – despite it being perfectly re–executable. This exact scenario has resulted in rejected regulatory applications at the FDA.<br /><br />
-        It is also common for reviewers to try to reproduce computational pipelines using a specific set of tools that they know and trust, putting more emphasis on comprehension than on re-executability.<br /><br />
         The BioCompute mission is to overhaul the way that computational analyses in biology are shared, understood, and reproduced between the research community, the clinical community, and regulatory organizations."
         image={logoWithName}
         imageAlt="BioCompute logo and name"
       />
+      
       <FullWidthBox
         link=""
         title="Our Story"
@@ -42,6 +42,7 @@ export default function About() {
           <HalfWidthBox justifyContent="left"
             link=""
             title="Our Audience"
+            titleClass="centered-title"
             content="
               BioCompute serves a broad range of stakeholders within the scientific and biomedical research communities, including but not limited to:<br />
               <ul style='margin-left: 20px; padding-left: 20px; list-style-position: inside;'>
@@ -52,7 +53,7 @@ export default function About() {
                   <li>Software Developers and Engineers </li>
               </ul>"
 
-            image=""
+            image={audiencepic}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
@@ -85,7 +86,10 @@ export default function About() {
               </ul>"
         image=""
         />
-      <CardHeader title="Funding Sources"/>
+      <CardHeader
+        title="Funding Sources"
+        classes={{ title: "home-intro-title" }}
+      />
       <FullWidthBox 
         link="https://smhs.gwu.edu/news/gw-led-consortium-receives-22m-grant-fund-biocompute-object-specification-project"
         title=""

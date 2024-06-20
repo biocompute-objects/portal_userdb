@@ -26,8 +26,14 @@ export default function FullWidthBox({ link, title, content, image, imageAlt, cs
             <Typography className="home-intro-title">
               {title}
             </Typography>
-            {image && <img src={image} height={100} alt={imageAlt} />} 
-            <Typography component="div" dangerouslySetInnerHTML={{ __html: content }} />
+            <br></br>
+            <div className="inline-content">
+            <Typography className="about-text" component="div" dangerouslySetInnerHTML={{ __html: content }} />
+              {image && <img src={image} height={100} alt={imageAlt} className="centered-image" />} 
+              
+            </div>
+            {/* {image && <img src={image} height={100} alt={imageAlt} className="centered-image" />} 
+            <Typography className="about-text" component="div" dangerouslySetInnerHTML={{ __html: content }} /> */}
           </CardContent>
         </CardActionArea>
       </Box>
