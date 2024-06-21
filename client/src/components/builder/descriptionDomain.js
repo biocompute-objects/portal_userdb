@@ -21,12 +21,21 @@ import Tooltip from "@mui/material/Tooltip";
 
 export const  DescriptionDomain = ({onSave}) => {
   const dispatch = useDispatch();
-  const description_domain = useSelector(state => state.bco.data.description_domain)
+  const description_domain = useSelector(state => state.bco.data?.description_domain) || {};
+  let has_keywords = "keywords" in description_domain;
+  let has_xref = "xref" in description_domain;
+  let has_platform = "platform" in description_domain; 
+  let has_pipeline = "pipeline_steps" in description_domain;
 
   return (
     <Card className="object-domain">
       <Formik
-        initialValues={description_domain}
+        initialValues={{
+          "keywords": has_keywords ? description_domain["keywords"] : [],
+          "xref" : has_xref ? description_domain["xref"] : [],
+          "platform": has_platform ? description_domain["platform"] : [],
+          "pipeline_steps": has_pipeline ? description_domain["pipeline_steps"]: [],
+        }}
         onSubmit={
           (myData, {setSubmitting}) => {
             setSubmitting(true);

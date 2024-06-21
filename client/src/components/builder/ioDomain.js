@@ -10,7 +10,7 @@ import Tooltip from "@mui/material/Tooltip";
 
 export const  IODomain = ({onSave}) => {
   const dispatch = useDispatch();
-  const io_domain = useSelector(state => state.bco.data.io_domain)
+  const io_domain = useSelector(state => state.bco.data?.io_domain) || {};
   let has_input = "input_subdomain" in io_domain;
   let has_output = "output_subdomain" in io_domain;
 

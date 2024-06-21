@@ -57,8 +57,8 @@ export default function ObjectSideBar ({domain, setDomain}) {
   const prefix = useSelector(state => state.bco.prefix);
   const bcoStatus = useSelector(state => state.bco.status);
   const BCODB_URL = process.env.REACT_APP_BCOAPI_URL;
+  const bcoValidation = useSelector(state => state.bco.validation);
   const allowUpdate = (bcoStatus === "writing") ? (true) : (false)
-  const allowPublish = (bcoStatus === "valid") ? (true) : (false)
 
   function a11yProps(index) {
     return {
@@ -133,7 +133,7 @@ export default function ObjectSideBar ({domain, setDomain}) {
                 variant="contained"
                 color="primary"
                 onClick={publishDraft}
-                disabled={!allowPublish}
+                disabled={bcoValidation !== "valid"}
               >Publish BCO</Button>
               
             </div>

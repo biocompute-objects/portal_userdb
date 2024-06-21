@@ -10,8 +10,12 @@ import Tooltip from "@mui/material/Tooltip";
 
 export const ExecutionDomain = ({onSave}) => {
   const dispatch = useDispatch();
-  const execution_domain = useSelector(state => state.bco.data.execution_domain);
-  const environment_variables = useSelector(state => state.bco.data.execution_domain.environment_variables);
+  const execution_domain = useSelector(state => state.bco.data?.execution_domain) || {};
+  let has_script = "script" in execution_domain;
+  let has_driver = "script_driver" in execution_domain;
+  let has_prereq = "software_prerequisites" in execution_domain;
+  let has_external = "external_data_endpoints" in execution_domain;
+  const environment_variables = useSelector(state => state.bco.data.execution_domain?.environment_variables) || [];
   const [envars, setEnvars] = useState(environment_variables)
   const [key, setKey] = useState("")
   const [value, setValue] = useState("")
@@ -36,7 +40,12 @@ export const ExecutionDomain = ({onSave}) => {
   return (
     <Card className="object-domain">
       <Formik
-        initialValues={execution_domain}
+        initialValues={{
+          "script": has_script ? execution_domain["script"] : [],
+          "script_driver": has_driver ? execution_domain["scriopt+driver"] : "",
+          "software_prerequisites": has_prereq ? execution_domain["software_prerequisites"] : [],
+          "external_data_endpoints": has_external ? execution_domain["external_data_endpoints"] : []
+        }}
         onSubmit={
           (formData, {setSubmitting}) => {
             setSubmitting(true);

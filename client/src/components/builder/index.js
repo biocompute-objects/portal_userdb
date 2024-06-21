@@ -25,6 +25,7 @@ import { useOutletContext, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux"
 import biocomputing from "../../images/biocomputing.gif"
 import ThirdBox from "../ThirdBox";
+import ErrorBoundary from "../ErrorBoundry";
 
 import {
   getDraftBco,
@@ -132,59 +133,71 @@ export default function BuilderColorCode () {
           }
         </Card>
         <br/>
-        {
-          bcoStatus === "idle" || bcoStatus === "valid" ?(<>
-            <TabPanel  domain={domain} index={0}>
-              <ProvenanceDomain onSave={onSave}/>
-            </TabPanel>
-            <TabPanel domain={domain} index={1}>
-              <UsabilityDomain onSave={onSave}/>
-            </TabPanel>
-            <TabPanel domain={domain} index={2}>
-              <DescriptionDomain onSave={onSave}/>
-            </TabPanel>
-            <TabPanel domain={domain} index={3}>
-              <ExtensionDomain onSave={onSave}/>
-            </TabPanel>
-            <TabPanel domain={domain} index={4}>
-              <ParametricDomain onSave={onSave}/>
-            </TabPanel>
-            <TabPanel domain={domain} index={5}>
-              <IODomain onSave={onSave}/>
-            </TabPanel>
-            <TabPanel domain={domain} index={6}>
-              <ExecutionDomain onSave={onSave}/>
-            </TabPanel>
-            <TabPanel domain={domain} index={7}>
-              <ErrorDomain onSave={onSave}/>
-            </TabPanel>
-            <TabPanel domain={domain} index={8}>
-              <RawJson onSave={onSave}/>
-            </TabPanel>
-            <TabPanel domain={domain} index={9}>
-              <TreeView onSave={onSave}/>
-            </TabPanel></>
-          ) :( 
-            <Card>
-              {bcoStatus === "loading" ?(
-                <CardContent>
-                  <ThirdBox
-                    title="Loading"
-                    image={biocomputing}
-                    imageAlt="loading..."
-                  />
-                </CardContent>
-              ) :(
-                <CardContent>
-                  <ThirdBox
-                    title="Failed to get BCO"
-                    content={JSON.stringify(bcoError)}
-                  />
+        {(bcoStatus === "loading") ? (
+          <Card>
+            <CardContent>
+              <ThirdBox
+                title="Loading"
+                image={biocomputing}
+                imageAlt="loading..."
+              />
+            </CardContent>
+          </Card>
+        ) : ((bcoStatus === "failed") ? (
+          <Card>
+            <CardContent>
+              <ThirdBox
+                title="Failed to get BCO"
+                content={JSON.stringify(bcoError)}
+              />
                     
-                </CardContent>
-              )}
-            </Card>
-          )}
+            </CardContent>
+          </Card>
+        ) : (<>
+          <TabPanel  domain={domain} index={0}>
+            <ErrorBoundary>
+              <ProvenanceDomain onSave={onSave}/>
+            </ErrorBoundary>
+          </TabPanel>
+          <TabPanel domain={domain} index={1}>
+            <ErrorBoundary><UsabilityDomain onSave={onSave}/></ErrorBoundary>
+          </TabPanel>
+          <TabPanel domain={domain} index={2}>
+            <ErrorBoundary>
+              <DescriptionDomain onSave={onSave}/>
+            </ErrorBoundary>
+          </TabPanel>
+          <TabPanel domain={domain} index={3}>
+            <ErrorBoundary>
+              <ExtensionDomain onSave={onSave}/>
+            </ErrorBoundary>
+          </TabPanel>
+          <TabPanel domain={domain} index={4}>
+            <ErrorBoundary>
+              <ParametricDomain onSave={onSave}/>
+            </ErrorBoundary>
+          </TabPanel>
+          <TabPanel domain={domain} index={5}>
+            <ErrorBoundary>
+              <IODomain onSave={onSave}/>
+            </ErrorBoundary>
+          </TabPanel>
+          <TabPanel domain={domain} index={6}>
+            <ErrorBoundary>
+              <ExecutionDomain onSave={onSave}/>
+            </ErrorBoundary>
+          </TabPanel>
+          <TabPanel domain={domain} index={7}>
+            <ErrorDomain onSave={onSave}/>
+          </TabPanel>
+          <TabPanel domain={domain} index={8}>
+            <RawJson onSave={onSave}/>
+          </TabPanel>
+          <TabPanel domain={domain} index={9}>
+            <TreeView onSave={onSave}/>
+          </TabPanel></>
+        )
+        )}
       </Stack>
     </Grid>
   )

@@ -11,7 +11,7 @@ import Tooltip from "@mui/material/Tooltip";
 export const  ParametricDomain = ({onSave}) => {
     
   const dispatch = useDispatch();
-  const parametric_domain = useSelector(state => state.bco.data.parametric_domain)
+  const parametric_domain = useSelector(state => state.bco.data.parametric_domain) || [];
 
   return (
     <Card>         
@@ -51,11 +51,9 @@ export const  ParametricDomain = ({onSave}) => {
                   name="parametric_domain"
                   render={arrayHelpers => (
                     <div>
-                      {/*console.log(values)*/}
-                      {values["parametric_domain"].map((aa, index) => (
+                      {values["parametric_domain"].map((paramater, index) => (
                         <CardContent key={index}>
                           <Grid container spacing={2} alignItems='center' justifyContent='center'>
-                            {/** both these conventions do the same */}
                             <Grid item xs>
                               <MyTextField name={`parametric_domain[${index}].step`} label="Step"/>
                             </Grid>
@@ -64,11 +62,13 @@ export const  ParametricDomain = ({onSave}) => {
                             </Grid>
                             <Grid item xs>
                               <MyTextField name={`parametric_domain.${index}.value`} label="Value"/>
-                            </Grid>
-                                                    
+                            </Grid>            
                             <Grid item xs>
-                              <Button variant='outlined' color='secondary' type="button" onClick={() => arrayHelpers.remove(index)}>
-                                                    Remove
+                              <Button
+                                variant='outlined'
+                                color='secondary'
+                                type="button" onClick={() => arrayHelpers.remove(index)}>
+                                  Remove
                               </Button>
                             </Grid>
                           </Grid>
