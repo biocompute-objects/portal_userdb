@@ -390,8 +390,8 @@ export const handleExpiredJWT = createAsyncThunk(
 
 
 const initialState = user
-  ? { isLoggedIn: true, user }
-  : { isLoggedIn: false, user: null };
+  ? { isLoggedIn: true, user, loading: false }
+  : { isLoggedIn: false, user: null, loading: false };
 
 export const accountSlice = createSlice({
   name: "account",
@@ -411,11 +411,16 @@ export const accountSlice = createSlice({
       .addCase(register.rejected, (state) => {
         state.isLoggedIn = false;
       })
+      .addCase(login.pending, (state) => {
+        state.loading = true; // Set loading to true when login is pending
+      })
       .addCase(login.fulfilled, (state, action) => {
+        state.loading = false; // Set loading to false when login is fulfilled
         state.isLoggedIn = true;
         state.user = action.payload.user;
       })
       .addCase(login.rejected, (state) => {
+        state.loading = false; // Set loading to false when login is rejected
         state.isLoggedIn = false;
         state.user = null;
       })
