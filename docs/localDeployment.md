@@ -61,6 +61,7 @@ Then you will have to add values for the following:
 	REACT_APP_ORCID_CLIENT_SECRET==******************************************
 	REACT_APP_SERVER_URL=http://localhost:3000
  	REACT_APP_BCOAPI_TOKEN=*****************
+
 **Verify you are still in the right directory and install client dependencies**
 
 `cd client`
