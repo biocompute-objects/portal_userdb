@@ -55,6 +55,7 @@ jobs:
           SERVER_VERSION: ${{ secrets.SERVER_VERSION }}
           SERVER_URL: ${{ secrets.SERVER_URL }}
           DATABASE: ${{ secrets.DATABASE }}
+          EMAIL_BACKEND: ${{ secrets.EMAIL_BACKEND }}
 
 
       - name: Run Tests
@@ -69,6 +70,7 @@ jobs:
             SERVER_VERSION: ${{ secrets.SERVER_VERSION }}
             SERVER_URL: ${{ secrets.SERVER_URL }}
             DATABASE: ${{ secrets.DATABASE }}
+            EMAIL_BACKEND: ${{ secrets.EMAIL_BACKEND }}
 
         run: |
           cd server  # Change to the subdirectory
