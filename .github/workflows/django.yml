@@ -30,6 +30,33 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r server/requirements.txt
+      
+      - name: Debug Secrets
+        run: |
+          echo "SECRET_KEY is set: ${{ secrets.SECRET_KEY }}" | grep -o "SECRET_KEY is set"
+          echo "DJANGO_GOOGLE_OAUTH2_CLIENT_ID is set: ${{ secrets.DJANGO_GOOGLE_OAUTH2_CLIENT_ID }}" | grep -o "DJANGO_GOOGLE_OAUTH2_CLIENT_ID is set"
+          echo "DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET is set: ${{ secrets.DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET }}" | grep -o "DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET is set"
+          echo "DJANGO_ORCID_OAUTH2_CLIENT_URL is set: ${{ secrets.DJANGO_ORCID_OAUTH2_CLIENT_URL }}" | grep -o "DJANGO_ORCID_OAUTH2_CLIENT_URL is set"
+          echo "DJANGO_ORCID_OAUTH2_CLIENT_ID is set: ${{ secrets.DJANGO_ORCID_OAUTH2_CLIENT_ID }}" | grep -o "DJANGO_ORCID_OAUTH2_CLIENT_ID is set"
+          echo "DJANGO_ORCID_OAUTH2_CLIENT_SECRET is set: ${{ secrets.DJANGO_ORCID_OAUTH2_CLIENT_SECRET }}" | grep -o "DJANGO_ORCID_OAUTH2_CLIENT_SECRET is set"
+          echo "DJANGO_ORCID_OAUTH2_URL is set: ${{ secrets.DJANGO_ORCID_OAUTH2_URL }}" | grep -o "DJANGO_ORCID_OAUTH2_URL is set"
+          echo "SERVER_VERSION is set: ${{ secrets.SERVER_VERSION }}" | grep -o "SERVER_VERSION is set"
+          echo "SERVER_URL is set: ${{ secrets.SERVER_URL }}" | grep -o "SERVER_URL is set"
+          echo "DATABASE is set: ${{ secrets.DATABASE }}" | grep -o "DATABASE is set"
+
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          DJANGO_GOOGLE_OAUTH2_CLIENT_ID: ${{ secrets.DJANGO_GOOGLE_OAUTH2_CLIENT_ID }}
+          DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET: ${{ secrets.DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET }}
+          DJANGO_ORCID_OAUTH2_CLIENT_URL: ${{ secrets.DJANGO_ORCID_OAUTH2_CLIENT_URL }}
+          DJANGO_ORCID_OAUTH2_CLIENT_ID: ${{ secrets.DJANGO_ORCID_OAUTH2_CLIENT_ID }}
+          DJANGO_ORCID_OAUTH2_CLIENT_SECRET: ${{ secrets.DJANGO_ORCID_OAUTH2_CLIENT_SECRET }}
+          DJANGO_ORCID_OAUTH2_URL: ${{ secrets.DJANGO_ORCID_OAUTH2_URL }}
+          SERVER_VERSION: ${{ secrets.SERVER_VERSION }}
+          SERVER_URL: ${{ secrets.SERVER_URL }}
+          DATABASE: ${{ secrets.DATABASE }}
+
+
       - name: Run Tests
         env:
             SECRET_KEY: ${{ secrets.SECRET_KEY }}
