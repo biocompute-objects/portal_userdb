@@ -7,10 +7,7 @@ from pathlib import Path
 from datetime import timedelta
 import configparser
 from django.core.management.utils import get_random_secret_key
-import logging #log the entire secrets dictionary to debug
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -73,14 +70,15 @@ if secrets["GOOGLE_KEYS"]["DJANGO_GOOGLE_OAUTH2_CLIENT_ID"]:
     GOOGLE_CLIENT = secrets["GOOGLE_KEYS"]["DJANGO_GOOGLE_OAUTH2_CLIENT_ID"]
 if secrets["GOOGLE_KEYS"]["DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET"]:
     GOOGLE_SECRET = secrets["GOOGLE_KEYS"]["DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET"]
-
+if secrets["SERVER"]["EMAIL_BACKEND"]:
+    EMAIL_BACKEND = secrets["SERVER"]["EMAIL_BACKEND"]
 try:
     EMAIL_BACKEND = secrets["SERVER"]["EMAIL_BACKEND"]
 except KeyError:
     raise KeyError("EMAIL_BACKEND not found in secrets")
 
 
-logger.info(f"Secrets loaded: {secrets}")
+
 # Use print statements for debugging
 print(f"Secrets: {secrets}")
 # SECURITY WARNING: don't run with debug turned on in production!
