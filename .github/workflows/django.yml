@@ -43,6 +43,7 @@ jobs:
           echo "SERVER_VERSION is set: ${{ secrets.SERVER_VERSION }}" | grep -o "SERVER_VERSION is set"
           echo "SERVER_URL is set: ${{ secrets.SERVER_URL }}" | grep -o "SERVER_URL is set"
           echo "DATABASE is set: ${{ secrets.DATABASE }}" | grep -o "DATABASE is set"
+          echo "EMAIL_BACKEND is set: ${{ secrets.EMAIL_BACKEND }}" | grep -o "EMAIL_BACKEND is set"
 
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
