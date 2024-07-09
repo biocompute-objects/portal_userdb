@@ -43,7 +43,7 @@ secrets = {
         "SERVER_VERSION": os.environ.get("SERVER_VERSION"),
         "SERVER_URL": os.environ.get("SERVER_URL"),
         "DATABASE": os.environ.get("DATABASE"),
-        "EMAIL_BACKEND": os.environ.get("EMAIL_BACKEND"),
+        "EMAIL_BACKEND": os.environ.get("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"),
     },
 }
 if secrets["DJANGO_KEYS"]["SECRET_KEY"] == None:
