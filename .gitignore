@@ -1,7 +1,6 @@
 client/build/
 client/node_modules/*
 client/.env
-client/.env.example
 client/prov-domain-formik/*
 *.DS_Store*
 server/env/*
