@@ -69,7 +69,10 @@ if secrets["GOOGLE_KEYS"]["DJANGO_GOOGLE_OAUTH2_CLIENT_ID"]:
 if secrets["GOOGLE_KEYS"]["DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET"]:
     GOOGLE_SECRET = secrets["GOOGLE_KEYS"]["DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET"]
 
-EMAIL_BACKEND = secrets["SERVER"]["EMAIL_BACKEND"]
+try:
+    EMAIL_BACKEND = secrets["SERVER"]["EMAIL_BACKEND"]
+except KeyError:
+    raise KeyError("EMAIL_BACKEND not found in secrets")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
