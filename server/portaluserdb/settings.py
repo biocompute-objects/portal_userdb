@@ -81,6 +81,8 @@ except KeyError:
 
 
 logger.info(f"Secrets loaded: {secrets}")
+# Use print statements for debugging
+print(f"Secrets: {secrets}")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

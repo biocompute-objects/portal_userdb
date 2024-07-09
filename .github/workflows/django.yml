@@ -25,7 +25,7 @@ jobs:
         run: |
             ls -R server # List all files and directories recursively
             cat server/requirements.txt  # Print the contents of the requirements file
-            
+            printenv
         
       - name: Install Dependencies
         run: |
