@@ -7,6 +7,11 @@ from pathlib import Path
 from datetime import timedelta
 import configparser
 from django.core.management.utils import get_random_secret_key
+import logging #log the entire secrets dictionary to debug
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -74,6 +79,8 @@ try:
 except KeyError:
     raise KeyError("EMAIL_BACKEND not found in secrets")
 
+
+logger.info(f"Secrets loaded: {secrets}")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
