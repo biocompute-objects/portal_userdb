@@ -1,7 +1,12 @@
 # BioCompute Portal Local Deployment Instructions/notes
 
-## System Setup
-### Requirements
+This README provides instructions to deploy the BioCompute Portal Locally
+
+## Prerequisites
+
+Before starting, ensure you have the following installed:
+
+- [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Node.js](https://nodejs.org/en)
 - [Python 3](https://www.python.org/downloads/)
 - [PyEnv](https://github.com/pyenv/pyenv) (optional but recommended)
@@ -23,7 +28,12 @@
 
 **Make sure you are on the desired branch:**
 
-`git switch <BRANCH NAME>` *(for whatever branch you need)*
+`git switch <BRANCH NAME>` *(24.06.27 Reccomended)*
+
+**Stash Any Local Changes**
+
+`git stash
+git stash drop`
 
 ### Enter the repository, create a environment file, and install the required packages
 
@@ -50,18 +60,25 @@ Then you will have to add values for the following:
 	REACT_APP_ORCID_CLIENT_ID==******************************************
 	REACT_APP_ORCID_CLIENT_SECRET==******************************************
 	REACT_APP_SERVER_URL=http://localhost:3000
+ 	REACT_APP_BCOAPI_TOKEN=*****************
+  
+**Verify you are still in the right directory and install client dependencies**
+
+`cd client`
+
+`npm install`
 
 ### **Start service**
 
 `npm run start`
 
-This will open `http://localhost:3000/` in your default webbrowser if everything went according to plan. If not, see the [troubleshooting tips](troubleshooting.md).
+This will open `http://localhost:3000/` in your default web browser if everything went according to plan. See the [troubleshooting tips](troubleshooting.md) if not.
 
 This terminal will be serving the React frontend.
 
 ## BCO Portal Server deployment  (portal_userdb/server)
 
-**Open a new terminal and retrun to the project root**
+**Open a new terminal and return to the project root**
 
 `cd PATH/TO/PROJECT/portal_userdb`
 
@@ -89,6 +106,21 @@ This terminal will be serving the React frontend.
 
 `pip install -r requirements.txt`
 
+##### If Given the Error Failed Building Wheel For Ruamel.Yaml.Clib Run These Commands
+
+`pyenv local (if pyenv was installed)`
+
+`pyenv versions (if pyenv was installed)`
+
+`pyenv local 3.10.6 (if pyenv was installed)`
+
+`source ~/.zshrc (or specified terminal)`
+
+`pip install --upgrade pip`
+
+##### Rerun Installation of Requirements.txt
+
+`pip install -r requirements.txt`
 
 #### Generate the secrets file
 ----
@@ -123,8 +155,10 @@ DJANGO_ORCID_OAUTH2_CLIENT_SECRET=<your-orcid-secret-here>
 DJANGO_ORCID_OAUTH2_URL=https://sandbox.orcid.org
 
 [SERVER]
-SERVER_VERSION=23.12.12
+SERVER_VERSION=24.04
 SERVER_URL=http://localhost:3000
+SERVER_DB_URL=http://127.0.0.1:8000
+#DATABASE=/Users/hadley_king/Data/userdb/db.sqlite3
 DATABASE=db.sqlite3
 ```
 
@@ -149,7 +183,7 @@ Create a DB:
 
 Load the DB with test data:
 
-`python manage.py loaddata tests/fixtures/testing_data.json`
+`python manage.py loaddata config/fixtures/local_data/json`
 
 ---
 #### Run Server
@@ -174,7 +208,7 @@ The BCO API repository contains a top-level folder “admin_only” which contai
 
 Make sure you are on the desired branch (Check for latest branch):
 
-`git switch 22.05`
+`git switch 24.06.27`
 
 Enter the repository, create a virtual environment, and install the required packages
 
@@ -188,80 +222,32 @@ Enter the repository, create a virtual environment, and install the required pac
 
 (You can use python3.9 if you’d like, but since you’re in the virtual environment you created python points to python3.9)
 
-### Modify the Config files:
-#### Check/Edit the server.conf file
+### Modify the .Secrets file:
+#### Check/Edit the .secrets file
 
 *This is the main server configuration file for the BCO API.   (most of these values will NOT need to be changed for local deployment)*
 
-`vim bco_api/bco_api/server.conf`
+`nano .secrets`
 
-**Production and publishing flags**
- *NOTE:  Valid values are True or False (note the capitalization).* 
+**Add Given Fields and Contact Admin for Keys
 
- ````
-[PRODUCTION]
-production=False
-````
+```
+[DJANGO_KEYS]
+SECRET_KEY=***************
+ANON_KEY=******************************
+[SERVER]
+PRODUCTION=False
+DEBUG=True
+ALLOWED_HOSTS=*
+SERVER_VERSION=24.06.13
+HOSTNAME=127.0.0.1:8000
+HUMAN_READABLE_HOSTNAME=DEV BCODB
+PUBLIC_HOSTNAME=http://127.0.0.1:8000
+SERVER_URL=http://localhost:3000
+DATABASE=db.sqlite3
+EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
+```
 
-**DB Version**
-````
-[VERSION]
-version=22.01
-````
-**Is this a publish-only server?**
-````
-[PUBLISHONLY]
-publishonly=False
-````
-
-
-**Security settings**: Create a key for an anonymous public user.
-````
-[KEYS]
-anon=627626823549f787c3ec763ff687169206626149
-````
-**Which host names do you want to associate with the server?** *Note: the local hostname (i.e. 127.0.0.1) should come at the end.*
-````
-[HOSTNAMES]
-prod_names=test.portal.biochemistry.gwu.edu,127.0.0.1
-names=127.0.0.1:8000,127.0.0.1
-````
-**Give the human-readable hostnames**
-````
-[HRHOSTNAME]
-hrnames=BCO Server (Default)
-````
-**The public hostname of the server (i.e. the one to make requests to)**
-````
-[PUBLICHOSTNAME]
-prod_name=https://test.portal.biochemistry.gwu.edu
-name=http://127.0.0.1:8000
-````
-**Who gets to make requests?**
-````
-[REQUESTS_FROM]
-portal=https://test.portal.biochemistry.gwu.edu
-local_development_portal=http://127.0.0.1:3000,http://localhost:3000
-public=true
-````
-**Namings**: *How do you want to name your objects?*
-````
-[OBJECT_NAMING]
-prod_root_uri=https://test.portal.biochemistry.gwu.edu
-root_uri=http://127.0.0.1:8000
-prod_uri_regex=root_uri/prefix_(\d+)/(\d+).(\d+)
-uri_regex=root_uri/prefix_(\d+)/(\d+).(\d+)
-````
-**Requests ** *Where are the request templates defined?*
-````
-[REQUESTS]
-folder=../api/request_definitions/
-````
-**Where are the validation templates defined?** 
-````
-[VALIDATIONS]
-folder=../api/validation_definitions/
-````
 
 #### Set up DB
 
