@@ -23,21 +23,27 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Create secrets file
         run: |
-          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
-          echo "DJANGO_GOOGLE_OAUTH2_CLIENT_ID=${{ secrets.DJANGO_GOOGLE_OAUTH2_CLIENT_ID }}" >> .env
-          echo "DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET=${{ secrets.DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET }}" >> .env
-          echo "DJANGO_ORCID_OAUTH2_CLIENT_URL=${{ secrets.DJANGO_ORCID_OAUTH2_CLIENT_URL }}" >> .env
-          echo "DJANGO_ORCID_OAUTH2_CLIENT_ID=${{ secrets.DJANGO_ORCID_OAUTH2_CLIENT_ID }}" >> .env
-          echo "DJANGO_ORCID_OAUTH2_CLIENT_SECRET=${{ secrets.DJANGO_ORCID_OAUTH2_CLIENT_SECRET }}" >> .env
-          echo "DJANGO_ORCID_OAUTH2_URL=${{ secrets.DJANGO_ORCID_OAUTH2_URL }}" >> .env
-          echo "SERVER_VERSION=${{ secrets.SERVER_VERSION }}" >> .env
-          echo "SERVER_URL=${{ secrets.SERVER_URL }}" >> .env
-          echo "DATABASE=${{ secrets.DATABASE }}" >> .env
-          echo "EMAIL_BACKEND=${{ secrets.EMAIL_BACKEND }}" >> .env
+          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> server/.env
+          echo "DJANGO_GOOGLE_OAUTH2_CLIENT_ID=${{ secrets.DJANGO_GOOGLE_OAUTH2_CLIENT_ID }}" >> server/.env
+          echo "DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET=${{ secrets.DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET }}" >> server/.env
+          echo "DJANGO_ORCID_OAUTH2_CLIENT_URL=${{ secrets.DJANGO_ORCID_OAUTH2_CLIENT_URL }}" >> server/.env
+          echo "DJANGO_ORCID_OAUTH2_CLIENT_ID=${{ secrets.DJANGO_ORCID_OAUTH2_CLIENT_ID }}" >> server/.env
+          echo "DJANGO_ORCID_OAUTH2_CLIENT_SECRET=${{ secrets.DJANGO_ORCID_OAUTH2_CLIENT_SECRET }}" >> server/.env
+          echo "DJANGO_ORCID_OAUTH2_URL=${{ secrets.DJANGO_ORCID_OAUTH2_URL }}" >> server/.env
+          echo "SERVER_VERSION=${{ secrets.SERVER_VERSION }}" >> server/.env
+          echo "SERVER_URL=${{ secrets.SERVER_URL }}" >> server/.env
+          echo "DATABASE=${{ secrets.DATABASE }}" >> server/.env
+          echo "EMAIL_BACKEND=${{ secrets.EMAIL_BACKEND }}" >> server/.env
           
       - name: Debug Secrets
         run: |
-          cat .env
+          cat server/.env
+
+
+      - name: Export Environment Variables
+        run: |
+          export $(cat server/.env | xargs)
+        shell: bash
 
       - name: Install Dependencies
         run: |
@@ -59,11 +65,11 @@ jobs:
           EMAIL_BACKEND: ${{ secrets.EMAIL_BACKEND }}
         run: |
           cd server  # Change to the subdirectory
-          cp ../.env .  # Copy the .env file to the server directory
+          
           python3.9 manage.py test
       
       - name: Clean up
         run: |
-          rm .env
+          rm server/.env
 
         

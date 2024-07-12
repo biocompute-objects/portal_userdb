@@ -41,6 +41,7 @@ secrets = {
         "SERVER_URL": os.environ.get("SERVER_URL"),
         "DATABASE": os.environ.get("DATABASE"),
         "EMAIL_BACKEND": os.environ.get("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"),
+        
     },
 }
 if secrets["DJANGO_KEYS"]["SECRET_KEY"] == None:
@@ -81,6 +82,8 @@ except KeyError:
 
 # Use print statements for debugging
 print(f"Secrets: {secrets}")
+print(f"EMAIL_BACKEND: {EMAIL_BACKEND}")
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
