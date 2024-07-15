@@ -57,7 +57,7 @@ Located in the **[`CLIENT`](client/README.md)** directory.
 Built with React and Redux ToolKit.
 
 ## Workflow Diagram
-![gitflow diagram drawio](https://github.com/biocompute-objects/portal_userdb/assets/56750374/90128e93-9e5a-4611-9621-204fc8c73774)
+![BCO Portal git workflow drawio](https://github.com/user-attachments/assets/5ebf19bd-a99a-4023-9be0-6f74930f891c)
 
 ## Installation
 ### Local Deployment for Development
