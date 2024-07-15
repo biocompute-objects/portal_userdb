@@ -42,9 +42,10 @@ export const ExecutionDomain = ({onSave}) => {
       <Formik
         initialValues={{
           "script": has_script ? execution_domain["script"] : [],
-          "script_driver": has_driver ? execution_domain["scriopt+driver"] : "",
+          "script_driver": has_driver ? execution_domain["script_driver"] : "",
           "software_prerequisites": has_prereq ? execution_domain["software_prerequisites"] : [],
-          "external_data_endpoints": has_external ? execution_domain["external_data_endpoints"] : []
+          "external_data_endpoints": has_external ? execution_domain["external_data_endpoints"] : [],
+          "environment_variables": envars,
         }}
         onSubmit={
           (formData, {setSubmitting}) => {
