@@ -4,7 +4,7 @@ import {Card, CardContent, CardHeader, Typography, Grid, Button, TextField } fro
 import { Formik, Form, FieldArray } from "formik";
 import { Contribution, FormObserver, Reviewer, Next } from "./components";
 import { useSelector, useDispatch } from "react-redux"
-import { BaisicDateTimePicker, MyTextField } from "./specialFeilds";
+import { BaisicDateTimePicker, MyTextField, EmbargoDateTimePicker } from "./specialFeilds";
 import { updateProvenanceDomain, updateModified } from "../../slices/bcoSlice";
 import "../../App.css";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
@@ -48,6 +48,10 @@ export const  ProvenanceDomain = ({onSave} ) => {
               "obsolete_after": has_obsolete ? provenanceDomain["obsolete_after"] : [],
               "contributors": has_contributors ?  provenanceDomain["contributors"] : [],
               "review": has_review ? provenanceDomain["review"] : [],
+              "embargo": embargo ? {
+                start_time: (provenanceDomain["embargo"] && provenanceDomain["embargo"].start_time) || null,
+                end_time: (provenanceDomain["embargo"] && provenanceDomain["embargo"].end_time) || null,
+              } : { start_time: null, end_time: null },
             }
           }
           validationSchema={Yup.object().shape({
@@ -182,13 +186,13 @@ export const  ProvenanceDomain = ({onSave} ) => {
                             <Typography> Start time: </Typography>
                           </Grid>
                           <Grid item xs>
-                            <BaisicDateTimePicker name="embargo.start_time" placeholder="Start Time" isRequired isFullWidth/>
+                            <EmbargoDateTimePicker name="embargo.start_time" placeholder="Start Time" isRequired isFullWidth/>
                           </Grid>
                           <Grid item xs> 
                             <Typography> End Time: </Typography>     
                           </Grid>
                           <Grid item xs>
-                            <BaisicDateTimePicker  name="embargo.end_time"  placeholder="End Time" isRequired isFullWidth/>     
+                            <EmbargoDateTimePicker  name="embargo.end_time"  placeholder="End Time" isRequired isFullWidth/>     
                           </Grid>
                           <Button
                             variant="outlined"
