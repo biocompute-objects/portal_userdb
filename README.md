@@ -1,5 +1,5 @@
+![biocompute](https://github.com/user-attachments/assets/785e87f2-66a5-4a17-821b-c52bdf3c56e6)
 
- Biocompute logo and title image here
 # BioCompute: A Platform for Bioinformatics Analysis Workflow
 ## Introduction
 BioCompute is a platform designed to facilitate the documentation and communication of bioinformatics analysis workflows. Following the IEEE 2791-2020 standard, BioCompute aims to ease communication burdens between research centers, organizations, and industries by providing a standardized, human- and machine-readable format for BioCompute Objects (BCOs).
@@ -57,7 +57,7 @@ Located in the **[`CLIENT`](client/README.md)** directory.
 Built with React and Redux ToolKit.
 
 ## Workflow Diagram
-![gitflow diagram drawio](https://github.com/biocompute-objects/portal_userdb/assets/56750374/90128e93-9e5a-4611-9621-204fc8c73774)
+![BCO Portal git workflow drawio](https://github.com/user-attachments/assets/5ebf19bd-a99a-4023-9be0-6f74930f891c)
 
 ## Installation
 ### Local Deployment for Development

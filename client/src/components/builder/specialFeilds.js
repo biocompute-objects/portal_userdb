@@ -6,6 +6,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { FormHelperText } from "@mui/material";
+import { Grid, Typography, Button } from "@mui/material";
 
 export const MyTextField = ({placeholder,label, isFullWidth, isRequired, type, isDisabled,...props}) => {
   const [field, meta] = useField(props);
@@ -63,31 +64,83 @@ export const MyDateTimeField = ({placeholder,label, isFullWidth, isRequired, isD
   )
 }
 
-export const BaisicDateTimePicker = ({placeholder, label, isFullWidth, isRequired, isDisabled, ...props}) => {
-  const [field, meta] = useField(props);
+export const BaisicDateTimePicker = ({ label, isRequired, isDisabled, ...props }) => {
   const { setFieldValue } = useFormikContext();
-  const errorText = meta.error && meta.touched ? meta.error : "";
+  const [field, meta] = useField(props);
+
+  const handleChange = (value) => {
+    setFieldValue(field.name, value);
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateTimePicker
-        renderInput={(props) => {
-          return <TextField {...props} onKeyDown={(e) => e.preventDefault()} />}
-        }
-        label={label}
-        required={isRequired}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            fullWidth
+            variant="outlined"
+            label={label}
+            required={isRequired}
+            disabled={isDisabled}
+            error={meta.touched && meta.error ? true : false}
+            helperText={meta.touched && meta.error ? meta.error : ""}
+          />
+        )}
         {...field}
-        disabled={isDisabled} selected={(field.value && new Date(field.value)) || null}
-        onChange={(val) => {
-          if (val.isValid()) {
-            setFieldValue(field.name, val.toISOString());
-          }
-        }
-        }
+        value={field.value ? new Date(field.value) : null}
+        onChange={handleChange}
+        {...props}
       />
     </LocalizationProvider>
+  );
+};
+
+export const EmbargoDateTimePicker = ({ name, label }) => {
+  const { setFieldValue } = useFormikContext();
+  const [field] = useField(name);
+
+  const handleChange = (value) => {
+    setFieldValue(field.name, value);
+  };
+
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DateTimePicker
+        label={label}
+        value={field.value ? new Date(field.value) : null}
+        onChange={(val) => setFieldValue(name, val ? val.toISOString() : null)}
+        renderInput={(props) => <TextField {...props} fullWidth />}
+      />
+    </LocalizationProvider>
+  );
+};
+export default EmbargoDateTimePicker;
+// export const BaisicDateTimePicker = ({placeholder, label, isFullWidth, isRequired, isDisabled, ...props}) => {
+//   const [field, meta] = useField(props);
+//   const { setFieldValue } = useFormikContext();
+//   const errorText = meta.error && meta.touched ? meta.error : "";
+//   return (
+//     <LocalizationProvider dateAdapter={AdapterDayjs}>
+//       <DateTimePicker
+//         renderInput={(props) => {
+//           return <TextField {...props} onKeyDown={(e) => e.preventDefault()} />}
+//         }
+//         label={label}
+//         required={isRequired}
+//         {...field}
+//         disabled={isDisabled} selected={(field.value && new Date(field.value)) || null}
+//         onChange={(val) => {
+//           if (val.isValid()) {
+//             setFieldValue(field.name, val.toISOString());
+//           }
+//         }
+//         }
+//       />
+//     </LocalizationProvider>
       
-  )
-}
+//   )
+// }
 
 export const Selector = ({placeholder,label, isFullWidth, isRequired, isDisabled, ...props}) => {
   const [field, meta] = useField(props);
