@@ -12,10 +12,10 @@ import Tooltip from "@mui/material/Tooltip";
 export const  ExtensionDomain = ({onSave}) => {
   const dispatch = useDispatch();
   const bco = useSelector(state => state.bco.data)
-  let has_extension = "extension_domain" in bco
+  let has_extension = typeof bco.extensionDomain !== "undefined";
   const extensionDomain = has_extension ? bco.extension_domain : [];
   const [newSchema, setNewSchema] = React.useState("")
-
+  
   const addExtension = async () => {
     dispatch(getExtension({newSchema}))
       .unwrap()
@@ -88,8 +88,6 @@ export const  ExtensionDomain = ({onSave}) => {
                 fullWidth
                 onClick={() => removeRows(index)}>
                 <RemoveCircleIcon fontSize="23" />
-
-                {/* Remove */}
               </Button>
             </CardContent>)
         }))
