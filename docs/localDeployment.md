@@ -32,8 +32,9 @@ Before starting, ensure you have the following installed:
 
 **Stash Any Local Changes**
 
-`git stash
-git stash drop`
+`git stash`
+
+`git stash drop`
 
 ### Enter the repository, create a environment file, and install the required packages
 
