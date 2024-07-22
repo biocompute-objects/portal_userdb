@@ -44,12 +44,12 @@ Enhancement suggestions are also tracked as GitHub issues. Provide the following
 ### Submitting Code Changes
 
 1. Fork the repository.
-2. Create a new branch from `main` (e.g., `feature-branch`).
+2. Create a new branch from `Development` (e.g., `feature-branch`).
 3. Make your changes.
 4. Ensure your code adheres to the [code style](docs/contributing/style_guides.md).
 5. Commit your changes with a descriptive message.
 6. Push your branch to your fork.
-7. Create a pull request (PR) to the `main` branch of the original repository.
+7. Create a pull request (PR) to the `Development` branch of the original repository.
 
 Please ensure your PR includes:
 
