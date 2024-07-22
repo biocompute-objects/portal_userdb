@@ -35,21 +35,19 @@ Before starting, ensure you have the following installed:
 `git stash
 git stash drop`
 
-### Enter the repository, create a environment file, and install the required packages
+**Create a environment file
 
-`cd portal_userdb/client/`
+`python3 -m venv env`
 
-##### For Windows: 
+`source env/bin/activate`
 
-`cd portal_userdb/client/`
-
-**Install Node packages via Node Package Manager (NPM)**
-
-`npm install`
-
-**Set up the environment file**
-
-`cp .env.example .env`
+### For Windows:
+```
+`cd server`
+`python -m venv env`
+`source env/Scripts/activate`
+`pip install -r requirements.txt`
+```
 
 Then you will have to add values for the following:
 
