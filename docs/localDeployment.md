@@ -53,6 +53,8 @@ git stash drop`
 
 Then you will have to add values for the following:
 
+`nano .secrets`
+
 	REACT_APP_USERDB_URL=http://localhost:8080/users/
 	REACT_APP_BCOAPI_URL=http://127.0.0.1:8000/api/
 	REACT_APP_GOOGLE_CLIENT_ID=******************************************
