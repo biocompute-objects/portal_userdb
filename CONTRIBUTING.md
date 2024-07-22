@@ -4,7 +4,7 @@ Thank you for considering contributing to the Biocompute project! This document 
 
 ## Table of Contents
 
-- [Code of Conduct](docs/contributing/code_of_code.md)
+- [Code of Conduct](./docs/contributing/code_of_code.md)
 - [How to Contribute](#how-to-contribute)
   - [Reporting Bugs](#reporting-bugs)
   - [Suggesting Enhancements](#suggesting-enhancements)
