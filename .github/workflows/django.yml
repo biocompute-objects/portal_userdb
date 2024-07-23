@@ -26,6 +26,7 @@ jobs:
 
       - name: Create secrets file
         run: |
+          echo "::add-mask::${{ secrets.SECRET_KEY }}"
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> server/.env
           echo "DJANGO_GOOGLE_OAUTH2_CLIENT_ID=${{ secrets.DJANGO_GOOGLE_OAUTH2_CLIENT_ID }}" >> server/.env
           echo "DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET=${{ secrets.DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET }}" >> server/.env
