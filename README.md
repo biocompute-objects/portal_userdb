@@ -94,7 +94,7 @@ Fork the repository on GitHub.
 Create a feature branch.
 Commit your changes.
 Submit a pull request.
-Please refer to our [Contributing Guide]() for more details.
+Please refer to our [Contributing Guide](/CONTRIBUTING.md) for more details.
 
 ## FAQ and Troubleshooting
 Find solutions to common issues in our [FAQ and trouble shooting Guide](docs/faq.md).
