@@ -44,7 +44,9 @@ jobs:
 
       - name: Export Environment Variables
         run: |
-          export $(cat server/.env | xargs)
+          set -a
+          source server/.env
+          set +a
         shell: bash
 
       - name: Install Dependencies

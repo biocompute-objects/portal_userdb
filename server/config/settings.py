@@ -40,6 +40,12 @@ secrets = {
         "DATABASE": os.environ.get("DATABASE"),
     },
 }
+
+# Handle cases where the environment variables are not set
+for key, value in secrets.items():
+    if value is None:
+        secrets[key] = {}
+
 if secrets["DJANGO_KEYS"]["SECRET_KEY"] == None:
     secrets = configparser.ConfigParser()
     secrets.read(BASE_DIR + "/.secrets")
