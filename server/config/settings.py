@@ -7,7 +7,10 @@ from pathlib import Path
 from datetime import timedelta
 import configparser
 from django.core.management.utils import get_random_secret_key
+from dotenv import load_dotenv
 
+# Load environment variables from .env file
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -40,6 +43,12 @@ secrets = {
         "DATABASE": os.environ.get("DATABASE"),
     },
 }
+
+# Handle cases where the environment variables are not set
+for key, value in secrets.items():
+    if value is None:
+        secrets[key] = {}
+
 if secrets["DJANGO_KEYS"]["SECRET_KEY"] == None:
     secrets = configparser.ConfigParser()
     secrets.read(BASE_DIR + "/.secrets")
