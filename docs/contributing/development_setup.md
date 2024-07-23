@@ -18,9 +18,9 @@ python manage.py runserver
 cd ../client
 npm start`
 
-Follow the detailed instructions in our [Local deployment Guide](./docs/localDeployment.md)
+Follow the detailed instructions in our [Local deployment Guide](/docs/localDeployment.md)
 ### Production Deployment
-Follow the detailed instructions in our [Production deployment Guide](./docs/productionDeployment.md).
+Follow the detailed instructions in our [Production deployment Guide](/docs/productionDeployment.md).
 
 ### Docker Deployment
-Our [Docker deployment Guide](./docs/dockerDeployment.md) is currently a work in progress. Stay tuned for updates.
+Our [Docker deployment Guide](/docs/dockerDeployment.md) is currently a work in progress. Stay tuned for updates.
