@@ -26,7 +26,7 @@ import { useDispatch, useSelector } from "react-redux"
 import biocomputing from "../../images/biocomputing.gif"
 import ThirdBox from "../ThirdBox";
 import ErrorBoundary from "../ErrorBoundry";
-
+import HelpPopup from "./HelpBox";
 import {
   getDraftBco,
   getTempDraftBco,
@@ -104,10 +104,14 @@ export default function BuilderColorCode () {
   }, [bco])
 
   return (  
+    
 
     <Grid container spacing={2}>
+      
       <Stack className="object-contents" direction="column">
+      <HelpPopup />
         <Card className="object-doamin" spacing={2}>
+          
           <CardContent>
             <Typography>
                   Object ID: {bco.object_id}
