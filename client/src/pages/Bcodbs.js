@@ -424,7 +424,10 @@ export default function BcoDbs () {
                       <Typography>
                     3. Enter search term:
                       </Typography>
-                      <Field name='search' label='Search BCO Db' />
+                      <Field 
+                      name='search' 
+                      label='Search BCO Db'
+                      placeholder="Enter a prefix or BCO ID" />
                     </Box>
                   </CardContent>
                 </Card>
