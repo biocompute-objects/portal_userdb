@@ -79,7 +79,7 @@ export default function BcoDbs () {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - results.length) : 0;
 
   const clickObject = (event, object_id, state) => {
-    if (state === "PUBLISHED") {
+    if (state === "PUBLISHED" || state === "REFERENCED") {
       global.window.open(`${location}/viewer?${object_id}`, "_blank", "noopener,noreferrer")
     }
     if (state === "DRAFT") {
