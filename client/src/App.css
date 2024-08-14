@@ -17,6 +17,16 @@
 
 .inline-content img {
   margin-right: 10px; /* Space between image and text */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .loading-icon {
