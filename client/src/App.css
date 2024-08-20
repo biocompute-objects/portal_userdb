@@ -1,5 +1,5 @@
 /* App.css */
-/* Define a CSS variable for red color */
+/* Root CSS */
 :root {
   /* --main-red-color: rgb(227, 55, 55); */
   --main-red-color: rgb(210, 31, 60) !important;
@@ -7,6 +7,31 @@
   --main-cardBackground-color: #D8E9FD !important
 }
 
+.home-root {
+  background-color: rgb(250, 249, 246);
+  min-height: 100%;
+  margin-top: auto;
+  /* padding-bottom: 3;
+  padding-top: 3; */
+  margin-left: auto;
+  min-width: 275;
+}
+
+.outlet-root {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  width: 100%;
+  flex-direction: column;
+}
+
+/* ---------------------------------------------------------------------------------------------------- */
+/* Background color */
+.home-colorBackground {
+  background-color: rgb(186, 209, 234);
+}
+
+/* ---------------------------------------------------------------------------------------------------- */
 /* image CSS */
 .centered-image {
   display: block;
@@ -14,26 +39,79 @@
   margin-right: auto;
 }
 
-
 .inline-content img {
   margin-right: 10px; /* Space between image and text */
 }
 
-.loading-icon {
-  display: inline-block;
-  animation: spin 1s linear infinite;
-  width: 50px;
-  height: 50px;
-  background: transparent;
+.member-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  /* by changing margin 35px (to < 38px) below you control how many team members cards will fitt in one row */
+  margin: 5px;
 }
 
-/* content/text CSS */
+.aboutimg {
+  width: 100%;
+  height: auto;
+  border: 1px solid #f3f0f0;
+  margin: 10px 0;
+}
+
+/* ---------------------------------------------------------------------------------------------------- */
+/* Content Style */
+.outlet-main-content {
+  text-align: center;
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.outlet-content {
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
 .inline-content {
   display: flex;
   align-items: center; /* Align items vertically center */
 }
-/* About page- BCOnexus.js CSS Components */
 
+.object-contents {
+  flex:auto;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  width: fit-content;
+}
+
+.about-text {
+  font-family:"lato", sans-serif !important;
+  font-size: x-large !important;
+  margin: left 80px !important;
+  /* color: red; */
+}
+
+.home-intro-title {
+  font-size: 28px !important;
+  font-weight: bold !important;
+  text-align: center !important;
+}
+
+.Account-Servers-title {
+  font-size: 37px;
+}
+
+.bold-title {
+  font-weight: bold;
+}
+
+.resources-citation {
+  text-align: left;
+}
+
+/* ---------------------------------------------------------------------------------------------------- */
+/* Page box components */
 .About-half-width-box{
   min-height: 650px; /* Ensure both boxes have a minimum height */
   min-width: 350px;/* min-width: 275px; Ensure both boxes have a minimum width */
@@ -46,10 +124,6 @@
   align-items: center; /* Center content horizontally */
   text-align: left;
   padding: 16px;
-}
-
-.centered-title {
-  text-align: center;
 }
 
 .About-Full-Width-Box{
@@ -66,130 +140,18 @@
   margin-top: 20px;
 } 
 
-.about-text {
-  font-family:"lato", sans-serif !important;
-  font-size: x-large !important;
-  margin: left 80px !important;
-  /* color: red; */
-}
-
-.About-bullet {
-  /* display: "inline-block";
-  margin: "0 2px";
-  transform: "scale(0.8)";
-
-  font: 26px; */
-
-  color: black;
-  font-size: 22px !important;
-  font-family: 'Roboto', 'Helvetica', Arial, sans-serif;
-  margin: 10px 2px !important;
-  display: inline-block !important;
-  vertical-align: middle !important;
-}
-
-.About-linkCard {
-  min-height: 300px;
-  min-width: 275px;
-  text-align: center;
-  background-color:var(--main-cardBackground-color)
-}
-.About-title {
-  font-size: 33px !important;
-  font-family: 'Roboto', 'Helvetica', Arial, sans-serif;
-  margin: 10px 2px !important;
-  font-weight: bold !important;
-}
-
-.About-centerCard {
-  min-width: 275 !important;
-  text-align: center !important;
-}
-
-
-/* about pages */
-.about-main {
-  margin-top: 3%;
-  margin-left: 20%;
-  margin-right: 20%;
-  margin-bottom: 2%;
-}
-
-.member-image {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  border: 2px solid #ccc;
-  /* by changing margin 35px (to < 38px) below you control how many team members cards will fitt in one row */
-  margin: 5px;
-}
-
-.member {
-  text-align: center;
-  vertical-align: middle;
-  /* padding-bottom: 10px; */
-  padding-top: 20px;
-  flex-basis: calc(25% - 30px);
-  margin: 0 15px 30px;
-}
-
-.gg-align-center {
-  justify-content: center !important;
-  text-align: center !important;
-}
-
-.content-box-md {
-  padding: 40px 0;
-}
-
-.row {
+.outlet-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 0 -15px;
+  flex: 1 1 auto;
+  overflow: hidden;
+  padding-top: 75px;
 }
 
-.aboutimg {
-  width: 100%;
-  height: auto;
-  border: 1px solid #f3f0f0;
-  margin: 10px 0;
-}
-
-.card-medium {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin: 0 -15px;
-}
-
-.nav-link {
-  input {color: white};
-  text-decoration: none;
-  color: white;
-  background-color: primary;
-}
-
-.hover-background {
-  color: inherit;
-  transition: background-color 0.3s ease;
-}
-
-.white-icon {
-  color: white;
-}
-
-.hover-background:hover {
-  background-color: inherit; /* Change to the desired background color on hover */
-}
-
-/*----------------------------------------------------------------------------------------------*/
-/* Account page- Servers.js CSS Components */
-
-.Account-Servers-bullet {
-  display: inline-block;
-  margin: 0 2px;
-  transform: scale(0.8);
+.home-linkcard {
+  min-height: 350px;
+  min-width: 275;
+  text-align: center;
+  margin-top: 5;
 }
 
 .Account-Servers-server-card {
@@ -202,18 +164,15 @@
   margin-left: 12px;
 }
 
-.Account-Servers-heightened {
-  min-height: 250px;
+.large_textfield {
+  border-style: inherit;
+  width: max-content;
+  grid-auto-rows: auto;
 }
 
-.Account-Servers-title {
-  font-size: 37px;
+.required-field {
+  color: var(--main-red-color) !important;
 }
-
-.Account-Servers-pos {
-  margin-bottom: 12px;
-}
-
 
 .custom-container {
   margin: 5%;
@@ -225,44 +184,61 @@
   display: block;  /* Allows the table container to respect the width constraints */
 }
 
-/* Outlet styles */
-.outlet-root {
-  display: flex;
-  height: 100vh;
-  overflow: hidden;
-  width: 100%;
-  flex-direction: column;
+.object-sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  overflow: none;
+  height: 600px;
 }
 
-.outlet-container {
-  display: flex;
-  flex: 1 1 auto;
-  overflow: hidden;
-  padding-top: 75px;
+/* ---------------------------------------------------------------------------------------------------- */
+/* Page margin layout */
+.about-main {
+  margin-top: 3%;
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-bottom: 2%;
 }
 
-.outlet-main-content {
-  text-align: center;
-  flex: 1 1 auto;
-  overflow: auto;
+.home-margintop{
+  margin-top: 50px;
 }
 
-.outlet-content {
-  flex: 1 1 auto;
-  overflow: auto;
+.object-domain {
+  margin-bottom: 35px;
 }
 
-/* NavBar styles */
+/* Paddings */
+.table-card {
+  padding: 2%;
+}
+
+/* ---------------------------------------------------------------------------------------------------- */
+/* Navigation Bar CSS */
+.nav-link {
+  input {color: white};
+  text-decoration: none;
+  color: white;
+  background-color: primary;
+}
+
+.hover-background {
+  color: inherit;
+  transition: background-color 0.3s ease;
+}
+
 .grow {
   flex-grow: 1;
 }
+
 .image-container {
   max-width: 100%;
   height: auto;
   img {
     width: "2em";
   }
-}
+} /* Specificlly for Nav Bar imag */
+
 .section-desktop {
   display: none;
   @media (min-width: 600px) {
@@ -276,149 +252,27 @@
   }
 }
 
-/* Object Styles */
-.object-sidebar {
-  width: 250px;
-  flex-shrink: 0;
-  overflow: none;
-  height: 600px;
+/* ---------------------------------------------------------------------------------------------------- */
+/* Icon CSS */
+.white-icon {
+  color: white;
 }
 
-.object-contents {
-  flex:auto;
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
-  width: fit-content;
-}
-
-.button-confirm {
-  color: blue;
-}
-
-.select-box {
-  min-width: 250px;
-  justify-content: center;
-}
-
-.object-buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center; 
-}
-
-.object-domain {
-  margin-bottom: 35px;
-}
-
-/* Homepage Styles */
-.home-root {
-  background-color: rgb(250, 249, 246);
-  min-height: 100%;
-  margin-top: auto;
-  /* padding-bottom: 3;
-  padding-top: 3; */
-  margin-left: auto;
-  min-width: 275;
-}
-
-.home-bullet {
+.loading-icon {
   display: inline-block;
-  margin: 0 2px;
-  transform: scale(0.8);
+  animation: spin 1s linear infinite;
+  width: 50px;
+  height: 50px;
+  background: transparent;
 }
 
-.home-centered {
-  min-Width: 275;
-  text-align: center;
-  margin-Top: 0;
+.hover-background:hover {
+  background-color: inherit; /* Change to the desired background color on hover */
 }
 
-.home-heightened {
-  min-height: 250px;
-}
-
-.home-intro-title {
-  font-size: 28px !important;
-  font-weight: bold !important;
-  text-align: center !important;
-}
-
-.home-position {
-  margin-bottom: 12;
-}
-
-.home-margintop{
-  margin-top: 50px;
-}
-
-.home-colorBackground {
-  background-color: rgb(186, 209, 234);
-}
-
-.home-linkcard {
-  min-height: 350px;
-  min-width: 275;
-  text-align: center;
-  margin-top: 5;
-}
-
-.home-supportcard {
-  text-align: center;
-  margin-bottom: 10;
-  min-height: 460px;
-  min-width: 275;
-}
-
-.home-subtitle {
-  font-size: 24px !important;
-}
-
-/* prefix Styles */
-.resources-root {
-  background-color: rgb(250, 249, 246);
-  margin-top: auto;
-  /* padding-bottom: 3;
-  padding-top: 3; */
-  margin-left: auto;
-  min-width: 275;
-}
-
-.resources-supportcard {
-  text-align: center;
-  margin-bottom: 8;
-}
-
-.resources-title {
-  font-size: 28px !important;
-  font-weight: bold !important;
-}
-
-.resources-citation {
-  text-align: left;
-}
-
-.resources-linkcard {
-  min-height: auto;
-  text-align: center;
-}
-
-.resources-subtitle {
-  font-size: 25px !important;
-  font-weight:600 !important;
-}
-
-.resources-bullet {
-  display: inline-block;
-  margin: 0 2px;
-  transform: scale(0.8);
-}
-
-/* builder Styles */
+/* ---------------------------------------------------------------------------------- */
+/* Button Styles */
 .add-button {
-  /* border-radius: 60% !important;
-  width:20px !important;
-  height: 60px !important; */
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
@@ -432,25 +286,18 @@
   align-items: center !important;
 }
 
-.bold-title {
-  font-weight: bold;
+.button-confirm {
+  color: blue;
 }
 
-.required-field {
-  /* color: rgb(227, 55, 55) !important; */
-  color: var(--main-red-color) !important;
+.object-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
 }
 
-.table-card {
-  padding: 2%;
-}
-
-/* text field */
-.large_textfield {
-  border-style: inherit;
-  width: max-content;
-  grid-auto-rows: auto;
-}
+/* ---------------------------------------------------------------------------------- */
+/* PopUps Styles */
 
 .popup {
   position: fixed;
