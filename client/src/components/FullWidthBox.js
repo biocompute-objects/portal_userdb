@@ -23,11 +23,11 @@ export default function FullWidthBox({ link, title, content, image, imageAlt, cs
       <Box className={cssClass}>
         <CardActionArea onClick={handleClickOpen}>
           <CardContent>
-            <Typography className="home-intro-title">
+            <Typography className="home-intro-title" align="center" >
               {title}
             </Typography>
             <br></br>
-            <div className="inline-content">
+            <div className="inline-content flex-center">
             <Typography className="about-text" component="div" dangerouslySetInnerHTML={{ __html: content }} />
               {image && <img src={image} height={100} alt={imageAlt} className="centered-image" />} 
               
