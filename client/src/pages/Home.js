@@ -9,6 +9,7 @@ import ieee from "../images/ieee.jpg";
 import workshoppic from "../images/workshop.jpg"
 import mediaWiki from "../images/mediawikiwiki.svg";
 import cloudlogo from "../images/cloud.png"
+import builderlogo from "../images/Builder_edit.png"
 
 const HomePage = () => {
   return (
@@ -50,7 +51,7 @@ const HomePage = () => {
                   <ThirdBox
                     link="/builder"
                     title="BioCompute Builder"
-                    image={logo}
+                    image={builderlogo}
                     content="Use the BioCompute Builder or view objects in the database.
                     The BioCompute Builder is a platform-free, form-based editor."
                   />
@@ -71,11 +72,11 @@ const HomePage = () => {
               <Grid container justifyContent="center" spacing={3}>
                 <Grid item xs={12} sm={12} lg={12} xl={12} >
                   <FullWidthBox
-                    link="https://wiki.biocomputeobject.org/index.php?title=BioCompute_Spring_Workshop_2024"
-                    title="2024 BioCompute Conference & Workshop"
-                    content="This workshop provides an opportunity to learn about interoperability between platforms that host BioCompute Objects (BCOs), the FDA’s 'Portal' for reading, writing and sharing BCOs, real world applications including intended use in regulatory submissions, and potential implementations, including the use of AI/ML. "
+                    link="https://wiki.biocomputeobject.org/BCO_Pilot_Project"
+                    title="BioCompute Pilot Project"
+                    content="The purpose of the pilot is to bring both the sponsors and FDA to agreement around BCO usage to streamline and standardize computational workflow submissions and reviews. Expected to obtain first-hand knowledge of submitting computational analyses to the FDA and how to efficiently and effectively ease communication barrier between sponsors and government agency.  "
                     cssClass=""
-                    image={workshoppic}
+                    
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} lg={4} xl={4}>
@@ -92,7 +93,7 @@ const HomePage = () => {
                   <ThirdBox
                     link="https://hivelab.biochemistry.gwu.edu/publications#Multimedia"
                     title="Previous workshop material"
-                    content="Collection of posters, presentation slides, and other materials from previous BioCompute workshops or conferences."
+                    content="Collection of posters, presentation slides, recordings, and other materials from previous BioCompute workshops or conferences."
                     cssClass=""
                     image={workshoppic}
                   />
