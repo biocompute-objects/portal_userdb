@@ -43,7 +43,7 @@ export const  IODomain = ({onSave}) => {
                     <span className="bold-title">
                       I/O Domain
                       <Tooltip title="Explanation of IO Domain">
-                        <Button size="xs" href='https://wiki.biocomputeobject.org/index.php?title=Iodomain'>
+                        <Button size="xs" target="_blank" href='https://wiki.biocomputeobject.org/index.php?title=Iodomain'>
                           <HelpOutlineIcon />
                         </Button>
                       </Tooltip>

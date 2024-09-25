@@ -53,7 +53,7 @@ export const  UsabilityDomain = ({onSave}) => {
                   <span className="bold-title">
                                     Usability Domain
                     <Tooltip title="Explanation of Usability Domain">
-                      <Button size="xs" href='https://wiki.biocomputeobject.org/index.php?title=Usability-domain'>
+                      <Button size="xs" target="_blank" href='https://wiki.biocomputeobject.org/index.php?title=Usability-domain'>
                         <HelpOutlineIcon />
                       </Button>
                     </Tooltip>

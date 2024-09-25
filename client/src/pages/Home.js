@@ -29,7 +29,7 @@ const HomePage = () => {
               <FullWidthBox
                 link=""
                 title="BioCompute: A platform for bioinformatics analysis workflow documentation"
-                content="BioCompute is shorthand for the IEEE 2791-2020 standard for Bioinformatics Analyses to facilitate communication. This pipeline documentation approach has been adopted by a few FDA centers (CBER, CDER and CFSAN). The goal is to ease the communication burdens between research centers, organizations, and industries. This web portal allows users to build a BioCompute Objects through the interface in a human and machine readable format."
+                content="BioCompute is shorthand for the IEEE 2791-2020 standard for Bioinformatics Computational Analyses to facilitate communication between researchers, federal agencies and industires. This pipeline documentation approach has been adopted by a three FDA centers (CBER, CDER and CFSAN). Through this web portal, users can create BioCompute Objects (BCOs) in JSON format using the Builder and search for existing BCOs."
                 cssClass="home-colorBackground"
               />
               <br/>
