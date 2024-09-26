@@ -67,7 +67,7 @@ export const ErrorDomain = ({onSave}) => {
                 <span className="bold-title">
                   Error Domain
                   <Tooltip title="Explanation of Error Domain">
-                    <Button size="small" href='https://github.com/biocompute-objects/BCO_Specification/blob/main/content/error-domain.md'>
+                    <Button size="small" target="_blank" href='https://github.com/biocompute-objects/BCO_Specification/blob/main/content/error-domain.md'>
                       <HelpOutlineIcon />
                     </Button>
                   </Tooltip>

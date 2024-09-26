@@ -53,7 +53,7 @@ export const  DescriptionDomain = ({onSave}) => {
                   <span className="bold-title">
                                     Description Domain
                     <Tooltip title="Explanation of Description Domain">
-                      <Button size="xs" href='https://wiki.biocomputeobject.org/index.php?title=Description-domain'>
+                      <Button size="xs" target="_blank" href='https://wiki.biocomputeobject.org/index.php?title=Description-domain'>
                         <HelpOutlineIcon />
                       </Button>
                     </Tooltip>

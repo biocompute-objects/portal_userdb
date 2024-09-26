@@ -113,7 +113,6 @@
 /* ---------------------------------------------------------------------------------------------------- */
 /* Page box components */
 .About-half-width-box{
-  min-height: 650px; /* Ensure both boxes have a minimum height */
   min-width: 350px;/* min-width: 275px; Ensure both boxes have a minimum width */
   width: 90%; /* Half the width of the container minus spacing */
   margin: 0 auto; /* Add spacing between the boxes */
