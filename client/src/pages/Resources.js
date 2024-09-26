@@ -27,7 +27,7 @@ export default function Resources() {
     <Paper>
       <Container maxWidth={false}>
         <Grid container justifyContent="center" spacing={3}>
-          <Grid item xs={4} sm={4} lg={6} xl={6}>
+          <Grid item xs={12} sm={6} lg={6} xl={6}>
             <HalfWidthBox
               title="BCODB API"
               image={swagger}
@@ -35,7 +35,7 @@ export default function Resources() {
               link={`${bcodbUrl}docs/`}
             />
           </Grid>
-          <Grid item xs={4} sm={4} lg={6} xl={6}>
+          <Grid item xs={12} sm={6} lg={6} xl={6}>
             <HalfWidthBox
               title="Nextflow"
               image={nextflow}

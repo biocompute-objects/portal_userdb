@@ -113,8 +113,8 @@
 /* ---------------------------------------------------------------------------------------------------- */
 /* Page box components */
 .About-half-width-box{
-  min-width: 350px;/* min-width: 275px; Ensure both boxes have a minimum width */
-  width: 90%; /* Half the width of the container minus spacing */
+  /* min-width: 350px;min-width: 275px; Ensure both boxes have a minimum width */
+  width: 90%; 
   margin: 0 auto; /* Add spacing between the boxes */
   border: 1px solid #ccc; /* Add a border for visual separation */
   border-radius: 8px; /* Add border radius for rounded corners */
