@@ -66,7 +66,7 @@ export const ExecutionDomain = ({onSave}) => {
                   <span className="bold-title">
                       Execution Domain
                     <Tooltip title="Explanation of Execution Domain">
-                      <Button size="xs" href='https://wiki.biocomputeobject.org/index.php?title=Execution-domain'>
+                      <Button size="xs" target="_blank" href='https://wiki.biocomputeobject.org/index.php?title=Execution-domain'>
                         <HelpOutlineIcon />
                       </Button>
                     </Tooltip>
