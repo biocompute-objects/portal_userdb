@@ -38,7 +38,7 @@ export const  ParametricDomain = ({onSave}) => {
                   <span className="bold-title">
                     Parametric Domain
                     <Tooltip title="Explanation of Parametric Domain">
-                      <Button size="xs" href='https://wiki.biocomputeobject.org/index.php?title=Parametric-domain'>
+                      <Button size="xs" target="_blank" href='https://wiki.biocomputeobject.org/index.php?title=Parametric-domain'>
                         <HelpOutlineIcon />
                       </Button>
                     </Tooltip>
