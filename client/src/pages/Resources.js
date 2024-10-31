@@ -77,7 +77,7 @@ export default function Resources() {
           </Grid>
           <Grid item xs={12} sm={6} lg={4} xl={4}>
             <ThirdBox
-              link=""
+              link="https://hub.docker.com/r/dnanexus/bconexus"
               title="BCO Nexus"
               content="BCOnexus developed by DNAnexus as a platform-free Docker tool for quick BCO evaluation."
               cssClass=""
