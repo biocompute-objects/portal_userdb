@@ -16,28 +16,22 @@ Follow these steps to get started with BioCompute:
 
 1. Clone the Repository:
    
-`git clone https://github.com/biocompute/bcodb.git
-cd bcodb`
+`git clone https://github.com/biocompute/portal_userdb.git`
+`cd client/`
+
+2. Switch to the desired branch:
+`git switch <branch_name>`
+`git pull`
 
 
-3. Set Up the Environment:
+3. Install dependencies:
 
-Ensure you have Python and Node.js installed.
+`npm install`
 
-Install dependencies:
 
-`pip install -r requirements.txt
-npm install`
+4. Run the Client:
 
-4. Run the Server:
-
-`cd server
-python manage.py runserver`
-
-5. Run the Client:
-
-`cd client
-npm start`
+`npm run start`
 
 Access the Portal:
 Open your web browser and navigate to **'http://localhost:3000'**.
