@@ -6,7 +6,7 @@ import FullWidthBox from "../components/FullWidthBox";
 import ThirdBox from "../components/ThirdBox";
 import logo from "../images/logo.png";
 import ieee from "../images/ieee.jpg";
-import workshoppic from "../images/workshop.jpg"
+import LLMpic from "../images/LLM.jpg"
 import mediaWiki from "../images/mediawikiwiki.svg";
 import cloudlogo from "../images/cloud.png"
 import builderlogo from "../images/Builder_edit.png"
@@ -89,13 +89,13 @@ const HomePage = () => {
                     image={mediaWiki}
                   />
                 </Grid>
-                <Grid item xs={12} sm={12} lg={4} xl={4}>
+                <Grid item xs={12} sm={6} lg={4} xl={4}>
                   <ThirdBox
-                    link="https://hivelab.biochemistry.gwu.edu/publications#Multimedia"
-                    title="Previous workshop material"
-                    content="Collection of posters, presentation slides, recordings, and other materials from previous BioCompute workshops or conferences."
+                    link="https://biocompute-objects.github.io/bco-rag/"
+                    title="BCO Assistant Tool"
+                    content="Automated BioCompute Object creation using Retrieval-Augmented Generation from Publications."
                     cssClass=""
-                    image={workshoppic}
+                    image={LLMpic}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} lg={4} xl={4}>
