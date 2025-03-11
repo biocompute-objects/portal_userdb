@@ -100,7 +100,7 @@ const HomePage = () => {
                 </Grid>
                 <Grid item xs={12} sm={6} lg={4} xl={4}>
                   <ThirdBox
-                    link="/resources"
+                    link="https://wiki.biocomputeobject.org/BCO_Resources"
                     title="Cloud-based tools for BioCompute"
                     content="See our resources page for additional tools and services."
                     cssClass=""
