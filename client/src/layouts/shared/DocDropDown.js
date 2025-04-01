@@ -64,7 +64,9 @@ export default function DocDropDown() {
         </MenuItem>
         <MenuItem
           component="a"
-          href="/resources"
+          href="https://wiki.biocomputeobject.org/BCO_Resources"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           <ListItemDecorator>
             <SettingsInputAntennaIcon />
