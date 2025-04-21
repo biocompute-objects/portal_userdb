@@ -99,7 +99,7 @@ const NavBar = () => {
         </IconButton>
         <p>BCO DB</p>
       </MenuItem>
-      <MenuItem component={Link} to='/about'>
+      <MenuItem a href='https://wiki.biocomputeobject.org/About' target="_blank">
         <IconButton aria-label='About Us' className="white-icon">
           <Badge overlap="rectangular" badgeContent={0} color='secondary'>
             <InfoOutlinedIcon />
@@ -182,8 +182,8 @@ const NavBar = () => {
             <Tooltip title="Help">
               <><HelpDropDown /></>
             </Tooltip>
-            <Tooltip title="About Us">
-              <IconButton component={Link} to='/about' className="nav-link">
+            <Tooltip title="About Us" target="_blank">
+              <IconButton a href="https://wiki.biocomputeobject.org/About" className="nav-link">
                 <Badge overlap="rectangular" badgeContent={0} >
                   <InfoOutlinedIcon className="white-icon"/>
                 </Badge>
