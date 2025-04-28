@@ -16,20 +16,27 @@ export const ErrorDomain = ({onSave}) => {
   let has_empirical = "empirical_error" in errorDomain;
   let has_algorithmic = "algorithmic_error" in errorDomain;
   const [jsonErrors, setJsonErrors] = useState("");
-  const [algorithmic_error, setAlgo] = useState(has_algorithmic ? errorDomain.algorithmic_error : {})
-  const [empirical_error, setEmp ] = useState(has_empirical ? errorDomain.empirical_error : {})
+  const [algorithmic_error, setAlgo] = useState(has_algorithmic ? errorDomain.algorithmic_error : {algorithmic_error: "null" })
+  const [empirical_error, setEmp ] = useState(has_empirical ? errorDomain.empirical_error : {empirical_error: "null"})
 
   const setInput = (target) => {
-    setWriting(true)
-    dispatch(writingBco(true))
+    setWriting(true);
+    dispatch(writingBco(true));
     let holder = {};
     try {
-      holder = JSON.parse(target.value);
-      setJsonErrors("")
+      if (target.value.trim() === "") {
+        holder = target.id === "algorithmic"
+          ? { algorithmic_error: "null" }
+          : { empirical_error: "null" };
+      } else {
+        holder = JSON.parse(target.value);
+      }
+      setJsonErrors("");
     } catch (e) {
-      setJsonErrors(e)
-      console.log("Caught: " + e.message)
+      setJsonErrors(e);
+      console.log("Caught: " + e.message);
     }
+  
     if (target.id === "algorithmic") {
       setAlgo(holder);
     }
@@ -37,6 +44,7 @@ export const ErrorDomain = ({onSave}) => {
       setEmp(holder);
     }
   };
+  
 
   const defaultAlgorithmicError = `{
     "algorithmic_error": "null"
@@ -75,16 +83,31 @@ export const ErrorDomain = ({onSave}) => {
               }
               action={
                 <Button 
-                  disabled={jsonErrors !== "" || !writing}
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    dispatch(updateErrorDomain({empirical_error, algorithmic_error}))
-                    dispatch(updateModified())
-                    dispatch(writingBco(false))
-                    onSave()
-                  }}
-                > Next </Button>
+                disabled={jsonErrors !== "" || !writing}
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  const finalAlgorithmic = 
+                    algorithmic_error?.algorithmic_error !== undefined
+                      ? algorithmic_error
+                      : { algorithmic_error: "null" };
+
+                  const finalEmpirical =
+                    empirical_error?.empirical_error !== undefined
+                      ? empirical_error
+                      : { empirical_error: "null" };
+
+                  dispatch(updateErrorDomain({
+                    algorithmic_error: finalAlgorithmic,
+                    empirical_error: finalEmpirical
+                  }));
+                  dispatch(updateModified());
+                  dispatch(writingBco(false));
+                  onSave();
+                }}
+                >
+                Next
+                </Button>
               }
             />
             <CardContent>
