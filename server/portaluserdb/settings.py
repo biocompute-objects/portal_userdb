@@ -8,6 +8,8 @@ from datetime import timedelta
 import configparser
 from django.core.management.utils import get_random_secret_key
 
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -38,6 +40,8 @@ secrets = {
         "SERVER_VERSION": os.environ.get("SERVER_VERSION"),
         "SERVER_URL": os.environ.get("SERVER_URL"),
         "DATABASE": os.environ.get("DATABASE"),
+        "EMAIL_BACKEND": os.environ.get("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"),
+        
     },
 }
 if secrets["DJANGO_KEYS"]["SECRET_KEY"] == None:
@@ -67,8 +71,18 @@ if secrets["GOOGLE_KEYS"]["DJANGO_GOOGLE_OAUTH2_CLIENT_ID"]:
     GOOGLE_CLIENT = secrets["GOOGLE_KEYS"]["DJANGO_GOOGLE_OAUTH2_CLIENT_ID"]
 if secrets["GOOGLE_KEYS"]["DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET"]:
     GOOGLE_SECRET = secrets["GOOGLE_KEYS"]["DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET"]
+if secrets["SERVER"]["EMAIL_BACKEND"]:
+    EMAIL_BACKEND = secrets["SERVER"]["EMAIL_BACKEND"]
+try:
+    EMAIL_BACKEND = secrets["SERVER"]["EMAIL_BACKEND"]
+except KeyError:
+    raise KeyError("EMAIL_BACKEND not found in secrets")
 
-EMAIL_BACKEND = secrets["SERVER"]["EMAIL_BACKEND"]
+
+
+# Use print statements for debugging
+print(f"Secrets: {secrets}")
+print(f"EMAIL_BACKEND: {EMAIL_BACKEND}")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
