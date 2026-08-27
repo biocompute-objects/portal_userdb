@@ -11,7 +11,7 @@ const HelpPopup = () => {
   }, []);
 
   const handleYesClick = () => {
-    window.open('https://wiki.biocomputeobject.org/Buildbcos', '_blank');
+    window.open('https://wiki.biocomputeobject.org/SOP', '_blank');
   };
 
   const handleNoClick = () => {
